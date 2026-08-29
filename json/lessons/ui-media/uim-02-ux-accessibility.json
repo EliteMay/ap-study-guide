@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"UIM-02","title":"UX・ユーザビリティ・アクセシビリティ評価","unitId":"ui-media","officialMiddleCodes":[7],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"UXは『見た目が良い』ではなく、目的達成までの体験全体です。ユーザビリティ、アクセシビリティ、評価手法をケースで判断できるようにします。",
+  "objectives":["有効さ・効率・満足度の観点でユーザビリティを評価できる。","アクセシビリティ改善を具体的に選べる。","ユーザテストとヒューリスティック評価を区別できる。","Persona・Journey Map・Prototypeの役割を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. UXとユーザビリティ","columns":["観点","見るもの","例"],"rows":[["有効さ","目的を達成できるか","予約を完了できる"],["効率","少ない手順・時間で達成できるか","同じ入力を繰り返さない"],["満足度","不快・不安が少ないか","状態が明確で安心できる"],["UX","利用前〜利用後までの総合体験","期待、学習、操作、Supportまで"]]},
+    {"type":"comparison","title":"2. Accessibilityの具体例","columns":["問題","改善","理由"],"rows":[["色だけでError表示","Icon/Textも併用","色覚差があっても意味が伝わる"],["画像だけのButton","代替Text/Accessible Name","Screen Readerで意味を取得"],["KeyboardでFocus不可","Tab操作とFocus表示","Mouseを使えない利用者にも操作可能"],["小さい薄色Text","ContrastとSizeを確保","視認性を上げる"],["自動再生動画","停止/一時停止を提供","認知・感覚負荷を制御"]]},
+    {"type":"comparison","title":"3. 評価手法","columns":["手法","誰が見る","得意"],"rows":[["ユーザテスト","実利用者","実際につまずく地点の発見"],["ヒューリスティック評価","専門家/評価者","既知原則への違反を効率良く発見"],["A/B Test","実利用Traffic","2案の行動差を定量比較"],["Interview","利用者","動機・背景・不満の深掘り"],["Analytics","行動Data","離脱率・完了率・頻度"]]},
+    {"type":"diagram","title":"4. UX設計の反復","diagrams":[{"label":"仮説を検証して戻る","connector":"→","nodes":[{"title":"Research","value":"User/Context"},{"title":"Define","value":"課題"},{"title":"Prototype","value":"試作品"},{"title":"Test","value":"観測"},{"title":"Improve","value":"修正"}],"note":"最初から完成画面を作るより、低CostのPrototypeで早く仮説を壊す方が手戻りを減らせます。"}]},
+    {"type":"steps","title":"5. 指標を決める","items":[{"label":"① Taskを定義","body":"何を達成できれば成功かを決める。"},{"label":"② 成功率","body":"完了できた割合を見る。"},{"label":"③ 時間/操作数","body":"効率を見る。"},{"label":"④ Error/離脱","body":"どこで失敗したかを見る。"},{"label":"⑤ 主観評価","body":"満足度や負荷を質問で補う。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Accessibilityは一部利用者向けの追加機能ではなく、基本設計の品質要素。","A/B Testで差が出ても『なぜ』までは直接分からないためInterview等と組み合わせる。","Personaは実在人物の詳細Profileを作る遊びではなく、設計判断に必要な行動・目的・制約をまとめる。","多数決だけでUIを決めるとTaskや利用文脈を失うことがある。"]}
+  ],
+  "checks":[
+    {"id":"uim02-q1","prompt":"KeyboardだけでButtonへ移動できない問題の改善として最も直接的なのは？","options":["Tab Focus対応","画像解像度を上げる","DB Index追加","TLS更新"],"answerIndex":0,"explanation":"Keyboard操作とFocusの可視化がAccessibility改善になります。"},
+    {"id":"uim02-q2","prompt":"専門家が既知のUI原則に照らして問題を探す方法は？","options":["ヒューリスティック評価","Packet Capture","Unit Testだけ","EVM"],"answerIndex":0,"explanation":"ヒューリスティック評価は原則ベースの専門家評価です。"},
+    {"id":"uim02-q3","prompt":"2案の購入Buttonで実TrafficのConversion率を比較する方法は？","options":["A/B Test","PERT","RAID","Hashing"],"answerIndex":0,"explanation":"A/B Testは候補を実利用で定量比較します。"},
+    {"id":"uim02-q4","prompt":"色だけで必須Errorを示すのが問題な主理由は？","options":["色を識別しにくい利用者へ意味が伝わらない可能性","CPU負荷が必ず高い","SQLが遅くなる","Networkが切れる"],"answerIndex":0,"explanation":"色以外のText/Icon等も併用して意味を冗長化します。"}
+  ]
+}
