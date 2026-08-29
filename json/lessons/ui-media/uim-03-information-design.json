@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"UIM-03","title":"情報設計・Navigation・Form設計","unitId":"ui-media","officialMiddleCodes":[7],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "intro":"画面を増やす前に、情報をどう分類し、利用者が現在地と次の行動をどう理解するかを設計します。Navigation、Form、Error Message、Progressive Disclosureをまとめます。",
+  "objectives":["情報ArchitectureとNavigationの役割を説明できる。","Form入力項目を減らす基準を持てる。","Error Messageに必要な情報を選べる。","Progressive Disclosureを適切に使える。"],
+  "sections":[
+    {"type":"comparison","title":"1. 情報をどうまとめるか","columns":["考え方","用途","例"],"rows":[["Hierarchy","上位→下位へ分類","商品→家電→Monitor"],["Task-based","利用目的で分類","購入する/返品する/履歴を見る"],["Search","項目数が多いとき補助","用語・商品・設定検索"],["Filter","候補を条件で絞る","価格/状態/カテゴリ"],["Sort","順序を変える","新着/価格/重要度"]]},
+    {"type":"diagram","title":"2. Navigationで利用者が知りたいこと","diagrams":[{"label":"現在地から次へ","connector":"→","nodes":[{"title":"Where","value":"今どこ?"},{"title":"What","value":"何がある?"},{"title":"Next","value":"次に何ができる?"},{"title":"Back","value":"戻れる?"}],"note":"BreadcrumbやActive Stateは現在地理解を助けますが、階層が浅い画面へ無理に入れる必要はありません。"}]},
+    {"type":"steps","title":"3. Formを短くする","items":[{"label":"① 本当に必要か","body":"取得目的のない項目を削る。"},{"label":"② 自動取得できるか","body":"既知情報やDefault値を再入力させない。"},{"label":"③ 入力形式を制約","body":"日付や選択肢は適したControlを使う。"},{"label":"④ Group化","body":"関連項目を視覚的・意味的にまとめる。"},{"label":"⑤ Errorを項目付近へ","body":"何をどう直すかをその場で示す。"}]},
+    {"type":"comparison","title":"4. Error Message","columns":["悪い表示","改善","理由"],"rows":[["Error 104","メールアドレス形式を確認してください","利用者が修正方法を理解できる"],["入力が不正です","日付はYYYY-MM-DDで入力してください","期待形式を具体化"],["失敗しました","通信に失敗しました。接続を確認して再試行できます","原因候補と次行動を示す"]]},
+    {"type":"text","title":"5. Progressive Disclosure","paragraphs":["最初から全設定を見せず、通常利用で必要な項目を先に表示し、詳細設定を必要時だけ展開する考え方です。","情報を隠せば良いのではなく、頻度・重要度・不可逆性を基準にMain FlowとAdvanced Flowを分けます。"]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Menu階層を深くすれば整理されるとは限らない。目的の項目まで何階層も潜ると探索Costが増える。","PlaceholderだけをLabel代わりにすると入力後に項目名が消える場合がある。","Errorを画面上部にまとめるだけでは、どの項目を直すか分かりにくい。","選択肢が少ない場合まで検索Boxにすると操作が増える。"]}
+  ],
+  "checks":[
+    {"id":"uim03-q1","prompt":"大量の商品から価格帯やBrandで候補を減らすUIは？","options":["Filter","Sortだけ","Cache","DMA"],"answerIndex":0,"explanation":"条件で候補集合を狭めるのがFilterです。"},
+    {"id":"uim03-q2","prompt":"Form項目を減らす最初の判断として最も適切なのは？","options":["取得目的が本当にあるか確認","全部必須にする","色を増やす","Fontを小さくする"],"answerIndex":0,"explanation":"不要なDataをそもそも取らないことが最優先です。"},
+    {"id":"uim03-q3","prompt":"通常設定だけ先に見せ、詳細設定を展開式にする考え方は？","options":["Progressive Disclosure","Deadlock","Encapsulationだけ","RAID"],"answerIndex":0,"explanation":"必要時に詳細を見せて初期の認知負荷を抑えます。"},
+    {"id":"uim03-q4","prompt":"良いError Messageに最も必要なのは？","options":["何が問題でどう直せるか","内部Exception Stack全文","Error Codeだけ","赤色だけ"],"answerIndex":0,"explanation":"利用者が次の行動を選べる情報が必要です。"}
+  ]
+}
