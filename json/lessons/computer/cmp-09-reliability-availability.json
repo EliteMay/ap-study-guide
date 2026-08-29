@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-09","title":"信頼性・可用性・MTBF/MTTR・冗長化","unitId":"computer-systems","officialMiddleCodes":[4],"officialAreas":["システムの評価指標","システムの構成"],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"可用性を『止まりにくい』だけで覚えず、MTBF・MTTRから計算し、直列/並列構成や冗長化が全体信頼度へどう効くかを式と構成で学びます。",
+  "objectives":["MTBFとMTTRを区別できる。","Availability=MTBF/(MTBF+MTTR)を計算できる。","直列系と並列冗長系の信頼度を計算できる。","Failover・Fault Tolerance・Hot Standbyを区別できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. ReliabilityとAvailability","columns":["指標","見るもの","高める方向"],"rows":[["Reliability","故障しにくさ","MTBFを長くする"],["Maintainability","修復しやすさ","MTTRを短くする"],["Availability","必要時に使える割合","MTBF↑ / MTTR↓"]]},
+    {"type":"code-trace","title":"2. Availabilityを計算","question":"MTBF=990時間、MTTR=10時間なら稼働率は？","code":["A = MTBF / (MTBF + MTTR)","= 990 / (990 + 10)","= 0.99"],"traceColumns":["項目","値"],"traceRows":[["MTBF","990h"],["MTTR","10h"],["合計Cycle","1000h"],["Availability","0.99"]],"answer":"99%","explanation":"故障間隔だけでなく修復時間もAvailabilityへ効く。"},
+    {"type":"comparison","title":"3. 直列系と並列系","columns":["構成","全体が動く条件","2台の信頼度が各0.9なら"],"rows":[["直列","両方動く","0.9×0.9=0.81"],["並列冗長","少なくとも1台動く","1-(0.1×0.1)=0.99"]],"note":"問題文の『Systemが動作する条件』を先に確認してから式を選ぶ。"},
+    {"type":"diagram","title":"4. 冗長化とFailover","diagrams":[{"label":"Active-Standby","connector":"→","nodes":[{"title":"Active","value":"通常処理"},{"title":"Failure Detection","value":"障害検知"},{"title":"Failover","value":"Standbyへ切替"},{"title":"Standby","value":"Service継続"}],"note":"自動切替できても、切替時間やState同期の設計が必要。"}]},
+    {"type":"comparison","title":"5. 用語の違い","columns":["用語","意味"],"rows":[["Fault Tolerance","一部故障でも機能継続できる設計"],["Failover","障害時に予備系へ切替"],["Failback","復旧後に元系へ戻す"],["Hot Standby","待機系がすぐ切替可能な状態"],["Cold Standby","起動・準備してから切替"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["MTBFが長いだけではAvailabilityは決まらない。MTTRも必要。","冗長化しても共通電源・共通Network等が単一障害点なら全体は止まり得る。","BackupはData復旧手段であり、即時Failoverと同じではない。"]}
+  ],
+  "checks":[
+    {"id":"cmp09-q1","prompt":"平均故障間隔を表すのは？","options":["MTBF","MTTR","RPO","CPI"],"answerIndex":0,"explanation":"Mean Time Between Failuresです。"},
+    {"id":"cmp09-q2","prompt":"Availabilityを上げる方法として適切なのは？","options":["MTBFを長くしMTTRを短くする","MTBFを短くしMTTRを長くする","Clockを0にする","DNSを削除する"],"answerIndex":0,"explanation":"故障頻度を下げ、復旧を速くします。"},
+    {"id":"cmp09-q3","prompt":"信頼度0.9の2台を『どちらか1台動けばよい』並列構成にした信頼度は？","options":["0.99","0.81","0.18","0.9"],"answerIndex":0,"explanation":"両方故障する確率0.1×0.1=0.01を1から引きます。"}
+  ]
+}
