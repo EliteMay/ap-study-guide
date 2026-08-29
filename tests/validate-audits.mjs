@@ -14,6 +14,18 @@ const curriculum = read('json/curriculum/ap-2026-map.json');
 const validMiddle = new Set((curriculum.middleCategories||[]).map(x=>Number(x.code)));
 const validUnits = new Set((curriculum.studyUnits||[]).map(x=>x.id));
 const allowedActions = new Set(['keep-core','keep-supporting','merge-into-lesson','move-primary-unit']);
+const lessonIndex = read('json/lessons/lesson-index.json');
+const lessonEntries = lessonIndex.lessons || [];
+const lessonById = new Map(lessonEntries.map(entry => [entry.id, entry]));
+const legacyAssignments = new Map();
+
+for (const entry of lessonEntries) {
+  const lesson = read(entry.file);
+  for (const termId of lesson.meta?.legacyTermIds || []) {
+    if (!legacyAssignments.has(termId)) legacyAssignments.set(termId, []);
+    legacyAssignments.get(termId).push({lessonId:entry.id, unitId:entry.unitId, middleCodes:entry.officialMiddleCodes||[]});
+  }
+}
 
 const configs = [
   {
@@ -38,7 +50,7 @@ for (const cfg of configs) {
   const audit = read(cfg.audit);
   const terms = read(cfg.terms).terms || [];
   const decisions = audit.decisions || [];
-  const lessonIds = new Set((audit.targetLessons||[]).map(x=>x.id));
+  const plannedLessonIds = new Set((audit.targetLessons||[]).map(x=>x.id));
   const termIds = terms.map(x=>x.id);
   const decisionIds = decisions.map(x=>x.id);
 
@@ -55,10 +67,28 @@ for (const cfg of configs) {
     if (!d.id?.startsWith(cfg.idPrefix)) fail(`${cfg.name}: invalid id ${d.id}`);
     if (!validMiddle.has(Number(d.officialMiddleCode))) fail(`${cfg.name}: ${d.id} invalid middle ${d.officialMiddleCode}`);
     if (!d.target) fail(`${cfg.name}: ${d.id} target missing`);
+
     if (d.action === 'move-primary-unit') {
       if (!validUnits.has(d.target)) fail(`${cfg.name}: ${d.id} unknown target unit ${d.target}`);
-    } else if (!lessonIds.has(d.target)) {
-      fail(`${cfg.name}: ${d.id} unknown planned lesson ${d.target}`);
+    } else {
+      if (!plannedLessonIds.has(d.target)) fail(`${cfg.name}: ${d.id} unknown planned lesson ${d.target}`);
+      if (!lessonById.has(d.target)) fail(`${cfg.name}: planned lesson ${d.target} has not been implemented`);
+    }
+
+    const assignments = legacyAssignments.get(d.id) || [];
+    if (assignments.length !== 1) {
+      fail(`${cfg.name}: ${d.id} must map to exactly one implemented lesson, found ${assignments.length}`);
+      continue;
+    }
+
+    const assigned = assignments[0];
+    if (!assigned.middleCodes.map(Number).includes(Number(d.officialMiddleCode))) {
+      fail(`${cfg.name}: ${d.id} lesson ${assigned.lessonId} does not include middle ${d.officialMiddleCode}`);
+    }
+    if (d.action === 'move-primary-unit') {
+      if (assigned.unitId !== d.target) fail(`${cfg.name}: ${d.id} expected unit ${d.target}, mapped to ${assigned.unitId}`);
+    } else if (assigned.lessonId !== d.target) {
+      fail(`${cfg.name}: ${d.id} expected lesson ${d.target}, mapped to ${assigned.lessonId}`);
     }
   }
 
@@ -67,6 +97,13 @@ for (const cfg of configs) {
     if ((counts[action]||0) !== expected) fail(`${cfg.name}: ${action} ${counts[action]||0} != summary ${expected}`);
   }
   if (!(audit.missingLearningGoals||[]).length) fail(`${cfg.name}: missingLearningGoals empty`);
+
+  const mappedIds = [...legacyAssignments.keys()].filter(id => id.startsWith(cfg.idPrefix));
+  if (!sameMembers(termIds, mappedIds)) {
+    const missing = termIds.filter(id => !mappedIds.includes(id));
+    const extra = mappedIds.filter(id => !termIds.includes(id));
+    fail(`${cfg.name}: lesson migration mismatch missing=[${missing.join(',')}] extra=[${extra.join(',')}]`);
+  }
 }
 
 if (errors.length) {
@@ -75,4 +112,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('AUDIT VALIDATION OK: system 75/75, management 72/72');
+console.log('AUDIT VALIDATION OK: system 75/75 and management 72/72 audited and mapped exactly once to implemented lessons');
