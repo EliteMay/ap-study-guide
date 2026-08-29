@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.29-r5';
+  const BUILD = '2026.08.30-r6';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
