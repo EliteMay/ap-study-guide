@@ -1,22 +1,40 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.29-r3';
+  const BUILD = '2026.08.29-r4';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
+  const DOMAIN_ALIASES = { sec:'security', net:'network', db:'database', alg:'algorithm', sys:'system', pm:'management' };
 
   function readJson(key, fallback) {
-    try {
-      const value = JSON.parse(localStorage.getItem(key) || 'null');
-      return value ?? fallback;
-    } catch {
-      return fallback;
-    }
+    try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback; }
+    catch { return fallback; }
   }
 
   function writeJson(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  }
+
+  function canonicalDomain(domain) {
+    return DOMAIN_ALIASES[domain] || domain || 'unknown';
+  }
+
+  function migrateStudyItems(key) {
+    const raw = readJson(key, []);
+    if (!Array.isArray(raw)) return [];
+    const seen = new Set();
+    const next = [];
+    for (const item of raw) {
+      if (!item || !item.id) continue;
+      const domain = canonicalDomain(item.domain);
+      const entryKey = `${domain}:${item.id}`;
+      if (seen.has(entryKey)) continue;
+      seen.add(entryKey);
+      next.push({ ...item, domain, key:key === RECENT_KEY ? entryKey : item.key });
+    }
+    if (JSON.stringify(next) !== JSON.stringify(raw)) writeJson(key, next);
+    return next;
   }
 
   function applyTheme(theme) {
@@ -57,34 +75,33 @@
 
   function recordRecent(item) {
     if (!item?.id || !item?.term || !item?.href) return;
-    const stored = readJson(RECENT_KEY, []);
-    const list = Array.isArray(stored) ? stored : [];
-    const key = `${item.domain || 'unknown'}:${item.id}`;
+    const list = migrateStudyItems(RECENT_KEY);
+    const domain = canonicalDomain(item.domain);
+    const key = `${domain}:${item.id}`;
     const next = [
-      { ...item, key, viewedAt: Date.now() },
+      { ...item, domain, key, viewedAt:Date.now() },
       ...list.filter(entry => entry?.key !== key)
     ].slice(0, 12);
     writeJson(RECENT_KEY, next);
   }
 
-  function getRecent() {
-    const value = readJson(RECENT_KEY, []);
-    return Array.isArray(value) ? value : [];
-  }
-
-  function getBookmarks() {
-    const value = readJson(BOOKMARK_KEY, []);
-    return Array.isArray(value) ? value : [];
-  }
+  function getRecent() { return migrateStudyItems(RECENT_KEY); }
+  function getBookmarks() { return migrateStudyItems(BOOKMARK_KEY); }
 
   function saveBookmarks(items) {
-    writeJson(BOOKMARK_KEY, Array.isArray(items) ? items : []);
+    const normalized = (Array.isArray(items) ? items : []).map(item => ({ ...item, domain:canonicalDomain(item?.domain) }));
+    writeJson(BOOKMARK_KEY, normalized);
     window.dispatchEvent(new CustomEvent('ap-bookmarks-changed'));
   }
 
   function buildShell() {
     const nav = document.querySelector('.unit-nav');
     if (!nav) return;
+
+    nav.querySelectorAll('.unit-nav-link.is-coming').forEach(link => {
+      link.classList.remove('is-coming');
+      link.removeAttribute('aria-disabled');
+    });
 
     const label = nav.querySelector('.unit-nav-label');
     if (label) label.textContent = 'AP STUDY NOTES';
@@ -115,7 +132,7 @@
     document.body.appendChild(backdrop);
 
     const menuButton = mobile.querySelector('.ap-mobile-menu');
-    const setOpen = (open) => {
+    const setOpen = open => {
       document.body.classList.toggle('ap-nav-open', open);
       menuButton?.setAttribute('aria-expanded', String(open));
       menuButton?.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
@@ -129,31 +146,22 @@
       if (event.key === 'Escape') setOpen(false);
       if (event.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '')) {
         const input = document.querySelector('input[type="search"]');
-        if (input) {
-          event.preventDefault();
-          input.focus();
-        }
+        if (input) { event.preventDefault(); input.focus(); }
       }
     });
 
     document.querySelectorAll('[data-ap-theme-toggle]').forEach(button => {
       button.addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
     });
-
     applyTheme(document.documentElement.dataset.theme || initialTheme());
   }
 
+  migrateStudyItems(RECENT_KEY);
+  migrateStudyItems(BOOKMARK_KEY);
+
   window.APStudyUI = {
-    build: BUILD,
-    toast,
-    recordRecent,
-    getRecent,
-    getBookmarks,
-    saveBookmarks,
-    theme: {
-      get: () => document.documentElement.dataset.theme || initialTheme(),
-      set: applyTheme
-    }
+    build:BUILD, toast, recordRecent, getRecent, getBookmarks, saveBookmarks,
+    theme:{ get:() => document.documentElement.dataset.theme || initialTheme(), set:applyTheme }
   };
 
   applyTheme(initialTheme());
