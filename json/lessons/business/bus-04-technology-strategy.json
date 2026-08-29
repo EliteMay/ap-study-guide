@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-04","title":"技術戦略・Technology Roadmap・Innovation管理","unitId":"business-accounting","officialMiddleCodes":[20],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"技術戦略は『新技術を早く使う』ことではなく、Business目標に対してどの技術Capabilityをいつ獲得・検証・製品化するかを決める活動です。",
+  "objectives":["Technology Roadmapの役割を説明できる。","Research/Development/Productizationの違いを説明できる。","Technology PortfolioをRisk/Impactで考えられる。","Open InnovationやPatent Strategyの狙いを説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. Technology Roadmap","diagrams":[{"label":"Market要求から技術へ落とす","connector":"→","nodes":[{"title":"Market/Business","value":"何を実現?"},{"title":"Product/Service","value":"必要機能"},{"title":"Technology","value":"必要Capability"},{"title":"Milestone","value":"いつ獲得?"}],"note":"技術だけの年表ではなく、Business・Product・Technologyの依存を時間軸でつなげます。"}]},
+    {"type":"comparison","title":"2. 技術成熟度で扱いを変える","columns":["段階","目的","判断"],"rows":[["Research","原理/知識を得る","不確実性が高い"],["PoC","成立性を確かめる","小さく検証"],["Development","製品/Serviceへ作り込む","品質/Cost/性能"],["Productization","市場投入可能にする","運用/Support/Compliance"],["Scale","量産/全社展開","標準化/供給能力"]]},
+    {"type":"comparison","title":"3. Technology Portfolio","columns":["技術","Impact","Uncertainty","扱い"],"rows":[["既存Core技術","高","低","継続改善"],["次世代有望技術","高","中〜高","Pilot/投資"],["周辺技術","低〜中","低","標準採用"],["探索技術","不明","高","小額Experiment"]],"note":"不確実性が高い技術へ最初から大規模投資せず、段階的にOptionを持つ考え方が重要です。"},
+    {"type":"comparison","title":"4. InnovationのSource","columns":["方法","特徴","Risk"],"rows":[["Internal R&D","自社Know-how蓄積","時間/Cost"],["Alliance","他社と補完","調整/知財"],["M&A","能力を一気に獲得","統合Risk"],["Open Innovation","外部Idea/技術を活用","知財/契約設計"],["Licensing","技術利用権を得る","条件/依存"]]},
+    {"type":"steps","title":"5. 技術選定の流れ","items":[{"label":"① Business Need","body":"技術ありきにしない。"},{"label":"② Requirement","body":"性能/Cost/規制/期限を定義。"},{"label":"③ Candidate","body":"複数技術を比較。"},{"label":"④ Experiment","body":"PoCで不確実性を減らす。"},{"label":"⑤ Roadmap","body":"導入/Skill/移行を計画。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["新しい技術=競争優位ではない。顧客価値やCost構造へ効く必要がある。","PoC成功だけでScale可能性・運用性・Securityまで証明されたとは言えない。","Patent数だけでInnovation力を評価しない。質・利用可能性・Business適合も見る。","Roadmapは固定契約ではなく外部環境に応じてReviewする。"]}
+  ],
+  "checks":[
+    {"id":"bus04-q1","prompt":"Market要求・Product・Technologyを時間軸でつなぐ代表Toolは？","options":["Technology Roadmap","RAID","WBSだけ","DNS"],"answerIndex":0,"explanation":"RoadmapでBusiness/Product/Technologyの依存を並べます。"},
+    {"id":"bus04-q2","prompt":"不確実性の高い新技術に対する初期対応として適切なのは？","options":["小さなPoCで仮説検証","全社一括導入","既存System全削除","評価せず契約"],"answerIndex":0,"explanation":"段階的投資で不確実性を減らします。"},
+    {"id":"bus04-q3","prompt":"外部企業・大学等のIdeaや技術を取り込む考え方は？","options":["Open Innovation","Closed Loop Control","Normalization","Subnetting"],"answerIndex":0,"explanation":"外部資源も組み合わせるInnovationです。"},
+    {"id":"bus04-q4","prompt":"PoC成功後にも別途確認すべきものは？","options":["運用性・Cost・Security・Scale","何もない","UI Colorだけ","SLAを削除"],"answerIndex":0,"explanation":"成立性と本番運用可能性は別です。"}
+  ]
+}
