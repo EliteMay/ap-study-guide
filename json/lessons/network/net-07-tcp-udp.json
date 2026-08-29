@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-07","title":"TCP・UDP・ポートと信頼性制御","unitId":"network","officialMiddleCodes":[10],"officialAreas":["データ通信と制御","通信プロトコル"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-tcp-udp-port-","from":1,"to":40}],"estimatedMinutes":40},
+  "intro":"TCP/UDPは『TCPは確実、UDPは速い』だけでは足りません。接続確立、sequence/ACK、window、再送、portによるapplication識別を通信の時系列で追います。",
+  "objectives":["TCPとUDPを用途・制御・overheadで比較できる。","source/destination portとsocket pairで通信を識別できる。","3-way handshakeと終了時のFIN/RSTを説明できる。","sequence/ACK番号と再送の考え方を説明できる。","flow controlとcongestion controlを区別できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. TCPとUDP","columns":["観点","TCP","UDP"],"rows":[["接続","connection-oriented","connectionless"],["到達/順序","ACK・sequence・再送で制御","基本的にprotocol自身では保証しない"],["flow control","windowで行う","標準機能として持たない"],["overhead","比較的大きい","小さい"],["典型","Web/SSH/mail等","DNS/音声/映像/QUIC基盤等"]],"note":"UDP=必ず高速、TCP=必ず遅いという断定ではなく、必要な制御をどこで行うかで考えます。"},
+    {"type":"diagram","title":"2. 3-way handshake","diagrams":[{"label":"TCP connection establish","connector":"→","nodes":[{"title":"Client","value":"SYN","meta":"seq=x"},{"title":"Server","value":"SYN/ACK","meta":"seq=y ack=x+1"},{"title":"Client","value":"ACK","meta":"ack=y+1"},{"title":"State","value":"ESTABLISHED"}]}]},
+    {"type":"code-trace","title":"3. sequenceとACKで欠落を見つける","question":"Clientがseq=1001から100byte送る。Serverが全て受信したら次に期待する番号は？","code":["segment: seq=1001, data length=100","bytes: 1001 ... 1100","next expected = 1101"],"traceColumns":["受信","ACK"],"traceRows":[["100byte正常受信","ACK 1101"],["途中欠落","欠落位置以降を再送対象として扱う仕組みが働く"]],"answer":"ACK番号は1101。","explanation":"ACKは一般に『次に欲しいsequence番号』を示します。"},
+    {"type":"comparison","title":"4. 似ている制御を分ける","columns":["制御","守る対象","主な情報"],"rows":[["flow control","受信側bufferを溢れさせない","window size / zero window"],["congestion control","network全体の混雑を悪化させない","loss/RTT等から送信量調整"],["retransmission","失われたdataを補う","timeout/ACK/SACK"],["ordering","順序を戻す","sequence number"]],"note":"受信側都合=flow、network都合=congestionと最初に分けると混同しにくいです。"},
+    {"type":"comparison","title":"5. port番号とsocket pair","columns":["項目","役割"],"rows":[["destination port","server側のservice/applicationを識別"],["source port","client側の一時的application endpointを識別"],["well-known 0-1023","代表service用"],["registered 1024-49151","登録済みservice等"],["dynamic 49152-65535","一時portとして使われる範囲"],["5-tuple","source IP/port, destination IP/port, protocolでflowを識別"]],"note":"同じserver:443へ多数clientが接続できるのは、source側IP/port等が異なりconnectionを区別できるためです。"},
+    {"type":"steps","title":"6. TCP障害を読む順番","items":[{"label":"① SYNが出ているか","body":"connection開始要求。"},{"label":"② SYN/ACKが返るか","body":"server到達・listen・途中FW等を確認。"},{"label":"③ ACKまで成立するか","body":"3-way handshake完成を確認。"},{"label":"④ retransmissionが増えていないか","body":"loss/遅延を疑う。"},{"label":"⑤ window","body":"zero window等なら受信側処理/bufferを疑う。"},{"label":"⑥ FIN/RST","body":"正常終了か強制resetかを区別する。"}]},
+    {"type":"mistakes","title":"7. よくある誤解","items":["ACK flagとACK番号を同じものとして扱わない。","port scanはnetwork運用確認にもsecurity攻撃準備にも使われ得る。用途・権限の文脈を見る。","TIME_WAITは単なる異常状態ではなく遅延packetの影響抑制等のために存在する。","KeepaliveをHTTP Keep-Aliveと完全に同じ仕組みだと思わない。"]}
+  ],
+  "checks":[
+    {"id":"net07-q1","prompt":"TCPの3-way handshakeの順序は？","options":["SYN → SYN/ACK → ACK","ACK → SYN → FIN","SYN → FIN → RST","DNS → TCP → ARP"],"answerIndex":0,"explanation":"接続開始はSYN, SYN/ACK, ACKです。"},
+    {"id":"net07-q2","prompt":"受信側buffer容量に合わせて送信量を調整するのは？","options":["flow control","DNS recursion","route aggregation","VLAN tagging"],"answerIndex":0,"explanation":"flow controlは受信側が処理可能な量へ合わせます。"},
+    {"id":"net07-q3","prompt":"seq=1001から100byte正常受信した場合の次期待ACKは？","options":["1101","1002","1100","1001"],"answerIndex":0,"explanation":"1001〜1100を受信したので次は1101です。"},
+    {"id":"net07-q4","prompt":"TCP connectionを強制的にresetするflagは？","options":["RST","FIN","PSHだけ","URG pointer"],"answerIndex":0,"explanation":"RSTはconnectionのresetを示します。"}
+  ]
+}
