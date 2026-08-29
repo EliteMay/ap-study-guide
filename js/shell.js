@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.29-r4';
+  const BUILD = '2026.08.29-r5';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -94,6 +94,28 @@
     window.dispatchEvent(new CustomEvent('ap-bookmarks-changed'));
   }
 
+  function ensureRoadmapLink(nav) {
+    const list = nav.querySelector('.unit-nav-list');
+    if (!list || list.querySelector('[data-ap-roadmap-link]')) return;
+    const homeLink = list.querySelector('a[href$="index.html"]');
+    if (!homeLink) return;
+    const homeHref = homeLink.getAttribute('href') || 'index.html';
+    const rootPrefix = homeHref.startsWith('../') ? '../' : '';
+    const roadmapHref = `${rootPrefix}html/roadmap.html`;
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = roadmapHref;
+    link.className = 'unit-nav-link';
+    link.dataset.apRoadmapLink = 'true';
+    link.textContent = '🧭 学習マップ';
+    if (location.pathname.endsWith('/roadmap.html')) {
+      link.classList.add('is-current');
+      link.setAttribute('aria-current', 'page');
+    }
+    li.appendChild(link);
+    homeLink.closest('li')?.after(li);
+  }
+
   function buildShell() {
     const nav = document.querySelector('.unit-nav');
     if (!nav) return;
@@ -102,6 +124,8 @@
       link.classList.remove('is-coming');
       link.removeAttribute('aria-disabled');
     });
+
+    ensureRoadmapLink(nav);
 
     const label = nav.querySelector('.unit-nav-label');
     if (label) label.textContent = 'AP STUDY NOTES';
