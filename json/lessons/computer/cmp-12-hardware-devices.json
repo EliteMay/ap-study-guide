@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-12","title":"ハードウェア・入出力デバイス・センサ","unitId":"computer-systems","officialMiddleCodes":[3,6],"officialAreas":["入出力デバイス","入出力装置","ハードウェア"],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"KeyboardやDisplayの名前を覚えるだけでなく、実世界の情報がSensor→A/D変換→Computer処理→D/A/PWM→Actuatorへ流れる経路まで理解します。GPU・UPS・Display・Printer等も役割で整理します。",
+  "objectives":["Input/Output deviceをDataの流れで区別できる。","A/D・D/A変換の意味を説明できる。","SensorとActuatorの役割を説明できる。","GPU・UPS等のHardwareを用途で区別できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 実世界とComputerの間","diagrams":[{"label":"計測・制御の流れ","connector":"→","nodes":[{"title":"Sensor","value":"温度/光/圧力等"},{"title":"A/D","value":"Analog→Digital"},{"title":"Computer","value":"演算・判断"},{"title":"D/A or PWM","value":"出力Signal"},{"title":"Actuator","value":"Motor/Valve等"}],"note":"InputとOutputを単なる周辺機器名ではなく、情報の方向で考える。"}]},
+    {"type":"comparison","title":"2. 代表的なInput / Output","columns":["分類","例","役割"],"rows":[["Input","Keyboard/Mouse/Camera/Microphone","外部情報を取り込む"],["Output","Display/Printer/Speaker","処理結果を外へ出す"],["Storage","SSD/HDD","長期保存"],["Network I/O","NIC","Networkへ送受信"]]},
+    {"type":"comparison","title":"3. A/DとD/A","columns":["変換","方向","例"],"rows":[["A/D","Analog→Digital","温度Sensor電圧を数値化"],["D/A","Digital→Analog","音声Signal生成"],["PWM","Digital pulse幅で平均出力を制御","Motor速度/LED明るさ"]]},
+    {"type":"comparison","title":"4. GPUとCPU","columns":["観点","CPU","GPU"],"rows":[["得意","汎用・分岐を含む処理","大量の並列演算"],["Core","少数高機能Core中心","多数の演算Unit"],["用途","OS/General Application","Graphics/AI/Vector計算等"]],"note":"GPUが常にCPUより速いわけではなく、並列化しやすい処理に向く。"},
+    {"type":"comparison","title":"5. 電源と保護","columns":["Hardware","役割"],"rows":[["UPS","停電時に一時給電し安全停止や継続を支援"],["Surge protection","過電圧から機器保護"],["Redundant PSU","電源故障に備え複数電源を持つ"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Sensorが出す値が必ず最初からDigitalとは限らない。Analog SignalならA/Dが必要。","UPSは長時間の発電機と同じではなく、容量内で一時給電する装置。","GPUは全てのProgramでCPUを置き換えるものではない。"]}
+  ],
+  "checks":[
+    {"id":"cmp12-q1","prompt":"AnalogのSensor出力をComputerで数値処理する前に必要になりやすいのは？","options":["A/D変換","RAID 1","DNSSEC","SAML"],"answerIndex":0,"explanation":"Analog SignalをDigital値へ変換します。"},
+    {"id":"cmp12-q2","prompt":"MotorやValveのようにComputerの指示を物理動作へ変えるものは？","options":["Actuator","Resolver","Compiler","Cache"],"answerIndex":0,"explanation":"Actuatorは制御出力を物理動作へ変えます。"},
+    {"id":"cmp12-q3","prompt":"停電時に一時的な電力を供給し安全停止等を支援する装置は？","options":["UPS","ALU","ARP","JWT"],"answerIndex":0,"explanation":"Uninterruptible Power Supplyです。"},
+    {"id":"cmp12-q4","prompt":"GPUが特に得意としやすいのは？","options":["大量の並列演算","全ての分岐処理を必ずCPUより高速化","DNS名前解決だけ","File System Journalingだけ"],"answerIndex":0,"explanation":"多数の演算Unitを使う並列処理に向きます。"}
+  ]
+}
