@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-08","title":"CPU・システム性能を式で読む","unitId":"computer-systems","officialMiddleCodes":[3,4],"officialAreas":["プロセッサ","システムの評価指標"],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"GHzやMIPSを単独で見ず、命令数・CPI・Clock・Response Time・Throughputを式でつなぎます。性能問題を『数字の暗記』ではなく、何を1秒当たり・1命令当たりで測っているかから解きます。",
+  "objectives":["CPU実行時間=命令数×CPI×Clock周期を使える。","Clock周波数から1cycle時間を求められる。","MIPSの意味と限界を説明できる。","Response TimeとThroughputを区別できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 性能指標の意味","columns":["指標","何を見る","単位例"],"rows":[["Clock frequency","1秒当たりcycle数","GHz"],["CPI","1命令当たり平均cycle数","cycle/instruction"],["CPU time","Program実行に必要な時間","s/ms"],["MIPS","1秒当たり百万命令","MIPS"],["Response Time","1件の完了まで","ms/s"],["Throughput","単位時間に処理できる件数","req/s"]]},
+    {"type":"code-trace","title":"2. CPU実行時間","question":"2GHz CPUで、命令数4×10^8、平均CPI=2なら実行時間は？","code":["clock = 2 × 10^9 cycle/s","total cycles = 4 × 10^8 × 2 = 8 × 10^8","time = total cycles / clock"],"traceColumns":["項目","値"],"traceRows":[["命令数","4×10^8"],["CPI","2"],["総cycle","8×10^8"],["周波数","2×10^9 cycle/s"]],"answer":"0.4秒","explanation":"GHzだけではなく、何命令を平均何cycleで処理するかが必要。"},
+    {"type":"code-trace","title":"3. Clock周期","question":"2.5GHzの1cycle時間は？","code":["period = 1 / frequency","= 1 / (2.5 × 10^9) s"],"traceColumns":["周波数","周期"],"traceRows":[["2.5GHz","0.4ns"]],"answer":"0.4ns","explanation":"GHzは1秒当たり10^9 cycle。逆数を取る。"},
+    {"type":"comparison","title":"4. MIPSを過信しない","columns":["観点","意味"],"rows":[["高MIPS","多くの命令を1秒で実行できる指標"],["注意1","CPUごとに1命令の仕事量が違う"],["注意2","CompilerやProgramで命令Mixが変わる"],["注意3","I/O待ち等を含むSystem全体性能とは別"]],"note":"異なるArchitectureをMIPSだけで単純比較しない。"},
+    {"type":"comparison","title":"5. LatencyとThroughput","columns":["状況","見る指標","例"],"rows":[["1Requestを早く返したい","Response Time / Latency","画面表示"],["大量処理したい","Throughput","batch・Web requests/s"],["同時利用増加","Queue/Resource競合も考慮","Server負荷"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Clock周波数が2倍でも、CPIや命令数が同じでなければ必ず2倍速とは言えない。","Throughputが高いSystemでも1件のLatencyが小さいとは限らない。","MIPSは異なる命令Set間で万能な比較指標ではない。"]}
+  ],
+  "checks":[
+    {"id":"cmp08-q1","prompt":"CPU実行時間の基本式として適切なのは？","options":["命令数×CPI×Clock周期","IP Address×Port","MTBF+DNS","RAID数÷URL"],"answerIndex":0,"explanation":"総cycle数に1cycle時間を掛けます。"},
+    {"id":"cmp08-q2","prompt":"1秒当たりに処理できるRequest数を表すのは？","options":["Throughput","Response Timeだけ","Page fault","CPIだけ"],"answerIndex":0,"explanation":"単位時間当たりの処理量です。"},
+    {"id":"cmp08-q3","prompt":"MIPSだけで異なるCPUを単純比較しにくい理由は？","options":["命令Setや1命令の仕事量が違うため","MIPSはMemory容量の単位だから","MIPSはNetwork規格だから","常に同じ値になるから"],"answerIndex":0,"explanation":"命令の意味やMixが異なるためです。"}
+  ]
+}
