@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-08","title":"認証・ネットワーク・実装への攻撃パターン","unitId":"security","officialMiddleCodes":[11],"officialAreas":["攻撃手法","情報セキュリティ対策"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":224,"to":234},{"prefix":"sec-","from":441,"to":446}],"legacyTermIds":["sec-052","sec-069","sec-070","sec-378"],"estimatedMinutes":45},
+  "intro":"似た攻撃名を『何を偽る/何を再利用する/どこを枯渇させる/どのParserやMemoryを壊す』で分けます。Networkの仕組み自体はNET Lessonへ任せ、ここではSecurity上の悪用と対策を扱います。",
+  "objectives":["Brute Force/Dictionary/Password Spray/Credential Stuffingを試行方法で区別できる。","MITM/Replay/ARP Spoofing/DNS Poisoningを悪用対象で区別できる。","DoS/DDoS/DNS Reflectionの関係を説明できる。","XXE/LDAP Injection/Buffer Overflow/Side Channelの成立点を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. Password攻撃を試し方で分ける","columns":["攻撃","試行方法","対策例"],"rows":[["Brute Force","1Accountへ全組合せ","MFA/Rate limit/強いPassword"],["Dictionary","よくあるPassword候補","禁止Password/長いPassphrase"],["Password Spray","少数Passwordを多数Accountへ","MFA/異常Login検知"],["Credential Stuffing","他Service流出Credentialを再利用","Password使い回し防止/MFA"]]},
+    {"type":"comparison","title":"2. 通信をだます攻撃","columns":["攻撃","悪用対象","結果"],"rows":[["ARP Spoofing","LAN内IP↔MAC対応","MITM/盗聴へ誘導"],["DNS Cache Poisoning","Name↔IP対応","偽Siteへ誘導"],["MITM","通信経路","盗聴/改ざん/なりすまし"],["Replay","過去の正当Message","同じ操作を再実行"],["Session Hijack","有効なSession情報","利用者になりすまし"]]},
+    {"type":"comparison","title":"3. DNSSECと暗号化DNSを混同しない","columns":["技術","守るもの","守らないもの"],"rows":[["DNSSEC","DNS応答の真正性/完全性","Query内容の秘匿そのもの"],["DoH/DoT","端末〜Resolver間の盗聴/改ざん軽減","権威DNS情報自体の署名検証とは別"]],"note":"DNSSECは『DNSを暗号化する技術』ではない。"},
+    {"type":"diagram","title":"4. Reflection/Amplification","diagrams":[{"label":"DNS Reflectionの例","connector":"→","nodes":[{"title":"Attacker","value":"Source IPをVictimへ偽装"},{"title":"Open Resolver","value":"小Queryを受信"},{"title":"Large Response","value":"Victimへ返送"},{"title":"Victim","value":"大量Responseで圧迫"}],"note":"多数の踏み台を使えばDDoSになります。"}]},
+    {"type":"comparison","title":"5. Parser/Memoryへの攻撃","columns":["攻撃","弱点","対策例"],"rows":[["XXE","XML External Entity","外部Entity無効化/安全なParser"],["LDAP Injection","LDAP Queryへ入力混入","Parameterization/Encoding"],["Command Injection","Shell Commandへ入力混入","Shell回避/安全API"],["Buffer Overflow","Memory境界超過","境界Check/安全言語/ASLR等"],["Heap Spray","攻撃CodeをMemoryへ大量配置","Memory保護/Browser更新"],["Side Channel","処理時間/電力等の副情報","Constant-time実装等"]]},
+    {"type":"mistakes","title":"6. 攻撃名の罠","items":["Credential StuffingはPasswordを総当たりするのではなく、既に漏えいした組合せを再利用する。","Replay対策は通信暗号化だけでなく、nonce/時刻/Sequence等で再利用を拒否することが重要。","DNS ReflectionはDNS Serverへの侵入が必須ではなく、公開Resolverと送信元偽装を悪用できる。","DoSとDDoSの主な違いは攻撃元の分散。被害としての可用性低下は共通。"]}
+  ],
+  "checks":[
+    {"id":"sec08-q1","prompt":"流出したID/Passwordの組合せを別Serviceへ大量に試す攻撃は？","options":["Credential Stuffing","Password Spray","Replay","XXE"],"answerIndex":0,"explanation":"既知Credentialの使い回しを狙うCredential Stuffingです。"},
+    {"id":"sec08-q2","prompt":"同じLANで偽ARP応答を送り、GatewayのMACだと思わせる攻撃は？","options":["ARP Spoofing","DNSSEC","CSRF","SAML"],"answerIndex":0,"explanation":"ARP対応表を偽装するARP Spoofingです。"},
+    {"id":"sec08-q3","prompt":"過去に盗聴した正当な認証Messageをそのまま再送する攻撃は？","options":["Replay","DDoS","SQLi","Phishing"],"answerIndex":0,"explanation":"過去Messageの再利用はReplay Attackです。"},
+    {"id":"sec08-q4","prompt":"DNSSECの主目的は？","options":["DNS応答の改ざん検出・真正性","DNS通信を必ず匿名化","Web Serverの負荷分散","PasswordをHash化"],"answerIndex":0,"explanation":"DNSSECは署名でDNS応答の真正性/完全性を検証します。"},
+    {"id":"sec08-q5","prompt":"XML Parserの外部実体機能を悪用してServer内Fileを読む攻撃は？","options":["XXE","XSS","BEC","PAM"],"answerIndex":0,"explanation":"XML External Entityを悪用するXXEです。"}
+  ],
+  "next":[{"lessonId":"SEC-09","label":"防御機構・ハードニング・アクセス制御","status":"公開中"}]
+}
