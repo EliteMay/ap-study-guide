@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>テストモード | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/test.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -29,7 +31,7 @@
     <p class="eyebrow">AP Study Test</p>
     <h1>テストモード</h1>
     <p class="lead">現在の情報セキュリティ・ネットワーク・データベースJSONから、その場で問題を生成します。</p>
-    <p class="test-hero-note">辞書を更新すればテストにも自動で反映されます。古い72語の別管理は通常テストから廃止しました。</p>
+    <p class="test-hero-note">通常のランダム出題に加えて、各用語ページで「☆ 復習」を付けた項目だけを集中的に出題できます。</p>
   </div>
 </header>
 <main id="main-content">
@@ -38,9 +40,10 @@
       <h2>ランダムテスト</h2>
       <div class="test-panel">
         <div class="test-controls">
-          <label>分野
+          <label>出題元
             <select id="domain-mode">
               <option value="all">3分野ミックス</option>
+              <option value="bookmarks">☆ 復習リスト</option>
               <option value="security">情報セキュリティ</option>
               <option value="network">ネットワーク</option>
               <option value="database">データベース</option>
@@ -79,6 +82,7 @@
   </section>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
+<script src="../js/shell.js" defer></script>
 <script src="../js/test.js" defer></script>
 </body>
 </html>
