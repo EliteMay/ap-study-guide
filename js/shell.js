@@ -57,7 +57,8 @@
 
   function recordRecent(item) {
     if (!item?.id || !item?.term || !item?.href) return;
-    const list = Array.isArray(readJson(RECENT_KEY, [])) ? readJson(RECENT_KEY, []) : [];
+    const stored = readJson(RECENT_KEY, []);
+    const list = Array.isArray(stored) ? stored : [];
     const key = `${item.domain || 'unknown'}:${item.id}`;
     const next = [
       { ...item, key, viewedAt: Date.now() },
@@ -138,6 +139,8 @@
     document.querySelectorAll('[data-ap-theme-toggle]').forEach(button => {
       button.addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
     });
+
+    applyTheme(document.documentElement.dataset.theme || initialTheme());
   }
 
   window.APStudyUI = {
