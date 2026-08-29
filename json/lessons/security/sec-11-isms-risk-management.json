@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-11","title":"ISMS・リスクアセスメント・脆弱性管理","unitId":"security","officialMiddleCodes":[11],"officialAreas":["情報セキュリティ管理","セキュリティ技術評価"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":291,"to":307},{"prefix":"sec-","from":310,"to":312},{"prefix":"sec-","from":319,"to":325},{"prefix":"sec-","from":483,"to":486}],"legacyTermIds":["sec-474","sec-475","sec-479","sec-480"],"estimatedMinutes":45},
+  "intro":"ISMSを規格名の暗記にせず、資産とリスクを継続的に評価し、管理策を選び、残ったリスクを責任者が受容できるか判断するManagement Systemとして学びます。",
+  "objectives":["ISMSとISO/IEC 27001/27002の関係を説明できる。","Risk Identification/Analysis/Evaluation/Treatmentを順序で区別できる。","Avoid/Reduce/Transfer/Acceptを事例で選べる。","CVEとCVSSを区別し、Priority判断の限界を説明できる。","BYOD/Shadow IT/Vendor Managementを組織Riskとして説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. ISMSと規格","columns":["項目","役割","ポイント"],"rows":[["ISMS","Securityを継続的に管理する仕組み","一度対策して終了ではない"],["ISO/IEC 27001","ISMSの要求事項","認証の基準"],["ISO/IEC 27002","管理策のGuidance","実践の参考"],["ISO/IEC 27017","Cloud Security管理策のGuidance","Cloud固有観点"],["ISO/IEC 27018","Public Cloud上のPII保護","個人情報保護観点"]]},
+    {"type":"steps","title":"2. Risk Assessmentの流れ","items":[{"label":"① Identify","body":"資産・脅威・脆弱性・既存Controlを洗い出す。"},{"label":"② Analyze","body":"発生可能性とImpact等を見積もる。"},{"label":"③ Evaluate","body":"Risk Acceptance Criteriaと比較し優先順位を決める。"},{"label":"④ Treat","body":"Avoid/Reduce/Transfer/Accept等を選ぶ。"},{"label":"⑤ Review","body":"残存Riskと環境変化を継続的に見直す。"}]},
+    {"type":"comparison","title":"3. Risk Treatment","columns":["対応","意味","例"],"rows":[["Avoid","危険な活動自体をやめる","不要なInternet公開を廃止"],["Reduce","可能性/Impactを下げる","MFA/WAF/Backup"],["Transfer","損失負担等を他へ移す","Cyber Insurance/契約"],["Accept","理解した上で受け入れる","CostがImpactを上回るLow Risk"]]},
+    {"type":"comparison","title":"4. CVEとCVSS","columns":["項目","意味","使い方"],"rows":[["CVE","公開Vulnerabilityの識別子","何の脆弱性か一意に参照"],["CVSS","Severity Score","技術的深刻度の比較"],["実Priority","CVE/CVSS+環境Context","Internet公開/Exploit/資産重要度も加味"]],"note":"CVSSが高い=自組織で必ず最優先、ではありません。"},
+    {"type":"comparison","title":"5. 組織運用Risk","columns":["項目","Risk","管理例"],"rows":[["BYOD","個人端末の紛失/更新差","MDM/MAM/Policy"],["Shadow IT","未把握SaaSへのData流出","CASB/申請/可視化"],["Vendor/委託先","Supply Chain/契約境界","Security要求/監査/事故連絡条項"],["Internal Fraud","正規権限悪用","職務分掌/PAM/Log/Access Review"]]},
+    {"type":"steps","title":"6. Security Educationを測る","items":[{"label":"知識を伝える","body":"Policy・報告手順・代表Attackを教育する。"},{"label":"Simulation","body":"標的型Mail訓練等で行動を確認する。"},{"label":"Measure","body":"Click率だけでなく報告率・報告までの時間を見る。"},{"label":"Improve","body":"責めるためではなく弱いProcessを改善する。"}]},
+    {"type":"mistakes","title":"7. 管理系の誤解","items":["Risk TransferでRisk自体が消えるとは限らない。Business影響や責任は残り得る。","残存Risk/残留RiskはControl後に残るRisk。ゼロにできない前提で受容可否を判断する。","Security Educationを一度実施しただけでControlが有効とは言えない。継続測定が必要。","Complianceを満たすこととSecurity Riskがゼロになることは同義ではない。"]}
+  ],
+  "checks":[
+    {"id":"sec11-q1","prompt":"Riskの発生可能性とImpactを見積もる段階は？","options":["Risk Analysis","Risk Identification","Risk Transfer","Audit Trail"],"answerIndex":0,"explanation":"Risk Analysisで可能性・影響等を分析します。"},
+    {"id":"sec11-q2","prompt":"危険なInternet公開機能自体を廃止するRisk対応は？","options":["Avoid","Transfer","Accept","Hash"],"answerIndex":0,"explanation":"Risk源となる活動をやめるためAvoidです。"},
+    {"id":"sec11-q3","prompt":"公開脆弱性に付く共通識別番号は？","options":["CVE","CVSS","SLA","OID"],"answerIndex":0,"explanation":"CVEは脆弱性識別子です。"},
+    {"id":"sec11-q4","prompt":"CVSS 9.8の脆弱性があるが対象Serverは停止中・隔離済み。優先度判断として適切なのは？","options":["CVSSだけで決めず環境Contextも評価","必ず最優先で本番停止","Scoreを無視","CVEを削除"],"answerIndex":0,"explanation":"技術的SeverityにExposure・Exploit・Business影響を加えてPriorityを決めます。"},
+    {"id":"sec11-q5","prompt":"組織が把握していないSaaSを従業員が業務利用している状態は？","options":["Shadow IT","PFS","OCSP","STP"],"answerIndex":0,"explanation":"未承認・未把握のIT利用をShadow ITと呼びます。"}
+  ],
+  "next":[{"lessonId":"SEC-12","label":"クラウドセキュリティ・ゼロトラスト","status":"公開中"}]
+}
