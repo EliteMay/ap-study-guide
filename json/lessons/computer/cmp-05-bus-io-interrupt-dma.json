@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-05","title":"バス・入出力・割込み・DMA","unitId":"computer-systems","officialMiddleCodes":[3,6],"officialAreas":["バス","入出力デバイス","入出力装置","ハードウェア"],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"CPUと周辺機器の間でDataがどう動くかを、Bus→I/O controller→Interrupt/DMAの流れで理解します。PollingとInterruptの違いもCPU負荷から比較します。",
+  "objectives":["Data/Address/Control busの役割を区別できる。","PollingとInterruptをCPUの待ち方で比較できる。","DMAがCPUを介さず大量転送を行う意味を説明できる。","代表的なI/O interfaceを用途で区別できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 3種類のBus","columns":["Bus","運ぶもの","例"],"rows":[["Data bus","実Data","命令や値"],["Address bus","対象Address","Memory/I/Oの位置"],["Control bus","Read/Writeや制御Signal","割込み要求など"]]},
+    {"type":"diagram","title":"2. I/Oの基本経路","diagrams":[{"label":"通常の構成","connector":"→","nodes":[{"title":"CPU","value":"命令を実行"},{"title":"Bus / Controller","value":"I/Oを制御"},{"title":"Device","value":"SSD・Keyboard等"}],"note":"CPUが周辺機器固有の細部をすべて直接扱うのではなく、ControllerやDriverが仲介する。"}]},
+    {"type":"comparison","title":"3. Polling / Interrupt / DMA","columns":["方式","CPUの動き","向く場面"],"rows":[["Polling","完了したか繰返し確認","単純な制御・短い待ち"],["Interrupt","Device側から完了を通知","CPUを他処理へ回したい"],["DMA","MemoryとDevice間のBlock転送をDMA controllerへ任せる","大量Data転送"]],"note":"DMAでも開始設定や完了通知などでCPUは関与する。完全にCPUと無関係ではない。"},
+    {"type":"diagram","title":"4. DMA転送","diagrams":[{"label":"大量Dataの流れ","connector":"→","nodes":[{"title":"CPU","value":"転送条件を設定"},{"title":"DMA Controller","value":"Busを使い転送"},{"title":"Main Memory","value":"Data受渡し"},{"title":"Device","value":"Storage等"}],"note":"1byteごとにCPUが転送する負荷を減らせる。"}]},
+    {"type":"comparison","title":"5. Interfaceの見方","columns":["例","主な用途","見る点"],"rows":[["PCI Express","高速な内部拡張","lane数・帯域"],["USB","汎用周辺機器","世代・転送速度・給電"],["SATA","Storage接続","HDD/SSD"],["HDMI / DisplayPort","映像・音声","Display出力"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["InterruptはCPUが常にDeviceを監視するPollingとは違う。","DMAはCPUそのものがDataを1要素ずつCopyする方式ではない。","Bus幅とClockだけ見ても実効帯域が必ず理論値通りになるわけではない。"]}
+  ],
+  "checks":[
+    {"id":"cmp05-q1","prompt":"CPUがDevice完了を何度も確認し続ける方式は？","options":["Polling","Interrupt","DMA","Paging"],"answerIndex":0,"explanation":"PollingはCPU側から状態を繰り返し確認します。"},
+    {"id":"cmp05-q2","prompt":"大量DataをMemoryとDevice間で転送するときCPU負荷を減らしやすいのは？","options":["DMA","DNS","PERT","JWT"],"answerIndex":0,"explanation":"DMA controllerへBlock転送を任せます。"},
+    {"id":"cmp05-q3","prompt":"Memory上の場所を指定する情報を主に運ぶBusは？","options":["Address bus","Data busだけ","Audio cable","Cookie"],"answerIndex":0,"explanation":"Address busは転送対象の位置を指定します。"}
+  ]
+}
