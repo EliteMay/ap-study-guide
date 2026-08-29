@@ -6,6 +6,19 @@
     partial: '一部あり',
     missing: '未整備'
   };
+  const UNIT_HUBS = {
+    'foundation-theory': 'lesson.html?id=FND-01',
+    'algorithm-programming': 'algorithm.html',
+    'computer-systems': 'computer.html',
+    database: 'database.html',
+    network: 'network.html',
+    security: 'security.html',
+    'system-development': 'system.html',
+    'project-management': 'management.html',
+    'service-audit': 'lesson.html?id=SVC-01',
+    'strategy-planning': 'lesson.html?id=STR-01',
+    'law-standards': 'lesson.html?id=LAW-01'
+  };
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
@@ -36,12 +49,14 @@
       const official = (unit.officialMiddleCodes || []).map(code => middleByCode.get(code)).filter(Boolean);
       const types = (unit.contentTypes || []).map(type => `<span>${escapeHtml(type)}</span>`).join('');
       const officialLabels = official.map(item => `<li>中分類${item.code}：${escapeHtml(item.title)}</li>`).join('');
+      const hub = UNIT_HUBS[unit.id];
       return `<article class="study-unit-card" data-status="${escapeHtml(unit.coverage)}">
         <div class="study-unit-top"><span class="study-unit-order">${String(unit.order).padStart(2,'0')}</span><span class="coverage-badge ${escapeHtml(unit.coverage)}">${escapeHtml(STATUS_LABELS[unit.coverage] || unit.coverage)}</span></div>
         <h3>${escapeHtml(unit.title)}</h3>
         <ul class="official-links">${officialLabels}</ul>
         <div class="content-type-list">${types}</div>
         <p>${escapeHtml(unit.auditNote || '')}</p>
+        ${hub ? `<a class="study-unit-link" href="${escapeHtml(hub)}">教材を開く →</a>` : '<span class="study-unit-link is-disabled">専用教材は準備中</span>'}
       </article>`;
     }).join('');
     document.getElementById('study-unit-grid').innerHTML = html;
