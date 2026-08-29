@@ -1,168 +1,62 @@
 {
   "meta": {
     "title": "ネットワーク用語マニフェスト",
-    "version": "v16-network-expanded-480",
-    "description": "ネットワーク単元のカテゴリ別軽量辞書JSONを読み込むための索引。",
-    "totalTerms": 480
-  },
-  "files": [
-    {
-      "category": "TCP/IP基礎・OSI参照モデル",
-      "file": "json/terms/network-terms-tcpip-osi.json",
-      "count": 40
-    },
-    {
-      "category": "IPアドレス・サブネット",
-      "file": "json/terms/network-terms-ip-subnet.json",
-      "count": 40
-    },
-    {
-      "category": "LAN・イーサネット・無線LAN",
-      "file": "json/terms/network-terms-lan-wireless.json",
-      "count": 40
-    },
-    {
-      "category": "ルーティング・WAN・NAT",
-      "file": "json/terms/network-terms-routing-wan.json",
-      "count": 40
-    },
-    {
-      "category": "TCP・UDP・ポート番号",
-      "file": "json/terms/network-terms-tcp-udp-port.json",
-      "count": 40
-    },
-    {
-      "category": "DNS・名前解決",
-      "file": "json/terms/network-terms-dns.json",
-      "count": 40
-    },
-    {
-      "category": "HTTP・Web通信",
-      "file": "json/terms/network-terms-http-web.json",
-      "count": 40
-    },
-    {
-      "category": "メール・ファイル転送・リモート接続",
-      "file": "json/terms/network-terms-mail-file-remote.json",
-      "count": 40
-    },
-    {
-      "category": "ネットワーク機器・構成図",
-      "file": "json/terms/network-terms-devices-design.json",
-      "count": 40
-    },
-    {
-      "category": "運用・監視・トラブルシュート",
-      "file": "json/terms/network-terms-ops-troubleshoot.json",
-      "count": 40
-    },
-    {
-      "category": "可用性・性能・QoS",
-      "file": "json/terms/network-terms-availability-performance.json",
-      "count": 40
-    },
-    {
-      "category": "クラウド・仮想ネットワーク",
-      "file": "json/terms/network-terms-cloud-virtual.json",
-      "count": 40
+    "version": "v17-network-audit-migrated-20260830",
+    "status": "audit-and-lesson-migration-complete",
+    "description": "旧480語は検索・復習・既存進捗の互換索引として維持し、主教材はNET-01〜14の構造化Lessonへ移行する。",
+    "totalTerms": 480,
+    "auditFile": "json/curriculum/audits/network-audit.json",
+    "officialMiddleCode": 10,
+    "migration": {
+      "networkLessons": 14,
+      "mappedToNetworkLessons": 478,
+      "movedToServiceManagement": 2,
+      "movedIds": ["net-availability-performance-015","net-ops-troubleshoot-039"],
+      "policy": "12カテゴリ×40語は正式分類ではなく旧表示カテゴリ。SLAとインシデント管理はSVC-01を主教材とする。Security重複はSecurity監査までNetworkの通信文脈で保持する。"
     }
+  },
+  "primaryLessons": [
+    {"id":"NET-01","title":"OSI/TCP-IPと通信の全体像"},
+    {"id":"NET-02","title":"IPv4・CIDR・サブネット計算"},
+    {"id":"NET-03","title":"IPv6・SLAAC・NDP"},
+    {"id":"NET-04","title":"Ethernet・VLAN・STP"},
+    {"id":"NET-05","title":"無線LAN・Wi-Fi"},
+    {"id":"NET-06","title":"ルーティング・NAT・WAN・VPN"},
+    {"id":"NET-07","title":"TCP・UDP・ポートと信頼性制御"},
+    {"id":"NET-08","title":"DNSと名前解決"},
+    {"id":"NET-09","title":"HTTP・HTTPS・Web通信"},
+    {"id":"NET-10","title":"メール・ファイル転送・リモート接続"},
+    {"id":"NET-11","title":"ネットワーク機器と構成図"},
+    {"id":"NET-12","title":"DHCP・ARP・監視・障害切り分け"},
+    {"id":"NET-13","title":"可用性・性能・QoS"},
+    {"id":"NET-14","title":"クラウド・仮想ネットワーク"}
+  ],
+  "files": [
+    {"category":"TCP/IP基礎・OSI参照モデル","file":"json/terms/network-terms-tcpip-osi.json","count":40},
+    {"category":"IPアドレス・サブネット","file":"json/terms/network-terms-ip-subnet.json","count":40},
+    {"category":"LAN・イーサネット・無線LAN","file":"json/terms/network-terms-lan-wireless.json","count":40},
+    {"category":"ルーティング・WAN・NAT","file":"json/terms/network-terms-routing-wan.json","count":40},
+    {"category":"TCP・UDP・ポート番号","file":"json/terms/network-terms-tcp-udp-port.json","count":40},
+    {"category":"DNS・名前解決","file":"json/terms/network-terms-dns.json","count":40},
+    {"category":"HTTP・Web通信","file":"json/terms/network-terms-http-web.json","count":40},
+    {"category":"メール・ファイル転送・リモート接続","file":"json/terms/network-terms-mail-file-remote.json","count":40},
+    {"category":"ネットワーク機器・構成図","file":"json/terms/network-terms-devices-design.json","count":40},
+    {"category":"運用・監視・トラブルシュート","file":"json/terms/network-terms-ops-troubleshoot.json","count":40},
+    {"category":"可用性・性能・QoS","file":"json/terms/network-terms-availability-performance.json","count":40},
+    {"category":"クラウド・仮想ネットワーク","file":"json/terms/network-terms-cloud-virtual.json","count":40}
   ],
   "categories": [
-    {
-      "id": "net-cat-01-tcpip-osi",
-      "title": "TCP/IP基礎・OSI参照モデル",
-      "description": "層、プロトコル、カプセル化など、通信の全体像を読むための基礎。",
-      "file": "json/terms/network-terms-tcpip-osi.json",
-      "detailFile": "json/details/network-details-tcpip-osi.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-02-ip-subnet",
-      "title": "IPアドレス・サブネット",
-      "description": "IPv4/IPv6、CIDR、ネットワーク部、ホスト部など、構成図と計算問題の土台。",
-      "file": "json/terms/network-terms-ip-subnet.json",
-      "detailFile": "json/details/network-details-ip-subnet.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-03-lan-wireless",
-      "title": "LAN・イーサネット・無線LAN",
-      "description": "MACアドレス、スイッチ、VLAN、無線LANなど、同一ネットワーク内の通信を読むための用語。",
-      "file": "json/terms/network-terms-lan-wireless.json",
-      "detailFile": "json/details/network-details-lan-wireless.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-04-routing-wan",
-      "title": "ルーティング・WAN・NAT",
-      "description": "ルータ、経路制御、NAT、VPNなど、ネットワークをまたぐ通信の読み方。",
-      "file": "json/terms/network-terms-routing-wan.json",
-      "detailFile": "json/details/network-details-routing-wan.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-05-tcp-udp-port",
-      "title": "TCP・UDP・ポート番号",
-      "description": "コネクション、信頼性、ポート番号など、アプリケーション通信の識別と制御。",
-      "file": "json/terms/network-terms-tcp-udp-port.json",
-      "detailFile": "json/details/network-details-tcp-udp-port.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-06-dns",
-      "title": "DNS・名前解決",
-      "description": "DNSサーバ、レコード、問い合わせの流れなど、Web・メール・障害調査で頻出の名前解決。",
-      "file": "json/terms/network-terms-dns.json",
-      "detailFile": "json/details/network-details-dns.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-07-http-web",
-      "title": "HTTP・Web通信",
-      "description": "HTTP/HTTPS、URL、メソッド、ステータスコードなど、Web通信の読み方。",
-      "file": "json/terms/network-terms-http-web.json",
-      "detailFile": "json/details/network-details-http-web.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-08-mail-file-remote",
-      "title": "メール・ファイル転送・リモート接続",
-      "description": "SMTP、IMAP、FTP、SSHなど、代表的なアプリケーションプロトコル。",
-      "file": "json/terms/network-terms-mail-file-remote.json",
-      "detailFile": "json/details/network-details-mail-file-remote.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-09-devices-design",
-      "title": "ネットワーク機器・構成図",
-      "description": "スイッチ、ゲートウェイ、セグメント、構成図など、午後問題の図を読むための用語。",
-      "file": "json/terms/network-terms-devices-design.json",
-      "detailFile": "json/details/network-details-devices-design.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-10-ops-troubleshoot",
-      "title": "運用・監視・トラブルシュート",
-      "description": "DHCP、ARP、監視コマンド、ログ、遅延など、障害調査で使う用語。",
-      "file": "json/terms/network-terms-ops-troubleshoot.json",
-      "detailFile": "json/details/network-details-ops-troubleshoot.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-11-availability-performance",
-      "title": "可用性・性能・QoS",
-      "description": "帯域、負荷分散、冗長化、SLAなど、性能と止まりにくさを読むための用語。",
-      "file": "json/terms/network-terms-availability-performance.json",
-      "detailFile": "json/details/network-details-availability-performance.json",
-      "count": 40
-    },
-    {
-      "id": "net-cat-12-cloud-virtual",
-      "title": "クラウド・仮想ネットワーク",
-      "description": "VPC、サブネット、ルートテーブル、SDNなど、クラウド構成で出るネットワーク用語。",
-      "file": "json/terms/network-terms-cloud-virtual.json",
-      "detailFile": "json/details/network-details-cloud-virtual.json",
-      "count": 40
-    }
+    {"id":"net-cat-01-tcpip-osi","title":"TCP/IP基礎・OSI参照モデル","description":"旧表示カテゴリ。OSI/TCP-IP、カプセル化、MTU/ICMPなど。主教材はNET-01。","file":"json/terms/network-terms-tcpip-osi.json","detailFile":"json/details/network-details-tcpip-osi.json","count":40},
+    {"id":"net-cat-02-ip-subnet","title":"IPアドレス・サブネット","description":"旧表示カテゴリ。IPv4/IPv6/CIDRを含む。主教材はNET-02/03。","file":"json/terms/network-terms-ip-subnet.json","detailFile":"json/details/network-details-ip-subnet.json","count":40},
+    {"id":"net-cat-03-lan-wireless","title":"LAN・イーサネット・無線LAN","description":"旧表示カテゴリ。Ethernet/VLANとWi-Fiを含む。主教材はNET-04/05。","file":"json/terms/network-terms-lan-wireless.json","detailFile":"json/details/network-details-lan-wireless.json","count":40},
+    {"id":"net-cat-04-routing-wan","title":"ルーティング・WAN・NAT","description":"旧表示カテゴリ。routing/NAT/VPN等。主教材はNET-06。","file":"json/terms/network-terms-routing-wan.json","detailFile":"json/details/network-details-routing-wan.json","count":40},
+    {"id":"net-cat-05-tcp-udp-port","title":"TCP・UDP・ポート番号","description":"旧表示カテゴリ。TCP/UDP/port/control。主教材はNET-07。","file":"json/terms/network-terms-tcp-udp-port.json","detailFile":"json/details/network-details-tcp-udp-port.json","count":40},
+    {"id":"net-cat-06-dns","title":"DNS・名前解決","description":"旧表示カテゴリ。DNS階層・record・security接点。主教材はNET-08。","file":"json/terms/network-terms-dns.json","detailFile":"json/details/network-details-dns.json","count":40},
+    {"id":"net-cat-07-http-web","title":"HTTP・Web通信","description":"旧表示カテゴリ。HTTP/TLS/Web通信。主教材はNET-09。","file":"json/terms/network-terms-http-web.json","detailFile":"json/details/network-details-http-web.json","count":40},
+    {"id":"net-cat-08-mail-file-remote","title":"メール・ファイル転送・リモート接続","description":"旧表示カテゴリ。mail/file/remote protocol。主教材はNET-10。","file":"json/terms/network-terms-mail-file-remote.json","detailFile":"json/details/network-details-mail-file-remote.json","count":40},
+    {"id":"net-cat-09-devices-design","title":"ネットワーク機器・構成図","description":"旧表示カテゴリ。機器・DMZ・冗長構成。主教材はNET-11。","file":"json/terms/network-terms-devices-design.json","detailFile":"json/details/network-details-devices-design.json","count":40},
+    {"id":"net-cat-10-ops-troubleshoot","title":"運用・監視・トラブルシュート","description":"旧表示カテゴリ。DHCP/ARP/監視/切り分け。インシデント管理のみSVC-01へ移動。","file":"json/terms/network-terms-ops-troubleshoot.json","detailFile":"json/details/network-details-ops-troubleshoot.json","count":40},
+    {"id":"net-cat-11-availability-performance","title":"可用性・性能・QoS","description":"旧表示カテゴリ。性能/QoS/冗長化。SLAのみSVC-01へ移動。","file":"json/terms/network-terms-availability-performance.json","detailFile":"json/details/network-details-availability-performance.json","count":40},
+    {"id":"net-cat-12-cloud-virtual","title":"クラウド・仮想ネットワーク","description":"旧表示カテゴリ。VPC/SDN/VXLAN/container network等。主教材はNET-14。","file":"json/terms/network-terms-cloud-virtual.json","detailFile":"json/details/network-details-cloud-virtual.json","count":40}
   ]
 }
