@@ -27,7 +27,7 @@
 | ネットワーク用語 | 公開中・480語 |
 | データベース用語 | 公開中・229語 |
 | セキュリティ午後過去問 | 公開中・7問 |
-| 選択式テスト | 公開中・改善予定 |
+| 選択式テスト | 公開中・3分野の最新JSON連動 |
 | アルゴリズム | 準備中 |
 | システム開発 | 準備中 |
 | プロジェクト管理 | 準備中 |
@@ -43,11 +43,13 @@
 ├─ css/
 │  ├─ style.css          # 全体共通
 │  ├─ home.css           # ホーム専用
-│  └─ term-page.css      # 用語ページ共通
+│  ├─ term-page.css      # 用語ページ共通
+│  └─ test.css           # テスト専用
 │
 ├─ js/
 │  ├─ home.js            # ホームの件数・進捗集計
-│  └─ term-page.js       # 用語ページ共通エンジン
+│  ├─ term-page.js       # 用語ページ共通エンジン
+│  └─ test.js            # 最新用語JSONからテスト生成
 │
 ├─ html/
 │  ├─ security.html
@@ -55,6 +57,7 @@
 │  ├─ database.html
 │  ├─ security-past.html
 │  ├─ test.html
+│  ├─ test-legacy.html   # 旧手作り問題の一時保存
 │  ├─ algorithm.html
 │  ├─ system.html
 │  ├─ management.html
@@ -70,7 +73,7 @@
 │  ├─ past/
 │  └─ past-problems/
 │
-├─ sources/              # 過去問PDF
+├─ sources/
 ├─ tools/
 │  └─ check-json.html
 └─ docs/
@@ -81,20 +84,9 @@
 
 ## 用語ページの設計
 
-情報セキュリティ・ネットワーク・データベースは、同じ表示エンジン `js/term-page.js` を使います。
+情報セキュリティ・ネットワーク・データベースは同じ表示エンジン `js/term-page.js` を使います。
 
-各HTMLは、ページ固有の説明と次の設定だけを持ちます。
-
-```js
-window.TERM_PAGE_CONFIG = {
-  subject: '情報セキュリティ',
-  termsManifest: 'security-terms-manifest.json',
-  detailsManifest: 'security-details-manifest.json',
-  storageKey: 'security-terms-checked',
-  fallbackIdPrefix: 'sec',
-  rootPath: '../'
-};
-```
+各HTMLはページ固有の説明と `window.TERM_PAGE_CONFIG` を中心に持ち、検索・カード生成・進捗処理を個別コピーしません。
 
 共通機能:
 
@@ -110,7 +102,7 @@ window.TERM_PAGE_CONFIG = {
 - 目次ハイライト
 - ID・term・categoryの基本整合警告
 
-新しい用語単元を追加するときは `html/template.html` を使い、同じ処理をHTMLへコピーしないでください。
+新しい用語単元を追加するときは `html/template.html` を使います。
 
 ## データ構成
 
@@ -125,8 +117,6 @@ window.TERM_PAGE_CONFIG = {
 - `aliases`
 - `category`
 - `definition`
-
-検索・一覧表示に必要な短い情報だけを入れます。
 
 ### 詳細解説
 
@@ -160,6 +150,26 @@ window.TERM_PAGE_CONFIG = {
 
 解説側 `sections[].answerTargets` と問題文側 `questions[].targets` は一致させます。
 
+## テスト
+
+通常テスト `html/test.html` は、セキュリティ・ネットワーク・データベースの最新用語JSONから問題を生成します。
+
+現在の機能:
+
+- 3分野ミックス / 分野指定
+- 問題数指定
+- 説明→用語
+- 用語→説明
+- ミックス出題
+- 同カテゴリ中心の紛らわしい選択肢
+- 正解語・別名が説明文に含まれる場合の自動マスク
+- 1〜4キー回答
+- Enterで次へ
+- 間違えた問題だけ再テスト
+- 辞書カードへの復習リンク
+
+以前の手作りAP本番風問題は失わないよう `html/test-legacy.html` に一時保存しています。今後、良い問題だけを専用JSONへ抽出した後にlegacyページを削除できます。
+
 ## 保存データ
 
 習得済み状態は `localStorage` に保存します。
@@ -170,7 +180,7 @@ window.TERM_PAGE_CONFIG = {
 | ネットワーク | `network-terms-checked` |
 | データベース | `database-terms-checked` |
 
-これらのキーや既存用語IDを変更すると進捗が消える可能性があります。変更自体は禁止ではありませんが、必要なら移行処理を用意してください。
+これらのキーや既存用語IDを変更すると進捗が消える可能性があります。必要なら移行処理を用意します。
 
 ## 利用方法
 
@@ -178,7 +188,7 @@ window.TERM_PAGE_CONFIG = {
 
 ### GitHub Pages
 
-GitHub Pagesを有効にした場合は、ルートの `index.html` からそのまま利用できます。
+GitHub Pagesを有効にした場合はルートの `index.html` から利用できます。
 
 想定URL:
 
@@ -192,9 +202,9 @@ JSONを `fetch()` するため、`file://` 直開きではなくLive Server等�
 
 ## 品質チェック
 
-`tools/check-json.html` をHTTP経由で開き、チェックを実行します。
+`tools/check-json.html` をHTTP経由で開きます。
 
-現在の検査対象:
+検査対象:
 
 - セキュリティ用語・詳細
 - ネットワーク用語・詳細
@@ -224,25 +234,23 @@ JSONを `fetch()` するため、`file://` 直開きではなくLive Server等�
 
 ## 現在分かっている改善対象
 
-### 1. テストページ
+### 1. 過去問ページ
 
-`html/test.html` は昔の用語データをHTML内JavaScriptに別管理しており、現在の用語JSONと二重管理になっています。
+過去データには `studyChecklist` と `reviewChecklist` など、時期によるフィールド名の揺れがあります。表示側で吸収するか、データを統一します。
 
-今後は次の形へ移行します。
+`security-past.html` 自体もCSS/JSがHTML内に多く残っており、今後外部化できます。
 
-- 通常問題: 最新のセキュリティ/ネットワーク/DB JSONから生成
-- 手作りのAP本番風問題: 専用JSONへ分離して維持
-- 苦手問題・正答率などの学習履歴を追加検討
+### 2. 旧テストの手作り問題
 
-手作り問題を失わないため、今回の整理ではまだ置き換えていません。
+`test-legacy.html` から価値のある本番風問題だけを専用JSONへ移し、通常テストに「本番風モード」として統合する余地があります。
 
-### 2. 過去問ページ
+### 3. 準備中単元
 
-過去のデータには `studyChecklist` と `reviewChecklist` など、時期によるフィールド名の揺れがあります。画面側またはデータ側を次回整理します。
+アルゴリズム、システム開発、プロジェクト管理を追加する場合は、現在の共通用語ページ方式を利用できます。
 
-### 3. 実ブラウザ検証
+### 4. 実ブラウザ検証
 
-GitHub上のファイル構成・コードは確認できますが、今回の作業ではGitHub Pages上での実クリック確認までは実施できていません。
+GitHub上の構成・コードは確認していますが、今回の作業ではGitHub Pages上での実クリック確認までは実施できていません。
 
 ## 開発方針
 
@@ -254,4 +262,4 @@ GitHub上のファイル構成・コードは確認できますが、今回の�
 4. 保守・修正のしやすさ
 5. 見た目
 
-大きく変えた方が良い場合は、現在の構成を守ることより改善を優先します。ただしデータ破損や進捗消失を伴う変更は、影響を確認してから行います。
+大きく変えた方が良い場合は、現在の構成を守ることより改善を優先します。ただしデータ破損や進捗消失を伴う変更は影響を確認してから行います。
