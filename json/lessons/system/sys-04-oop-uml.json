@@ -1,0 +1,16 @@
+{
+  "meta":{"schemaVersion":1,"id":"SYS-04","title":"オブジェクト指向とUML","unitId":"system-development","officialMiddleCodes":[12],"officialAreas":["設計"],"qualityStatus":"individual-v1","legacySource":"system","legacyTermIds":["term-sys-025","term-sys-026","term-sys-027","term-sys-028","term-sys-029","term-sys-030","term-sys-031","term-sys-032","term-sys-033","term-sys-034","term-sys-035","term-sys-036","term-sys-037"],"estimatedMinutes":35},
+  "intro":"オブジェクト指向は用語暗記より、責務を持つオブジェクト同士がどう関係し、UMLのどの図で何を表すかを対応させると理解しやすくなります。",
+  "objectives":["クラスとインスタンスを区別できる。","カプセル化・継承・多相性・抽象化を説明できる。","代表UML図を目的別に選べる。"],
+  "sections":[
+    {"type":"comparison","title":"1. オブジェクト指向の主要概念","columns":["概念","意味","例"],"rows":[["クラス","共通する属性・操作の設計図","Userクラス"],["インスタンス","クラスから生成された実体","userA"],["カプセル化","内部状態への直接操作を制限","balanceをprivateにする"],["継承","既存型の性質を引き継ぐ","Employee ← Manager"],["ポリモーフィズム","同じ操作名で型に応じた処理","draw()を各図形が実装"],["抽象化","本質的特徴だけ取り出す","支払方法をPaymentとして扱う"]],"note":"『情報隠蔽』は外部から内部実装を隠す設計原則で、カプセル化と密接ですが完全な同義語として固定しません。"},
+    {"type":"comparison","title":"2. UML図を目的で選ぶ","columns":["図","主に表すもの","典型質問"],"rows":[["ユースケース図","利用者と機能","誰が何を使うか"],["クラス図","静的構造・関連","どのクラスがどう関係するか"],["シーケンス図","時間順のメッセージ","処理時に誰が誰を呼ぶか"],["アクティビティ図","処理・業務フロー","分岐や並行を含む流れ"],["状態遷移図","状態とイベント","イベントで状態がどう変わるか"]],"note":"静的構造ならクラス図、時間順の相互作用ならシーケンス図というように『何を見たいか』で選びます。"},
+    {"type":"diagram","title":"3. クラスとインスタンスの関係","diagrams":[{"label":"Userクラスから2つの実体","connector":"→","nodes":[{"title":"Class","value":"User"},{"title":"Instance","value":"userA"},{"title":"Instance","value":"userB"}],"note":"クラスは設計図、インスタンスは個別の実体です。"}]},
+    {"type":"mistakes","title":"4. 混同しやすい点","items":["クラス図は処理の時間順を表す図ではない。","継承はコード再利用だけが目的ではなく、型の階層関係を表す。","ポリモーフィズムは単なる関数名の重複ではなく、同じ操作で対象に応じた振る舞いを選べる性質。"]}
+  ],
+  "checks":[
+    {"id":"sys04-q1","prompt":"注文処理でオブジェクト間メッセージの時間順を表したい。最適なUML図は？","options":["クラス図","シーケンス図","ユースケース図","状態遷移図"],"answerIndex":1,"explanation":"時間順のメッセージ交換はシーケンス図です。"},
+    {"id":"sys04-q2","prompt":"内部データを直接変更させず、公開メソッド経由で操作させる考え方に最も近いのは？","options":["カプセル化","PERT","EVM","可用性"],"answerIndex":0,"explanation":"内部状態への直接アクセスを制限するのはカプセル化です。"},
+    {"id":"sys04-q3","prompt":"同じdraw()呼出しでもCircleとRectangleで異なる処理を実行する性質は？","options":["継承","ポリモーフィズム","凝集度","トレーサビリティ"],"answerIndex":1,"explanation":"同じ操作に対して型ごとに異なる振る舞いを選べるのが多相性です。"}
+  ]
+}
