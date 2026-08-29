@@ -13,7 +13,9 @@ const domains = [
 const errors=[];
 const notes=[];
 const fail=msg=>errors.push(msg);
-const readJson=rel=>JSON.parse(fs.readFileSync(path.join(ROOT,rel),'utf8'));
+const cleanText=text=>String(text).replace(/^\uFEFF/,'');
+const parseJsonText=text=>JSON.parse(cleanText(text));
+const readJson=rel=>parseJsonText(fs.readFileSync(path.join(ROOT,rel),'utf8'));
 const exists=rel=>fs.existsSync(path.join(ROOT,rel));
 const expected=(m,key)=>Number.isFinite(Number(m?.meta?.[key]))?Number(m.meta[key]):(m.files||[]).reduce((s,x)=>s+Number(x.count||0),0);
 const sameMembers=(a,b)=>{const x=[...(a||[])].map(String).sort(),y=[...(b||[])].map(String).sort();return x.length===y.length&&x.every((v,i)=>v===y[i]);};
@@ -21,7 +23,7 @@ const sameMembers=(a,b)=>{const x=[...(a||[])].map(String).sort(),y=[...(b||[])]
 function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>{const full=path.join(dir,entry.name);return entry.isDirectory()?walk(full):[full];});}
 
 for(const file of walk(ROOT).filter(file=>file.endsWith('.json'))){
-  try{JSON.parse(fs.readFileSync(file,'utf8'));}
+  try{parseJsonText(fs.readFileSync(file,'utf8'));}
   catch(error){fail(`JSON parse: ${path.relative(ROOT,file)}: ${error.message}`);}
 }
 
