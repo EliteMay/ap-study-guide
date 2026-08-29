@@ -1,60 +1,25 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>プロジェクト管理 | AP Study Notes</title>
-<link href="../css/style.css" rel="stylesheet"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>プロジェクト管理用語まとめ | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/term-page.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
-
-<nav class="unit-nav">
-  <div class="container">
-    <span class="unit-nav-label">AP 単元一覧</span>
-    <ul class="unit-nav-list">
-      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
-      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
-      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
-      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
-      <li><a href="management.html" class="unit-nav-link is-current" aria-current="page">📋 プロジェクト管理</a></li>
-      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
-    </ul>
-  </div>
-</nav>
-
-<header class="site-header">
-  <div class="container">
-    <p class="eyebrow">AP Study Notes</p>
-    <h1>プロジェクト管理</h1>
-    <p class="lead">このページは現在作成中です。テンプレートを使って内容を追加してください。</p>
-  </div>
-</header>
-
-<main id="main-content">
-  <section class="section">
-    <div class="container">
-      <div class="card coming-card">
-        <div class="coming-icon">📋</div>
-        <h2 class="coming-title">プロジェクト管理 — 準備中</h2>
-        <p class="coming-desc">
-          WBS・ガントチャート・PMBOK・アジャイルなどを追加予定です。<br>
-          <code>template.html</code> をコピーして、このページの内容を作成できます。
-        </p>
-        <a href="../index.html" class="back-home-btn">← ホームに戻る</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-footer">
-  <div class="container">
-    <p>AP Study Notes</p>
-    <p class="small">応用情報技術者試験 学習用ページ</p>
-  </div>
-</footer>
-
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link is-current" aria-current="page">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+</ul></div></nav>
+<header class="site-header"><div class="container"><p class="eyebrow">Project Management Study Notes</p><h1>プロジェクト管理用語まとめ</h1><p class="lead">WBS、PERT、EVM、品質・リスク、調達、アジャイル、ITサービス管理まで、図表と数値を読める形で整理します。</p><p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p><div class="search-wrap"><input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off"><span id="search-count" class="search-count" hidden></span></div><div class="filter-row"><select id="category-filter" class="category-select" aria-label="カテゴリで絞り込み"><option value="">すべてのカテゴリ</option></select><button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button><span id="filter-status" class="filter-status">読み込み中...</span></div><div class="progress-wrap"><span class="progress-label">習得済み: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span><div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div><button class="progress-reset" id="progress-reset" type="button">リセット</button></div></div></header>
+<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
+<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>WBSと日程をつなぐ</h3><p>作業分解だけで終わらず、依存関係とクリティカルパスまでつなげます。</p></div><div class="study-guide-card"><h3>EVMは3値を固定する</h3><p>PV=計画、EV=出来高、AC=実コストを先に書いてから差異・指数を計算します。</p></div><div class="study-guide-card"><h3>役割を混同しない</h3><p>品質保証/品質管理、インシデント/問題管理、スクラムの役割を目的で分けます。</p></div><div class="study-guide-card"><h3>☆ 復習→テスト</h3><p>式や似た管理手法は復習リストに残し、テストで繰り返します。</p></div></div></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストを組み合わせて絞り込めます。</p><div id="term-index-groups"></div></div></section>
+<main id="main-content"><div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div><div id="term-sections"></div></main>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
+<script>window.TERM_PAGE_CONFIG={subject:'プロジェクト管理',pageKey:'management',pagePath:'html/management.html',termsManifest:'management-terms-manifest.json',storageKey:'management-terms-checked',fallbackIdPrefix:'pm',rootPath:'../',generateDetails:true};</script>
+<script src="../js/shell.js" defer></script><script src="../js/term-page.js" defer></script>
 </body>
 </html>
