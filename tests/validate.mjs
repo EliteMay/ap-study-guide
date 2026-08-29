@@ -27,6 +27,36 @@ for(const file of walk(ROOT).filter(file=>file.endsWith('.json'))){
   catch(error){fail(`JSON parse: ${path.relative(ROOT,file)}: ${error.message}`);}
 }
 
+try{
+  const curriculum=readJson('json/curriculum/ap-2026-map.json');
+  const majors=Array.isArray(curriculum.majorCategories)?curriculum.majorCategories:[];
+  const middles=Array.isArray(curriculum.middleCategories)?curriculum.middleCategories:[];
+  const units=Array.isArray(curriculum.studyUnits)?curriculum.studyUnits:[];
+  if(curriculum.meta?.syllabusVersion!=='7.2')fail(`curriculum: syllabusVersion ${curriculum.meta?.syllabusVersion||'missing'} != 7.2`);
+  if(majors.length!==9)fail(`curriculum: major category count ${majors.length} != 9`);
+  if(middles.length!==23)fail(`curriculum: middle category count ${middles.length} != 23`);
+  if(units.length!==13)fail(`curriculum: study unit count ${units.length} != 13`);
+  const middleCodes=middles.map(item=>Number(item.code));
+  const expectedMiddleCodes=Array.from({length:23},(_,i)=>i+1);
+  if(!sameMembers(middleCodes,expectedMiddleCodes))fail('curriculum: middle category codes must be 1..23');
+  const majorCodes=new Set(majors.map(item=>Number(item.code)));
+  for(const middle of middles)if(!majorCodes.has(Number(middle.majorCode)))fail(`curriculum: middle ${middle.code} references unknown major ${middle.majorCode}`);
+  const allowedStatuses=new Set(['existing-needs-audit','partial','missing']);
+  const mappedCodes=[];
+  const unitIds=new Set();
+  for(const unit of units){
+    if(!unit.id||unitIds.has(unit.id))fail(`curriculum: invalid or duplicate study unit id ${unit.id||'missing'}`);
+    unitIds.add(unit.id);
+    if(!allowedStatuses.has(unit.coverage))fail(`curriculum: ${unit.id} invalid coverage ${unit.coverage}`);
+    for(const code of unit.officialMiddleCodes||[]){
+      if(!expectedMiddleCodes.includes(Number(code)))fail(`curriculum: ${unit.id} unknown middle code ${code}`);
+      mappedCodes.push(Number(code));
+    }
+  }
+  if(mappedCodes.length!==23||new Set(mappedCodes).size!==23||!sameMembers(mappedCodes,expectedMiddleCodes))fail('curriculum: 13 study units must cover every middle category 1..23 exactly once');
+  notes.push('curriculum: 9 major / 23 middle / 13 study units OK');
+}catch(error){fail(`curriculum: ${error.message}`);}
+
 for(const [id,termManifestPath,detailManifestPath] of domains){
   try{
     const tm=readJson(termManifestPath);
@@ -89,7 +119,7 @@ try{
   notes.push('security past questions OK');
 }catch(error){fail(`past: ${error.message}`);}
 
-const mainPages=['index.html','html/security.html','html/network.html','html/database.html','html/algorithm.html','html/system.html','html/management.html','html/security-past.html','html/test.html'];
+const mainPages=['index.html','html/roadmap.html','html/security.html','html/network.html','html/database.html','html/algorithm.html','html/system.html','html/management.html','html/security-past.html','html/test.html'];
 for(const page of mainPages){
   if(!exists(page)){fail(`missing page: ${page}`);continue;}
   const html=fs.readFileSync(path.join(ROOT,page),'utf8');
