@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"updated":"2026-08-30","structuredLessons":118,"policy":"ap-2026-map.jsonは公式分類の正本、当Fileは教材進捗・Hub導線のOverlayとして扱う。"},
+  "overrides":{
+    "foundation-theory":{"coverage":"partial","hubHref":"unit.html?unit=foundation-theory","auditNote":"FND-01〜07で論理演算、数値表現、離散数学、確率統計、情報量、待ち行列、計測制御を教材化。今後は過去問対応と演習量を増やす。"},
+    "algorithm-programming":{"coverage":"partial","hubHref":"algorithm.html","auditNote":"旧65語を65/65移行しALG-01〜11、PROG-01〜04で構造化。最近の過去問・本番型擬似言語演習を追加する。"},
+    "computer-systems":{"coverage":"partial","hubHref":"computer.html","auditNote":"CMP-01〜12で中分類3〜6のCPU、Memory、I/O、OS、System構成、性能、信頼性、Storage、Middleware、Hardware、Virtualization、Cloudを教材化。"},
+    "ui-media":{"coverage":"partial","hubHref":"unit.html?unit=ui-media","auditNote":"UIM-01〜03、MED-01〜03でUI/UX/Accessibility/情報設計、画像、音声、動画、圧縮を新規教材化。"},
+    "database":{"coverage":"partial","hubHref":"database.html","auditNote":"旧229語を229/229で監査・DB-01〜14へ一意割当。SQL/正規化/Transaction/性能/分散/分析を教材化。"},
+    "network":{"coverage":"partial","hubHref":"network.html","auditNote":"旧480語を480/480で監査しNET-01〜14へ再教材化。Security由来通信基礎もNetworkへ再配置済み。"},
+    "security":{"coverage":"partial","hubHref":"security.html","auditNote":"旧501語を501/501監査。SEC-01〜12へ統合し132語を公式分野へ再配置。攻撃→成立条件→観測→影響→対策で教材化。"},
+    "system-development":{"coverage":"partial","hubHref":"system.html","auditNote":"SYS-01〜08とDEV-01で開発工程、設計、実装品質、Test、構成管理、Agileを教材化。"},
+    "project-management":{"coverage":"partial","hubHref":"management.html","auditNote":"PM-01〜06でWBS、PERT、EVM、品質、Risk、調達/変更を教材化。"},
+    "service-audit":{"coverage":"partial","hubHref":"unit.html?unit=service-audit","auditNote":"SVC-01〜03、AUD-01〜02でSLA/ITSM、変更/構成/継続性、Facility、System監査、監査証拠/CAATを教材化。"},
+    "strategy-planning":{"coverage":"partial","hubHref":"unit.html?unit=strategy-planning","auditNote":"STR-01〜05でSystem企画/RFP、情報System戦略、BPR/BPM/EA、Solution/Outsourcing、活用促進/効果評価を教材化。"},
+    "business-accounting":{"coverage":"partial","hubHref":"unit.html?unit=business-accounting","auditNote":"BUS-01〜09で経営戦略、Marketing、KPI/BSC、技術戦略、Business System/IoT、組織、財務諸表、BEP/ROI/NPVを新規教材化。"},
+    "law-standards":{"coverage":"partial","hubHref":"unit.html?unit=law-standards","auditNote":"LAW-01〜04でSecurity法規、知財/License/契約、労働/取引/倫理、ISO/JIS等の標準化を教材化。"}
+  }
+}
