@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "id": "PROG-04",
+    "title": "Web・マークアップ・データ記述言語",
+    "unitId": "algorithm-programming",
+    "officialMiddleCodes": [2],
+    "officialAreas": ["その他の言語"],
+    "qualityStatus": "individual-v1",
+    "replacesTemplateFor": [],
+    "estimatedMinutes": 25
+  },
+  "intro": "HTML・XML・JSON・YAML・CSS・UMLなどは、全部を『プログラミング言語』として一括りにすると混乱します。この教材では『何を表すための言語/記法か』で分類し、Web文書、データ交換、スタイル、変換、モデリングの役割を比較します。",
+  "objectives": [
+    "HTML/XML/XHTMLの役割の違いを説明できる。",
+    "CSSが文書構造ではなく見た目を指定するための仕組みであることを説明できる。",
+    "JSONとYAMLをデータ記述形式として比較できる。",
+    "XSLがXML文書の変換・表示と関係することを説明できる。",
+    "UMLをソフトウェアやシステムを図で表現するモデリング言語として位置付けられる。"
+  ],
+  "sections": [
+    {"type":"comparison","title":"1. まず『何を表すか』で分類する","columns":["言語/記法","主用途","代表的に表すもの"],"rows":[["HTML","Web文書の構造","見出し、段落、リンク、表"],["CSS","文書の見た目","色、余白、レイアウト"],["XML","汎用的な階層データ記述","独自タグを使う構造化データ"],["XHTML","XML規則に沿ったHTML系文書","より厳格な文書構造"],["JSON","軽量なデータ交換/保存","object / array / string / number等"],["YAML","人が読み書きしやすい設定・データ記述","キーと値、配列、階層"],["UML","システム/ソフトウェアのモデリング","クラス図、シーケンス図等"]],"note":"『実行する処理手順』ではなく『構造・データ・見た目・モデルを記述する』ものが多い分野です。"},
+    {"type":"comparison","title":"2. HTML・XML・XHTML","columns":["項目","HTML","XML","XHTML"],"rows":[["主目的","Web文書を記述","汎用データを構造化","HTMLをXML規則で表現"],["タグ","用途が定義された要素を使う","用途に応じ独自タグを定義可能","HTML要素をXML準拠で厳格に記述"],["主な利用イメージ","Webページ","データ交換・設定・文書形式","XML互換性を重視したWeb文書"]],"note":"XMLはHTMLの『上位版』ではなく目的が違います。"},
+    {"type":"code-trace","title":"3. JSONの構造を読む","question":"次のJSONでusers配列の2人目のnameは？","code":["{","  \"users\": [","    {\"name\": \"Aki\", \"score\": 80},","    {\"name\": \"Mio\", \"score\": 92}","  ]","}"],"traceColumns":["段階","見る場所"],"traceRows":[["1","root objectのusersキー"],["2","usersはarray"],["3","index 1のobject"],["4","nameキー = Mio"]],"answer":"Mio","explanation":"JSONはobjectとarrayの入れ子を追います。文字列・数値・真偽・nullなど値型も区別します。"},
+    {"type":"comparison","title":"4. JSONとYAML","columns":["観点","JSON","YAML"],"rows":[["記号","{} [] , : を明示","インデント中心で簡潔に書ける"],["機械処理","広く利用","設定ファイル等で広く利用"],["人間の編集","構文が明確","読みやすいがインデントに注意"],["コメント","標準JSONではコメントを持たない","コメントを記述可能"]],"note":"どちらもデータ記述に使えますが、構文と用途の慣習が異なります。"},
+    {"type":"text","title":"5. CSSはHTMLの内容ではなく表示を担当する","paragraphs":["HTMLで『これは見出し』『これは段落』という構造を表し、CSSで色・大きさ・配置などの見た目を指定します。","構造と表現を分離すると、同じHTMLへ異なるデザインを適用したり、保守しやすくしたりできます。","CSSをHTMLの一種や、一般的な処理手順を記述するプログラミング言語として扱わないようにします。"]},
+    {"type":"text","title":"6. XSLはXMLの変換・表示と関係する","paragraphs":["XSLはXML文書をどのように表示・変換するかに関係する仕組みの総称的な文脈で登場します。XSLTではXML文書を別のXMLやHTML等へ変換できます。","試験ではXMLそのもの、XMLの表示/変換、Web文書HTMLを区別します。"]},
+    {"type":"comparison","title":"7. UMLは実行用コードではなくモデルを表す","columns":["図","何を見るか","例"],"rows":[["クラス図","クラス・属性・操作・関係","静的構造"],["シーケンス図","オブジェクト間メッセージの時間順","処理のやり取り"],["ユースケース図","利用者とシステム機能の関係","要求・利用場面"],["アクティビティ図","処理や業務の流れ","分岐・並行処理"]],"note":"UMLはシステム開発ユニットでも詳しく扱う横断項目です。ここでは『モデリング言語』という位置付けを押さえます。"},
+    {"type":"steps","title":"8. 言語/記法を見分ける手順","items":[{"label":"① 処理を書くのか、構造を書くのか","body":"実行手順ならプログラミング言語、文書/データ構造ならマークアップ・データ記述を疑います。"},{"label":"② Web文書かデータ交換か","body":"Web文書構造ならHTML、汎用データならXML/JSON/YAMLなどを比較します。"},{"label":"③ 見た目かモデルか","body":"見た目ならCSS、設計モデルならUMLなど役割を分けます。"}]},
+    {"type":"mistakes","title":"9. よくある失点","items":["XMLをHTMLの新しい版だと思う。","CSSを文書構造そのものを定義する言語だと思う。","JSONに標準コメント構文があると思う。","YAMLのインデントを意味のない空白だと思う。","UMLを実行可能なプログラムコードだと思う。","XSLとXMLを同じ役割だと思う。"]}
+  ],
+  "checks": [
+    {"id":"PROG-04-Q1","prompt":"Web文書の構造を記述する代表的言語は？","options":["HTML","CSS","Dijkstra","BNFだけ"],"answerIndex":0,"explanation":"HTMLはWeb文書構造を表します。"},
+    {"id":"PROG-04-Q2","prompt":"Webページの色や余白、レイアウトを主に指定するのは？","options":["XML","CSS","JSON","UML"],"answerIndex":1,"explanation":"CSSは表示・スタイルを担当します。"},
+    {"id":"PROG-04-Q3","prompt":"JSONの説明として適切なのは？","options":["軽量なデータ記述/交換形式","ソートアルゴリズム","木構造専用言語","画像圧縮方式"],"answerIndex":0,"explanation":"object/array等でデータを記述します。"},
+    {"id":"PROG-04-Q4","prompt":"YAMLで特に意味を持ちやすいものは？","options":["インデント","pivot","queueのrear","二分探索のmid"],"answerIndex":0,"explanation":"階層構造をインデントで表します。"},
+    {"id":"PROG-04-Q5","prompt":"XML文書の変換と特に関係が深いものは？","options":["XSL/XSLT","CSSだけ","DFS","heap sort"],"answerIndex":0,"explanation":"XSLTはXMLを別形式へ変換する用途があります。"},
+    {"id":"PROG-04-Q6","prompt":"UMLの位置付けとして適切なのは？","options":["モデリング言語","ハッシュ関数","プログラム実行エンジン","データ圧縮方式"],"answerIndex":0,"explanation":"システム構造や振る舞いを図で表現します。"}
+  ],
+  "next": []
+}
