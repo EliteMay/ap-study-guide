@@ -1,0 +1,17 @@
+{
+  "meta":{"schemaVersion":1,"id":"SYS-06","title":"構成管理・CI/CD・DevOps","unitId":"system-development","officialMiddleCodes":[13],"officialAreas":["開発環境管理","構成管理・変更管理"],"qualityStatus":"individual-v1","legacySource":"system","legacyTermIds":["term-sys-040","term-sys-041","term-sys-042","term-sys-043","term-sys-044","term-sys-045","term-sys-046","term-sys-047","term-sys-048","term-sys-049","term-sys-071","term-sys-072"],"estimatedMinutes":30},
+  "intro":"Git操作・構成管理・CI/CD・DevOpsを別々に暗記せず、『変更を識別し、統合し、自動検証し、安全に届ける』一本の流れで理解します。",
+  "objectives":["バージョン管理と構成管理の違いを説明できる。","ブランチ・マージ・ベースラインの役割を説明できる。","CIとCDを区別できる。","DevOpsとIaCが何を改善するか説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 変更を届ける流れ","diagrams":[{"label":"コード変更からリリース候補まで","connector":"→","nodes":[{"title":"Repository","value":"変更履歴"},{"title":"Branch","value":"独立作業"},{"title":"Merge","value":"統合"},{"title":"CI","value":"build + test"},{"title":"CD","value":"配布可能/自動配布"}],"note":"Gitはバージョン管理ツールの一例。構成管理はソースだけでなく設定・文書・ライブラリなど管理対象全体を扱います。"}]},
+    {"type":"comparison","title":"2. 似た言葉を分離する","columns":["概念","中心目的","代表例"],"rows":[["バージョン管理","変更履歴・差分・復元","Git"],["構成管理","構成品目と承認済み状態を管理","ソース、設定、文書、ライブラリ"],["CI","変更を頻繁に統合し自動検証","build/test"],["Continuous Delivery","常にリリース可能に保つ","本番反映前まで自動化"],["Continuous Deployment","検証後そのまま本番へ自動反映","自動deploy"],["IaC","インフラ構成をコード化","再現可能な環境構築"]],"note":"CDという略語はDelivery/Deployment両方に使われるため、問題文の定義を確認します。"},
+    {"type":"text","title":"3. ベースラインとは何か","paragraphs":["ベースラインは正式に承認され、以後の変更管理の基準になる状態です。","単に『最新バージョン』という意味ではなく、承認済みの基準点という点が重要です。","変更要求が出たら影響を評価し、承認後にベースラインを更新します。"]},
+    {"type":"text","title":"4. DevOpsはツール名ではない","paragraphs":["DevOpsは開発と運用が協力し、自動化・計測・継続的改善によって安全かつ速く価値を届ける考え方です。","CI/CDやIaC、監視はDevOpsを実現する代表手段ですが、それらを導入しただけで組織連携の問題が自動的に解決するわけではありません。"]},
+    {"type":"mistakes","title":"5. よくある混同","items":["Git=構成管理すべて、ではない。Gitは主にバージョン管理の道具。","CIは本番デプロイそのものではない。まず統合と自動検証。","Continuous DeliveryとContinuous Deploymentは自動化範囲が違う。"]}
+  ],
+  "checks":[
+    {"id":"sys06-q1","prompt":"変更を頻繁に統合し、自動ビルド・テストで問題を早期検出するのは？","options":["CI","SLA","PERT","受入テスト"],"answerIndex":0,"explanation":"Continuous Integrationの中心は頻繁な統合と自動検証です。"},
+    {"id":"sys06-q2","prompt":"正式承認され、以後の変更管理の基準となる状態は？","options":["ブランチ","ベースライン","インクリメント","フロート"],"answerIndex":1,"explanation":"承認済みの基準状態がベースラインです。"},
+    {"id":"sys06-q3","prompt":"インフラ構成をコード化して同じ環境を再現しやすくする考え方は？","options":["IaC","EVM","UML","QC"],"answerIndex":0,"explanation":"Infrastructure as Codeはインフラ構成をコードとして管理します。"}
+  ]
+}
