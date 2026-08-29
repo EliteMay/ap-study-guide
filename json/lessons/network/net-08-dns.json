@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-08","title":"DNSと名前解決","unitId":"network","officialMiddleCodes":[10],"officialAreas":["通信プロトコル","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-dns-","from":1,"to":40}],"estimatedMinutes":40},
+  "intro":"DNSはrecord名を暗記するより、client→cache DNS→root→TLD→authoritativeという問い合わせ経路と、A/AAAA/MX/CNAME/PTR等が何を返すかを追う方が重要です。",
+  "objectives":["DNS階層とrecursive/iterative queryを説明できる。","主要resource recordの役割を区別できる。","TTLとcacheが変更反映へ与える影響を説明できる。","forward/reverse lookupとzoneの考え方を説明できる。","DNSSEC・cache poisoning・open resolverの関係を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 名前解決は階層をたどる","diagrams":[{"label":"www.example.comを解決","connector":"→","nodes":[{"title":"Client","value":"resolver"},{"title":"Cache DNS","value":"recursive query"},{"title":"Root","value":".comはTLDへ"},{"title":"TLD","value":"example.comのNSへ"},{"title":"Authoritative","value":"A/AAAAを回答"},{"title":"Cache DNS","value":"TTLの間cache"}]}]},
+    {"type":"comparison","title":"2. recursiveとiterative","columns":["query","誰が最後まで調べるか","典型"],"rows":[["recursive","問い合わせを受けたresolver側","端末→cache DNS"],["iterative","質問者が紹介先へ順番に問い合わせ","cache DNS→root/TLD/authoritative"]],"note":"実際の実装には差がありますが、試験では『最終回答まで依頼するか、次の問い合わせ先を返すか』で区別します。"},
+    {"type":"comparison","title":"3. 主要DNS record","columns":["record","何を表す"],"rows":[["A","name→IPv4"],["AAAA","name→IPv6"],["CNAME","別のcanonical nameへのalias"],["MX","mail受信server"],["NS","zoneを管理するname server"],["PTR","IP→nameのreverse lookup"],["TXT","任意文字列/SPF等"],["SOA","zone管理情報"],["SRV","service/port/host"],["CAA","証明書発行を許可するCA"]],"note":"record名だけでなく『入力が何で、何を返すか』を意識します。"},
+    {"type":"code-trace","title":"4. TTL変更反映を読む","question":"example.comのA record TTLが3600秒。address変更直後、あるcache DNSが旧recordを10分前にcacheしていた。すぐ新addressになるか。","code":["TTL = 3600 sec","cached 600 sec ago","remaining = 3000 sec"],"traceColumns":["状態","結果"],"traceRows":[["cache有効","旧回答を返し得る"],["TTL満了後","authoritativeへ再問い合わせ"]],"answer":"そのcacheでは直ちに切り替わらない可能性がある。","explanation":"DNS変更前にTTLを短くする運用は、切替時のcache残存時間を小さくする狙いがあります。"},
+    {"type":"comparison","title":"5. DNSを守る仕組み","columns":["項目","目的"],"rows":[["DNSSEC","署名でDNS dataの真正性/完全性を検証"],["DNS cache poisoning","偽情報をcacheへ混入させる攻撃"],["open resolver","誰でもrecursive query可能で反射攻撃等に悪用され得る"],["DoH/DoT","client-resolver間DNS queryを暗号化"],["split DNS","問い合わせ元により内部/外部で異なる回答"]],"note":"DNSSECはDNS query自体を暗号化する仕組みではありません。DoH/DoTとの役割を分けます。"},
+    {"type":"steps","title":"6. DNS障害の切り分け","items":[{"label":"① IP直打ち","body":"IPでは届くならname resolution側を疑う。"},{"label":"② resolver設定","body":"端末がどのDNS serverへ問い合わせているか確認。"},{"label":"③ nslookup/dig","body":"A/AAAA/CNAMEや応答server、rcode等を確認。"},{"label":"④ authoritative","body":"正式recordが正しいか確認。"},{"label":"⑤ cache/TTL","body":"変更後なら古いcacheが残っていないか確認。"}]},
+    {"type":"mistakes","title":"7. よくある混同","items":["CNAMEにIP addressを直接書くrecordだと思わない。","MXはmail本文を保存するrecordではなくmail exchangerを示す。","DNSSECとDoH/DoTを同じ目的としない。","TTLが0になるまでauthoritative DNS自体のrecordが変更できないわけではない。"]}
+  ],
+  "checks":[
+    {"id":"net08-q1","prompt":"hostnameからIPv4 addressを返すrecordは？","options":["A","MX","PTR","NS"],"answerIndex":0,"explanation":"A recordがIPv4 addressを示します。"},
+    {"id":"net08-q2","prompt":"IP addressからhostnameを調べるreverse lookupで主に使うrecordは？","options":["PTR","CNAME","AAAA","CAA"],"answerIndex":0,"explanation":"PTR recordを使います。"},
+    {"id":"net08-q3","prompt":"DNS dataの改ざん検出に使う仕組みは？","options":["DNSSEC","DoHだけ","NAT","STP"],"answerIndex":0,"explanation":"DNSSECは署名でDNS dataの真正性・完全性を検証します。"},
+    {"id":"net08-q4","prompt":"cache DNSがrecordを保持してよい時間を示すのは？","options":["TTL","MTU","MSS","RTO"],"answerIndex":0,"explanation":"DNS TTLがcache有効時間を示します。"}
+  ]
+}
