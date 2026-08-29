@@ -10,9 +10,7 @@ GitHub PagesまたはLive Serverで開くブラウザ検査。
 
 ## `validate.mjs`
 
-GitHub ActionsとローカルNode用の共通CI検証。
-
-実行:
+GitHub ActionsとローカルNode用の基本CI検証。
 
 ```bash
 node tests/validate.mjs
@@ -21,65 +19,60 @@ node tests/validate.mjs
 主な検査:
 
 - 全JSON構文
-- 既存6教材のmanifest / JSON件数
-- 用語ID重複・必須フィールド・category
+- 旧6教材のmanifest / JSON件数
+- 用語ID重複
+- 必須フィールド / category
 - Security / Network / Databaseのterms/details対応
 - セキュリティ過去問の問題文 / 解説 / targets
 - 主要HTMLの相対href/src
-- IPA大分類9 / 中分類23 / 学習ユニット13
-- Lesson indexのID / order / unit / 中分類
-- 個別Lesson JSON存在
-- objectives / sections / checks / next
-- renderer対応section type
-- diagram構造
-- 旧Algorithm 65語が65/65ちょうど1回ずつLessonへ割り当てられていること
+- IPA大分類9件
+- IPA中分類23件
+- 学習ユニット13件
+- 23中分類の重複なし全割当
+- Lesson ID / order / unit / middle code
+- section type / diagram / checks / next
+- Algorithm 65/65 Lesson完全割当
+
+GitHub Actionsでは全 `js/*.js` へ `node --check` も実行します。
 
 ## `validate-audits.mjs`
 
-System 75語とManagement 72語の監査・実Lesson移行専用検証。
-
-実行:
+監査結果と実際のLesson移行を突き合わせる厳格チェック。
 
 ```bash
 node tests/validate-audits.mjs
 ```
 
-検査:
+現在の対象:
 
-- System 75/75 decision
-- Management 72/72 decision
-- 監査ID重複なし
-- action値とsummary件数
-- officialMiddleCode存在
-- move-primary-unit先の13学習ユニット存在
-- 非move項目の監査target Lessonが実装済みであること
-- 全Lessonの`meta.legacyTermIds[]`を集計
-- System 75/75の未割当・重複割当禁止
-- Management 72/72の未割当・重複割当禁止
-- 非move項目は監査指定Lesson IDと一致
-- move項目は監査指定unitIdと一致
-- 割当LessonのofficialMiddleCodesが監査中分類を含むこと
+### System
 
-成功時は、System 75語 + Management 72語の **147/147が監査結果どおり実Lessonへ一意に着地している** と判断できます。
+- 75/75を監査
+- 75/75を実Lessonへちょうど1回割当
+- auditのtarget lesson/unitと実装を一致させる
 
-## GitHub Actions
+### Management
 
-`.github/workflows/validate.yml` では次を実行します。
+- 72/72を監査
+- 72/72を実Lessonへちょうど1回割当
+- Agile/Scrum・ITSMの移動先unitも検証
 
-1. 全`js/*.js`へ`node --check`
-2. `node tests/validate.mjs`
-3. `node tests/validate-audits.mjs`
+### Database
 
-古いJSONに存在するUTF-8 BOMは検証時に正規化してからJSON.parseします。
+- 229/229を監査
+- `assignmentGroups[]` のcore / supporting / mergeを集計
+- 229 IDを監査上ちょうど1回割当
+- 229 IDを実Lessonへちょうど1回割当
+- audit指定のDB-01〜14と実装Lessonを一致させる
+- `unitId=database`
+- IPA中分類9
+- 未割当 / 重複 / extra ID禁止
+- summary件数一致
+
+Databaseの初回厳格チェックでは `term-db-018` のLessonメタデータ登録漏れを実際に検出し、DB-02へ修正済みです。
 
 ## 注意
 
-これらはデータ・構文・内部参照の検証です。
+この検証はデータ・構文・内部参照を確認するもので、実機ブラウザでの全クリックや見た目を完全保証するものではありません。
 
-実ブラウザでの以下は別途確認が必要です。
-
-- PC/スマホレイアウト
-- 全ボタンクリック
-- ダークモード
-- 表/図の横スクロール
-- 実際の学習導線の使いやすさ
+公開PagesのPC/スマホ表示、ダークモード、表の横スクロール、全確認問題クリックは別途E2E確認が必要です。
