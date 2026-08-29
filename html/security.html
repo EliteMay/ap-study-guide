@@ -4,60 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
-<title>情報セキュリティ用語まとめ | AP Study Notes</title>
+<title>情報セキュリティ | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
+<link href="../css/home.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
 <link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav">
-  <div class="container">
-    <span class="unit-nav-label">AP 単元一覧</span>
-    <ul class="unit-nav-list">
-      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link is-current" aria-current="page">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
-      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
-      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
-      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
-      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
-      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
-    </ul>
-  </div>
-</nav>
-<header class="site-header">
-  <div class="container">
-    <p class="eyebrow">Security Study Notes</p>
-    <h1>情報セキュリティ用語まとめ</h1>
-    <p class="lead">暗号・認証・攻撃・防御・リスク管理まで、APで必要な情報セキュリティ用語をJSONから読み込みます。</p>
-    <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
-    <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
-      <span id="search-count" class="search-count" hidden></span>
-    </div>
-    <div class="filter-row">
-      <select id="category-filter" class="category-select" aria-label="カテゴリで絞り込み"><option value="">すべてのカテゴリ</option></select>
-      <button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button>
-      <span id="filter-status" class="filter-status">読み込み中...</span>
-    </div>
-    <div class="progress-wrap">
-      <span class="progress-label">習得済み: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span>
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
-      <button class="progress-reset" id="progress-reset" type="button">リセット</button>
-    </div>
-  </div>
-</header>
-<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>用語から仕組みまでつなげる</h3><p>短い定義だけで終わらず、具体例・試験での見方・ひっかけまで確認します。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>まだ怪しい用語は☆で残し、あとから復習リストだけに絞り込めます。</p></div><div class="study-guide-card"><h3>午後問題へつなげる</h3><p>過去問解説は専用ページに分離し、辞書カードへ相互リンクします。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
-<main id="main-content">
-  <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
-  <div id="term-sections"></div>
-</main>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link is-current" aria-current="page">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+</ul></div></nav>
+<header class="site-header"><div class="container">
+<p class="eyebrow">Security / 501 TERMS AUDITED</p><h1>情報セキュリティ</h1>
+<p class="lead">旧501語を全件監査し、369語をSEC-01〜12の主教材へ、132語をNetwork・Computer Systems・Law・System Development・Service/Auditの正しい主教材へ再配置しました。攻撃名の暗記ではなく、成立条件・観測・影響・対策をつなげて学びます。</p>
+<p class="json-note"><strong>501 / 501語</strong> を監査済み / Security主教材 <strong>12Lesson</strong> / 他分野へ再配置 <strong>132語</strong></p>
+<div class="home-actions"><a class="home-action-btn" href="lesson.html?id=SEC-01">SEC-01から始める</a><a class="home-action-btn secondary" href="security-past.html">過去問解説</a><a class="home-action-btn secondary" href="roadmap.html">学習マップ</a><a class="home-action-btn secondary" href="#word-list">旧501語索引</a></div>
+<div class="search-wrap"><input type="search" id="search-input" class="search-input" placeholder="🔍 旧501語を検索（/ キーでも検索へ移動）" autocomplete="off"><span id="search-count" class="search-count" hidden></span></div>
+<div class="filter-row"><select id="category-filter" class="category-select" aria-label="旧カテゴリで絞り込み"><option value="">すべての旧カテゴリ</option></select><button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button><span id="filter-status" class="filter-status">読み込み中...</span></div>
+<div class="progress-wrap"><span class="progress-label">既存の習得チェック: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span><div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div><button class="progress-reset" id="progress-reset" type="button">リセット</button></div>
+</div></header>
+<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#lesson-hub">12Lesson</a></li><li><a href="#audit-status">501語の再配置</a></li><li><a href="#past-link">過去問</a></li><li><a href="#word-list">旧501語索引</a></li></ul></div></nav>
+<section class="section" id="lesson-hub"><div class="container"><h2>構造化Lesson 12本</h2><p class="term-index-lead">IPA中分類11「セキュリティ」を、仕組み→攻撃→防御→運用の順で学べる構成へ再設計しています。</p>
+<h3>基礎・暗号・認証</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>SEC-01 Securityの目的・資産・脅威</h3><p>CIA、資産→脅威→脆弱性→Risk、多層防御、最小権限、Fail Safeを因果で理解します。</p><a href="lesson.html?id=SEC-01">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-02 暗号・Hash・Password保護</h3><p>AES/RSA/ECC、Hash/HMAC/署名、Salt・KDF・Argon2、IV/nonceを目的から使い分けます。</p><a href="lesson.html?id=SEC-02">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-03 PKI・証明書・TLS・鍵管理</h3><p>CA/RA/CSR、証明書Chain、CRL/OCSP、TLS鍵合意、PFS、HSMまで接続します。</p><a href="lesson.html?id=SEC-03">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-04 認証・認可・MFA・SSO</h3><p>Authentication/Authorization、MFA、Passkey、SAML/OAuth/OIDC、RBAC/ABAC/PAMを整理します。</p><a href="lesson.html?id=SEC-04">教材を開く →</a></div>
+</div>
+<h3>Application・攻撃</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>SEC-05 Web攻撃と安全な実装</h3><p>SQLi/XSS/CSRF/SSRFなどを「入力がどこで命令になるか」で見抜き、直接対策へつなげます。</p><a href="lesson.html?id=SEC-05">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-06 Mail認証・Phishing</h3><p>SPF/DKIM/DMARC、BEC、Spear Phishing、Smishing/Vishingを技術対策と人の対策で学びます。</p><a href="lesson.html?id=SEC-06">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-07 Malware・標的型攻撃</h3><p>侵入→実行→権限昇格→横展開→C2→持出し/暗号化という攻撃Life Cycleで整理します。</p><a href="lesson.html?id=SEC-07">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-08 攻撃Pattern</h3><p>Password攻撃、MITM/Replay、ARP/DNS悪用、DDoS、XXE/Buffer Overflow等を成立点で比較します。</p><a href="lesson.html?id=SEC-08">教材を開く →</a></div>
+</div>
+<h3>防御・運用・Cloud</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>SEC-09 防御機構・Hardening</h3><p>FW/IDS/IPS/WAF、EDR系、NAC/DLP/PAM、Patch・Vulnerability Managementを配置と役割で判断します。</p><a href="lesson.html?id=SEC-09">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-10 監視・Incident・Forensics</h3><p>SIEM/SOC/CSIRT、封じ込め→根絶→復旧、証拠保全、Backup、BCP/DR/RTO/RPOを時系列で学びます。</p><a href="lesson.html?id=SEC-10">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-11 ISMS・Risk・脆弱性管理</h3><p>ISO27001/27002、Risk Assessment/Treatment、CVE/CVSS、BYOD/Shadow IT/Vendor Riskを扱います。</p><a href="lesson.html?id=SEC-11">教材を開く →</a></div>
+<div class="study-guide-card"><h3>SEC-12 Cloud Security・Zero Trust</h3><p>責任共有、IAM/KMS/Secret、CASB/CSPM/CWPP/CNAPP、Microsegmentation、SASEを整理します。</p><a href="lesson.html?id=SEC-12">教材を開く →</a></div>
+</div></div></section>
+<section class="section section-alt" id="audit-status"><div class="container"><h2>旧501語の再配置</h2><div class="study-guide-grid">
+<div class="study-guide-card"><h3>369語 → Security</h3><p>暗号、認証、攻撃、防御、監視、Risk、Cloud SecurityなどをSEC-01〜12へ統合しました。</p></div>
+<div class="study-guide-card"><h3>104語 → Network</h3><p>LAN/IP/DNS/TCP/HTTP/Mail Protocol/VPN/Proxyなど純粋な通信基礎はNET-01〜14を主教材にします。</p></div>
+<div class="study-guide-card"><h3>13語 → Computer Systems</h3><p>IaaS/PaaS/SaaS、仮想化、Container、Kubernetes等の基礎をCMP-01/02へ移しました。</p></div>
+<div class="study-guide-card"><h3>10語 → Law</h3><p>個人情報保護法、不正Access禁止法、著作権、NDA、GDPR等をLAW-01へ分離しました。</p></div>
+<div class="study-guide-card"><h3>5語 → System / Service / Audit</h3><p>構成・変更管理、SLA、Security監査、内部統制は公式中分類に合わせて既存Lessonへ再配置しました。</p></div>
+<div class="study-guide-card"><h3>501/501をCIで固定</h3><p>sec-001〜501の未割当・重複・誤ったUnit/Middle Code・SEC Lesson meta不一致を自動検証します。</p></div>
+</div><p class="term-index-lead">監査: <code>json/curriculum/audits/security-audit.json</code></p></div></section>
+<section class="section" id="past-link"><div class="container"><h2>過去問で適用する</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>既存セキュリティ過去問</h3><p>用語を見た後は、構成図・ログ・攻撃経路・対策理由を問題文から判断します。既存7問の解説資産はそのまま維持しています。</p><a href="security-past.html">過去問解説を開く →</a></div><div class="study-guide-card"><h3>今後の強化</h3><p>最近の過去問へSEC-01〜12を紐付け、Attack→観測→Controlの本番型Case演習をさらに追加します。</p><a href="roadmap.html">不足範囲を見る →</a></div></div></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>旧501語索引</h2><p class="term-index-lead">検索・☆復習・既存の<code>security-terms-checked</code>進捗を維持するため残しています。旧9カテゴリは検索用の互換分類で、主教材の分類ではありません。</p><div id="term-index-groups"></div></div></section>
+<main id="main-content"><div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">旧用語データを読み込み中...</p></div></div></div><div id="term-sections"></div></main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
 <script>window.TERM_PAGE_CONFIG={subject:'情報セキュリティ',pageKey:'security',pagePath:'html/security.html',termsManifest:'security-terms-manifest.json',detailsManifest:'security-details-manifest.json',storageKey:'security-terms-checked',fallbackIdPrefix:'sec',rootPath:'../'};</script>
-<script src="../js/shell.js" defer></script>
-<script src="../js/term-page.js" defer></script>
+<script src="../js/shell.js" defer></script><script src="../js/term-page.js" defer></script>
 </body>
 </html>
