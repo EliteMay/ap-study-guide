@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"STR-02","title":"情報システム戦略・経営目標との整合","unitId":"strategy-planning","officialMiddleCodes":[17],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"IT戦略は新技術を導入する計画ではなく、経営目標・業務課題・投資制約に対して情報Systemがどんな役割を持つかを決める活動です。",
+  "objectives":["経営戦略とIT戦略の整合を説明できる。","現状/目標/Gapから施策を組み立てられる。","IT PortfolioをRiskと価値で考えられる。","CSF/KPIを目的と手段に分けて設定できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 戦略をSystemへ落とす","diagrams":[{"label":"上位目的からつなぐ","connector":"→","nodes":[{"title":"経営目標","value":"売上/Cost/顧客価値"},{"title":"業務課題","value":"何が阻害?"},{"title":"IT Capability","value":"何を支援?"},{"title":"施策","value":"Project/Service"},{"title":"KPI","value":"効果測定"}],"note":"『AIを導入する』から始めず、上位目的に対して必要なCapabilityを定義します。"}]},
+    {"type":"comparison","title":"2. 現状分析の代表視点","columns":["手法","見るもの","使い方"],"rows":[["SWOT","Strength/Weakness/Opportunity/Threat","内部/外部を整理"],["As-Is/To-Be","現状と目標状態","Gapを施策へ変換"],["Value Chain","価値を生む活動","どこをITで強化するか"],["CSF","成功に不可欠な要因","重点領域を絞る"],["KPI","進捗/成果の定量指標","施策が効いたか測る"]]},
+    {"type":"comparison","title":"3. IT Portfolioの考え方","columns":["施策","期待価値","Risk/確実性","考え方"],"rows":[["基幹更新","高","中","継続性と老朽化Risk"],["新規Digital Service","高","低〜中","小さく検証し学習"],["法令対応","直接売上は低くても必須","高確実性で実施必要","Compliance"],["重複Tool統合","Cost削減","比較的高確実性","標準化"]],"note":"売上効果だけでなく法令・Risk・継続性も投資理由になります。"},
+    {"type":"steps","title":"4. 戦略立案の流れ","items":[{"label":"① 経営目標","body":"何を達成したいかを明確にする。"},{"label":"② 現状把握","body":"業務・Data・System・Skill・Costを確認する。"},{"label":"③ Gap","body":"目標との差と原因を特定する。"},{"label":"④ Roadmap","body":"依存関係・優先度・投資を並べる。"},{"label":"⑤ KPI/Review","body":"効果を測り戦略を更新する。"}]},
+    {"type":"mistakes","title":"5. よくある誤解","items":["IT戦略は製品選定Listではない。","KPIを増やしすぎると何が重要か分からなくなる。","現状Systemを全て新しくすることが目的ではなく、Business価値/Risk/Costで判断する。","To-Beを描いても移行Roadmapと責任Ownerがなければ実行されにくい。"]}
+  ],
+  "checks":[
+    {"id":"str02-q1","prompt":"IT戦略の出発点として最も適切なのは？","options":["経営目標と業務課題","最新製品名","画面色","CPU Brand"],"answerIndex":0,"explanation":"上位のBusiness目標から必要なIT Capabilityへ落とします。"},
+    {"id":"str02-q2","prompt":"As-Is/To-Be分析で主に明らかにするものは？","options":["現状と目標のGap","Password Hash","RAID parity","Pixel Sizeだけ"],"answerIndex":0,"explanation":"現状と目標状態の差から必要施策を考えます。"},
+    {"id":"str02-q3","prompt":"成功に不可欠な重点要因を表すのは？","options":["CSF","DNS","CPIだけ","CRC"],"answerIndex":0,"explanation":"Critical Success Factorです。"},
+    {"id":"str02-q4","prompt":"KPIの主目的は？","options":["施策の進捗・成果を測る","法律を置換する","Networkを暗号化するだけ","Systemを自動購入する"],"answerIndex":0,"explanation":"目標達成へ向かっているか定量的に確認する指標です。"}
+  ]
+}
