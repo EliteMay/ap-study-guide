@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>情報セキュリティ過去問解説 | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/past.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -39,7 +41,7 @@
       <div class="past-control-panel">
         <div class="past-controls">
           <label>検索
-            <input id="past-search" type="search" placeholder="年度・テーマ・関連用語で検索" autocomplete="off">
+            <input id="past-search" type="search" placeholder="年度・テーマ・関連用語で検索（/ キーでも検索へ移動）" autocomplete="off">
           </label>
           <label>年度・期
             <select id="round-filter"><option value="all">すべて</option></select>
@@ -52,6 +54,7 @@
   </section>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">情報セキュリティ 午後過去問解説</p></div></footer>
+<script src="../js/shell.js" defer></script>
 <script src="../js/past.js" defer></script>
 </body>
 </html>
