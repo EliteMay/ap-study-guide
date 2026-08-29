@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"STR-03","title":"業務プロセス・BPR・BPM・Enterprise Architecture","unitId":"strategy-planning","officialMiddleCodes":[17],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"System化の前に業務Processそのものを理解します。現行手順をそのままComputer化するのではなく、価値・待ち・重複・Controlを見て再設計します。",
+  "objectives":["業務ProcessをInput/Activity/Outputで整理できる。","BPRとBPMの違いを説明できる。","BottleneckやNon-value-added作業を発見できる。","Enterprise Architectureの役割を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 業務Processを可視化する","diagrams":[{"label":"注文処理の例","connector":"→","nodes":[{"title":"Input","value":"注文"},{"title":"受付","value":"内容確認"},{"title":"審査","value":"在庫/信用"},{"title":"処理","value":"出荷/請求"},{"title":"Output","value":"商品/請求情報"}],"note":"各Activityの担当・待ち時間・例外・Data入力を可視化すると改善点が見えます。"}]},
+    {"type":"comparison","title":"2. BPRとBPM","columns":["考え方","特徴","向く場面"],"rows":[["BPR","抜本的な業務再設計","大きな構造変更"],["BPM","Processを継続的に管理・改善","運用しながら改善"],["Automation","既存Taskを自動化","Process自体が妥当なら有効"]],"note":"悪いProcessをそのまま自動化すると、悪い流れを高速化するだけになる場合があります。"},
+    {"type":"comparison","title":"3. 改善候補を探す","columns":["兆候","問い","改善例"],"rows":[["同じDataを何度も入力","なぜ共有できない?","Master/Data連携"],["承認待ちが長い","全件同じ承認が必要?","Risk別Flow"],["手作業転記","System間Interfaceは?","連携/自動化"],["例外が大量","標準Processが現実に合う?","Process再設計"],["担当依存","知識が属人化していない?","標準化/Workflow"]]},
+    {"type":"comparison","title":"4. Enterprise Architecture","columns":["層","見るもの","例"],"rows":[["Business Architecture","業務・Organization・Capability","受注/調達/顧客Support"],["Data Architecture","Data構造・Flow・Owner","顧客/商品Master"],["Application Architecture","Applicationと連携","CRM/ERP/API"],["Technology Architecture","基盤技術","Cloud/Network/Platform"]],"note":"個別System最適だけでなく企業全体の重複・依存・標準化を見ます。"},
+    {"type":"steps","title":"5. Process改善Caseの解き方","items":[{"label":"① 目的","body":"時間短縮、品質向上、Cost削減など目標を確認。"},{"label":"② 現状Flow","body":"誰が何をいつ行うかを書く。"},{"label":"③ Waste/Bottleneck","body":"待ち・重複・転記・例外を探す。"},{"label":"④ Control","body":"削ってはいけない法令/承認/品質Controlを確認。"},{"label":"⑤ To-Be","body":"役割・Data・Systemを再配置する。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["BPR=System導入ではない。SystemなしでProcess変更する場合もある。","承認Stepを減らせば必ず良いわけではなくRisk Controlとのバランスが必要。","Enterprise Architectureは図を作ること自体が目的ではなく、投資・標準・移行判断を支える。","局所最適で1部門だけ高速化しても後工程がBottleneckなら全体Lead Timeは減らない。"]}
+  ],
+  "checks":[
+    {"id":"str03-q1","prompt":"既存業務を抜本的に見直して再設計する考え方は？","options":["BPR","BPMだけ","RAID","PKI"],"answerIndex":0,"explanation":"Business Process Reengineeringです。"},
+    {"id":"str03-q2","prompt":"継続的に業務Processを測定・改善する考え方は？","options":["BPM","2の補数","DNSSEC","Parity"],"answerIndex":0,"explanation":"Business Process Managementです。"},
+    {"id":"str03-q3","prompt":"Enterprise Architectureで顧客MasterやData Flowを見る層は？","options":["Data Architecture","Technology Architectureだけ","Presentation Layerだけ","Physical Security"],"answerIndex":0,"explanation":"Data構造・Flow・OwnerはData Architectureの対象です。"},
+    {"id":"str03-q4","prompt":"同じ顧客情報を3部署が別々に再入力している場合の改善候補は？","options":["Master共有/Data連携","入力回数をさらに増やす","全て紙化","CPU Clock低下"],"answerIndex":0,"explanation":"重複入力はData共有やSystem連携で削減できる可能性があります。"}
+  ]
+}
