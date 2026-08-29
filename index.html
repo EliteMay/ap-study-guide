@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>AP Study Notes | 応用情報技術者試験 学習サイト</title>
 <link href="css/style.css" rel="stylesheet">
 <link href="css/home.css" rel="stylesheet">
+<link href="css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -30,20 +32,47 @@
     <h1>AP Study Notes</h1>
     <p class="lead">用語を暗記するだけでなく、意味・仕組み・具体例・試験での出方までつなげて学ぶための応用情報学習サイトです。</p>
     <div class="home-actions">
-      <a href="html/security.html" class="home-action-btn">情報セキュリティ</a>
-      <a href="html/network.html" class="home-action-btn">ネットワーク</a>
-      <a href="html/database.html" class="home-action-btn">データベース</a>
+      <a href="html/test.html" class="home-action-btn">ランダムテスト</a>
       <a href="html/security-past.html" class="home-action-btn secondary">過去問解説</a>
-      <a href="html/test.html" class="home-action-btn secondary">テスト</a>
+      <a href="html/security.html" class="home-action-btn secondary" id="continue-hero">学習を始める</a>
     </div>
     <div class="home-stats">
       <div class="home-stat"><div class="home-stat-num" id="total-units">-</div><div class="home-stat-label">学習単元</div></div>
       <div class="home-stat"><div class="home-stat-num" id="ready-units">-</div><div class="home-stat-label">公開中単元</div></div>
-      <div class="home-stat"><div class="home-stat-num" id="total-checked">0</div><div class="home-stat-label">習得済み語数</div></div>
+      <div class="home-stat"><div class="home-stat-num" id="total-checked">0</div><div class="home-stat-label">習得済み</div></div>
+      <div class="home-stat"><div class="home-stat-num" id="review-count">0</div><div class="home-stat-label">復習リスト</div></div>
     </div>
   </div>
 </header>
 <main>
+<section class="study-dashboard-section">
+  <div class="container">
+    <div class="dashboard-heading">
+      <div><p class="dashboard-eyebrow">DASHBOARD</p><h2>次にやること</h2></div>
+      <p>学習履歴と復習リストはこのブラウザに保存されます。</p>
+    </div>
+    <div class="study-dashboard-grid">
+      <article class="dashboard-card dashboard-card-primary" id="continue-card">
+        <span class="dashboard-kicker">CONTINUE</span>
+        <h3 id="continue-title">最初の単元を選ぶ</h3>
+        <p id="continue-meta">まだ学習履歴がありません。</p>
+        <a id="continue-link" class="dashboard-action" href="html/security.html">情報セキュリティから始める →</a>
+      </article>
+      <article class="dashboard-card">
+        <span class="dashboard-kicker">REVIEW</span>
+        <div class="dashboard-number" id="bookmark-count">0</div>
+        <h3>復習リスト</h3>
+        <p id="bookmark-breakdown">☆を付けた用語がここに集まります。</p>
+        <a class="dashboard-action" href="html/test.html?source=bookmarks">復習リストだけテスト →</a>
+      </article>
+      <article class="dashboard-card recent-card">
+        <span class="dashboard-kicker">RECENT</span>
+        <h3>最近見た用語</h3>
+        <div id="recent-terms" class="recent-term-list"><span class="dashboard-empty">まだ履歴がありません。</span></div>
+      </article>
+    </div>
+  </div>
+</section>
 <section class="units-section">
   <div class="container">
     <h2>学習単元</h2>
@@ -80,27 +109,28 @@
       </a>
     </div>
 
-    <h2 style="margin-top:52px">演習・復習</h2>
+    <h2 class="subsection-title">演習・復習</h2>
     <div class="utility-grid">
       <div class="utility-card"><h3>セキュリティ過去問</h3><p>問題文JSON・PDF原本・設問別解説をつなげて復習します。現在 <strong id="security-past-count">読み込み中</strong>。</p><a href="html/security-past.html">過去問解説を開く →</a></div>
-      <div class="utility-card"><h3>テストモード</h3><p>最新の3分野JSONから自動出題します。分野・問題数・出題方向を選び、間違えた問題だけ再テストできます。</p><a href="html/test.html">テストを開く →</a></div>
+      <div class="utility-card"><h3>テストモード</h3><p>最新の3分野JSONから自動出題。通常ランダムに加えて、☆を付けた復習リストだけのテストにも対応します。</p><a href="html/test.html">テストを開く →</a></div>
     </div>
   </div>
 </section>
 <section class="howto-section">
   <div class="container">
-    <h2>基本の使い方</h2>
+    <h2>おすすめの流れ</h2>
     <div class="howto-grid">
-      <div class="howto-item"><div class="howto-num">01</div><div class="howto-title">単元を選ぶ</div><p class="howto-desc">まずセキュリティ・ネットワーク・DBから学ぶ分野を選びます。</p></div>
-      <div class="howto-item"><div class="howto-num">02</div><div class="howto-title">検索して理解</div><p class="howto-desc">用語を検索し、短い定義から詳細解説まで確認します。</p></div>
-      <div class="howto-item"><div class="howto-num">03</div><div class="howto-title">隠して確認</div><p class="howto-desc">答えを隠して、自分の言葉で説明できるか確認します。</p></div>
-      <div class="howto-item"><div class="howto-num">04</div><div class="howto-title">習得済みにする</div><p class="howto-desc">理解できた用語をチェックし、進捗を残します。</p></div>
-      <div class="howto-item"><div class="howto-num">05</div><div class="howto-title">問題で定着</div><p class="howto-desc">テストや過去問で、知識を実際に使えるか確認します。</p></div>
+      <div class="howto-item"><div class="howto-num">01</div><div class="howto-title">単元を選ぶ</div><p class="howto-desc">セキュリティ・ネットワーク・DBから学ぶ分野を選びます。</p></div>
+      <div class="howto-item"><div class="howto-num">02</div><div class="howto-title">理解する</div><p class="howto-desc">短い定義から詳細・具体例・ひっかけまで確認します。</p></div>
+      <div class="howto-item"><div class="howto-num">03</div><div class="howto-title">怪しい物は☆</div><p class="howto-desc">まだ説明できない用語を復習リストへ残します。</p></div>
+      <div class="howto-item"><div class="howto-num">04</div><div class="howto-title">習得済みにする</div><p class="howto-desc">理解できた用語をチェックし、全体の進捗を残します。</p></div>
+      <div class="howto-item"><div class="howto-num">05</div><div class="howto-title">問題で定着</div><p class="howto-desc">復習リストテストと過去問で知識を使えるか確認します。</p></div>
     </div>
   </div>
 </section>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
+<script src="js/shell.js" defer></script>
 <script src="js/home.js" defer></script>
 </body>
 </html>
