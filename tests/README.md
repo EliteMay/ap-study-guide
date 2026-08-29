@@ -25,9 +25,7 @@ node tests/validate.mjs
 - Security / Network / Databaseのterms/details対応
 - セキュリティ過去問の問題文 / 解説 / targets
 - 主要HTMLの相対href/src
-- IPA大分類9件
-- IPA中分類23件
-- 学習ユニット13件
+- IPA大分類9件 / 中分類23件 / 学習ユニット13件
 - 23中分類の重複なし全割当
 - Lesson ID / order / unit / middle code
 - section type / diagram / checks / next
@@ -42,8 +40,6 @@ GitHub Actionsでは全 `js/*.js` へ `node --check` も実行します。
 ```bash
 node tests/validate-audits.mjs
 ```
-
-現在の対象:
 
 ### System
 
@@ -61,15 +57,36 @@ node tests/validate-audits.mjs
 
 - 229/229を監査
 - `assignmentGroups[]` のcore / supporting / mergeを集計
-- 229 IDを監査上ちょうど1回割当
-- 229 IDを実Lessonへちょうど1回割当
-- audit指定のDB-01〜14と実装Lessonを一致させる
-- `unitId=database`
-- IPA中分類9
+- 229 IDを監査上・実Lesson上ともにちょうど1回割当
+- DB-01〜14 / unit `database` / IPA中分類9を検証
 - 未割当 / 重複 / extra ID禁止
-- summary件数一致
 
-Databaseの初回厳格チェックでは `term-db-018` のLessonメタデータ登録漏れを実際に検出し、DB-02へ修正済みです。
+Database初回厳格チェックでは `term-db-018` のLessonメタデータ登録漏れを実際に検出し、DB-02へ修正済みです。
+
+### Network
+
+- **480/480を監査**
+- 監査の `ranges[]` / `ids[]` を実IDへ展開
+- Lesson metaの `legacyTermIds[]` と `legacyTermRanges[]` を統合して展開
+- 480 IDを監査上・実Lesson上ともにちょうど1回割当
+- 478語がNET-01〜14 / unit `network` / IPA中分類10であることを検証
+- SLAとインシデント管理の2語がSVC-01 / unit `service-audit` / IPA中分類15へ移動していることを検証
+- `mappedToNetworkLessons=478`
+- `movedPrimaryUnit=2`
+- `networkLessons=14`
+- 未割当 / 重複 / extra ID禁止
+
+`legacyTermRanges` 例:
+
+```json
+{
+  "prefix": "net-dns-",
+  "from": 1,
+  "to": 40
+}
+```
+
+CI内で `net-dns-001`〜`net-dns-040` へ展開します。
 
 ## 注意
 
