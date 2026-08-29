@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"UIM-01","title":"UI設計・入力方式・フィードバック","unitId":"ui-media","officialMiddleCodes":[7],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "intro":"UIは部品名ではなく、利用者が『何をすればよいか分かる→操作する→結果を確認する→間違いを戻せる』流れで評価します。",
+  "objectives":["Visibility・Consistency・FeedbackなどUI原則を説明できる。","入力方式を用途から選べる。","Error PreventionとRecoveryを区別できる。","画面状態と操作結果のFeedbackを設計できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. UIの基本原則","columns":["原則","意味","悪い例"],"rows":[["Visibility","状態や可能な操作が見える","保存中か不明"],["Consistency","同じ意味は同じ操作・表現","画面ごとに削除位置が違う"],["Feedback","操作結果を返す","Buttonを押しても無反応"],["Affordance/Signifier","操作できそうだと分かる","Linkが本文と同じ見た目"],["Error Prevention","間違いを起こしにくくする","危険操作を通常Buttonと同列"],["Recovery","失敗から戻れる","Undoも確認もない"]]},
+    {"type":"comparison","title":"2. 入力方式を用途で選ぶ","columns":["方式","向く場面","注意"],"rows":[["Keyboard","大量Text・Shortcut","Touch端末では不向きな場合"],["Mouse/Pointer","精密なPointing","Targetが小さすぎると操作困難"],["Touch","直接操作・Mobile","Hover前提にできない"],["Voice","Hands-free","雑音・Privacy・認識誤り"],["Barcode/QR","識別子入力","読み取り環境が必要"],["Sensor","自動計測","誤検出・Calibration"]]},
+    {"type":"diagram","title":"3. 良い操作Flow","diagrams":[{"label":"利用者の1操作","connector":"→","nodes":[{"title":"理解","value":"何ができる?"},{"title":"操作","value":"Input"},{"title":"Feedback","value":"処理中/成功/失敗"},{"title":"Recovery","value":"戻す/修正"}],"note":"操作前だけでなく操作後までUI設計の範囲です。"}]},
+    {"type":"steps","title":"4. 危険操作を設計する","items":[{"label":"① 頻度を分ける","body":"通常操作と削除・初期化を視覚的/位置的に分離する。"},{"label":"② 影響を明示","body":"何件消えるか、何が戻せないかを書く。"},{"label":"③ 確認を必要な所だけ","body":"何でも確認Dialogにすると利用者が読まなくなる。"},{"label":"④ Undoを優先","body":"可能なら事前確認だけでなく取り消し可能性を用意する。"}]},
+    {"type":"mistakes","title":"5. よくある誤解","items":["Buttonを増やすほど使いやすいわけではない。選択肢が増えれば判断負荷も増える。","確認Dialogを出せばError Preventionが完成するわけではない。Default値・入力制約・Undoも重要。","DesktopのHoverだけで意味を伝えるとTouchで失われる。","美しい画面と操作しやすい画面は同義ではない。"]}
+  ],
+  "checks":[
+    {"id":"uim01-q1","prompt":"保存Buttonを押した直後に『保存中…』を表示する主目的は？","options":["Feedback","暗号化","正規化","Compression"],"answerIndex":0,"explanation":"操作を受け付けたことと現在状態を利用者へ返すFeedbackです。"},
+    {"id":"uim01-q2","prompt":"Touch UIで特に避けたい設計は？","options":["十分なTarget Size","Hoverだけで重要情報を表示","直接操作","Scroll"],"answerIndex":1,"explanation":"Touchには安定したHoverがないため重要情報をHoverだけへ依存できません。"},
+    {"id":"uim01-q3","prompt":"削除後に30秒間Undo可能にするのは主にどの考え方？","options":["Recovery","Sampling","Routing","Caching"],"answerIndex":0,"explanation":"失敗から戻れるRecovery設計です。"},
+    {"id":"uim01-q4","prompt":"同じ意味の保存操作を全画面で同じ位置・表記にする主原則は？","options":["Consistency","Entropy","Deadlock","Availability"],"answerIndex":0,"explanation":"同じ意味を同じ規則で扱うConsistencyです。"}
+  ]
+}
