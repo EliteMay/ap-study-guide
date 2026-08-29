@@ -16,28 +16,28 @@
 <header class="site-header roadmap-hero"><div class="container">
 <p class="eyebrow">AP CURRICULUM MAP</p>
 <h1>学習マップ</h1>
-<p class="lead">「今あるページ」ではなく、IPAのシラバスを基準にAP全体を見渡すための地図です。旧教材1,422語の監査は完了し、現在は不足しているシラバス範囲と本番型演習を埋めています。</p>
+<p class="lead">IPAシラバスVer.7.2の23中分類を基準に、旧教材1,422語の再分類と不足分野の新規教材化を進めています。現在は<strong>23 / 23中分類すべてに構造化Lessonがあります</strong>。</p>
 <div class="roadmap-source"><strong>基準:</strong> 応用情報技術者試験 シラバス Ver.7.2（2026年度現行制度）</div>
 </div></header>
 <main id="main-content">
 <section class="section"><div class="container">
-<div class="roadmap-notice"><strong>旧教材監査 1,422 / 1,422 完了</strong><p>現在は「古い単語カードを直す段階」ではなく、IPAの23中分類を基準に不足分野を追加する段階です。Computer SystemsはCMP-01〜12で中分類3〜6をLesson化しました。</p></div>
+<div class="roadmap-notice"><strong>旧教材監査 1,422 / 1,422 完了・構造化Lesson 118本</strong><p>「完全未整備」の中分類は0になりました。ただし、これは各中分類に学習の入口と主要骨格があるという意味で、過去問量・本番型長文・演習密度まで完成したという意味ではありません。今後は各Lessonの深さと実戦演習を増やします。</p></div>
 <div id="roadmap-summary" class="roadmap-summary" aria-live="polite"><span>学習マップを読み込み中...</span></div>
 </div></section>
 <section class="section section-alt"><div class="container">
-<div class="roadmap-heading"><div><p class="roadmap-kicker">LEARNING UNITS</p><h2>学習しやすい13ユニット</h2></div><p>公式分類を崩さず、実際に勉強するときのまとまりへ再編しています。公開済みユニットはカードから直接教材へ移動できます。</p></div>
+<div class="roadmap-heading"><div><p class="roadmap-kicker">LEARNING UNITS</p><h2>学習しやすい13ユニット</h2></div><p>公式分類を崩さず、実際に勉強するときのまとまりへ再編しています。全13ユニットから教材へ入れます。</p></div>
 <div id="study-unit-grid" class="study-unit-grid"></div>
 </div></section>
 <section class="section"><div class="container">
-<div class="roadmap-heading"><div><p class="roadmap-kicker">OFFICIAL SYLLABUS</p><h2>IPA公式 9大分類・23中分類</h2></div><p>内部データの正確な分類基準。各教材は最終的にこのどこへ属するかを持ちます。</p></div>
+<div class="roadmap-heading"><div><p class="roadmap-kicker">OFFICIAL SYLLABUS</p><h2>IPA公式 9大分類・23中分類</h2></div><p>内部データの正確な分類基準。Lessonはこの中分類へ紐付け、学習UIでは13ユニットとしてまとめます。</p></div>
 <div id="official-map" class="official-map"></div>
 </div></section>
 <section class="section section-alt"><div class="container">
 <h2>この再設計で守ること</h2>
 <div class="roadmap-rules">
 <article><strong>1. 語数を完成度にしない</strong><p>カテゴリを一定数の語で埋めるのではなく、試験で理解・適用できるかを基準に教材化します。</p></article>
-<article><strong>2. 用語と教材形式を分ける</strong><p>CPU性能、擬似言語、SQL、PERT、EVM、サブネットなどは単語カードだけでなく、計算・図・状態遷移・実例を使います。</p></article>
-<article><strong>3. 公式分類と学習画面を分離する</strong><p>データはIPA分類へ正確に紐付け、画面では理解しやすい13ユニットで見せます。</p></article>
+<article><strong>2. 用語と教材形式を分ける</strong><p>CPU性能、擬似言語、SQL、PERT、EVM、サブネット、NPVなどは単語カードだけでなく、計算・図・状態遷移・実例を使います。</p></article>
+<article><strong>3. 公式分類と学習画面を分離する</strong><p>シラバス定義と教材Coverageも分離し、`ap-2026-map.json` を分類正本、`ap-2026-coverage.json` を進捗Overlayとして管理します。</p></article>
 <article><strong>4. 重複ではなく横断参照でつなぐ</strong><p>DNSやCloudのように複数分野へ関係する内容は、同じ説明を複製せず主教材と関連教材を分けます。</p></article>
 </div>
 </div></section>
