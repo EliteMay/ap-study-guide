@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>データベース用語まとめ | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet"/>
+<style>
+  .filter-row { margin-top:18px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .category-select { min-width:240px; padding:12px 16px; border:none; border-radius:999px; font:inherit; color:#0f172a; background:rgba(255,255,255,.95); box-shadow:0 4px 16px rgba(0,0,0,.15); }
+  .filter-status { font-size:.95rem; background:rgba(255,255,255,.25); padding:6px 14px; border-radius:999px; font-weight:700; }
+  .term-card[hidden], .term-group[hidden], .term-section[hidden], .term-link[hidden] { display:none !important; }
+  .term-meta { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 12px; }
+  .term-badge { display:inline-block; padding:3px 10px; border-radius:999px; background:#e0f2fe; color:#075985; font-size:.8rem; font-weight:800; }
+  .level-badge { background:#f1f5f9; color:#475569; }
+  .alias-list { color:#64748b; font-size:.92rem; margin-top:6px; }
+  .term-error { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; border-radius:14px; padding:16px; line-height:1.8; }
+  .toc a.is-active { background:#d1fae5; color:#065f46; font-weight:800; }
+  .json-note { margin-top:14px; color:#e0f2fe; font-size:.92rem; }
+  .term-detail-panel { margin-top:14px; padding:14px 16px; border-radius:14px; background:#f8fafc; border:1px solid #e2e8f0; }
+  .term-detail-panel[hidden] { display:none !important; }
+  .term-detail-panel p { margin:8px 0; }
+  .term-detail-panel strong { color:#0f172a; }
+  .auto-term-link { color:#0f766e; font-weight:900; text-decoration:none; border-bottom:1px dotted #0f766e; }
+  .past-question-card { margin-bottom:14px; overflow:hidden; }
+  .past-question-summary { display:flex; justify-content:space-between; gap:16px; align-items:center; flex-wrap:wrap; cursor:pointer; }
+  .past-question-title { margin:0; color:#0f172a; font-size:1.12rem; line-height:1.6; }
+  .past-question-meta { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px; }
+  .past-question-source { display:inline-block; padding:3px 10px; border-radius:999px; background:#fef3c7; color:#92400e; font-size:.78rem; font-weight:800; }
+  .past-toggle { border:none; border-radius:999px; padding:8px 14px; background:#0f766e; color:#fff; font-weight:800; cursor:pointer; }
+  .past-answer { margin-top:14px; padding:16px; border-radius:14px; border:1px solid #bbf7d0; background:#f0fdf4; color:#14532d; }
+  .past-answer[hidden] { display:none !important; }
+  .past-answer h4 { margin:0 0 8px; color:#166534; }
+  .past-answer p { margin:10px 0; line-height:1.9; }
+  .related-term-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .related-term-list a { color:#0f766e; font-weight:900; text-decoration:none; padding:3px 10px; border-radius:999px; border:1px solid #99f6e4; background:#ecfdf5; }
+  .past-note { color:#475569; line-height:1.8; }
+  .data-structure-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:16px; }
+  .data-structure-card { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25); border-radius:14px; padding:12px 14px; color:#fff; }
+  .data-structure-card code { color:#064e3b; }
+</style>
+</head>
+<body>
+
+<nav class="unit-nav">
+  <div class="container">
+    <span class="unit-nav-label">AP 単元一覧</span>
+    <ul class="unit-nav-list">
+      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
+      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
+      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
+      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
+      <li><a href="database.html" class="unit-nav-link is-current" aria-current="page">🗄️ データベース</a></li>
+      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
+      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
+      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
+      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="site-header">
+  <div class="container">
+    <p class="eyebrow">Database Study Notes</p>
+    <h1>データベース用語まとめ</h1>
+    <p class="lead">
+      E-R図、キー、SQL、正規化、トランザクション、障害回復、NoSQL、データ活用までをJSONから読み込みます。<br/>
+      検索用の軽量データと、開いたときに読む深掘り解説を分けています。
+    </p>
+    <p class="json-note">現在の同梱データ: <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件。VSCodeでは Live Server で開いてください。</p>
+    <div class="data-structure-grid">
+      <div class="data-structure-card"><strong>検索用</strong><br/><code>database-terms-manifest.json</code><br/>カテゴリ別の軽量辞書JSONを読み込む</div>
+      <div class="data-structure-card"><strong>解説用</strong><br/><code>database-details-manifest.json</code><br/>カテゴリ別の深掘り解説JSONを読み込む</div>
+      <div class="data-structure-card"><strong>画面用</strong><br/><code>database.html</code><br/>2つのJSONを同期して表示</div>
+    </div>
+
+    <div class="search-wrap">
+      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（例: 主キー、JOIN、正規化、ロック、NoSQL）" autocomplete="off"/>
+      <span id="search-count" class="search-count" hidden></span>
+    </div>
+
+    <div class="filter-row">
+      <select id="category-filter" class="category-select" aria-label="カテゴリで絞り込み"><option value="">すべてのカテゴリ</option></select>
+      <button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button>
+      <span id="filter-status" class="filter-status">読み込み中...</span>
+    </div>
+
+    <div class="progress-wrap">
+      <span id="progress-label" class="progress-label">習得済み: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
+      <button class="progress-reset" id="progress-reset">リセット</button>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" id="main-toc">
+  <div class="container">
+    <h2>目次</h2>
+    <ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul>
+  </div>
+</nav>
+
+<section class="section section-alt" id="exam-guide">
+  <div class="container">
+    <h2>試験での出方</h2>
+    <div class="study-guide-grid">
+      <div class="study-guide-card"><h3>E-R図は表へ変換して読む</h3><p>実体は表、属性は列、関係は外部キーや中間表に変わります。多対多は中間表に分けるのが基本です。</p></div>
+      <div class="study-guide-card"><h3>SQLは句の役割で分ける</h3><p>SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BYのどこを問われているかを先に見ると、穴埋めで迷いにくくなります。</p></div>
+      <div class="study-guide-card"><h3>正規化は異常を減らすため</h3><p>第1、第2、第3正規形は丸暗記より、繰り返し、部分関数従属、推移的関数従属を見つける練習が重要です。</p></div>
+      <div class="study-guide-card"><h3>運用問題は障害時で考える</h3><p>コミット、ロールバック、ロック、バックアップは、正常時ではなく同時実行や障害時に何を守るかで整理します。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="term-index" id="word-list">
+  <div class="container">
+    <h2>単語一覧</h2>
+    <p class="term-index-lead">JSONから読み込んだ単語をカテゴリ別に自動表示します。検索やカテゴリ選択をすると、この一覧と下のカードが同時に絞り込まれます。</p>
+    <div id="term-index-groups"></div>
+  </div>
+</section>
+
+<main id="main-content">
+  <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">JSONデータを読み込み中...</p></div></div></div>
+  <div id="term-sections"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AP Study Notes</p>
+    <p class="small">応用情報技術者試験 学習用ページ。実務の設定・法務・監査・事故対応の専門判断の代替ではありません。午後解説は学習用の思考整理です。</p>
+  </div>
+</footer>
+
+<script>
+const TERMS_MANIFEST_URL = 'database-terms-manifest.json';
+const DETAILS_MANIFEST_URL = 'database-details-manifest.json';
+const STORAGE_KEY = 'database-terms-checked';
+
+let TERMS = [];
+let CATEGORIES = [];
+let DETAILS_BY_ID = new Map();
+let checkedSet = new Set();
+let observer = null;
+let linkCandidates = [];
+let linkRegex = null;
+
+const els = {
+  searchInput: document.getElementById('search-input'),
+  searchCount: document.getElementById('search-count'),
+  categoryFilter: document.getElementById('category-filter'),
+  searchClear: document.getElementById('search-clear'),
+  filterStatus: document.getElementById('filter-status'),
+  progressNum: document.getElementById('progress-num'),
+  progressTotal: document.getElementById('progress-total'),
+  progressBar: document.getElementById('progress-bar'),
+  progressReset: document.getElementById('progress-reset'),
+  tocList: document.getElementById('toc-list'),
+  indexGroups: document.getElementById('term-index-groups'),
+  termSections: document.getElementById('term-sections'),
+  loadingArea: document.getElementById('loading-area'),
+  jsonTermCount: document.getElementById('json-term-count'),
+  jsonDetailCount: document.getElementById('json-detail-count')
+};
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function slugify(value) {
+  return String(value || 'category').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
+}
+
+function normalizeTerm(raw, index) {
+  const id = raw.id || `term-db-${String(index + 1).padStart(3, '0')}`;
+  const aliases = Array.isArray(raw.aliases) ? raw.aliases : [];
+  const category = raw.category || '未分類';
+  const searchable = [raw.term, ...aliases, category, raw.definition].join(' ').toLowerCase();
+  return { id, term: raw.term || '無題', aliases, category, definition: raw.definition || '', searchable };
+}
+
+function normalizeDetail(raw) {
+  return {
+    id: raw.id,
+    term: raw.term || '',
+    category: raw.category || '',
+    beginner: raw.beginner || '',
+    example: raw.example || '',
+    examPoint: raw.examPoint || '',
+    trap: raw.trap || '',
+    level: raw.level || '基礎',
+    tags: Array.isArray(raw.tags) ? raw.tags : [],
+    deepDive: Array.isArray(raw.deepDive) ? raw.deepDive : [],
+    relatedConcepts: Array.isArray(raw.relatedConcepts) ? raw.relatedConcepts : [],
+    commonMistakes: Array.isArray(raw.commonMistakes) ? raw.commonMistakes : [],
+    afternoonUse: raw.afternoonUse || '',
+    howToRemember: raw.howToRemember || ''
+  };
+}
+
+
+function getCategoryList(data) {
+  if (Array.isArray(data.categories) && data.categories.length) {
+    return data.categories.map((cat, index) => ({
+      id: cat.id || `cat-${String(index + 1).padStart(2, '0')}-${slugify(cat.title)}`,
+      title: cat.title || cat.name || `カテゴリ${index + 1}`,
+      description: cat.description || ''
+    }));
+  }
+  return [...new Set(TERMS.map(term => term.category))].map((title, index) => ({ id: `cat-${String(index + 1).padStart(2, '0')}-${slugify(title)}`, title, description: '' }));
+}
+
+function validateData() {
+  const seenIds = new Map();
+  const seenTerms = new Map();
+  TERMS.forEach(term => {
+    if (seenIds.has(term.id)) console.warn('[database data] duplicate term id:', term.id, seenIds.get(term.id), term);
+    else seenIds.set(term.id, term);
+    const key = term.term.toLowerCase();
+    if (seenTerms.has(key)) console.warn('[database data] duplicate term:', term.term, seenTerms.get(key), term);
+    else seenTerms.set(key, term);
+  });
+  const seenDetailIds = new Set();
+  DETAILS_BY_ID.forEach((detail, id) => {
+    if (seenDetailIds.has(id)) console.warn('[database details] duplicate detail id:', id);
+    seenDetailIds.add(id);
+    if (!seenIds.has(id)) console.warn('[database details] detail has no matching term:', id);
+  });
+}
+
+function buildTermLinkCandidates() {
+  const map = new Map();
+  TERMS.forEach(term => {
+    [term.term, ...term.aliases].forEach(name => {
+      const text = String(name || '').trim();
+      if (text.length < 2) return;
+      const key = text.toLowerCase();
+      if (!map.has(key) || text.length > map.get(key).label.length) map.set(key, { label: text, id: term.id });
+    });
+  });
+  linkCandidates = [...map.values()].sort((a, b) => b.label.length - a.label.length);
+  linkRegex = linkCandidates.length ? new RegExp(linkCandidates.map(c => escapeRegExp(c.label)).join('|'), 'gi') : null;
+}
+
+function linkifyTerms(text) {
+  const escaped = escapeHtml(text);
+  if (!linkRegex) return escaped;
+  return escaped.replace(linkRegex, match => {
+    const found = linkCandidates.find(c => c.label.toLowerCase() === match.toLowerCase());
+    if (!found) return match;
+    return `<a class="auto-term-link" href="#${escapeHtml(found.id)}">${escapeHtml(match)}</a>`;
+  });
+}
+
+function findTermIdByName(name) {
+  const key = String(name || '').toLowerCase();
+  const found = linkCandidates.find(c => c.label.toLowerCase() === key);
+  return found?.id || '';
+}
+
+function loadChecked() {
+  try { checkedSet = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY)) || []); }
+  catch { checkedSet = new Set(); }
+}
+
+function saveChecked() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...checkedSet])); }
+
+function renderCategoryFilter() {
+  els.categoryFilter.innerHTML = '<option value="">すべてのカテゴリ</option>' + CATEGORIES.map(cat => `<option value="${escapeHtml(cat.title)}">${escapeHtml(cat.title)}</option>`).join('');
+}
+
+function renderToc() {
+  const base = ['<li><a href="#word-list">単語一覧</a></li>'];
+  const cats = CATEGORIES.map(cat => `<li><a href="#${escapeHtml(cat.id)}">${escapeHtml(cat.title)}</a></li>`);
+  els.tocList.innerHTML = [...base, ...cats].join('');
+}
+
+function renderIndexGroups() {
+  els.indexGroups.innerHTML = CATEGORIES.map(cat => {
+    const terms = TERMS.filter(term => term.category === cat.title);
+    if (!terms.length) return '';
+    return `
+      <div class="term-group" data-category="${escapeHtml(cat.title)}">
+        <h3>${escapeHtml(cat.title)}</h3>
+        <div class="term-grid">
+          ${terms.map(term => `<a class="term-link" href="#${escapeHtml(term.id)}" data-category="${escapeHtml(term.category)}" data-search="${escapeHtml(term.searchable)}">${escapeHtml(term.term)}</a>`).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCard(term) {
+  const detail = DETAILS_BY_ID.get(term.id) || {};
+  const aliasHtml = term.aliases.length ? `<div class="alias-list">別名・略称: ${term.aliases.map(escapeHtml).join(' / ')}</div>` : '';
+  const level = detail.level || '基礎';
+  return `
+    <article class="card term-card" id="${escapeHtml(term.id)}" data-term-id="${escapeHtml(term.id)}" data-category="${escapeHtml(term.category)}" data-search="${escapeHtml(term.searchable)}">
+      <div class="card-header">
+        <h3>${escapeHtml(term.term)}</h3>
+        <div class="card-actions">
+          <button class="quiz-btn" data-action="toggle-quiz" data-target="${escapeHtml(term.id)}">隠して確認</button>
+          <button class="check-btn" data-action="toggle-check" data-id="${escapeHtml(term.id)}">✓ 習得済み</button>
+        </div>
+      </div>
+      <div class="term-meta">
+        <span class="term-badge">${escapeHtml(term.category)}</span>
+        <span class="term-badge level-badge">${escapeHtml(level)}</span>
+      </div>
+      ${aliasHtml}
+      <div class="card-body">
+        <p class="definition">${escapeHtml(term.definition)}</p>
+        <button class="quiz-btn" type="button" data-action="toggle-term-detail" data-id="${escapeHtml(term.id)}">詳細解説を見る</button>
+        <div class="term-detail-panel" id="detail-${escapeHtml(term.id)}" hidden data-rendered="false"></div>
+      </div>
+      <a class="back-to-word-list" href="#word-list">単語一覧へ戻る</a>
+    </article>
+  `;
+}
+
+function renderSections() {
+  els.termSections.innerHTML = CATEGORIES.map(cat => {
+    const terms = TERMS.filter(term => term.category === cat.title);
+    if (!terms.length) return '';
+    return `
+      <section class="section term-section" id="${escapeHtml(cat.id)}" data-category="${escapeHtml(cat.title)}">
+        <div class="container">
+          <h2>${escapeHtml(cat.title)}</h2>
+          ${cat.description ? `<p class="term-index-lead">${escapeHtml(cat.description)}</p>` : ''}
+          ${terms.map(renderCard).join('')}
+        </div>
+      </section>
+    `;
+  }).join('');
+}
+
+function renderTermDetail(id) {
+  const panel = document.getElementById(`detail-${CSS.escape(id)}`);
+  if (!panel || panel.dataset.rendered === 'true') return;
+  const detail = DETAILS_BY_ID.get(id);
+  if (!detail) {
+    panel.innerHTML = '<p>詳細解説はまだ登録されていません。</p>';
+    panel.dataset.rendered = 'true';
+    return;
+  }
+  const rows = [
+    ['まずここから', detail.beginner],
+    ['具体例', detail.example],
+    ['試験での見方', detail.examPoint],
+    ['ひっかけ', detail.trap],
+    ['午後問題での使い方', detail.afternoonUse],
+    ['覚え方', detail.howToRemember]
+  ].filter(([, value]) => value);
+  const baseHtml = rows.map(([label, value]) => `<p><strong>${escapeHtml(label)}：</strong>${linkifyTerms(value)}</p>`).join('');
+  const deepHtml = (detail.deepDive || []).map(block => `
+    <div class="explain-block">
+      <h4>${escapeHtml(block.heading || '深掘り')}</h4>
+      ${(block.body || []).map(p => `<p>${linkifyTerms(p)}</p>`).join('')}
+    </div>
+  `).join('');
+  const mistakeHtml = (detail.commonMistakes || []).length ? `<div class="checklist"><strong>よくあるミス</strong><ul>${detail.commonMistakes.map(x => `<li>${linkifyTerms(x)}</li>`).join('')}</ul></div>` : '';
+  panel.innerHTML = baseHtml + deepHtml + mistakeHtml || '<p>詳細解説はまだ登録されていません。</p>';
+  panel.dataset.rendered = 'true';
+}
+
+
+
+function renderAll() {
+  renderCategoryFilter();
+  renderToc();
+  renderIndexGroups();
+  renderSections();
+  els.loadingArea.hidden = true;
+  els.jsonTermCount.textContent = TERMS.length;
+  els.jsonDetailCount.textContent = DETAILS_BY_ID.size;
+}
+
+function restoreProgress() {
+  loadChecked();
+  document.querySelectorAll('.term-card').forEach(card => {
+    const id = card.dataset.termId;
+    const isChecked = checkedSet.has(id);
+    card.classList.toggle('is-checked', isChecked);
+    const btn = card.querySelector('.check-btn');
+    if (btn) btn.classList.toggle('active', isChecked);
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = TERMS.length;
+  const validIds = new Set(TERMS.map(term => term.id));
+  const checked = [...checkedSet].filter(id => validIds.has(id)).length;
+  els.progressTotal.textContent = total;
+  els.progressNum.textContent = checked;
+  els.progressBar.style.width = total ? `${Math.round(checked / total * 100)}%` : '0%';
+}
+
+function matchesFilters(element, query, category) {
+  const textMatch = !query || (element.dataset.search || '').includes(query);
+  const categoryMatch = !category || element.dataset.category === category;
+  return textMatch && categoryMatch;
+}
+
+function applyFilters() {
+  const query = els.searchInput.value.trim().toLowerCase();
+  const category = els.categoryFilter.value;
+  let visibleCards = 0;
+  document.querySelectorAll('.term-card').forEach(card => {
+    const visible = matchesFilters(card, query, category);
+    card.hidden = !visible;
+    if (visible) visibleCards += 1;
+  });
+  document.querySelectorAll('.term-link').forEach(link => { link.hidden = !matchesFilters(link, query, category); });
+  document.querySelectorAll('.term-section').forEach(section => { section.hidden = section.querySelectorAll('.term-card:not([hidden])').length === 0; });
+  document.querySelectorAll('.term-group').forEach(group => { group.hidden = group.querySelectorAll('.term-link:not([hidden])').length === 0; });
+  const hasAnyFilter = Boolean(query || category);
+  els.searchCount.hidden = !hasAnyFilter;
+  els.searchCount.textContent = `${visibleCards} / ${TERMS.length} 語`;
+  els.filterStatus.textContent = hasAnyFilter ? `${visibleCards}件表示中` : `${TERMS.length}語を表示中`;
+}
+
+function toggleQuiz(button) {
+  const card = button.closest('.term-card');
+  const body = card?.querySelector('.card-body');
+  if (!body) return;
+  body.classList.toggle('quiz-hidden');
+  button.textContent = body.classList.contains('quiz-hidden') ? '解説を見る' : '隠して確認';
+}
+
+function toggleTermDetail(button) {
+  const id = button.dataset.id;
+  const panel = document.getElementById(`detail-${CSS.escape(id)}`);
+  if (!panel) return;
+  const willShow = panel.hidden;
+  if (willShow) renderTermDetail(id);
+  panel.hidden = !willShow;
+  button.textContent = willShow ? '詳細解説を隠す' : '詳細解説を見る';
+}
+
+function toggleCheck(button) {
+  const id = button.dataset.id;
+  const card = button.closest('.term-card');
+  if (!id || !card) return;
+  if (checkedSet.has(id)) checkedSet.delete(id);
+  else checkedSet.add(id);
+  saveChecked();
+  card.classList.toggle('is-checked', checkedSet.has(id));
+  button.classList.toggle('active', checkedSet.has(id));
+  updateProgress();
+}
+
+
+function resetProgress() {
+  if (!confirm('データベースの習得済みチェックをリセットしますか？')) return;
+  checkedSet.clear();
+  saveChecked();
+  document.querySelectorAll('.term-card').forEach(card => card.classList.remove('is-checked'));
+  document.querySelectorAll('.check-btn').forEach(btn => btn.classList.remove('active'));
+  updateProgress();
+}
+
+function bindEvents() {
+  els.searchInput.addEventListener('input', applyFilters);
+  els.categoryFilter.addEventListener('change', applyFilters);
+  els.searchClear.addEventListener('click', () => { els.searchInput.value = ''; els.categoryFilter.value = ''; applyFilters(); });
+  els.progressReset.addEventListener('click', resetProgress);
+  document.addEventListener('click', event => {
+    const quizBtn = event.target.closest('[data-action="toggle-quiz"]');
+    if (quizBtn) { toggleQuiz(quizBtn); return; }
+    const detailBtn = event.target.closest('[data-action="toggle-term-detail"]');
+    if (detailBtn) { toggleTermDetail(detailBtn); return; }
+    const checkBtn = event.target.closest('[data-action="toggle-check"]');
+    if (checkBtn) { toggleCheck(checkBtn); return; }
+
+  });
+}
+
+function setupTocObserver() {
+  if (observer) observer.disconnect();
+  const links = [...document.querySelectorAll('#toc-list a[href^="#"]')];
+  const map = new Map(links.map(link => [link.getAttribute('href').slice(1), link]));
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      links.forEach(link => link.classList.remove('is-active'));
+      const link = map.get(entry.target.id);
+      if (link) link.classList.add('is-active');
+    });
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+  document.querySelectorAll('.term-section, #word-list, #exam-guide').forEach(section => observer.observe(section));
+}
+
+async function loadJson(url) {
+  const resolvedUrl = url.startsWith('../') ? url : `../${url}`;
+  const res = await fetch(resolvedUrl, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`${url}: ${res.status} ${res.statusText}`);
+  return res.json();
+}
+
+async function loadData() {
+  const [termManifest, detailManifest] = await Promise.all([loadJson(TERMS_MANIFEST_URL), loadJson(DETAILS_MANIFEST_URL)]);
+  const termFiles = Array.isArray(termManifest.files) ? termManifest.files : [];
+  const detailFiles = Array.isArray(detailManifest.files) ? detailManifest.files : [];
+  const [termPayloads, detailPayloads] = await Promise.all([
+    Promise.all(termFiles.map(item => loadJson(item.file))),
+    Promise.all(detailFiles.map(item => loadJson(item.file)))
+  ]);
+  const rawTerms = termPayloads.flatMap(payload => payload.terms || []);
+  const rawDetails = detailPayloads.flatMap(payload => payload.details || []);
+  TERMS = rawTerms.map(normalizeTerm);
+  CATEGORIES = (termManifest.categories || getCategoryList({ categories: [] })).filter(cat => TERMS.some(term => term.category === cat.title));
+  DETAILS_BY_ID = new Map(rawDetails.map(normalizeDetail).filter(d => d.id).map(d => [d.id, d]));
+  buildTermLinkCandidates();
+  validateData();
+}
+
+async function init() {
+  bindEvents();
+  try {
+    await loadData();
+    renderAll();
+    restoreProgress();
+    applyFilters();
+    setupTocObserver();
+  } catch (error) {
+    els.loadingArea.hidden = false;
+    els.loadingArea.innerHTML = `<div class="container"><div class="term-error"><strong>JSONの読み込みに失敗しました。</strong><br/>VSCodeのLive Serverなど、ローカルサーバー経由で開いてください。<br/>詳細: ${escapeHtml(error.message)}</div></div>`;
+    els.filterStatus.textContent = '読み込み失敗';
+    els.jsonTermCount.textContent = '失敗';
+    els.jsonDetailCount.textContent = '失敗';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

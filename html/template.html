@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<!--
+=============================================================
+  AP Study Notes — 単元ページ テンプレート
+  （フォルダ構成対応版）
+
+  【フォルダ構成】
+  応用/
+   ├── index.html        ← ホームページ
+   ├── css/style.css     ← 共通CSS（全ページで読み込む）
+   ├── html/             ← 各単元ページを置く
+  ├── template.html     ← このファイル
+   │   ├── security.html
+   │   ├── network.html
+   │   ├── database.html
+   │   ├── algorithm.html
+   │   ├── system.html
+   │   └── management.html
+
+  【新単元の作り方】
+  1. このファイルをコピーして、作りたい単元名のHTMLにリネームする
+     例）html/template.html → html/network.html
+         html/template.html → html/database.html
+  2. ★ EDIT コメントの箇所を書き換える
+  3. ホーム（index.html）の該当カードを is-coming → is-ready に変更する
+  4. ホームの TERM_COUNTS に、その単元の語数を入れる
+
+  【ChatGPTへの指示例】
+  ---
+  このHTMLテンプレートに「ネットワーク」単元の
+  応用情報技術者試験（AP）頻出用語を入れてください。
+  ★ EDIT のコメント箇所だけ編集し、
+  CSS・JS・フォルダ構成・クラス名はそのまま維持してください。
+  また STORAGE_KEY は 'network-terms-checked' にしてください。
+  ---
+=============================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!-- ★ EDIT: タイトル変更 -->
+<title>【単元名】用語まとめ | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ===== 単元ナビ（全ページ共通） ===== -->
+<nav class="unit-nav">
+  <div class="container">
+    <span class="unit-nav-label">AP 単元一覧</span>
+    <ul class="unit-nav-list">
+      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
+      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
+      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
+      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
+      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
+      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
+      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
+      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
+      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== ヘッダー ===== -->
+<header class="site-header">
+  <div class="container">
+    <!-- ★ EDIT: eyebrow・h1・lead を変更 -->
+    <p class="eyebrow">AP Study Notes</p>
+    <h1>【単元名】用語まとめ</h1>
+    <p class="lead">
+      応用情報技術者試験（AP）の「【単元名】」分野の用語を、
+      「意味」「ひっかけ」で整理したページです。
+    </p>
+
+    <!-- 検索ボックス（変更不要） -->
+    <div class="search-wrap">
+      <input type="search" id="search-input" class="search-input"
+        placeholder="🔍 単語を検索" autocomplete="off"/>
+      <span id="search-count" class="search-count" hidden></span>
+    </div>
+
+    <!-- 進捗バー（変更不要） -->
+    <div class="progress-wrap">
+      <span id="progress-label" class="progress-label">習得済み:
+        <strong id="progress-num">0</strong> /
+        <strong id="progress-total">0</strong> 語
+      </span>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progress-bar"></div>
+      </div>
+      <button class="progress-reset" id="progress-reset">リセット</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 目次 ===== -->
+<nav class="toc" id="main-toc">
+  <div class="container">
+    <h2>目次</h2>
+    <ul>
+      <li><a href="#word-list">単語一覧</a></li>
+      <!-- ★ EDIT: セクション数・名前に合わせて追加 -->
+      <li><a href="#section-1">【セクション1】</a></li>
+      <li><a href="#section-2">【セクション2】</a></li>
+      <li><a href="#comparison">比較まとめ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 検索結果エリア（変更不要） -->
+<div id="search-results-section" class="search-results-section" hidden>
+  <div class="container">
+    <div class="search-results-tools">
+      <p id="search-results-header" class="search-results-header"></p>
+      <button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button>
+    </div>
+    <div id="search-results-grid" class="term-grid"></div>
+  </div>
+</div>
+
+<!-- ===== 単語一覧 ===== -->
+<section class="term-index" id="word-list">
+  <div class="container">
+    <h2>単語一覧</h2>
+    <p class="term-index-lead">調べたい単語をクリックすると、その説明カードまでジャンプします。</p>
+
+    <!-- ★ EDIT: セクションごとに term-group を追加 -->
+    <div class="term-group">
+      <h3>【セクション1】</h3>
+      <div class="term-grid">
+        <a href="#term-001">用語名1</a>
+        <a href="#term-002">用語名2</a>
+        <!-- ★ EDIT: 用語を追加（href の # はカードの id と一致させる） -->
+      </div>
+    </div>
+
+    <div class="term-group">
+      <h3>【セクション2】</h3>
+      <div class="term-grid">
+        <a href="#term-010">用語名10</a>
+        <!-- ★ EDIT: 用語を追加 -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== メインコンテンツ ===== -->
+<main id="main-content">
+
+<!--
+  ★ セクション追加のルール
+  - id は目次の href と一致
+  - 偶数番目に class="section section-alt" で背景が交互になる
+  - カードの id（term-XXX）は単語一覧のリンクと一致
+  - data-term に検索キーワードをスペース区切りで書く
+-->
+
+<!-- ======================== セクション1 ======================== -->
+<section class="section" id="section-1">
+  <div class="container">
+    <h2>【セクション1】</h2>
+
+    <!--
+    ============================================================
+    カードの書き方
+    - .definition  → 定義文（必須・緑枠）
+    - .important   → 覚え方・重要ポイント（オレンジ枠）
+    - .trap        → ひっかけ注意（赤枠）
+    - .code-like   → 図・フロー（黒背景）
+    - <table>      → 比較表
+    ============================================================
+    -->
+
+    <article class="card" id="term-001" data-term="用語名 英語名 略称">
+      <div class="card-header">
+        <h3>用語名</h3>
+        <div class="card-actions">
+          <button class="quiz-btn" data-target="term-001">隠して確認</button>
+          <button class="check-btn" data-id="term-001">✓ 習得済み</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="definition">定義文をここに書く。</p>
+        <ul>
+          <li><strong>正式名：</strong>英語の正式名称。</li>
+          <li><strong>役割：</strong>何をするためのものか。</li>
+        </ul>
+        <table>
+          <thead><tr><th>項目A</th><th>項目B</th></tr></thead>
+          <tbody>
+            <tr><td>内容</td><td>内容</td></tr>
+          </tbody>
+        </table>
+        <div class="code-like">フロー図や対比をここに書く</div>
+        <p class="important">重要ポイントや覚え方。</p>
+        <p class="trap">ひっかけ：試験で間違えやすい点。</p>
+      </div>
+      <a class="back-to-word-list" href="#word-list">単語一覧へ戻る</a>
+    </article>
+
+    <!-- ★ EDIT: 上のカードをコピーして id・data-term・内容を変えて追加 -->
+
+  </div>
+</section>
+
+<!-- ======================== セクション2 ======================== -->
+<section class="section section-alt" id="section-2">
+  <div class="container">
+    <h2>【セクション2】</h2>
+    <!-- ★ EDIT: カードを追加 -->
+  </div>
+</section>
+
+<!-- ======================== 比較まとめ ======================== -->
+<section class="section" id="comparison">
+  <div class="container">
+    <h2>比較まとめ</h2>
+
+    <article class="card wide">
+      <h3>【比較表タイトル】</h3>
+      <table>
+        <thead>
+          <tr><th>用語</th><th>特徴</th><th>使う場面</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>用語A</td><td>特徴</td><td>場面</td></tr>
+          <tr><td>用語B</td><td>特徴</td><td>場面</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="card wide">
+      <h3>試験直前の一問一答</h3>
+      <dl class="qa-list">
+        <!-- ★ EDIT: dt に問題、dd に答え -->
+        <dt>問題文？</dt>
+        <dd>答え。</dd>
+      </dl>
+    </article>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <!-- ★ EDIT: 単元名だけ変更 -->
+    <p>【単元名】用語まとめ | AP Study Notes</p>
+    <p class="small">試験対策用の整理です。実務の専門判断の代替ではありません。</p>
+  </div>
+</footer>
+
+<!-- ===== JavaScript（変更箇所は STORAGE_KEY のみ） ===== -->
+<script>
+// ★ EDIT: 単元ごとに変える（重複するとチェックが混ざる）
+// security / network / database / algorithm / system / management
+const STORAGE_KEY = '【単元名-英語】-terms-checked';
+
+function loadChecked() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+}
+function saveChecked(arr) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch {}
+}
+
+const allCards = Array.from(document.querySelectorAll('.card[data-term]'));
+document.getElementById('progress-total').textContent = allCards.length;
+
+function updateProgress() {
+  const checked = loadChecked();
+  document.getElementById('progress-num').textContent = checked.length;
+  const pct = allCards.length > 0 ? Math.round(checked.length / allCards.length * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  allCards.forEach(card => {
+    const btn = card.querySelector('.check-btn');
+    const ok = checked.includes(card.id);
+    card.classList.toggle('is-checked', ok);
+    if (btn) btn.classList.toggle('active', ok);
+  });
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.check-btn');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  let checked = loadChecked();
+  checked = checked.includes(id) ? checked.filter(x => x !== id) : [...checked, id];
+  saveChecked(checked);
+  updateProgress();
+});
+
+document.getElementById('progress-reset').addEventListener('click', () => {
+  if (confirm('習得済みの記録をすべてリセットしますか？')) {
+    saveChecked([]);
+    updateProgress();
+  }
+});
+
+// クイズモード（変更不要）
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.quiz-btn');
+  if (!btn) return;
+  const body = document.getElementById(btn.dataset.target)?.querySelector('.card-body');
+  if (!body) return;
+  btn.textContent = body.classList.toggle('quiz-hidden') ? '解説を見る' : '隠して確認';
+});
+
+// 検索（変更不要）
+const searchInput = document.getElementById('search-input');
+const searchResultsSection = document.getElementById('search-results-section');
+const searchResultsHeader = document.getElementById('search-results-header');
+const searchResultsGrid = document.getElementById('search-results-grid');
+const searchCount = document.getElementById('search-count');
+const searchClear = document.getElementById('search-clear');
+const mainContent = document.getElementById('main-content');
+const termIndexSection = document.querySelector('.term-index');
+
+function resetSearchView() {
+  searchInput.value = '';
+  searchResultsSection.hidden = true;
+  mainContent.hidden = false;
+  termIndexSection.hidden = false;
+  searchCount.hidden = true;
+  searchResultsGrid.innerHTML = '';
+}
+
+if (searchClear) {
+  searchClear.addEventListener('click', resetSearchView);
+}
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim();
+  if (!q) {
+    resetSearchView();
+    return;
+  }
+  const kws = q.toLowerCase().split(/\s+/);
+  const matched = allCards.filter(c =>
+    kws.every(kw => (c.dataset.term + c.textContent).toLowerCase().includes(kw))
+  );
+  mainContent.hidden = true;
+  termIndexSection.hidden = true;
+  searchResultsSection.hidden = false;
+  searchResultsHeader.textContent = `「${q}」の検索結果：${matched.length} 件`;
+  searchCount.textContent = `${matched.length} 件`;
+  searchCount.hidden = false;
+  searchResultsGrid.innerHTML = matched.length === 0
+    ? '<p style="color:#64748b;">該当する用語が見つかりませんでした。</p>'
+    : '';
+  matched.forEach(card => {
+    const a = document.createElement('a');
+    a.href = '#' + card.id;
+    a.textContent = card.querySelector('h3')?.textContent || card.id;
+    a.addEventListener('click', () => {
+      searchInput.value = '';
+      searchResultsSection.hidden = true;
+      mainContent.hidden = false;
+      termIndexSection.hidden = false;
+      searchCount.hidden = true;
+    });
+    searchResultsGrid.appendChild(a);
+  });
+});
+
+// 目次ハイライト（変更不要）
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.toc a').forEach(a =>
+        a.classList.toggle('toc-active', a.getAttribute('href') === '#' + entry.target.id)
+      );
+    }
+  });
+}, { rootMargin: '-10% 0px -80% 0px' });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+updateProgress();
+</script>
+
+</body>
+</html>
