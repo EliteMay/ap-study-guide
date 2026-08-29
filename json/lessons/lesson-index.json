@@ -23,6 +23,16 @@
       "contentTypes": ["concept", "calculation", "code-trace", "exercise"],
       "status": "individual-v1",
       "file": "json/lessons/algorithm/alg-02-complexity.json"
+    },
+    {
+      "id": "ALG-03",
+      "order": 3,
+      "title": "配列・リストとデータの持ち方",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "diagram", "comparison", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-03-array-list.json"
     }
   ]
 }
