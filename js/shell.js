@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r7';
+  const BUILD = '2026.08.30-r8';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -94,17 +94,21 @@
     window.dispatchEvent(new CustomEvent('ap-bookmarks-changed'));
   }
 
+  function navRootPrefix(nav) {
+    const homeLink = nav.querySelector('.unit-nav-list a[href$="index.html"]');
+    const homeHref = homeLink?.getAttribute('href') || 'index.html';
+    return homeHref.startsWith('../') ? '../' : '';
+  }
+
   function ensureRoadmapLink(nav) {
     const list = nav.querySelector('.unit-nav-list');
     if (!list || list.querySelector('[data-ap-roadmap-link]')) return;
     const homeLink = list.querySelector('a[href$="index.html"]');
     if (!homeLink) return;
-    const homeHref = homeLink.getAttribute('href') || 'index.html';
-    const rootPrefix = homeHref.startsWith('../') ? '../' : '';
-    const roadmapHref = `${rootPrefix}html/roadmap.html`;
+    const rootPrefix = navRootPrefix(nav);
     const li = document.createElement('li');
     const link = document.createElement('a');
-    link.href = roadmapHref;
+    link.href = `${rootPrefix}html/roadmap.html`;
     link.className = 'unit-nav-link';
     link.dataset.apRoadmapLink = 'true';
     link.textContent = '🧭 学習マップ';
@@ -114,6 +118,25 @@
     }
     li.appendChild(link);
     homeLink.closest('li')?.after(li);
+  }
+
+  function ensureComputerLink(nav) {
+    const list = nav.querySelector('.unit-nav-list');
+    if (!list || list.querySelector('a[href$="computer.html"]')) return;
+    const rootPrefix = navRootPrefix(nav);
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = `${rootPrefix}html/computer.html`;
+    link.className = 'unit-nav-link';
+    link.textContent = '🧩 コンピュータシステム';
+    if (location.pathname.endsWith('/computer.html')) {
+      link.classList.add('is-current');
+      link.setAttribute('aria-current', 'page');
+    }
+    li.appendChild(link);
+    const roadmap = list.querySelector('[data-ap-roadmap-link]')?.closest('li');
+    const home = list.querySelector('a[href$="index.html"]')?.closest('li');
+    (roadmap || home)?.after(li);
   }
 
   function buildShell() {
@@ -126,6 +149,7 @@
     });
 
     ensureRoadmapLink(nav);
+    ensureComputerLink(nav);
 
     const label = nav.querySelector('.unit-nav-label');
     if (label) label.textContent = 'AP STUDY NOTES';
