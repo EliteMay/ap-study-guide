@@ -101,9 +101,14 @@ try{
   const unitIds=new Set((curriculum.studyUnits||[]).map(item=>item.id));
   const validMiddleCodes=new Set((curriculum.middleCategories||[]).map(item=>Number(item.code)));
   const algorithmTermIds=new Set((readJson('json/terms/algorithm-terms.json').terms||[]).map(item=>item.id));
+  const allowedSectionTypes=new Set(['text','comparison','diagram','code-trace','steps','mistakes']);
   if(!lessons.length)fail('lessons: lesson-index is empty');
   const ids=lessons.map(item=>item.id);
+  const orders=lessons.map(item=>Number(item.order));
   if(new Set(ids).size!==ids.length)fail('lessons: duplicate lesson id');
+  if(orders.some(order=>!Number.isInteger(order)||order<1))fail('lessons: invalid lesson order');
+  if(new Set(orders).size!==orders.length)fail('lessons: duplicate lesson order');
+  const replacedTermIds=new Set();
   for(const entry of lessons){
     if(!entry.id||!entry.file||!entry.title)fail(`lessons: invalid index entry ${entry.id||'missing-id'}`);
     if(!unitIds.has(entry.unitId))fail(`lessons: ${entry.id} unknown unit ${entry.unitId}`);
@@ -114,14 +119,32 @@ try{
     if(lesson.meta?.unitId!==entry.unitId)fail(`lessons: ${entry.id} unitId mismatch`);
     if(!(lesson.objectives||[]).length)fail(`lessons: ${entry.id} objectives empty`);
     if(!(lesson.sections||[]).length)fail(`lessons: ${entry.id} sections empty`);
-    for(const termId of lesson.meta?.replacesTemplateFor||[])if(!algorithmTermIds.has(termId))fail(`lessons: ${entry.id} replaces unknown algorithm term ${termId}`);
+    for(const termId of lesson.meta?.replacesTemplateFor||[]){
+      if(!algorithmTermIds.has(termId))fail(`lessons: ${entry.id} replaces unknown algorithm term ${termId}`);
+      if(replacedTermIds.has(termId))fail(`lessons: algorithm term ${termId} replaced by more than one lesson`);
+      replacedTermIds.add(termId);
+    }
+    for(const [sectionIndex,section] of (lesson.sections||[]).entries()){
+      if(!allowedSectionTypes.has(section.type))fail(`lessons: ${entry.id} section ${sectionIndex+1} unsupported type ${section.type||'missing'}`);
+      if(!section.title)fail(`lessons: ${entry.id} section ${sectionIndex+1} title missing`);
+      if(section.type==='diagram'){
+        const diagrams=Array.isArray(section.diagrams)?section.diagrams:[];
+        if(!diagrams.length)fail(`lessons: ${entry.id} diagram section ${sectionIndex+1} has no diagrams`);
+        for(const [diagramIndex,diagram] of diagrams.entries()){
+          const nodes=Array.isArray(diagram.nodes)?diagram.nodes:[];
+          if(!diagram.label)fail(`lessons: ${entry.id} diagram ${sectionIndex+1}.${diagramIndex+1} label missing`);
+          if(!nodes.length)fail(`lessons: ${entry.id} diagram ${sectionIndex+1}.${diagramIndex+1} nodes empty`);
+          for(const [nodeIndex,node] of nodes.entries())if(!node.title&&!node.value)fail(`lessons: ${entry.id} diagram ${sectionIndex+1}.${diagramIndex+1} node ${nodeIndex+1} is empty`);
+        }
+      }
+    }
     for(const check of lesson.checks||[]){
       const options=Array.isArray(check.options)?check.options:[];
       const answer=Number(check.answerIndex);
       if(!check.id||!check.prompt||options.length<2||!Number.isInteger(answer)||answer<0||answer>=options.length)fail(`lessons: ${entry.id} invalid check ${check.id||'missing-id'}`);
     }
   }
-  notes.push(`lessons: ${lessons.length} structured lesson(s) OK`);
+  notes.push(`lessons: ${lessons.length} structured lesson(s) / ${replacedTermIds.size} replaced term(s) OK`);
 }catch(error){fail(`lessons: ${error.message}`);}
 
 for(const [id,termManifestPath,detailManifestPath] of domains){
