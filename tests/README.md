@@ -78,6 +78,26 @@ node tests/validate-security-audit.mjs
 
 Securityから他分野へ移動したIDは `security-audit.json` を中央の移行表として扱います。既存の成熟したNET/SYS/SVC LessonへSecurity IDを大量追記しません。
 
+## `validate-computer-systems.mjs`
+
+Computer Systemsの新規教材Coverage専用Validator。
+
+```bash
+node tests/validate-computer-systems.mjs
+```
+
+検査:
+
+- `computer-systems` unitのLessonが **CMP-01〜CMP-12の12本**であること
+- CMP-01〜12のJSONが実在し、index / meta.id / unitIdが一致すること
+- 各Lessonにobjectives / sections / 3問以上のchecksがあること
+- IPA中分類 **3 / 4 / 5 / 6** を全て少なくとも1LessonがCoverageすること
+- Computer Systemsへ中分類3〜6以外が混ざっていないこと
+- `html/computer.html` が存在すること
+- HubからCMP-01〜12へ全てリンクしていること
+
+このValidatorは旧用語の件数監査ではなく、**シラバス不足分野として新規実装した教材が欠落しないこと**を保証する目的です。
+
 ## `data-integrity.test.html`
 
 GitHub PagesまたはLive Serverで開くブラウザ検査。
@@ -94,6 +114,7 @@ GitHub PagesまたはLive Serverで開くブラウザ検査。
 2. `validate.mjs`
 3. `validate-audits.mjs`
 4. `validate-security-audit.mjs`
+5. `validate-computer-systems.mjs`
 
 ## 注意
 
@@ -105,4 +126,5 @@ CIはデータ・構文・内部参照を確認するもので、実ブラウザ
 - dark mode
 - 表/図のhorizontal scroll
 - 全Lesson check button
-- Security Hub / Network Hub / Database Hub
+- Security / Network / Database / Computer Systems Hub
+- Shared ShellのComputer Systems自動リンク
