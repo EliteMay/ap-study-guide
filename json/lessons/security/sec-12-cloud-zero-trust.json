@@ -1,0 +1,23 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-12","title":"クラウドセキュリティ・ゼロトラスト","unitId":"security","officialMiddleCodes":[11],"officialAreas":["セキュリティ実装技術","クラウドセキュリティ","ゼロトラスト"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":333,"to":338},{"prefix":"sec-","from":494,"to":497}],"legacyTermIds":["sec-030","sec-331","sec-343","sec-344","sec-492","sec-501"],"estimatedMinutes":40},
+  "intro":"クラウドでは『Cloudだから安全』でも『全部Provider責任』でもありません。責任共有、IAM、鍵、Secret、設定、Workload、Network分離を層ごとに確認し、Zero Trustを場所ではなく継続的な検証として理解します。",
+  "objectives":["責任共有モデルでProviderと利用者の責任を分けられる。","IAM Role・最小権限・一時Credentialの利点を説明できる。","CASB/CSPM/CWPP/CNAPPを保護対象で区別できる。","KMS・Secret Manager・保存時/転送時暗号化を使い分けられる。","Zero Trust・Microsegmentation・SASEの関係を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 責任共有モデル","columns":["領域","Provider側の典型","利用者側の典型"],"rows":[["物理基盤","Data Center・Hardware","通常直接管理しない"],["Cloud基盤","Hypervisor/Managed Service基盤","Service選択・設定"],["Identity/権限","IAM機能を提供","User/Role/Policyを適切に設定"],["Data","Storage機能を提供","分類・公開設定・暗号化・Access管理"],["Application","Platformにより範囲が変わる","Code/設定/Secret/依存Library等"]],"note":"IaaS/PaaS/SaaSで境界は変わります。Service Model自体はCMP-02で扱います。"},
+    {"type":"comparison","title":"2. IAMは長期鍵を減らす","columns":["方式","Risk","改善"],"rows":[["長期Access KeyをSourceへ埋込み","漏えい後も悪用されやすい","Role/一時Credential"],["Admin権限を広く付与","侵害時Impact大","Least Privilege"],["人とServiceで同じCredential共有","追跡困難","個別Identity/Workload Identity"],["権限を付けっぱなし","不要権限蓄積","Access Review/期限付き付与"]]},
+    {"type":"comparison","title":"3. Cloud Security製品を保護対象で分ける","columns":["仕組み","主対象","見るもの"],"rows":[["CASB","Cloud Service利用","利用状況/Data/Policy"],["CSPM","Cloud設定/Posture","公開Bucket・過剰権限・設定逸脱"],["CWPP","Server/Container等Workload","脆弱性・Runtime挙動"],["CNAPP","Cloud Native Application全体","CSPM/CWPP等を統合"]]},
+    {"type":"comparison","title":"4. DataとSecretを分けて守る","columns":["対象","仕組み","注意"],"rows":[["保存Data","Encryption at Rest","鍵権限も別途管理"],["通信Data","Encryption in Transit","TLS等"],["暗号鍵","KMS","Key Policy/Rotation"],["Password/API Key","Secret Manager","Source/Imageへ埋め込まない"]]},
+    {"type":"steps","title":"5. Container/ImageのSecurity","items":[{"label":"① 最小Image","body":"不要Package/Toolを減らす。"},{"label":"② Image Scan","body":"既知脆弱性やSecret混入を検査する。"},{"label":"③ 署名/出所確認","body":"信頼できるImageだけをDeployする。"},{"label":"④ Runtime最小権限","body":"root不要・Capability削減・Read-only等を検討する。"},{"label":"⑤ Workload監視","body":"CWPP/EDR等で異常挙動を観測する。"}]},
+    {"type":"diagram","title":"6. Zero TrustとMicrosegmentation","diagrams":[{"label":"Access判断","connector":"→","nodes":[{"title":"Identity","value":"誰か"},{"title":"Device","value":"安全な端末か"},{"title":"Context","value":"場所/時刻/Risk"},{"title":"Policy","value":"最小権限"},{"title":"Microsegment","value":"必要Resourceだけ"}],"note":"『社内Networkだから許可』ではなく毎回Contextを評価する。Microsegmentationは侵害後の横展開も抑えます。"}]},
+    {"type":"comparison","title":"7. SASEの位置付け","columns":["要素","狙い","関連Lesson"],"rows":[["Network接続","拠点/Remote UserをCloud経由で接続","NET-14"],["Security Policy","Web/Access/Security制御を統合","SEC-12"],["Identity中心","場所ではなくUser/DeviceでPolicy","SEC-04/12"]]},
+    {"type":"mistakes","title":"8. よくある誤解","items":["Cloud Providerが安全な基盤を提供しても、利用者がStorageをPublic公開すれば情報漏えいは起こり得る。","暗号化したDataでもKMS鍵を誰でも使えるPolicyなら十分安全とは言えない。","Secret Managerへ保存しただけでは、Applicationが過剰権限で全Secretを読める問題は残る。","Zero TrustはVPNを全部廃止する製品名ではなく、信頼判断のArchitecture原則。"]}
+  ],
+  "checks":[
+    {"id":"sec12-q1","prompt":"Cloud StorageのPublic公開設定を継続検出する仕組みに最も近いのは？","options":["CSPM","CASB","OCSP","DHCP"],"answerIndex":0,"explanation":"CSPMはCloud設定/PostureのMisconfigurationを検出します。"},
+    {"id":"sec12-q2","prompt":"EC2等のWorkload Runtimeの挙動や脆弱性を保護する仕組みに近いのは？","options":["CWPP","DMARC","DNSSEC","PERT"],"answerIndex":0,"explanation":"Cloud Workload Protection Platformです。"},
+    {"id":"sec12-q3","prompt":"Applicationへ長期Access Keyを埋め込む代わりに最も望ましい設計は？","options":["Roleと一時Credentialを使う","KeyをREADMEへ書く","Admin権限を固定","同じPasswordを全Serviceで共有"],"answerIndex":0,"explanation":"一時CredentialとWorkload Roleで長期Secretを減らします。"},
+    {"id":"sec12-q4","prompt":"保存Dataは暗号化済みだが、KMS Keyを全Userが利用可能。問題は？","options":["鍵Accessが過剰","暗号化は必ず不要","DNS TTLが短い","VLAN不足"],"answerIndex":0,"explanation":"暗号化の安全性はKeyへのAccess Controlにも依存します。"},
+    {"id":"sec12-q5","prompt":"同じ社内NetworkでもUser/Device/Riskを確認し必要Resourceだけ許可する考え方は？","options":["Zero Trust","Round Robin","NAT","RAID"],"answerIndex":0,"explanation":"Network位置を無条件に信頼しないZero Trustです。"}
+  ],
+  "next":[{"lessonId":"LAW-01","label":"セキュリティ関連法規・個人情報・知的財産","status":"公開中"}]
+}
