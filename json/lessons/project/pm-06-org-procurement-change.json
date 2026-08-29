@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"PM-06","title":"組織・コミュニケーション・調達・変更","unitId":"project-management","officialMiddleCodes":[14],"officialAreas":["プロジェクトの資源","コミュニケーション","調達","統合"],"qualityStatus":"individual-v1","legacySource":"management","legacyTermIds":["term-pm-045","term-pm-046","term-pm-047","term-pm-048","term-pm-049","term-pm-050","term-pm-051","term-pm-052","term-pm-053","term-pm-054"],"estimatedMinutes":35},
+  "intro":"組織・連絡・契約・変更は別テーマに見えますが、『誰が責任を持ち、誰へ何を伝え、外部とどう契約し、変更をどう統制するか』というプロジェクト統治の流れでつながっています。",
+  "objectives":["RACIの4役割を区別できる。","コミュニケーションチャネル数を計算できる。","請負と準委任の責任の違いを説明できる。","変更要求から承認までの変更管理を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. RACIで責任を明確にする","columns":["記号","意味","ポイント"],"rows":[["R","Responsible / 実行責任","実際に作業する"],["A","Accountable / 説明責任","最終的に責任を持つ"],["C","Consulted / 協議先","実施前後に意見を求める"],["I","Informed / 報告先","状況を共有する"]],"note":"1つの作業にRが複数いることはあり得ますが、Aを誰にするかは明確にします。"},
+    {"type":"code-trace","title":"2. コミュニケーションチャネル数","question":"関係者が6人いるとき、1対1の組合せは何本か。","code":["channels = n × (n - 1) / 2"],"traceColumns":["項目","値"],"traceRows":[["n","6"],["計算","6 × 5 / 2"],["結果","15"]],"answer":"15チャネル。","explanation":"人数が増えると組合せは急速に増えるため、誰に何をどの頻度で伝えるかを設計する必要があります。"},
+    {"type":"comparison","title":"3. 請負と準委任を成果責任で見る","columns":["契約","中心となる約束","典型的な見方"],"rows":[["請負","仕事の完成・成果物","完成責任を負う契約"],["準委任","一定の事務・業務を適切に遂行","成果完成そのものを約束する契約とは異なる"]],"note":"試験では『請負=完成責任』『準委任=業務遂行』の違いをまず押さえます。実際の契約判断は契約条項や法的要件に依存します。"},
+    {"type":"steps","title":"4. 調達の基本流れ","items":[{"label":"① 何を外部調達するか決める","body":"内製/外注、範囲、品質、納期を整理する。"},{"label":"② 候補を評価","body":"価格だけでなく技術力、実績、体制、品質などを見る。"},{"label":"③ 契約条件を確定","body":"責任分担、成果、支払、変更、検収を明確にする。"},{"label":"④ 契約を管理","body":"進捗・品質・変更を追跡する。"}]},
+    {"type":"diagram","title":"5. 変更要求は勝手に実装しない","diagrams":[{"label":"変更管理フロー","connector":"→","nodes":[{"title":"Change Request","value":"正式要求"},{"title":"Impact","value":"範囲・日程・費用・品質"},{"title":"Decision","value":"承認/却下"},{"title":"Update","value":"計画・ベースライン更新"},{"title":"Implement","value":"実施・確認"}],"note":"スコープクリープを防ぐには、変更を拒むのではなく、影響評価と承認を通すことが重要です。"}]},
+    {"type":"mistakes","title":"6. 注意点","items":["準委任を単純に『時間売り契約』とだけ覚えない。成果完成責任との違いを見る。","変更要求が出たら即実装するのではなく影響評価を行う。","コミュニケーション量は人数に比例ではなく、1対1組合せではn(n-1)/2で増える。"]}
+  ],
+  "checks":[
+    {"id":"pm06-q1","prompt":"RACIのAが表すものは？","options":["実行責任","説明責任・最終責任","協議先","報告先"],"answerIndex":1,"explanation":"AはAccountableで、最終的な説明責任を持つ役です。"},
+    {"id":"pm06-q2","prompt":"8人のコミュニケーションチャネル数は？","options":["8","16","28","56"],"answerIndex":2,"explanation":"8×7/2=28です。"},
+    {"id":"pm06-q3","prompt":"成果物の完成に対して対価を支払う契約に最も近いのは？","options":["請負","準委任","SLA","RACI"],"answerIndex":0,"explanation":"請負は仕事の完成を中心とする契約です。"},
+    {"id":"pm06-q4","prompt":"変更要求を受けた直後に最初に行うべきこととして最も適切なのは？","options":["即実装","影響を評価する","必ず拒否する","既存計画を削除する"],"answerIndex":1,"explanation":"範囲・日程・コスト・品質への影響を評価してから承認判断します。"}
+  ],
+  "next":[{"lessonId":"SVC-01","label":"サービスマネジメントとSLA","status":"公開中"}]
+}
