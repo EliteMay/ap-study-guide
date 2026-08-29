@@ -17,8 +17,14 @@
   async function loadLesson() {
     const id = requestedLessonId();
     if (!id) throw new Error('lesson id が指定されていません。');
-    const index = await json('json/lessons/lesson-index.json');
-    const lessons = Array.isArray(index.lessons) ? index.lessons : [];
+    const [baseIndex, expansionIndex] = await Promise.all([
+      json('json/lessons/lesson-index.json'),
+      json('json/lessons/lesson-index-expansion.json')
+    ]);
+    const lessons = [
+      ...(Array.isArray(baseIndex.lessons) ? baseIndex.lessons : []),
+      ...(Array.isArray(expansionIndex.lessons) ? expansionIndex.lessons : [])
+    ];
     const entry = lessons.find(item => String(item.id).toUpperCase() === id);
     if (!entry) throw new Error(`教材 ${id} は見つかりません。`);
     const lesson = await json(entry.file);
