@@ -1,104 +1,172 @@
 # AP Study Notes
 
-応用情報技術者試験（AP）の学習用Webサイトです。
+応用情報技術者試験（AP）の個人学習用Webアプリです。
 
-このGitHubリポジトリ `EliteMay/ap-study-notes` を正本として管理します。今後は原則としてChatGPTがGitHub上の最新版を確認し、そのまま修正します。ZIPやCodexを通常フローにはしません。
+このGitHubリポジトリ `EliteMay/ap-study-notes` を正本として管理し、通常の改修はChatGPTからGitHub上の最新版を直接確認・修正します。
 
 ## 目的
 
-用語を暗記するだけでなく、次をつなげて理解できるサイトを目指します。
+単語帳を大量に並べるだけではなく、次の流れで知識を定着させることを目的にしています。
 
-- 短い定義
-- 初心者向け説明
-- 具体例
-- 試験での出方
-- ひっかけ
-- 午後問題での使い方
-- 関連用語
-- テスト・過去問による定着
+**理解する → 怪しい用語を復習リストへ残す → テストする → 過去問で使う → 習得済みにする**
 
-現在のHTML構成やUIは固定仕様ではありません。より分かりやすく、軽く、保守しやすくなるなら大きく変更して構いません。
+現在のUIやフォルダ構成は固定仕様ではありません。操作性・分かりやすさ・軽量性・保守性が上がるなら再設計して構いません。
 
-## 現在公開している主な機能
+## 現在の主要機能
 
 | 機能 | 状態 |
 |---|---|
-| 情報セキュリティ用語 | 公開中・501語 |
-| ネットワーク用語 | 公開中・480語 |
-| データベース用語 | 公開中・229語 |
+| 情報セキュリティ | 公開中・501語 |
+| ネットワーク | 公開中・480語 |
+| データベース | 公開中・229語 |
 | セキュリティ午後過去問 | 公開中・7問 |
-| 選択式テスト | 公開中・3分野の最新JSON連動 |
+| 最新JSON連動テスト | 公開中 |
+| ☆ 復習リスト | 公開中 |
+| 最近見た用語 / 続きから | 公開中 |
+| ダークモード | 公開中 |
+| PCサイドバー / スマホドロワー | 公開中 |
+| データ整合ブラウザテスト | `tests/` に追加済み |
 | アルゴリズム | 準備中 |
 | システム開発 | 準備中 |
 | プロジェクト管理 | 準備中 |
 
-## 現在の構成
+現在の3分野合計は **1210語** です。
 
-```text
-/
-├─ index.html
-├─ README.md
-├─ .nojekyll
-│
-├─ css/
-│  ├─ style.css          # 全体共通
-│  ├─ home.css           # ホーム専用
-│  ├─ term-page.css      # 用語ページ共通
-│  ├─ past.css           # 過去問ページ専用
-│  └─ test.css           # テスト専用
-│
-├─ js/
-│  ├─ home.js            # ホームの件数・進捗集計
-│  ├─ term-page.js       # 用語ページ共通エンジン
-│  ├─ past.js            # 過去問表示エンジン
-│  └─ test.js            # 最新用語JSONからテスト生成
-│
-├─ html/
-│  ├─ security.html
-│  ├─ network.html
-│  ├─ database.html
-│  ├─ security-past.html
-│  ├─ test.html
-│  ├─ test-legacy.html   # 旧手作り問題の一時保存
-│  ├─ algorithm.html
-│  ├─ system.html
-│  ├─ management.html
-│  └─ template.html
-│
-├─ *-terms-manifest.json
-├─ *-details-manifest.json
-├─ security-past-index.json
-├─ json/
-│  ├─ terms/
-│  ├─ details/
-│  ├─ past/
-│  └─ past-problems/
-├─ sources/
-├─ tools/check-json.html
-└─ docs/
-```
+## 他の自作GitHubから横展開した設計
+
+APサイトだけを単独で改善せず、同じGitHubアカウント内の他プロジェクトで使いやすかった設計をAP向けに再利用しています。
+
+- **VReview**: 左サイドバー、Dashboard、現在バージョン表示、次にやることが分かる導線
+- **LyricTube**: 小画面でサイドバーをドロワー化、safe-area対応、PC/スマホで操作を崩しにくい構成
+- **DesignShelf**: localStorage状態管理、ダークモード、トースト通知、お気に入り方式
+- **ASMRTube**: `tests/` をサイト本体から分離して、壊れやすいデータ処理を検査する構成
+
+見た目をコピーするのではなく、AP学習に意味がある部分だけ採用しています。
+
+## 学習Dashboard
+
+ホーム `index.html` は単なるリンク一覧ではなくDashboardとして使います。
+
+表示内容:
+
+- 全体の習得済み語数
+- 復習リスト件数
+- 最後に見た用語から「続きから」
+- 最近見た用語 最大5件
+- 分野別進捗
+- 過去問・テストへの導線
+
+学習履歴や復習リストはブラウザのlocalStorageに保存します。
+
+## 共通アプリシェル
+
+共通UI:
+
+- `css/shell.css`
+- `js/shell.js`
+
+主な機能:
+
+- PC: 固定左サイドバー
+- 920px以下: ハンバーガー式ドロワー
+- モバイルsafe-area考慮
+- ダーク / ライトテーマ
+- テーマ状態保存
+- 現在BUILD表示
+- 共通ランダムテスト導線
+- トースト通知
+- `/` キーでページ内検索へ移動
+- `Esc` でモバイルメニューを閉じる
+- `prefers-reduced-motion` 対応
+
+現在BUILD: `2026.08.29-r3`
 
 ## 用語ページ
 
-情報セキュリティ・ネットワーク・データベースは同じ `js/term-page.js` と `css/term-page.css` を使います。
+対象:
 
-各HTMLはページ固有の説明と `window.TERM_PAGE_CONFIG` を中心に持ち、検索・カード生成・進捗処理を個別コピーしません。
+- `html/security.html`
+- `html/network.html`
+- `html/database.html`
+
+共通エンジン:
+
+- `js/term-page.js`
+- `css/term-page.css`
+
+各HTMLは `window.TERM_PAGE_CONFIG` だけで、分野名・マニフェスト・保存キー等を指定します。
 
 共通機能:
 
 - JSON読み込み
-- 検索
+- リアルタイム検索
 - カテゴリ絞り込み
-- 単語一覧生成
-- 詳細解説展開
+- 単語一覧自動生成
+- 詳細解説の遅延描画
 - 用語間リンク
-- URLハッシュから該当カードを開く
+- URLハッシュから対象用語を直接開く
+- 隠して確認
 - 習得済みチェック
+- ☆ 復習リスト追加/解除
+- 復習リストだけ表示
+- 最近見た用語の記録
 - 進捗保存
 - 目次ハイライト
-- ID・term・categoryの基本整合警告
+- ID / term / category の基本整合警告
 
-新しい用語単元を追加するときは `html/template.html` を使います。
+## ☆ 復習リスト
+
+用語カードの `☆ 復習` を押すと、3分野共通の復習リストへ保存されます。
+
+利用方法:
+
+1. 分からない・怪しい用語へ `☆ 復習`
+2. 用語ページで `☆ 復習リスト` フィルタを押す
+3. ホームで復習件数と分野別内訳を確認
+4. テストの出題元を `☆ 復習リスト` にする
+5. 理解できたら復習リストから外す / 習得済みにする
+
+## テスト
+
+現行版:
+
+- `html/test.html`
+- `css/test.css`
+- `js/test.js`
+
+辞書と別の古い用語一覧を持たず、3分野の正式JSONから直接出題します。
+
+機能:
+
+- 3分野ミックス
+- 分野指定
+- ☆ 復習リストだけ出題
+- 問題数指定
+- 説明 → 用語
+- 用語 → 説明
+- ミックス
+- 同カテゴリ中心の紛らわしい選択肢
+- 説明中に正解語・別名が含まれる場合の自動マスク
+- 1〜4キー回答
+- Enterで次へ
+- 間違えた問題だけ再テスト
+- 辞書カードへの復習リンク
+
+旧手作り問題は `html/test-legacy.html` に退避しています。良い問題だけ後で専用JSONへ移す予定です。
+
+## セキュリティ過去問
+
+- 表示: `html/security-past.html`
+- ロジック: `js/past.js`
+- スタイル: `css/past.css`
+- 索引: `security-past-index.json`
+- 問題文: `json/past-problems/`
+- 解説: `json/past/`
+- PDF: `sources/`
+
+解説 `sections[].answerTargets` と問題文 `problem.questions[].targets` を同じ設問単位で対応させます。
+
+古いデータの `studyChecklist` / `reviewChecklist`、複数のchoices形式は表示側で吸収します。
 
 ## データ構成
 
@@ -106,7 +174,9 @@
 
 `json/terms/*.json`
 
-主なフィールド: `id`, `term`, `aliases`, `category`, `definition`
+主なフィールド:
+
+`id`, `term`, `aliases`, `category`, `definition`
 
 ### 詳細解説
 
@@ -116,113 +186,125 @@
 
 `id`, `term`, `category`, `level`, `tags`, `beginner`, `example`, `examPoint`, `trap`, `deepDive`, `relatedConcepts`, `commonMistakes`, `afternoonUse`, `howToRemember`
 
-用語JSONと詳細JSONは `id`・`term`・`category` を対応させます。
+terms/detailsは `id`・`term`・`category` を対応させます。
 
-## セキュリティ過去問
+## localStorage
 
-- 表示: `html/security-past.html`
-- ロジック: `js/past.js`
-- スタイル: `css/past.css`
-- 索引: `security-past-index.json`
-- 問題文・設問: `json/past-problems/`
-- 解説: `json/past/`
-- PDF原本: `sources/`
-
-解説側 `sections[].answerTargets` と問題文側 `questions[].targets` は一致させます。
-
-過去データの世代差として `studyChecklist` / `reviewChecklist` の両方を表示側で吸収します。問題文の `choices` も文字列形式と `{key,text}` 形式の両方を表示できます。
-
-関連用語は `security.html#用語ID` へリンクし、辞書側で対象カードを開きます。
-
-## テスト
-
-通常テスト `html/test.html` は、セキュリティ・ネットワーク・データベースの最新用語JSONから問題を生成します。
-
-現在の機能:
-
-- 3分野ミックス / 分野指定
-- 問題数指定
-- 説明→用語 / 用語→説明 / ミックス
-- 同カテゴリ中心の紛らわしい選択肢
-- 正解語・別名が説明文に含まれる場合の自動マスク
-- 1〜4キー回答、Enterで次へ
-- 間違えた問題だけ再テスト
-- 辞書カードへの復習リンク
-
-以前の手作りAP本番風問題は `html/test-legacy.html` に一時保存しています。今後、良い問題だけを専用JSONへ抽出した後にlegacyページを削除できます。
-
-## 保存データ
-
-習得済み状態は `localStorage` に保存します。
-
-| 単元 | キー |
+| 用途 | キー |
 |---|---|
-| 情報セキュリティ | `security-terms-checked` |
-| ネットワーク | `network-terms-checked` |
-| データベース | `database-terms-checked` |
+| セキュリティ習得済み | `security-terms-checked` |
+| ネットワーク習得済み | `network-terms-checked` |
+| DB習得済み | `database-terms-checked` |
+| 復習リスト | `ap-study-bookmarks-v1` |
+| 最近見た用語 | `ap-study-recent-v1` |
+| テーマ | `ap-study-theme` |
 
-これらのキーや既存用語IDを変更すると進捗が消える可能性があります。必要なら移行処理を用意します。
+既存用語IDやこれらのキーを変更する場合、学習データ移行を検討します。
 
-## 利用方法
+## ファイル構成
 
-静的サイトなのでビルドは不要です。
-
-### GitHub Pages
-
-GitHub Pagesを有効にした場合はルートの `index.html` から利用できます。
-
-想定URL: `https://elitemay.github.io/ap-study-notes/`
-
-`.nojekyll` は配置済みです。
-
-### ローカル
-
-JSONを `fetch()` するため、`file://` 直開きではなくLive Server等のHTTPサーバ経由で開いてください。
+```text
+/
+├─ index.html
+├─ README.md
+├─ .nojekyll
+├─ css/
+│  ├─ style.css
+│  ├─ shell.css
+│  ├─ home.css
+│  ├─ term-page.css
+│  ├─ past.css
+│  └─ test.css
+├─ js/
+│  ├─ shell.js
+│  ├─ home.js
+│  ├─ term-page.js
+│  ├─ past.js
+│  └─ test.js
+├─ html/
+│  ├─ security.html
+│  ├─ network.html
+│  ├─ database.html
+│  ├─ security-past.html
+│  ├─ test.html
+│  ├─ test-legacy.html
+│  ├─ algorithm.html
+│  ├─ system.html
+│  ├─ management.html
+│  └─ template.html
+├─ json/
+│  ├─ terms/
+│  ├─ details/
+│  ├─ past/
+│  └─ past-problems/
+├─ sources/
+├─ tools/
+│  └─ check-json.html
+├─ tests/
+│  ├─ data-integrity.test.html
+│  └─ README.md
+└─ docs/
+```
 
 ## 品質チェック
 
-`tools/check-json.html` をHTTP経由で開きます。
+### 手動チェック画面
 
-検査対象:
+`tools/check-json.html`
 
-- セキュリティ / ネットワーク / DB の用語・詳細
-- マニフェスト件数
-- ID重複・term重複
-- 用語と詳細のID / term / category対応
-- 過去問索引と解説JSON
-- 問題文JSONの存在
-- `answerTargets` / `expectedAnswers`
-- 問題文 `targets` と解説 `answerTargets` の一致
+### 自動ブラウザテスト
 
-`ERROR 0` を基本的な完了条件とします。
+`tests/data-integrity.test.html`
 
-## 変更時に特に注意するもの
+GitHub PagesまたはLive Serverで開くと自動実行します。
 
-今の画面構成を守る必要はありませんが、以下は壊すと影響が大きいため慎重に扱います。
+主な検査:
 
-- localStorageの進捗
+- 3分野のmanifest countと実JSON件数
+- 用語ID重複
+- 用語名重複
+- term/detail ID対応
+- term/category対応
+- 過去問解説と問題文JSONの存在
+- `answerTargets` と `targets` の一致
+- 解説済み設問の答案情報
+
+## GitHub Pages
+
+ビルド不要の静的構成です。
+
+想定URL:
+
+`https://elitemay.github.io/ap-study-notes/`
+
+`.nojekyll` は配置済みです。
+
+JSONをfetchするため、ローカル利用では `file://` 直開きではなくLive Server等のHTTPサーバを使います。
+
+## 変更時に慎重に扱うもの
+
+現在の見た目やHTML構成を守る必要はありませんが、以下は破壊すると学習データへ影響するため注意します。
+
+- localStorageキー
 - 用語ID
-- マニフェストと実データの対応
-- 過去問の年度・問番号・PDF対応
-- 問題文JSONと解説JSONの設問対応
-- GitHub Pagesでの相対パス
+- manifestと実JSONの対応
+- 過去問ID
+- 年度 / 問番号 / PDF対応
+- 問題文と解説の設問対応
+- GitHub Pagesの相対パス
 
-## 現在の次候補
+## 次の主要改善候補
 
-1. `test-legacy.html` から価値のある本番風問題だけを専用JSONへ抽出し、新テストへ統合。
-2. `studyChecklist` / `reviewChecklist` など過去問データ自体のフィールドを統一（表示側は既に両対応）。
-3. アルゴリズム・システム開発・プロジェクト管理を追加。
-4. `css/style.css` に残る旧ページ由来の未使用スタイルを精査して削減。
-5. GitHub Pagesを有効化し、主要導線を実ブラウザ検証。
+1. `test-legacy.html` の良質な手作り問題を専用JSONへ移し、本番風モードへ統合。
+2. アルゴリズム・システム開発・プロジェクト管理を正式JSON単元として追加。
+3. Dashboardに弱点傾向・テスト履歴を追加。
+4. `css/style.css` の未使用旧スタイルを削減。
+5. GitHub Pages上でPC/スマホの実操作確認。
 
-## 開発方針
-
-優先順位:
+## 開発優先順位
 
 1. 操作性
 2. 分かりやすさ・学習効果
-3. 軽量さ
-4. 保守・修正のしやすさ
+3. 軽量化
+4. 保守・修正しやすさ
 5. 見た目
-
-大きく変えた方が良い場合は、現在の構成を守ることより改善を優先します。ただしデータ破損や進捗消失を伴う変更は影響を確認してから行います。
