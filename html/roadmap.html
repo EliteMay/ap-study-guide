@@ -11,21 +11,21 @@
 </head>
 <body>
 <nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
-<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="computer.html" class="unit-nav-link">🧩 コンピュータシステム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
 </ul></div></nav>
 <header class="site-header roadmap-hero"><div class="container">
 <p class="eyebrow">AP CURRICULUM MAP</p>
 <h1>学習マップ</h1>
-<p class="lead">「今あるページ」ではなく、IPAのシラバスを基準にAP全体を見渡すための地図です。既存教材の不足や誤配置も隠さず表示します。</p>
+<p class="lead">「今あるページ」ではなく、IPAのシラバスを基準にAP全体を見渡すための地図です。旧教材1,422語の監査は完了し、現在は不足しているシラバス範囲と本番型演習を埋めています。</p>
 <div class="roadmap-source"><strong>基準:</strong> 応用情報技術者試験 シラバス Ver.7.2（2026年度現行制度）</div>
 </div></header>
 <main id="main-content">
 <section class="section"><div class="container">
-<div class="roadmap-notice"><strong>教材再設計中</strong><p>現在公開している6ページはAP全範囲ではありません。このマップを基準に、既存1422語を再分類し、不要語を削り、不足分野を追加していきます。</p></div>
+<div class="roadmap-notice"><strong>旧教材監査 1,422 / 1,422 完了</strong><p>現在は「古い単語カードを直す段階」ではなく、IPAの23中分類を基準に不足分野を追加する段階です。Computer SystemsはCMP-01〜12で中分類3〜6をLesson化しました。</p></div>
 <div id="roadmap-summary" class="roadmap-summary" aria-live="polite"><span>学習マップを読み込み中...</span></div>
 </div></section>
 <section class="section section-alt"><div class="container">
-<div class="roadmap-heading"><div><p class="roadmap-kicker">LEARNING UNITS</p><h2>学習しやすい13ユニット</h2></div><p>公式分類を崩さず、実際に勉強するときのまとまりへ再編しています。</p></div>
+<div class="roadmap-heading"><div><p class="roadmap-kicker">LEARNING UNITS</p><h2>学習しやすい13ユニット</h2></div><p>公式分類を崩さず、実際に勉強するときのまとまりへ再編しています。公開済みユニットはカードから直接教材へ移動できます。</p></div>
 <div id="study-unit-grid" class="study-unit-grid"></div>
 </div></section>
 <section class="section"><div class="container">
@@ -33,12 +33,12 @@
 <div id="official-map" class="official-map"></div>
 </div></section>
 <section class="section section-alt"><div class="container">
-<h2>この再設計で直すこと</h2>
+<h2>この再設計で守ること</h2>
 <div class="roadmap-rules">
-<article><strong>1. 語数を完成度にしない</strong><p>カテゴリを40語ずつ埋めるような作り方はやめ、試験で必要かどうかを基準に残します。</p></article>
-<article><strong>2. 用語と教材形式を分ける</strong><p>擬似言語、SQL、PERT、EVM、サブネットなどは単語カードだけでなく、実際に手を動かす演習を持たせます。</p></article>
+<article><strong>1. 語数を完成度にしない</strong><p>カテゴリを一定数の語で埋めるのではなく、試験で理解・適用できるかを基準に教材化します。</p></article>
+<article><strong>2. 用語と教材形式を分ける</strong><p>CPU性能、擬似言語、SQL、PERT、EVM、サブネットなどは単語カードだけでなく、計算・図・状態遷移・実例を使います。</p></article>
 <article><strong>3. 公式分類と学習画面を分離する</strong><p>データはIPA分類へ正確に紐付け、画面では理解しやすい13ユニットで見せます。</p></article>
-<article><strong>4. 重複ではなく複数タグでつなぐ</strong><p>DNSのようにネットワークとセキュリティの両方で重要な語は、同じ内容を複製せず関連タグで横断します。</p></article>
+<article><strong>4. 重複ではなく横断参照でつなぐ</strong><p>DNSやCloudのように複数分野へ関係する内容は、同じ説明を複製せず主教材と関連教材を分けます。</p></article>
 </div>
 </div></section>
 </main>
