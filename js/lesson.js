@@ -2,12 +2,59 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
+  const LESSON_PROGRESS_KEY = 'ap-study-lesson-progress-v1';
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
   async function json(path) {
     const response = await fetch(`../${path}`, { cache:'no-store' });
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     return response.json();
+  }
+
+  function readProgress() {
+    try {
+      const value = JSON.parse(localStorage.getItem(LESSON_PROGRESS_KEY) || '{}');
+      return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+    } catch { return {}; }
+  }
+
+  function writeProgress(value) {
+    try {
+      localStorage.setItem(LESSON_PROGRESS_KEY, JSON.stringify(value));
+      window.dispatchEvent(new CustomEvent('ap-lesson-progress-changed'));
+    } catch {}
+  }
+
+  function saveAttempt(lessonId, total, answered, correct) {
+    const all = readProgress();
+    const previous = all[lessonId] || {};
+    const finished = total > 0 && answered === total;
+    const bestCorrect = finished ? Math.max(Number(previous.bestCorrect || 0), correct) : Number(previous.bestCorrect || 0);
+    const completionCount = Number(previous.completionCount || 0) + (finished ? 1 : 0);
+    all[lessonId] = {
+      total,
+      latestAnswered:answered,
+      latestCorrect:correct,
+      bestCorrect,
+      completed:Boolean(previous.completed || finished),
+      completionCount,
+      updatedAt:Date.now()
+    };
+    writeProgress(all);
+    return all[lessonId];
+  }
+
+  function renderProgressSummary(lessonId, total, currentAnswered = 0, currentCorrect = 0) {
+    const root = $('lesson-progress-summary');
+    if (!root) return;
+    const saved = readProgress()[lessonId] || {};
+    const best = Math.min(Number(saved.bestCorrect || 0), total);
+    const completed = Boolean(saved.completed);
+    const count = Number(saved.completionCount || 0);
+    const current = currentAnswered > 0
+      ? `<span>今回 ${currentCorrect} / ${currentAnswered} 正解</span>`
+      : '<span>今回 0問</span>';
+    root.innerHTML = `${current}<span>Best ${best} / ${total}</span><span class="${completed ? 'is-complete' : ''}">${completed ? `完了 ${count}回` : '未完了'}</span>`;
   }
 
   function requestedLessonId() {
@@ -104,7 +151,11 @@
   function renderChecks(lesson) {
     const checks = lesson.checks || [];
     if (!checks.length) return;
+    const lessonId = lesson.meta.id;
+    let currentAnswered = 0;
+    let currentCorrect = 0;
     $('lesson-check').hidden = false;
+    renderProgressSummary(lessonId, checks.length);
     $('lesson-questions').innerHTML = checks.map((q, qi) => `
       <article class="check-question" data-question="${qi}">
         <h3>Q${qi + 1}. ${escapeHtml(q.prompt)}</h3>
@@ -120,15 +171,20 @@
           if (node.dataset.answered === 'true') return;
           node.dataset.answered = 'true';
           const selected = Number(button.dataset.option);
+          const isCorrect = selected === Number(q.answerIndex);
+          currentAnswered += 1;
+          if (isCorrect) currentCorrect += 1;
           node.querySelectorAll('[data-option]').forEach(option => {
             option.disabled = true;
             if (Number(option.dataset.option) === Number(q.answerIndex)) option.classList.add('correct');
           });
-          if (selected !== Number(q.answerIndex)) button.classList.add('wrong');
+          if (!isCorrect) button.classList.add('wrong');
           const feedback = node.querySelector('.check-feedback');
-          feedback.className = `check-feedback ${selected === Number(q.answerIndex) ? 'correct' : 'wrong'}`;
-          feedback.innerHTML = `<strong>${selected === Number(q.answerIndex) ? '正解' : '不正解'}</strong><p>${escapeHtml(q.explanation || '')}</p>`;
+          feedback.className = `check-feedback ${isCorrect ? 'correct' : 'wrong'}`;
+          feedback.innerHTML = `<strong>${isCorrect ? '正解' : '不正解'}</strong><p>${escapeHtml(q.explanation || '')}</p>`;
           feedback.hidden = false;
+          saveAttempt(lessonId, checks.length, currentAnswered, currentCorrect);
+          renderProgressSummary(lessonId, checks.length, currentAnswered, currentCorrect);
         });
       });
     });
