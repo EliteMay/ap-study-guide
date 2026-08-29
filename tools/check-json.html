@@ -1,3 +1,130 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JSON品質チェック | AP Study Notes</title><link href="../css/style.css" rel="stylesheet"><style>pre{white-space:pre-wrap;background:#0f172a;color:#e2e8f0;padding:16px;border-radius:12px}.ok{color:#047857;font-weight:900}.warn{color:#b45309;font-weight:900}</style></head><body><main class="section"><div class="container"><h1>JSON品質チェック</h1><p>Live Serverで開いてください。セキュリティとネットワークの用語ID重複、term重複、details対応、過去問の設問対象漏れ、問題文JSONの有無を検査します。</p><button id="run" class="primary-link-btn">チェック開始</button><pre id="out">待機中</pre></div></main><script>
-const log=[];const out=document.getElementById('out');function w(x){log.push(x);out.textContent=log.join('\n')}async function f(p){const r=await fetch('../'+p,{cache:'no-store'});if(!r.ok)throw new Error(p+' '+r.status);return r.json()}function dup(arr,key,label){const m=new Map();for(const x of arr){const v=x[key];if(!v)w('WARN '+label+' missing '+key+': '+JSON.stringify(x).slice(0,80));else if(m.has(v))w('WARN duplicate '+label+' '+key+': '+v);else m.set(v,x)}}async function checkTermSet(prefix,label){w(label+' terms...');const tm=await f(prefix+'-terms-manifest.json');const dm=await f(prefix+'-details-manifest.json');let terms=[];let details=[];for(const item of tm.files){const j=await f(item.file);terms=terms.concat(j.terms||[]);if(Number(item.count||0)!==(j.terms||[]).length)w('WARN '+label+' term count mismatch '+item.file)}for(const item of dm.files){const j=await f(item.file);details=details.concat(j.details||[]);if(Number(item.count||0)!==(j.details||[]).length)w('WARN '+label+' detail count mismatch '+item.file)}w(label+' terms count: '+terms.length);w(label+' details count: '+details.length);dup(terms,'id',label+' term');dup(terms,'term',label+' term');dup(details,'id',label+' detail');const termIds=new Set(terms.map(x=>x.id));const detailIds=new Set(details.map(x=>x.id));for(const id of termIds){if(!detailIds.has(id))w('WARN '+label+' missing detail for '+id)}for(const id of detailIds){if(!termIds.has(id))w('WARN '+label+' detail without term '+id)}const total=Number(tm.meta?.totalTerms||0);if(total&&total!==terms.length)w('WARN '+label+' manifest totalTerms mismatch: '+total+' vs '+terms.length)}document.getElementById('run').onclick=async()=>{log.length=0;try{await checkTermSet('security','security');await checkTermSet('network','network');w('security past...');const pi=await f('security-past-index.json');for(const item of pi.files){w('file '+item.file);const pj=await f(item.file);if(item.problemFile){await f(item.problemFile);w('  problemFile OK: '+item.problemFile)}else w('WARN no problemFile for '+item.id);for(const q of pj.pastQuestions||[]){if(!Array.isArray(q.sections)||!q.sections.length)w('WARN no sections '+q.id);for(const s of q.sections||[]){if(!s.answerTargets||!s.answerTargets.length)w('WARN no targets '+q.id+' '+s.label);if((!s.expectedAnswers||!s.expectedAnswers.length)&&s.status!=='要原本確認')w('WARN no answers '+q.id+' '+s.label);}}}w('DONE');}catch(e){w('ERROR '+e.message);console.error(e)}};</script></body></html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>データ品質チェック | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<style>
+.check-shell{max-width:980px;margin:0 auto}.check-actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.check-summary{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.check-pill{padding:5px 11px;border-radius:999px;background:#e2e8f0;font-weight:800}.check-pill.error{background:#fee2e2;color:#991b1b}.check-pill.warn{background:#fef3c7;color:#92400e}.check-pill.ok{background:#dcfce7;color:#166534}pre{white-space:pre-wrap;background:#0f172a;color:#e2e8f0;padding:18px;border-radius:14px;line-height:1.65;min-height:220px}.muted{color:#64748b}
+</style>
+</head>
+<body>
+<main class="section"><div class="container check-shell">
+<h1>データ品質チェック</h1>
+<p>セキュリティ・ネットワーク・データベースの用語/詳細JSONと、セキュリティ過去問の索引・問題文・解説の対応を検査します。</p>
+<div class="check-actions"><button id="run" class="primary-link-btn" type="button">チェック開始</button><a class="secondary-btn" href="../index.html">ホームへ戻る</a></div>
+<div id="summary" class="check-summary"></div>
+<pre id="out">待機中</pre>
+<p class="muted">ERRORは完了前に修正対象。WARNは内容を確認し、意図した例外だけ残します。</p>
+</div></main>
+<script>
+const DOMAINS=[
+  {prefix:'security',label:'情報セキュリティ'},
+  {prefix:'network',label:'ネットワーク'},
+  {prefix:'database',label:'データベース'}
+];
+const out=document.getElementById('out');
+const summary=document.getElementById('summary');
+const runButton=document.getElementById('run');
+let lines=[];let errors=0;let warnings=0;
+function write(message){lines.push(message);out.textContent=lines.join('\n');}
+function error(message){errors++;write('ERROR '+message);}
+function warn(message){warnings++;write('WARN  '+message);}
+function ok(message){write('OK    '+message);}
+function sameMembers(a,b){const x=[...(a||[])].map(String).sort();const y=[...(b||[])].map(String).sort();return x.length===y.length&&x.every((v,i)=>v===y[i]);}
+async function fetchJson(path){const response=await fetch('../'+path,{cache:'no-store'});if(!response.ok)throw new Error(`${path}: HTTP ${response.status}`);return response.json();}
+async function checkDomain({prefix,label}){
+  write(`\n[${label}]`);
+  const [termManifest,detailManifest]=await Promise.all([fetchJson(`${prefix}-terms-manifest.json`),fetchJson(`${prefix}-details-manifest.json`)]);
+  const termFiles=Array.isArray(termManifest.files)?termManifest.files:[];
+  const detailFiles=Array.isArray(detailManifest.files)?detailManifest.files:[];
+  if(!termFiles.length)error(`${label}: terms manifest files が空です`);
+  if(!detailFiles.length)error(`${label}: details manifest files が空です`);
+  const termPayloads=await Promise.all(termFiles.map(item=>fetchJson(item.file)));
+  const detailPayloads=await Promise.all(detailFiles.map(item=>fetchJson(item.file)));
+  const terms=[];const details=[];
+  termPayloads.forEach((payload,index)=>{
+    const rows=Array.isArray(payload.terms)?payload.terms:[];terms.push(...rows);
+    const expected=Number(termFiles[index].count||0);if(expected!==rows.length)error(`${label}: ${termFiles[index].file} count ${expected} != ${rows.length}`);
+  });
+  detailPayloads.forEach((payload,index)=>{
+    const rows=Array.isArray(payload.details)?payload.details:[];details.push(...rows);
+    const expected=Number(detailFiles[index].count||0);if(expected!==rows.length)error(`${label}: ${detailFiles[index].file} count ${expected} != ${rows.length}`);
+  });
+  const declaredTerms=Number(termManifest.meta?.totalTerms||0);if(declaredTerms&&declaredTerms!==terms.length)error(`${label}: totalTerms ${declaredTerms} != ${terms.length}`);
+  const declaredDetails=Number(detailManifest.meta?.totalDetails||0);if(declaredDetails&&declaredDetails!==details.length)error(`${label}: totalDetails ${declaredDetails} != ${details.length}`);
+  const termIds=new Map();const termNames=new Map();
+  for(const term of terms){
+    if(!term.id){error(`${label}: idなし用語 ${JSON.stringify(term).slice(0,100)}`);continue;}
+    if(termIds.has(term.id))error(`${label}: 用語ID重複 ${term.id}`);else termIds.set(term.id,term);
+    const name=String(term.term||'').trim().toLowerCase();if(!name)error(`${label}: termなし ${term.id}`);else if(termNames.has(name))warn(`${label}: 用語名重複 ${term.term}`);else termNames.set(name,term.id);
+  }
+  const detailIds=new Map();
+  for(const detail of details){
+    if(!detail.id){error(`${label}: idなし詳細解説`);continue;}
+    if(detailIds.has(detail.id))error(`${label}: 詳細ID重複 ${detail.id}`);else detailIds.set(detail.id,detail);
+  }
+  for(const [id,term] of termIds){
+    const detail=detailIds.get(id);if(!detail){error(`${label}: 詳細解説なし ${id} ${term.term}`);continue;}
+    if(detail.term&&detail.term!==term.term)error(`${label}: term不一致 ${id}: ${term.term} / ${detail.term}`);
+    if(detail.category&&detail.category!==term.category)error(`${label}: category不一致 ${id}: ${term.category} / ${detail.category}`);
+  }
+  for(const id of detailIds.keys()){if(!termIds.has(id))error(`${label}: 用語のない詳細解説 ${id}`);}
+  ok(`${label}: 用語 ${terms.length} / 詳細 ${details.length}`);
+}
+async function checkPast(){
+  write('\n[セキュリティ過去問]');
+  const index=await fetchJson('security-past-index.json');
+  const files=Array.isArray(index.files)?index.files:[];
+  if(!files.length){error('過去問索引が空です');return;}
+  const seenPastIds=new Set();
+  for(const item of files){
+    if(!item.file){error(`index ${item.id||'?'}: fileなし`);continue;}
+    if(!item.problemFile)error(`index ${item.id||'?'}: problemFileなし`);
+    if(!item.sourcePdf)warn(`index ${item.id||'?'}: sourcePdfなし`);
+    const explanation=await fetchJson(item.file);
+    const questions=Array.isArray(explanation.pastQuestions)?explanation.pastQuestions:[];
+    const declared=Number(item.count||0);if(declared&&declared!==questions.length)error(`${item.file}: count ${declared} != ${questions.length}`);
+    let problemPayload=null;
+    if(item.problemFile){try{problemPayload=await fetchJson(item.problemFile);}catch(e){error(e.message);}}
+    const problem=problemPayload?.problem||null;
+    const problemSections=new Map((problem?.questions||[]).map(q=>[q.label,q]));
+    for(const q of questions){
+      if(!q.id){error(`${item.file}: 過去問idなし`);continue;}
+      if(seenPastIds.has(q.id))error(`過去問ID重複 ${q.id}`);seenPastIds.add(q.id);
+      if(q.sourceProblemFile&&item.problemFile&&q.sourceProblemFile!==item.problemFile)error(`${q.id}: sourceProblemFile != index.problemFile`);
+      if(q.sourcePdf&&item.sourcePdf&&q.sourcePdf!==item.sourcePdf)error(`${q.id}: sourcePdf != index.sourcePdf`);
+      const sections=Array.isArray(q.sections)?q.sections:[];
+      if(!sections.length)error(`${q.id}: sectionsなし`);
+      const labels=new Set();
+      for(const section of sections){
+        if(labels.has(section.label))error(`${q.id}: section label重複 ${section.label}`);labels.add(section.label);
+        const targets=Array.isArray(section.answerTargets)?section.answerTargets:[];
+        const answers=Array.isArray(section.expectedAnswers)?section.expectedAnswers:[];
+        if(!targets.length)error(`${q.id} ${section.label}: answerTargetsなし`);
+        if(!answers.length&&section.status!=='要原本確認')error(`${q.id} ${section.label}: expectedAnswersなし`);
+        const source=problemSections.get(section.label);
+        if(!source){error(`${q.id} ${section.label}: 問題文JSON側に対応設問なし`);continue;}
+        if(!sameMembers(targets,source.targets))error(`${q.id} ${section.label}: targets不一致 解説=[${targets}] 問題=[${source.targets||[]}]`);
+      }
+      for(const label of problemSections.keys()){if(!labels.has(label))error(`${q.id}: 解説側に ${label} がありません`);}
+    }
+    ok(`${item.id||item.file}: 解説 ${questions.length}件 / 問題文 ${problem?'OK':'NG'}`);
+  }
+}
+function renderSummary(){
+  summary.innerHTML=`<span class="check-pill ${errors?'error':'ok'}">ERROR ${errors}</span><span class="check-pill ${warnings?'warn':'ok'}">WARN ${warnings}</span><span class="check-pill ${errors?'error':'ok'}">${errors?'要修正':'チェック完了'}</span>`;
+}
+runButton.addEventListener('click',async()=>{
+  lines=[];errors=0;warnings=0;summary.innerHTML='';out.textContent='実行中...';runButton.disabled=true;
+  try{
+    for(const domain of DOMAINS)await checkDomain(domain);
+    await checkPast();
+    write(`\nDONE: ERROR ${errors} / WARN ${warnings}`);
+  }catch(e){console.error(e);error(e.message);write('\nCHECK ABORTED');}
+  finally{renderSummary();runButton.disabled=false;}
+});
+</script>
+</body>
+</html>
