@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-06","title":"OS・プロセス・スレッド・スケジューリング","unitId":"computer-systems","officialMiddleCodes":[5],"officialAreas":["オペレーティングシステム"],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"OSを機能一覧で覚えず、CPUを誰に使わせるか・待ち状態をどう管理するかという視点で学びます。Process/Thread、状態遷移、Scheduling、Context Switch、排他制御までつなげます。",
+  "objectives":["ProcessとThreadの違いを説明できる。","Ready/Running/Waitingの状態遷移を追える。","FCFS・Round Robin・Priority Schedulingを比較できる。","Mutex/SemaphoreとDeadlockの基本を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. ProcessとThread","columns":["観点","Process","Thread"],"rows":[["実行単位","独立したProgram実行単位","Process内の実行流"],["Address空間","通常Processごとに分離","同じProcess内で共有しやすい"],["切替Cost","比較的大きい","比較的小さい傾向"],["障害影響","他Processへ波及しにくい","同一Process内で影響しやすい"]]},
+    {"type":"diagram","title":"2. Process状態遷移","diagrams":[{"label":"基本3状態","connector":"→","nodes":[{"title":"Ready","value":"CPU待ち"},{"title":"Running","value":"CPU使用中"},{"title":"Waiting","value":"I/O等待ち"}],"note":"Running→WaitingはI/O待ち、Waiting→ReadyはI/O完了、Ready→RunningはDispatcher/SchedulerでCPU割当。"}]},
+    {"type":"comparison","title":"3. Scheduling方式","columns":["方式","特徴","弱点/注意"],"rows":[["FCFS","到着順","長いJobが前だと待ちが伸びる"],["Round Robin","Time quantumごとに交代","量子が小さすぎると切替Cost増"],["Priority","優先度の高いTaskを先に","低優先度のStarvationに注意"],["Shortest Job系","短いJobを優先","実行時間予測が必要"]]},
+    {"type":"code-trace","title":"4. Round Robinを追う","question":"A=5ms、B=3ms、C=2msが同時到着。Time quantum=2msならどの順でCPUを使う？","code":["Queue: A(5), B(3), C(2)","A 2ms → remaining 3","B 2ms → remaining 1","C 2ms → complete","A 2ms → remaining 1","B 1ms → complete","A 1ms → complete"],"traceColumns":["区間","実行","残り"],"traceRows":[["0-2","A","A=3"],["2-4","B","B=1"],["4-6","C","C=0"],["6-8","A","A=1"],["8-9","B","B=0"],["9-10","A","A=0"]],"answer":"A → B → C → A → B → A","explanation":"量子終了時に未完了ProcessをQueue末尾へ戻す。"},
+    {"type":"comparison","title":"5. 排他と同期","columns":["用語","役割","例"],"rows":[["Critical Section","同時実行すると壊れる共有領域","Balance更新"],["Mutex","基本的に1つだけ入れるLock","排他"],["Semaphore","許可数をCountで管理","複数Resource制御"],["Deadlock","互いのResource待ちで進めない","Lock順序不統一等"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["WaitingはCPUを欲しくて待つReadyとは違い、I/O等のEvent待ち。","Threadは完全に独立したMemory空間を持つProcessと同じではない。","Context Switchが多すぎると切替Overheadが増える。","Deadlockと単なる処理遅延を同じにしない。"]}
+  ],
+  "checks":[
+    {"id":"cmp06-q1","prompt":"I/O完了後のProcessは通常どの状態へ移る？","options":["Ready","必ず終了","ROM","DNS"],"answerIndex":0,"explanation":"I/O待ちが解けるとCPU待ちのReadyへ戻ります。"},
+    {"id":"cmp06-q2","prompt":"Round Robinで重要な設定は？","options":["Time quantum","Subnet maskだけ","Hash saltだけ","RAID parityだけ"],"answerIndex":0,"explanation":"一定時間ごとにCPUを交代する時間幅です。"},
+    {"id":"cmp06-q3","prompt":"同じProcess内のThreadが共有しやすいものは？","options":["Address空間やResource","必ず別Physical Server","必ず別OS","必ず別LAN"],"answerIndex":0,"explanation":"Threadは同一ProcessのMemoryやResourceを共有しやすいです。"},
+    {"id":"cmp06-q4","prompt":"互いに相手が保持するResourceを待ち続け進めない状態は？","options":["Deadlock","Cache hit","Failover","Normalization"],"answerIndex":0,"explanation":"循環待ち等によって進行不能になる状態です。"}
+  ]
+}
