@@ -4,13 +4,18 @@
   const config = window.TERM_PAGE_CONFIG || {};
   const root = config.rootPath || '../';
   const subject = config.subject || '用語';
+  const domain = config.pageKey || config.fallbackIdPrefix || 'term';
+  const pagePath = config.pagePath || `html/${location.pathname.split('/').pop()}`;
   const fallbackPrefix = config.fallbackIdPrefix || 'term';
+  const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
 
   const state = {
     terms: [],
     categories: [],
     detailsById: new Map(),
     checked: new Set(),
+    bookmarks: new Set(),
+    bookmarkOnly: false,
     observer: null,
     linkRegex: null,
     linkByLabel: new Map(),
@@ -32,7 +37,8 @@
     termSections: document.getElementById('term-sections'),
     loadingArea: document.getElementById('loading-area'),
     jsonTermCount: document.getElementById('json-term-count'),
-    jsonDetailCount: document.getElementById('json-detail-count')
+    jsonDetailCount: document.getElementById('json-detail-count'),
+    bookmarkFilter: null
   };
 
   function escapeHtml(value) {
@@ -53,6 +59,35 @@
       .replace(/[^\p{L}\p{N}]+/gu, '-')
       .replace(/^-+|-+$/g, '')
       .toLowerCase();
+  }
+
+  function readJson(key, fallback) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || 'null');
+      return value ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function notify(message) {
+    if (window.APStudyUI?.toast) window.APStudyUI.toast(message);
+  }
+
+  function termHref(term) {
+    return `${pagePath}#${encodeURIComponent(term.id)}`;
+  }
+
+  function recordTerm(term) {
+    if (!term || !window.APStudyUI?.recordRecent) return;
+    window.APStudyUI.recordRecent({
+      id: term.id,
+      term: term.term,
+      category: term.category,
+      domain,
+      subject,
+      href: termHref(term)
+    });
   }
 
   async function loadJson(path) {
@@ -158,12 +193,8 @@
   }
 
   function loadChecked() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(config.storageKey) || '[]');
-      state.checked = new Set(Array.isArray(parsed) ? parsed : []);
-    } catch {
-      state.checked = new Set();
-    }
+    const parsed = readJson(config.storageKey, []);
+    state.checked = new Set(Array.isArray(parsed) ? parsed : []);
     const valid = new Set(state.terms.map(term => term.id));
     const pruned = [...state.checked].filter(id => valid.has(id));
     if (pruned.length !== state.checked.size) {
@@ -173,7 +204,65 @@
   }
 
   function saveChecked() {
-    localStorage.setItem(config.storageKey, JSON.stringify([...state.checked]));
+    try { localStorage.setItem(config.storageKey, JSON.stringify([...state.checked])); } catch {}
+  }
+
+  function getAllBookmarks() {
+    if (window.APStudyUI?.getBookmarks) return window.APStudyUI.getBookmarks();
+    const value = readJson(BOOKMARK_KEY, []);
+    return Array.isArray(value) ? value : [];
+  }
+
+  function loadBookmarks() {
+    state.bookmarks = new Set(getAllBookmarks().filter(item => item?.domain === domain).map(item => item.id));
+  }
+
+  function saveBookmarkState(term, active) {
+    const all = getAllBookmarks();
+    const without = all.filter(item => !(item?.domain === domain && item?.id === term.id));
+    if (active) {
+      without.unshift({
+        id: term.id,
+        term: term.term,
+        category: term.category,
+        domain,
+        subject,
+        href: termHref(term),
+        updatedAt: Date.now()
+      });
+    }
+    if (window.APStudyUI?.saveBookmarks) window.APStudyUI.saveBookmarks(without);
+    else {
+      try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(without)); } catch {}
+    }
+    loadBookmarks();
+    updateBookmarkUI();
+  }
+
+  function injectBookmarkFilter() {
+    const row = document.querySelector('.filter-row');
+    if (!row || document.getElementById('bookmark-filter')) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'bookmark-filter';
+    button.className = 'bookmark-filter-btn';
+    button.setAttribute('aria-pressed', 'false');
+    row.insertBefore(button, els.filterStatus || null);
+    els.bookmarkFilter = button;
+  }
+
+  function updateBookmarkUI() {
+    if (els.bookmarkFilter) {
+      els.bookmarkFilter.textContent = `☆ 復習リスト ${state.bookmarks.size}`;
+      els.bookmarkFilter.classList.toggle('active', state.bookmarkOnly);
+      els.bookmarkFilter.setAttribute('aria-pressed', String(state.bookmarkOnly));
+    }
+    document.querySelectorAll('.bookmark-btn').forEach(button => {
+      const active = state.bookmarks.has(button.dataset.id);
+      button.classList.toggle('active', active);
+      button.textContent = active ? '★ 復習' : '☆ 復習';
+      button.setAttribute('aria-pressed', String(active));
+    });
   }
 
   function renderCategoryFilter() {
@@ -194,7 +283,7 @@
       if (!terms.length) return '';
       return `<div class="term-group" data-category="${escapeHtml(cat.title)}">
         <h3>${escapeHtml(cat.title)}</h3>
-        <div class="term-grid">${terms.map(term => `<a class="term-link" href="#${escapeHtml(term.id)}" data-category="${escapeHtml(term.category)}" data-search="${escapeHtml(term.searchable)}">${escapeHtml(term.term)}</a>`).join('')}</div>
+        <div class="term-grid">${terms.map(term => `<a class="term-link" href="#${escapeHtml(term.id)}" data-term-id="${escapeHtml(term.id)}" data-category="${escapeHtml(term.category)}" data-search="${escapeHtml(term.searchable)}">${escapeHtml(term.term)}</a>`).join('')}</div>
       </div>`;
     }).join('');
   }
@@ -202,10 +291,12 @@
   function renderCard(term) {
     const detail = state.detailsById.get(term.id);
     const aliases = term.aliases.length ? `<div class="alias-list">別名・略称: ${term.aliases.map(escapeHtml).join(' / ')}</div>` : '';
+    const bookmarked = state.bookmarks.has(term.id);
     return `<article class="card term-card" id="${escapeHtml(term.id)}" data-term-id="${escapeHtml(term.id)}" data-category="${escapeHtml(term.category)}" data-search="${escapeHtml(term.searchable)}">
       <div class="card-header">
         <h3>${escapeHtml(term.term)}</h3>
         <div class="card-actions">
+          <button class="bookmark-btn${bookmarked ? ' active' : ''}" type="button" data-action="toggle-bookmark" data-id="${escapeHtml(term.id)}" aria-pressed="${bookmarked}">${bookmarked ? '★ 復習' : '☆ 復習'}</button>
           <button class="quiz-btn" type="button" data-action="toggle-quiz">隠して確認</button>
           <button class="check-btn" type="button" data-action="toggle-check" data-id="${escapeHtml(term.id)}">✓ 習得済み</button>
         </div>
@@ -257,6 +348,8 @@
     renderToc();
     renderIndex();
     renderSections();
+    injectBookmarkFilter();
+    updateBookmarkUI();
     els.loadingArea.hidden = true;
     els.jsonTermCount.textContent = state.terms.length;
     els.jsonDetailCount.textContent = state.detailsById.size;
@@ -283,19 +376,27 @@
     const category = els.categoryFilter.value;
     let visible = 0;
     document.querySelectorAll('.term-card').forEach(card => {
-      const show = (!query || (card.dataset.search || '').includes(query)) && (!category || card.dataset.category === category);
+      const matchesText = !query || (card.dataset.search || '').includes(query);
+      const matchesCategory = !category || card.dataset.category === category;
+      const matchesBookmark = !state.bookmarkOnly || state.bookmarks.has(card.dataset.termId);
+      const show = matchesText && matchesCategory && matchesBookmark;
       card.hidden = !show;
       if (show) visible += 1;
     });
     document.querySelectorAll('.term-link').forEach(link => {
-      link.hidden = !((!query || (link.dataset.search || '').includes(query)) && (!category || link.dataset.category === category));
+      const matchesText = !query || (link.dataset.search || '').includes(query);
+      const matchesCategory = !category || link.dataset.category === category;
+      const matchesBookmark = !state.bookmarkOnly || state.bookmarks.has(link.dataset.termId);
+      link.hidden = !(matchesText && matchesCategory && matchesBookmark);
     });
     document.querySelectorAll('.term-section').forEach(section => { section.hidden = !section.querySelector('.term-card:not([hidden])'); });
     document.querySelectorAll('.term-group').forEach(group => { group.hidden = !group.querySelector('.term-link:not([hidden])'); });
-    const filtered = Boolean(query || category);
+    const filtered = Boolean(query || category || state.bookmarkOnly);
     els.searchCount.hidden = !filtered;
     els.searchCount.textContent = `${visible} / ${state.terms.length} 語`;
-    els.filterStatus.textContent = filtered ? `${visible}件表示中` : `${state.terms.length}語を表示中`;
+    els.filterStatus.textContent = state.bookmarkOnly
+      ? `復習リスト ${visible}件表示中`
+      : filtered ? `${visible}件表示中` : `${state.terms.length}語を表示中`;
   }
 
   function scheduleFilters() {
@@ -311,6 +412,8 @@
     if (card.hidden || card.closest('.term-section')?.hidden) {
       els.searchInput.value = '';
       els.categoryFilter.value = '';
+      state.bookmarkOnly = false;
+      updateBookmarkUI();
       applyFiltersNow();
     }
     renderDetail(id);
@@ -320,6 +423,8 @@
     if (button) button.textContent = '詳細解説を隠す';
     document.querySelectorAll('.term-card.is-linked-target').forEach(el => el.classList.remove('is-linked-target'));
     card.classList.add('is-linked-target');
+    const term = state.terms.find(item => item.id === id);
+    recordTerm(term);
     requestAnimationFrame(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   }
 
@@ -329,6 +434,8 @@
     els.searchClear.addEventListener('click', () => {
       els.searchInput.value = '';
       els.categoryFilter.value = '';
+      state.bookmarkOnly = false;
+      updateBookmarkUI();
       applyFiltersNow();
       els.searchInput.focus();
     });
@@ -337,15 +444,36 @@
       state.checked.clear();
       saveChecked();
       restoreProgress();
+      notify('習得済みチェックをリセットしました');
     });
     window.addEventListener('hashchange', openFromHash);
     document.addEventListener('click', event => {
+      const bookmarkFilter = event.target.closest('#bookmark-filter');
+      if (bookmarkFilter) {
+        state.bookmarkOnly = !state.bookmarkOnly;
+        updateBookmarkUI();
+        applyFiltersNow();
+        return;
+      }
+      const bookmark = event.target.closest('[data-action="toggle-bookmark"]');
+      if (bookmark) {
+        const term = state.terms.find(item => item.id === bookmark.dataset.id);
+        if (!term) return;
+        const active = !state.bookmarks.has(term.id);
+        saveBookmarkState(term, active);
+        recordTerm(term);
+        notify(active ? '復習リストに追加しました' : '復習リストから外しました');
+        if (state.bookmarkOnly) applyFiltersNow();
+        return;
+      }
       const quiz = event.target.closest('[data-action="toggle-quiz"]');
       if (quiz) {
-        const body = quiz.closest('.term-card')?.querySelector('.card-body');
+        const card = quiz.closest('.term-card');
+        const body = card?.querySelector('.card-body');
         if (body) {
           body.classList.toggle('quiz-hidden');
           quiz.textContent = body.classList.contains('quiz-hidden') ? '答えを見る' : '隠して確認';
+          recordTerm(state.terms.find(item => item.id === card.dataset.termId));
         }
         return;
       }
@@ -358,6 +486,7 @@
         if (show) renderDetail(id);
         panel.hidden = !show;
         detailButton.textContent = show ? '詳細解説を隠す' : '詳細解説を見る';
+        if (show) recordTerm(state.terms.find(item => item.id === id));
         return;
       }
       const check = event.target.closest('[data-action="toggle-check"]');
@@ -366,9 +495,13 @@
         if (state.checked.has(id)) state.checked.delete(id); else state.checked.add(id);
         saveChecked();
         const card = check.closest('.term-card');
-        card?.classList.toggle('is-checked', state.checked.has(id));
-        check.classList.toggle('active', state.checked.has(id));
+        const active = state.checked.has(id);
+        card?.classList.toggle('is-checked', active);
+        check.classList.toggle('active', active);
         updateProgress();
+        const term = state.terms.find(item => item.id === id);
+        recordTerm(term);
+        notify(active ? '習得済みにしました' : '習得済みを解除しました');
       }
     });
   }
@@ -398,6 +531,7 @@
     state.terms = termPayloads.flatMap(payload => payload.terms || []).map(normalizeTerm);
     state.detailsById = new Map(detailPayloads.flatMap(payload => payload.details || []).map(normalizeDetail).filter(x => x.id).map(x => [x.id, x]));
     state.categories = buildCategories(termManifest);
+    loadBookmarks();
     buildLinkIndex();
     validateData();
   }
@@ -414,6 +548,11 @@
       restoreProgress();
       applyFiltersNow();
       setupObserver();
+      if (new URLSearchParams(location.search).get('bookmarks') === '1') {
+        state.bookmarkOnly = true;
+        updateBookmarkUI();
+        applyFiltersNow();
+      }
       openFromHash();
     } catch (error) {
       console.error(error);
