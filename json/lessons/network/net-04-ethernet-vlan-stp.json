@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-04","title":"Ethernet・VLAN・STP","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","データ通信と制御"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-lan-wireless-","from":1,"to":16},{"prefix":"net-lan-wireless-","from":37,"to":40}],"estimatedMinutes":35},
+  "intro":"LAN問題では、MACアドレス表、broadcast範囲、VLAN、trunk、STPを構成図上で追えることが重要です。ハブとスイッチの違いも『どこまで通信が広がるか』で理解します。",
+  "objectives":["Ethernet frameとMACアドレスの役割を説明できる。","hub/switch/bridgeの転送範囲を比較できる。","collision domainとbroadcast domainを区別できる。","access/trunk/tag VLANを構成図で判断できる。","STPが冗長リンクのL2 loopを防ぐ理由を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. HubとSwitchで何が変わるか","columns":["機器","転送判断","collision domain","broadcast"],"rows":[["Hub","宛先を見ず全ポート","共有される","全ポートへ広がる"],["L2 Switch","MAC tableで必要portへ","portごとに分離","同一VLAN内へ広がる"],["Router/L3","IP routeでnetwork間転送","L2衝突範囲を越える","broadcast domainを分割"]],"note":"現在の全二重switched EthernetではCSMA/CDを実運用で意識する場面は少ないですが、半二重との比較として理解します。"},
+    {"type":"diagram","title":"2. VLANで1台のSwitchを論理分割","diagrams":[{"label":"VLAN10とVLAN20","connector":" | ","nodes":[{"title":"PC-A","value":"VLAN10"},{"title":"Switch","value":"VLAN10 / 20","meta":"broadcastを分離"},{"title":"PC-B","value":"VLAN20"}]},{"label":"Switch間trunk","connector":"→","nodes":[{"title":"SW1","value":"802.1Q tag"},{"title":"Trunk","value":"VLAN10+20"},{"title":"SW2","value":"tagで所属判定"}]}]},
+    {"type":"comparison","title":"3. AccessとTrunk","columns":["port","用途","frame"],"rows":[["access","一般端末を1VLANへ接続","通常tagを意識させない"],["trunk","switch間等で複数VLANを運ぶ","802.1Q tagでVLAN IDを付与"],["native VLAN","trunk上の特定VLAN","tagなし扱いになる構成がある"]],"note":"『trunk=高速port』ではなく複数VLANを1リンクで運ぶportです。"},
+    {"type":"code-trace","title":"4. L2 loopがあると何が起きるか","question":"SW1とSW2を2本のL2リンクで輪になるよう接続し、STPが無い。broadcast frameが来たら？","code":["broadcast frame enters SW1","SW1 floods to links A and B","SW2 receives copies and floods again","Ethernet frame has no IP TTL equivalent to stop L2 loop"],"traceColumns":["段階","結果"],"traceRows":[["1","broadcastが複製される"],["2","loopを回って再び到着"],["3","さらに複製され帯域/MAC tableへ影響"]],"answer":"broadcast stormなどを起こし得る。","explanation":"STPは冗長リンクの一部を論理的にblockingし、loopのないtreeを作ります。"},
+    {"type":"steps","title":"5. 構成図でVLAN問題を読む順番","items":[{"label":"① 端末のVLAN ID","body":"同じswitchでもVLANが違えば同一L2 networkではない。"},{"label":"② port種別","body":"accessかtrunkかを見る。"},{"label":"③ broadcast範囲","body":"同一VLAN内が基本。router/L3越えにはそのまま流れない。"},{"label":"④ inter-VLAN routing","body":"異なるVLAN間通信にはL3転送が必要。"},{"label":"⑤ 冗長link","body":"L2 loopがあるならSTP等のloop防止を確認する。"}]},
+    {"type":"mistakes","title":"6. 混同しやすい点","items":["VLANとIP subnetは常に完全に同義ではないが、設計では1VLAN=1subnetとすることが多い。","switchがbroadcastを宛先1portだけに絞るわけではない。","STPはrouting protocolではない。","PoEは通信速度を上げる技術ではなくLAN cableで電力も供給する仕組み。"]}
+  ],
+  "checks":[
+    {"id":"net04-q1","prompt":"複数VLANをswitch間の1linkで運ぶportは？","options":["trunk port","access port","loopback","ephemeral port"],"answerIndex":0,"explanation":"trunkはtag付きframe等で複数VLANを運びます。"},
+    {"id":"net04-q2","prompt":"VLANが主に分割するものは？","options":["broadcast domain","DNS zoneだけ","TCP connectionだけ","ファイルシステム"],"answerIndex":0,"explanation":"VLANはL2のbroadcast domainを論理的に分離します。"},
+    {"id":"net04-q3","prompt":"STPの目的は？","options":["L2 loopを防ぐ","IPアドレスを配る","DNS署名を検証する","HTTPを暗号化する"],"answerIndex":0,"explanation":"冗長linkの一部をblockingしてloopのないtreeを作ります。"},
+    {"id":"net04-q4","prompt":"HubよりL2 switchで小さく分けられる代表的な範囲は？","options":["collision domain","DNS zone","AS番号","HTTP session"],"answerIndex":0,"explanation":"switchはportごとにcollision domainを分けます。"}
+  ]
+}
