@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-05","title":"Business System・ERP・CRM・SCM・e-Business","unitId":"business-accounting","officialMiddleCodes":[21],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"Business Systemは製品名を覚えるより、どのBusiness ProcessとDataを統合するかで整理します。ERP/CRM/SCM、EC、EDI、FinTechなどの役割をつなげます。",
+  "objectives":["ERP/CRM/SCMを対象Processで区別できる。","EDIとECの違いを説明できる。","System統合の価値とRiskを説明できる。","Platform BusinessのNetwork Effectを説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 代表Business System","columns":["System","主対象","Data例"],"rows":[["ERP","企業基幹業務を統合","会計/購買/在庫/人事"],["CRM","顧客関係管理","顧客/商談/Support"],["SCM","Supply Chain最適化","需要/在庫/発注/物流"],["SFA","営業活動支援","案件/訪問/Forecast"],["POS","販売時点情報","商品/数量/時刻/店舗"]]},
+    {"type":"diagram","title":"2. DataがProcessを横断する","diagrams":[{"label":"Order-to-Cash","connector":"→","nodes":[{"title":"CRM/Sales","value":"受注"},{"title":"ERP","value":"在庫/会計"},{"title":"SCM","value":"補充/物流"},{"title":"Billing","value":"請求"},{"title":"Analytics","value":"実績分析"}],"note":"個別最適なSystemがDataを重複保持すると、同期・Master不整合が課題になります。"}]},
+    {"type":"comparison","title":"3. e-Businessの代表概念","columns":["概念","意味","例"],"rows":[["B2C","企業→消費者","EC Site"],["B2B","企業間取引","部材調達"],["C2C","消費者間","Marketplace"],["EDI","企業間Dataを標準形式で電子交換","発注/請求Data"],["Electronic Commerce","電子的な商取引全般","EC/Marketplace"]]},
+    {"type":"comparison","title":"4. Platform Business","columns":["要素","意味","Risk"],"rows":[["Multi-sided Market","複数の利用者Groupをつなぐ","片側が集まらないChicken-and-Egg"],["Network Effect","利用者増が他利用者価値を増やす","Winner-takes-most傾向"],["Governance","Rule/手数料/品質管理","不正・低品質"],["Data","Matching/推薦改善","Privacy/公平性"]]},
+    {"type":"mistakes","title":"5. よくある誤解","items":["ERPを入れれば業務が自動的に標準化されるわけではなくProcess/Code体系/教育が必要。","CRMは顧客名簿だけではなくSales/Marketing/Supportの関係Dataを扱う。","SCMは社内在庫だけでなくSupplierから顧客までのFlowを対象にする。","System統合を増やすと接続点・障害影響・Data Governanceも増える。"]}
+  ],
+  "checks":[
+    {"id":"bus05-q1","prompt":"会計・購買・在庫など企業基幹業務を統合するSystemは？","options":["ERP","CRM","DNS","WAF"],"answerIndex":0,"explanation":"Enterprise Resource Planningです。"},
+    {"id":"bus05-q2","prompt":"顧客・商談・Support履歴を中心に管理するのは？","options":["CRM","RAID","BGP","Compiler"],"answerIndex":0,"explanation":"Customer Relationship Managementです。"},
+    {"id":"bus05-q3","prompt":"企業間で発注Data等を標準形式で電子交換する仕組みは？","options":["EDI","PID","DMA","TLSだけ"],"answerIndex":0,"explanation":"Electronic Data Interchangeです。"},
+    {"id":"bus05-q4","prompt":"利用者が増えるほど他の利用者にも価値が増える現象は？","options":["Network Effect","Page Fault","Deadlock","Aliasing"],"answerIndex":0,"explanation":"Platformで重要なNetwork Effectです。"}
+  ]
+}
