@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-05","title":"Webアプリ攻撃と安全な実装","unitId":"security","officialMiddleCodes":[11],"officialAreas":["セキュリティ実装技術","Webセキュリティ"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":167,"to":173},{"prefix":"sec-","from":179,"to":197},{"prefix":"sec-","from":244,"to":252},{"prefix":"sec-","from":420,"to":424}],"legacyTermIds":["sec-416"],"estimatedMinutes":50},
+  "intro":"Web攻撃は名前ではなく『利用者入力がどこで命令として解釈されるか』を追います。DBならSQLi、ブラウザならXSS、OSならCommand Injectionというように、データと命令の境界が崩れる場所から対策を選びます。",
+  "objectives":["SQLi/XSS/CSRF/SSRFを成立条件から区別できる。","Prepared StatementとOutput Encodingを適切な攻撃へ対応付けられる。","Cookie属性とCSRF Tokenの役割を説明できる。","SAST/DAST/Fuzzing/Pentestを目的で使い分けられる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 入力がどこで命令になるか","columns":["攻撃","悪用される解釈先","直接的な対策"],"rows":[["SQL Injection","DBのSQL構文","Prepared Statement/Placeholder"],["XSS","利用者ブラウザのHTML/JavaScript","文脈に合うOutput Encoding+CSP"],["OS Command Injection","OS Shell","Shellへ渡さない/安全なAPI/厳格な入力"],["LDAP Injection","LDAP検索式","構造と値を分離/適切なエスケープ"],["XXE","XML Parser","外部実体を無効化/安全なParser設定"]]},
+    {"type":"code-trace","title":"2. SQLiはSQLの構造が変わることが問題","code":"sql = \"SELECT * FROM users WHERE name='\" + input + \"'\"\n\n# input が ' OR '1'='1 の場合\n# WHERE条件そのものが攻撃者の入力で変わる","language":"text","trace":[{"step":"危険","state":"SQL文字列へ入力を直接連結","note":"値のつもりの入力がSQL構文になる。"},{"step":"安全側","state":"SELECT ... WHERE name = ?","note":"SQL構造と値を分離する。"}],"answer":"入力検証だけに頼らず、Prepared Statementで構造と値を分離する。"},
+    {"type":"comparison","title":"3. XSSとCSRFは攻撃対象が違う","columns":["攻撃","成立の中心","主な対策"],"rows":[["XSS","攻撃者のScriptを被害者ブラウザで実行","Output Encoding/CSP/HttpOnly"],["CSRF","ログイン済みブラウザに意図しないRequestを送らせる","CSRF Token/SameSite/重要操作の再確認"],["Session Hijack","有効なSession IDを盗む","TLS/Secure/HttpOnly/Session管理"],["Session Fixation","攻撃者が用意したIDをログイン後も使わせる","認証成功時にSession ID再生成"]]},
+    {"type":"comparison","title":"4. Cookie属性","columns":["属性","防ぐ/軽減すること","限界"],"rows":[["HttpOnly","JavaScriptからCookieを読みづらくする","XSS自体を消すわけではない"],["Secure","HTTPS以外でCookieを送らない","TLS設定が別途必要"],["SameSite","Cross-site Request時のCookie送信を制御","全CSRF対策を単独で代替するとは限らない"]]},
+    {"type":"comparison","title":"5. SSRF・Path Traversal・File Upload","columns":["攻撃","サーバにさせること","確認点"],"rows":[["SSRF","内部/外部URLへRequest","宛先Allowlist・Metadata endpoint保護"],["Directory Traversal","想定外PathのFile読取","正規化後Path・固定Directory"],["危険なFile Upload","実行可能File等を保存/実行","拡張子だけでなくMIME/内容/保存場所/実行禁止"]]},
+    {"type":"comparison","title":"6. Security Testing","columns":["手法","見る対象","向く段階"],"rows":[["SAST","Source/Bytecode","実行前・CI"],["DAST","動作中Application","Test環境"],["Fuzzing","大量の異常入力への挙動","Parser/API/Protocol"],["Vulnerability Scan","既知脆弱性・設定","広範囲の継続検査"],["Penetration Test","攻撃経路を組み合わせた侵入可能性","実戦的な評価"]]},
+    {"type":"mistakes","title":"7. 防御の誤解","items":["Input ValidationとOutput Encodingは目的が違う。『入力を検査したからXSS対策完了』ではない。","WAFは補助防御であり、安全な実装の代わりではない。","CORSはブラウザのCross-Originアクセス制御で、サーバへの全アクセスを遮断する認証機構ではない。","HSTSはHTTPS利用を強制しやすくするが、WebアプリのSQLi/XSSを修正する機能ではない。","API KeyやSecretをSource Code/公開Repositoryへ埋め込まない。"]}
+  ],
+  "checks":[
+    {"id":"sec05-q1","prompt":"SQL文字列へ利用者入力を直接連結している。最も直接的な改善は？","options":["Prepared Statement","CSP","DNSSEC","VLAN"],"answerIndex":0,"explanation":"SQL構造と値を分離するPrepared Statementが直接的なSQLi対策です。"},
+    {"id":"sec05-q2","prompt":"掲示板投稿に埋め込まれたscriptが閲覧者ブラウザで動く。攻撃は？","options":["XSS","CSRF","SSRF","DDoS"],"answerIndex":0,"explanation":"被害者ブラウザで不正Scriptが実行されるためXSSです。"},
+    {"id":"sec05-q3","prompt":"ログイン済み利用者を悪意サイトへ誘導し、本人のCookie付きで送金Requestを送らせる。攻撃は？","options":["CSRF","SQLi","ARP spoofing","Buffer overflow"],"answerIndex":0,"explanation":"利用者の認証済み状態を悪用して意図しない操作を送らせるCSRFです。"},
+    {"id":"sec05-q4","prompt":"サーバへURLを入力させ、169.254.x.x等の内部Metadataへアクセスさせる攻撃に近いのは？","options":["SSRF","XSS","Phishing","Replay"],"answerIndex":0,"explanation":"サーバ自身に任意先へRequestさせるSSRFです。"},
+    {"id":"sec05-q5","prompt":"認証成功後もログイン前と同じSession IDを使い続ける設計の改善は？","options":["Session IDを再生成する","DNS TTLを延ばす","VLANを削除する","CRLを無効化する"],"answerIndex":0,"explanation":"Session Fixation対策として権限変化時にSession IDを再生成します。"}
+  ],
+  "next":[{"lessonId":"SEC-06","label":"メール認証・フィッシング・ソーシャルエンジニアリング","status":"公開中"}]
+}
