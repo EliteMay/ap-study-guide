@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-13","title":"可用性・性能・QoS","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク管理","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-availability-performance-","from":1,"to":14},{"prefix":"net-availability-performance-","from":16,"to":40}],"estimatedMinutes":40},
+  "intro":"性能問題ではbandwidth・throughput・latency・jitter・lossを分け、可用性問題ではSPOF・failover・冗長link・gateway redundancyを構成図で追います。SLA自体はサービスマネジメントへ移します。",
+  "objectives":["bandwidthとthroughputを区別できる。","latency/jitter/lossがvoice/videoへ与える影響を説明できる。","QoSのpriority/bandwidth control/queueingを説明できる。","VRRP/link aggregation/LACP等の冗長化を説明できる。","availability指標とcapacity planningをnetwork設計へ適用できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 性能指標を分ける","columns":["指標","意味","例"],"rows":[["bandwidth","回線が持つ理論的な幅","1Gbps link"],["throughput","実際に流せたdata量","実測700Mbps"],["latency","通信の遅延","RTT 20ms"],["jitter","latencyの揺れ","20ms→80ms→25ms"],["packet loss","packet欠落率","1% loss"]],"note":"1Gbps契約だからapplicationが常に1Gbps出る、とは限りません。"},
+    {"type":"comparison","title":"2. QoSで何をするか","columns":["制御","役割"],"rows":[["classification","traffic種別を識別"],["priority control","重要trafficを先に処理"],["bandwidth guarantee","最低帯域を確保"],["rate limit","上限を設ける"],["queueing","混雑時に待ち行列で処理順を制御"]],"note":"QoSはbandwidthそのものを無限に増やす技術ではなく、限られたresourceの扱いを制御します。"},
+    {"type":"code-trace","title":"3. voice通信で何を見るか","question":"音声通話で平均throughputは十分だが、packet arrivalが20ms, 100ms, 25ms, 90msと大きく揺れる。問題になりやすい指標は？","code":["arrival gaps: 20, 100, 25, 90 ms","average bandwidth: sufficient"],"traceColumns":["指標","状態"],"traceRows":[["bandwidth","足りている"],["jitter","大きい"],["voice","再生間隔が不安定になり得る"]],"answer":"jitter。","explanation":"voice/videoのreal-time通信では平均bandwidthだけでなく遅延の揺れが品質へ影響します。"},
+    {"type":"comparison","title":"4. network冗長化","columns":["技術","守る箇所","動き"],"rows":[["VRRP","default gateway","virtual IPを複数routerで引継ぐ"],["link aggregation/LACP","physical link","複数linkを束ねbandwidth/冗長性を高める"],["STP reconvergence","L2 path","障害時にblocking path等を再計算"],["WAN redundancy","拠点外回線","別carrier/linkへ切替"],["active-standby","機器","障害時standbyへfailover"],["active-active","機器/処理","複数系を同時利用"]],"note":"冗長化対象をserverだけでなくgateway/link/power/pathまで確認します。"},
+    {"type":"comparison","title":"5. availabilityと復旧指標","columns":["指標","意味"],"rows":[["availability/uptime","利用可能だった割合"],["MTBF","故障間の平均時間"],["MTTR","平均修復時間"],["RTO","何時間以内に復旧するか"],["RPO","どの時点までdata lossを許容するか"],["SPOF","1故障で全体停止する単一点"]],"note":"RTO/RPOはnetwork専用ではありませんが、DR/冗長network設計でも要求条件として使います。"},
+    {"type":"steps","title":"6. 『遅い』をcapacity問題として読む","items":[{"label":"① metricを分ける","body":"bandwidth不足かlatencyかlossかを区別。"},{"label":"② bottleneckを特定","body":"client Wi-Fi、WAN、LB、server等のどこが制約か。"},{"label":"③ peakを確認","body":"平均値だけでなく同時connection/peak trafficを見る。"},{"label":"④ scale方針","body":"scale up/scale out、回線増強、cache/CDN等を選ぶ。"},{"label":"⑤ auto scaleの限界","body":"backend DBやnetworkがbottleneckならinstanceだけ増やしても解決しない。"}]},
+    {"type":"mistakes","title":"7. よくある誤解","items":["bandwidthとthroughputを同義にしない。","冗長化=必ずavailability 100%ではない。共通障害や切替失敗もある。","load balancingとfailoverを完全に同じ目的として扱わない。","QoSで回線物理容量を超えるdataを流せるようになるわけではない。"]}
+  ],
+  "checks":[
+    {"id":"net13-q1","prompt":"packet到着間隔の揺らぎを表すのは？","options":["jitter","bandwidth","MTU","TTL"],"answerIndex":0,"explanation":"jitterは遅延の揺れです。"},
+    {"id":"net13-q2","prompt":"複数routerでvirtual default gatewayを提供する代表protocolは？","options":["VRRP","SMTP","CNAME","SFTP"],"answerIndex":0,"explanation":"VRRPはgateway冗長化に使われます。"},
+    {"id":"net13-q3","prompt":"複数physical linkを束ねる仕組みは？","options":["link aggregation","DNSSEC","SLAAC","NAT only"],"answerIndex":0,"explanation":"link aggregationで帯域と冗長性を高められます。"},
+    {"id":"net13-q4","prompt":"実際に一定時間で転送できたdata量を表すのは？","options":["throughput","bandwidthだけ","RPO","TTL"],"answerIndex":0,"explanation":"実効転送量がthroughputです。"}
+  ]
+}
