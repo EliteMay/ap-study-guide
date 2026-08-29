@@ -4,75 +4,21 @@
     "policy": "用語カードでは表現しにくい学習内容を、目的に合う専用教材として管理する。lesson idから静的JSONを解決し、HTMLへ教材本文を直書きしない。"
   },
   "lessons": [
-    {
-      "id": "ALG-01",
-      "order": 1,
-      "title": "アルゴリズムの表現と擬似言語トレース",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "code-trace", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-01-pseudocode-trace.json"
-    },
-    {
-      "id": "ALG-02",
-      "order": 2,
-      "title": "計算量とオーダの読み方",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "calculation", "code-trace", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-02-complexity.json"
-    },
-    {
-      "id": "ALG-03",
-      "order": 3,
-      "title": "配列・リストとデータの持ち方",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "diagram", "comparison", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-03-array-list.json"
-    },
-    {
-      "id": "ALG-04",
-      "order": 4,
-      "title": "スタック・キューと操作順",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "diagram", "code-trace", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-04-stack-queue.json"
-    },
-    {
-      "id": "ALG-05",
-      "order": 5,
-      "title": "ハッシュ表と衝突処理",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "diagram", "calculation", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-05-hash-table.json"
-    },
-    {
-      "id": "ALG-06",
-      "order": 6,
-      "title": "探索アルゴリズム",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["concept", "diagram", "code-trace", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-06-search.json"
-    },
-    {
-      "id": "ALG-07",
-      "order": 7,
-      "title": "ソートを比較して理解する",
-      "unitId": "algorithm-programming",
-      "officialMiddleCodes": [2],
-      "contentTypes": ["comparison", "diagram", "code-trace", "exercise"],
-      "status": "individual-v1",
-      "file": "json/lessons/algorithm/alg-07-sorting.json"
-    }
+    {"id":"ALG-01","order":1,"title":"アルゴリズムの表現と擬似言語トレース","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-01-pseudocode-trace.json"},
+    {"id":"ALG-02","order":2,"title":"計算量とオーダの読み方","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","calculation","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-02-complexity.json"},
+    {"id":"ALG-03","order":3,"title":"配列・リストとデータの持ち方","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","diagram","comparison","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-03-array-list.json"},
+    {"id":"ALG-04","order":4,"title":"スタック・キューと操作順","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","diagram","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-04-stack-queue.json"},
+    {"id":"ALG-05","order":5,"title":"ハッシュ表と衝突処理","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","diagram","calculation","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-05-hash-table.json"},
+    {"id":"ALG-06","order":6,"title":"探索アルゴリズム","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","diagram","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-06-search.json"},
+    {"id":"ALG-07","order":7,"title":"ソートを比較して理解する","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["comparison","diagram","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-07-sorting.json"},
+    {"id":"ALG-08","order":8,"title":"再帰と問題分割の考え方","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-08-recursion-strategies.json"},
+    {"id":"ALG-09","order":9,"title":"木構造と走査","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-09-tree.json"},
+    {"id":"ALG-10","order":10,"title":"グラフ探索と最短経路","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-10-graph.json"},
+    {"id":"ALG-11","order":11,"title":"文字列探索","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/alg-11-string-search.json"},
+    {"id":"PROG-01","order":12,"title":"プログラムの基本制御とデータ型","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/prog-01-control-types.json"},
+    {"id":"PROG-02","order":13,"title":"関数・モジュール・引数・スコープ","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/prog-02-functions-modules.json"},
+    {"id":"PROG-03","order":14,"title":"プログラミング言語の分類と特徴","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["concept","comparison","reference","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/prog-03-language-paradigms.json"},
+    {"id":"PROG-04","order":15,"title":"Web・マークアップ・データ記述言語","unitId":"algorithm-programming","officialMiddleCodes":[2],"contentTypes":["comparison","reference","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/algorithm/prog-04-data-languages.json"},
+    {"id":"FND-01","order":101,"title":"論理演算とビットシフト","unitId":"foundation-theory","officialMiddleCodes":[1],"contentTypes":["concept","comparison","code-trace","exercise"],"status":"individual-v1","file":"json/lessons/foundation/fnd-01-bit-logic.json"}
   ]
 }
