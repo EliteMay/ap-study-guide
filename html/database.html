@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>データベース用語まとめ | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -31,7 +33,7 @@
     <p class="lead">E-R図、キー、SQL、正規化、トランザクション、障害回復、NoSQLまでをJSONから読み込みます。</p>
     <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
     <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（例: 主キー、JOIN、正規化、ロック、NoSQL）" autocomplete="off">
+      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
       <span id="search-count" class="search-count" hidden></span>
     </div>
     <div class="filter-row">
@@ -47,14 +49,15 @@
   </div>
 </header>
 <nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>E-R図は表へ変換して読む</h3><p>実体は表、属性は列、関係は外部キーや中間表へ対応させて考えます。</p></div><div class="study-guide-card"><h3>SQLは句の役割で分ける</h3><p>SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BYの役割を切り分けます。</p></div><div class="study-guide-card"><h3>正規化は異常から考える</h3><p>更新・挿入・削除異常を減らすために、関数従属を見て表を分ける流れで理解します。</p></div><div class="study-guide-card"><h3>運用は障害時で考える</h3><p>トランザクション、ロック、バックアップ、回復は障害や同時実行時に何を守るかで整理します。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ選択は一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
+<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>E-R図は表へ変換して読む</h3><p>実体は表、属性は列、関係は外部キーや中間表へ対応させて考えます。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>正規化・結合・トランザクションなど、まだ怪しい項目を☆で残して絞り込めます。</p></div><div class="study-guide-card"><h3>SQLは句の役割で分ける</h3><p>SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BYの役割を切り分けます。</p></div><div class="study-guide-card"><h3>運用は障害時で考える</h3><p>トランザクション、ロック、バックアップ、回復は障害や同時実行時に何を守るかで整理します。</p></div></div></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
 <main id="main-content">
   <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
   <div id="term-sections"></div>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
-<script>window.TERM_PAGE_CONFIG={subject:'データベース',termsManifest:'database-terms-manifest.json',detailsManifest:'database-details-manifest.json',storageKey:'database-terms-checked',fallbackIdPrefix:'db',rootPath:'../'};</script>
+<script>window.TERM_PAGE_CONFIG={subject:'データベース',pageKey:'database',pagePath:'html/database.html',termsManifest:'database-terms-manifest.json',detailsManifest:'database-details-manifest.json',storageKey:'database-terms-checked',fallbackIdPrefix:'db',rootPath:'../'};</script>
+<script src="../js/shell.js" defer></script>
 <script src="../js/term-page.js" defer></script>
 </body>
 </html>
