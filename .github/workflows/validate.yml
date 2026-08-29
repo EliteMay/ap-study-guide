@@ -23,5 +23,7 @@ jobs:
         run: find js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
       - name: Validate JSON and references
         run: node tests/validate.mjs
-      - name: Validate system and management audits
+      - name: Validate domain audits
         run: node tests/validate-audits.mjs
+      - name: Validate Security 501-term audit
+        run: node tests/validate-security-audit.mjs
