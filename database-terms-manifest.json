@@ -1,122 +1,38 @@
 {
   "meta": {
     "title": "データベース用語マニフェスト",
-    "version": "v1-database-json-expanded",
+    "version": "v2-audited-20260829",
+    "status": "audit-and-lesson-migration-complete",
     "totalTerms": 229,
-    "policy": "データベース用語の軽量データ。HTMLへ単語カードを直書きせず、カテゴリ別JSONから読み込む。"
+    "officialMiddleCode": 9,
+    "auditFile": "json/curriculum/audits/database-audit.json",
+    "lessonRange": "DB-01〜DB-14",
+    "policy": "229語は検索・復習・既存進捗の互換用索引として維持する。旧11カテゴリを正式なカリキュラム分類とは扱わず、主教材はDB-01〜DB-14の構造化Lessonとする。HTMLへ単語カードを直書きしない。"
   },
   "categories": [
-    {
-      "id": "db-basic",
-      "title": "データベース基礎",
-      "description": "表、行、列、DBMSなど、データベース学習の土台になる語を整理します。"
-    },
-    {
-      "id": "er-keys-constraints",
-      "title": "E-R図・キー・制約",
-      "description": "E-R図、キー、多重度、整合性制約を設計の流れで整理します。"
-    },
-    {
-      "id": "sql-ddl-dml",
-      "title": "SQL定義・制約",
-      "description": "テーブル定義、制約、追加・更新・削除などSQLの基本操作を整理します。"
-    },
-    {
-      "id": "sql-select-conditions",
-      "title": "SELECT・条件指定",
-      "description": "SELECT文、WHERE句、NULL、並べ替え、関数など検索条件を整理します。"
-    },
-    {
-      "id": "join-aggregate-set",
-      "title": "結合・集計",
-      "description": "JOIN、集計関数、GROUP BY、集合演算を整理します。"
-    },
-    {
-      "id": "subquery-exists",
-      "title": "副問合せ・EXISTS",
-      "description": "副問合せ、EXISTS、WITH句など、SQLを入れ子で読む力を整理します。"
-    },
-    {
-      "id": "print-patterns",
-      "title": "プリント対応パターン",
-      "description": "学校プリントや午後問題で出やすい表の読み方を整理します。"
-    },
-    {
-      "id": "normalization-transaction",
-      "title": "正規化・トランザクション",
-      "description": "正規化、ACID、コミット、ロールバックなど設計と取引処理の基本を整理します。"
-    },
-    {
-      "id": "index-view-performance",
-      "title": "索引・ビュー・性能",
-      "description": "索引、ビュー、実行計画など、検索性能と保守性に関わる語を整理します。"
-    },
-    {
-      "id": "recovery-operations",
-      "title": "障害回復・運用",
-      "description": "ロック、障害回復、バックアップなど、安全にDBを運用する語を整理します。"
-    },
-    {
-      "id": "distributed-nosql-analytics",
-      "title": "分散DB・NoSQL・データ活用",
-      "description": "NoSQL、DWH、OLAPなど、応用的なデータ管理と分析の語を整理します。"
-    }
+    {"id":"db-basic","title":"データベース基礎","description":"旧表示カテゴリ。DB-01を中心に再教材化済み。"},
+    {"id":"er-keys-constraints","title":"E-R図・キー・制約","description":"旧表示カテゴリ。DB-02/DB-03を中心に再教材化済み。"},
+    {"id":"sql-ddl-dml","title":"SQL定義・制約","description":"旧表示カテゴリ。DB-04を中心に再教材化済み。"},
+    {"id":"sql-select-conditions","title":"SELECT・条件指定","description":"旧表示カテゴリ。DB-05を中心に再教材化済み。"},
+    {"id":"join-aggregate-set","title":"結合・集計","description":"旧表示カテゴリ。DB-06/DB-07を中心に再教材化済み。"},
+    {"id":"subquery-exists","title":"副問合せ・EXISTS","description":"旧表示カテゴリ。DB-08を中心に再教材化済み。"},
+    {"id":"print-patterns","title":"プリント対応パターン","description":"教材出典固有の旧カテゴリ。ER設計・SQL実例へ統合済み。"},
+    {"id":"normalization-transaction","title":"正規化・トランザクション","description":"旧表示カテゴリ。DB-03/DB-09へ分離して再教材化済み。"},
+    {"id":"index-view-performance","title":"索引・ビュー・性能","description":"旧表示カテゴリ。DB-11/DB-12へ再教材化済み。"},
+    {"id":"recovery-operations","title":"障害回復・運用","description":"旧表示カテゴリ。DB-09/DB-10へ再教材化済み。"},
+    {"id":"distributed-nosql-analytics","title":"分散DB・NoSQL・データ活用","description":"旧表示カテゴリ。DB-13/DB-14へ再教材化済み。"}
   ],
   "files": [
-    {
-      "title": "データベース基礎",
-      "file": "json/terms/database-terms-db-basic.json",
-      "count": 21
-    },
-    {
-      "title": "E-R図・キー・制約",
-      "file": "json/terms/database-terms-er-keys-constraints.json",
-      "count": 28
-    },
-    {
-      "title": "SQL定義・制約",
-      "file": "json/terms/database-terms-sql-ddl-dml.json",
-      "count": 22
-    },
-    {
-      "title": "SELECT・条件指定",
-      "file": "json/terms/database-terms-sql-select-conditions.json",
-      "count": 26
-    },
-    {
-      "title": "結合・集計",
-      "file": "json/terms/database-terms-join-aggregate-set.json",
-      "count": 28
-    },
-    {
-      "title": "副問合せ・EXISTS",
-      "file": "json/terms/database-terms-subquery-exists.json",
-      "count": 16
-    },
-    {
-      "title": "プリント対応パターン",
-      "file": "json/terms/database-terms-print-patterns.json",
-      "count": 6
-    },
-    {
-      "title": "正規化・トランザクション",
-      "file": "json/terms/database-terms-normalization-transaction.json",
-      "count": 22
-    },
-    {
-      "title": "索引・ビュー・性能",
-      "file": "json/terms/database-terms-index-view-performance.json",
-      "count": 20
-    },
-    {
-      "title": "障害回復・運用",
-      "file": "json/terms/database-terms-recovery-operations.json",
-      "count": 20
-    },
-    {
-      "title": "分散DB・NoSQL・データ活用",
-      "file": "json/terms/database-terms-distributed-nosql-analytics.json",
-      "count": 20
-    }
+    {"title":"データベース基礎","file":"json/terms/database-terms-db-basic.json","count":21},
+    {"title":"E-R図・キー・制約","file":"json/terms/database-terms-er-keys-constraints.json","count":28},
+    {"title":"SQL定義・制約","file":"json/terms/database-terms-sql-ddl-dml.json","count":22},
+    {"title":"SELECT・条件指定","file":"json/terms/database-terms-sql-select-conditions.json","count":26},
+    {"title":"結合・集計","file":"json/terms/database-terms-join-aggregate-set.json","count":28},
+    {"title":"副問合せ・EXISTS","file":"json/terms/database-terms-subquery-exists.json","count":16},
+    {"title":"プリント対応パターン","file":"json/terms/database-terms-print-patterns.json","count":6},
+    {"title":"正規化・トランザクション","file":"json/terms/database-terms-normalization-transaction.json","count":22},
+    {"title":"索引・ビュー・性能","file":"json/terms/database-terms-index-view-performance.json","count":20},
+    {"title":"障害回復・運用","file":"json/terms/database-terms-recovery-operations.json","count":20},
+    {"title":"分散DB・NoSQL・データ活用","file":"json/terms/database-terms-distributed-nosql-analytics.json","count":20}
   ]
 }
