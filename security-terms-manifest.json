@@ -1,129 +1,34 @@
 {
   "meta": {
     "title": "情報セキュリティ用語マニフェスト",
-    "version": "v6-genre-json",
-    "description": "カテゴリ別JSONを読み込むための索引。検索用の軽量データのみを持つ。",
-    "totalTerms": 501
+    "version": "v7-audit-migration-complete-20260830",
+    "status": "audit-and-lesson-migration-complete",
+    "description": "旧501語の検索・復習・進捗互換用索引。主教材はSEC-01〜12および監査で再配置した各分野Lesson。旧9カテゴリは正式なシラバス分類ではなく互換表示分類として扱う。",
+    "totalTerms": 501,
+    "auditFile": "json/curriculum/audits/security-audit.json",
+    "primaryLessons": ["SEC-01","SEC-02","SEC-03","SEC-04","SEC-05","SEC-06","SEC-07","SEC-08","SEC-09","SEC-10","SEC-11","SEC-12"],
+    "migration": {"securityLessons":369,"crossDomain":132,"total":501}
   },
   "files": [
-    {
-      "category": "セキュリティ基礎・超基礎",
-      "file": "json/terms/security-terms-basic.json",
-      "count": 50
-    },
-    {
-      "category": "ネットワーク基礎・DNS・通信",
-      "file": "json/terms/security-terms-network-dns.json",
-      "count": 99
-    },
-    {
-      "category": "暗号・証明書・PKI",
-      "file": "json/terms/security-terms-crypto-pki.json",
-      "count": 53
-    },
-    {
-      "category": "認証・認可・ID管理",
-      "file": "json/terms/security-terms-auth-id.json",
-      "count": 46
-    },
-    {
-      "category": "Web・メール・アプリ防御",
-      "file": "json/terms/security-terms-web-mail-app.json",
-      "count": 40
-    },
-    {
-      "category": "攻撃手法・マルウェア",
-      "file": "json/terms/security-terms-attacks-malware.json",
-      "count": 67
-    },
-    {
-      "category": "防御・監視・運用",
-      "file": "json/terms/security-terms-defense-monitoring.json",
-      "count": 64
-    },
-    {
-      "category": "管理・制度・リスク",
-      "file": "json/terms/security-terms-management-risk.json",
-      "count": 50
-    },
-    {
-      "category": "クラウド・仮想化・ゼロトラスト",
-      "file": "json/terms/security-terms-cloud-zero-trust.json",
-      "count": 32
-    }
+    {"category":"セキュリティ基礎・超基礎","file":"json/terms/security-terms-basic.json","count":50},
+    {"category":"ネットワーク基礎・DNS・通信","file":"json/terms/security-terms-network-dns.json","count":99},
+    {"category":"暗号・証明書・PKI","file":"json/terms/security-terms-crypto-pki.json","count":53},
+    {"category":"認証・認可・ID管理","file":"json/terms/security-terms-auth-id.json","count":46},
+    {"category":"Web・メール・アプリ防御","file":"json/terms/security-terms-web-mail-app.json","count":40},
+    {"category":"攻撃手法・マルウェア","file":"json/terms/security-terms-attacks-malware.json","count":67},
+    {"category":"防御・監視・運用","file":"json/terms/security-terms-defense-monitoring.json","count":64},
+    {"category":"管理・制度・リスク","file":"json/terms/security-terms-management-risk.json","count":50},
+    {"category":"クラウド・仮想化・ゼロトラスト","file":"json/terms/security-terms-cloud-zero-trust.json","count":32}
   ],
   "categories": [
-    {
-      "id": "cat-01-basic",
-      "title": "セキュリティ基礎・超基礎",
-      "description": "パスワード、アカウント、ログ、脆弱性など、午後問題の文章を読む前に必要な土台の言葉。",
-      "file": "json/terms/security-terms-basic.json",
-      "detailFile": "json/details/security-details-basic.json",
-      "count": 50
-    },
-    {
-      "id": "cat-02-network-dns",
-      "title": "ネットワーク基礎・DNS・通信",
-      "description": "IP、ポート、DNS、HTTP、DMZなど、セキュリティ問題の構成図を読むための基礎。",
-      "file": "json/terms/security-terms-network-dns.json",
-      "detailFile": "json/details/security-details-network-dns.json",
-      "count": 99
-    },
-    {
-      "id": "cat-03-crypto-pki",
-      "title": "暗号・証明書・PKI",
-      "description": "暗号化、電子署名、ハッシュ、証明書、PKIなど、認証と保護の根幹。",
-      "file": "json/terms/security-terms-crypto-pki.json",
-      "detailFile": "json/details/security-details-crypto-pki.json",
-      "count": 53
-    },
-    {
-      "id": "cat-04-auth-id",
-      "title": "認証・認可・ID管理",
-      "description": "本人確認、権限管理、MFA、SSOなど、不正利用を防ぐための仕組み。",
-      "file": "json/terms/security-terms-auth-id.json",
-      "detailFile": "json/details/security-details-auth-id.json",
-      "count": 46
-    },
-    {
-      "id": "cat-05-web-mail-app",
-      "title": "Web・メール・アプリ防御",
-      "description": "XSS、SQLi、SPF、DKIM、S/MIMEなど、Webとメールで頻出の守り方。",
-      "file": "json/terms/security-terms-web-mail-app.json",
-      "detailFile": "json/details/security-details-web-mail-app.json",
-      "count": 40
-    },
-    {
-      "id": "cat-06-attacks-malware",
-      "title": "攻撃手法・マルウェア",
-      "description": "マルウェア、標的型攻撃、DoS、なりすましなど、攻撃のパターン。",
-      "file": "json/terms/security-terms-attacks-malware.json",
-      "detailFile": "json/details/security-details-attacks-malware.json",
-      "count": 67
-    },
-    {
-      "id": "cat-07-defense-monitoring",
-      "title": "防御・監視・運用",
-      "description": "FW、IDS、IPS、WAF、SIEM、EDRなど、検知・防御・監視の実戦用語。",
-      "file": "json/terms/security-terms-defense-monitoring.json",
-      "detailFile": "json/details/security-details-defense-monitoring.json",
-      "count": 64
-    },
-    {
-      "id": "cat-08-management-risk",
-      "title": "管理・制度・リスク",
-      "description": "ISMS、CSIRT、リスク対応、監査、個人情報保護など、管理系の頻出事項。",
-      "file": "json/terms/security-terms-management-risk.json",
-      "detailFile": "json/details/security-details-management-risk.json",
-      "count": 50
-    },
-    {
-      "id": "cat-09-cloud-zero-trust",
-      "title": "クラウド・仮想化・ゼロトラスト",
-      "description": "クラウド、SaaS、IAM、ゼロトラストなど、近年の構成で出る用語。",
-      "file": "json/terms/security-terms-cloud-zero-trust.json",
-      "detailFile": "json/details/security-details-cloud-zero-trust.json",
-      "count": 32
-    }
+    {"id":"cat-01-basic","title":"セキュリティ基礎・超基礎","description":"旧互換分類。CIA、資産、リスク、設計原則など。","file":"json/terms/security-terms-basic.json","detailFile":"json/details/security-details-basic.json","count":50},
+    {"id":"cat-02-network-dns","title":"ネットワーク基礎・DNS・通信","description":"旧互換分類。純粋な通信基礎は監査後Network Lessonを主教材とする。","file":"json/terms/security-terms-network-dns.json","detailFile":"json/details/security-details-network-dns.json","count":99},
+    {"id":"cat-03-crypto-pki","title":"暗号・証明書・PKI","description":"旧互換分類。主教材はSEC-02/03。","file":"json/terms/security-terms-crypto-pki.json","detailFile":"json/details/security-details-crypto-pki.json","count":53},
+    {"id":"cat-04-auth-id","title":"認証・認可・ID管理","description":"旧互換分類。主教材はSEC-04/05。","file":"json/terms/security-terms-auth-id.json","detailFile":"json/details/security-details-auth-id.json","count":46},
+    {"id":"cat-05-web-mail-app","title":"Web・メール・アプリ防御","description":"旧互換分類。Web防御はSEC-05、Mail SecurityはSEC-06、純粋な通信ProtocolはNetworkへ再配置。","file":"json/terms/security-terms-web-mail-app.json","detailFile":"json/details/security-details-web-mail-app.json","count":40},
+    {"id":"cat-06-attacks-malware","title":"攻撃手法・マルウェア","description":"旧互換分類。主教材はSEC-06〜08。","file":"json/terms/security-terms-attacks-malware.json","detailFile":"json/details/security-details-attacks-malware.json","count":67},
+    {"id":"cat-07-defense-monitoring","title":"防御・監視・運用","description":"旧互換分類。主教材はSEC-09/10。","file":"json/terms/security-terms-defense-monitoring.json","detailFile":"json/details/security-details-defense-monitoring.json","count":64},
+    {"id":"cat-08-management-risk","title":"管理・制度・リスク","description":"旧互換分類。Security管理はSEC-11、法規/監査/SLA/構成管理は各公式分野へ再配置。","file":"json/terms/security-terms-management-risk.json","detailFile":"json/details/security-details-management-risk.json","count":50},
+    {"id":"cat-09-cloud-zero-trust","title":"クラウド・仮想化・ゼロトラスト","description":"旧互換分類。Cloud SecurityはSEC-12、Cloud基礎はCMP-02、Network構成はNET-14へ再配置。","file":"json/terms/security-terms-cloud-zero-trust.json","detailFile":"json/details/security-details-cloud-zero-trust.json","count":32}
   ]
 }
