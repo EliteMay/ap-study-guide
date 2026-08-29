@@ -33,6 +33,22 @@
     return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   }
 
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function maskAnswer(text, term) {
+    let result = String(text || '');
+    const labels = [term.term, ...(term.aliases || [])]
+      .map(value => String(value || '').trim())
+      .filter(value => value.length >= 2)
+      .sort((a,b) => b.length - a.length);
+    for (const label of labels) {
+      result = result.replace(new RegExp(escapeRegExp(label), 'gi'), '【この用語】');
+    }
+    return result;
+  }
+
   function shuffle(source) {
     const array = [...source];
     for (let i=array.length-1;i>0;i--) {
@@ -111,7 +127,7 @@
     return {
       term,
       prompt:'次の説明に該当する用語として最も適切なものはどれか。',
-      detail:term.definition,
+      detail:maskAnswer(term.definition, term),
       answer:term.term,
       options
     };
