@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "auditVersion": "2026-08-30-n1",
+    "subject": "ネットワーク",
+    "legacySource": "network",
+    "termsAudited": 480,
+    "syllabusVersion": "7.2",
+    "primaryOfficialMiddleCode": 10,
+    "policy": "12カテゴリ×40語という件数固定の旧分類を正式カリキュラムとはみなさず、通信フロー・計算・構成図・障害切り分けへ再構成する。Securityと重なる語はSecurity 501語監査前に過剰移動せず、Network内のセキュリティ接点として扱う。"
+  },
+  "findings": [
+    "旧12カテゴリがすべて40語固定で、重要度ではなく件数合わせの影響が強い。",
+    "クラスA〜E、TCPの細かなフラグ、DNSSEC個別レコードなど補助知識が基礎概念と同列に並ぶ。",
+    "HTTP/TLS、DNSSEC、FW/IDS/IPS/WAF、SPF/DKIM/DMARCなどSecurityとの重複がある。Security監査まではNetworkの通信文脈で保持する。",
+    "SLAとインシデント管理は中分類15サービスマネジメントを主所属とする。",
+    "サブネット計算、VLAN、TCP状態、DNS問い合わせ、HTTP通信、障害切り分けは単語暗記より手順・図・ケースが必要。"
+  ],
+  "assignmentGroups": [
+    {"lessonId":"NET-01","title":"OSI/TCP-IPと通信の全体像","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-tcpip-osi-","from":1,"to":40}]},
+    {"lessonId":"NET-02","title":"IPv4・CIDR・サブネット計算","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-ip-subnet-","from":1,"to":1},{"prefix":"net-ip-subnet-","from":3,"to":33}]},
+    {"lessonId":"NET-03","title":"IPv6・SLAAC・NDP","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-ip-subnet-","from":2,"to":2},{"prefix":"net-ip-subnet-","from":34,"to":40}]},
+    {"lessonId":"NET-04","title":"Ethernet・VLAN・STP","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-lan-wireless-","from":1,"to":16},{"prefix":"net-lan-wireless-","from":37,"to":40}]},
+    {"lessonId":"NET-05","title":"無線LAN・Wi-Fi","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-lan-wireless-","from":17,"to":36}]},
+    {"lessonId":"NET-06","title":"ルーティング・NAT・WAN・VPN","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-routing-wan-","from":1,"to":40}]},
+    {"lessonId":"NET-07","title":"TCP・UDP・ポートと信頼性制御","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-tcp-udp-port-","from":1,"to":40}]},
+    {"lessonId":"NET-08","title":"DNSと名前解決","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-dns-","from":1,"to":40}]},
+    {"lessonId":"NET-09","title":"HTTP・HTTPS・Web通信","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-http-web-","from":1,"to":40}]},
+    {"lessonId":"NET-10","title":"メール・ファイル転送・リモート接続","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-mail-file-remote-","from":1,"to":40}]},
+    {"lessonId":"NET-11","title":"ネットワーク機器と構成図","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-devices-design-","from":1,"to":40}]},
+    {"lessonId":"NET-12","title":"DHCP・ARP・監視・障害切り分け","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-ops-troubleshoot-","from":1,"to":38},{"prefix":"net-ops-troubleshoot-","from":40,"to":40}]},
+    {"lessonId":"NET-13","title":"可用性・性能・QoS","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-availability-performance-","from":1,"to":14},{"prefix":"net-availability-performance-","from":16,"to":40}]},
+    {"lessonId":"NET-14","title":"クラウド・仮想ネットワーク","unitId":"network","officialMiddleCode":10,"ranges":[{"prefix":"net-cloud-virtual-","from":1,"to":40}]},
+    {"lessonId":"SVC-01","title":"サービスマネジメントとSLA","unitId":"service-audit","officialMiddleCode":15,"ids":["net-ops-troubleshoot-039","net-availability-performance-015"],"action":"move-primary-unit"}
+  ],
+  "summary": {
+    "termsAudited": 480,
+    "mappedToNetworkLessons": 478,
+    "movedPrimaryUnit": 2,
+    "networkLessons": 14
+  },
+  "missingLearningGoals": [
+    "サブネット計算を複数パターンで反復する本番型演習",
+    "構成図から通信経路・FW/NAT/VLANを追う午後型ケース",
+    "パケットキャプチャを模したヘッダ読解",
+    "最近のAP過去問とNET-01〜14の対応付け"
+  ]
+}
