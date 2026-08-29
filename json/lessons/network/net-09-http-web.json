@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-09","title":"HTTP・HTTPS・Web通信","unitId":"network","officialMiddleCodes":[10],"officialAreas":["通信プロトコル","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-http-web-","from":1,"to":40}],"estimatedMinutes":40},
+  "intro":"Web通信はURL→DNS→TCP/QUIC→TLS→HTTP request/responseの順で追います。methodやstatus codeだけでなく、proxy/CDN/cache/Cookie/HTTP2/3まで通信の流れとして整理します。",
+  "objectives":["URL/URIとHTTP request/responseの構造を説明できる。","GET/POST/PUT/DELETEの典型用途を区別できる。","status codeの100/200/300/400/500系を大分類で読める。","HTTPSでTLSがどこに入るか説明できる。","proxy/reverse proxy/CDN/cacheの役割を比較できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. Webページ取得の全体フロー","diagrams":[{"label":"https://www.example.com/ を開く","connector":"→","nodes":[{"title":"DNS","value":"name→IP"},{"title":"Transport","value":"TCP or QUIC"},{"title":"TLS","value":"server認証/鍵共有"},{"title":"HTTP","value":"GET /"},{"title":"Server","value":"200 + content"},{"title":"Browser","value":"render/cache"}]}]},
+    {"type":"comparison","title":"2. HTTP methodは『何をしたいか』","columns":["method","典型","注意"],"rows":[["GET","resource取得","URL queryにparameterを持つことがある"],["POST","送信/作成処理","bodyにdataを入れることが多い"],["PUT","指定resourceの作成/置換","API等で利用"],["DELETE","resource削除要求","実際の権限制御はserver側"]],"note":"method名だけで安全性を保証するわけではありません。認証・認可・入力検証は別途必要です。"},
+    {"type":"comparison","title":"3. status codeを大分類で読む","columns":["範囲","意味","代表"],"rows":[["1xx","informational","100"],["2xx","成功","200"],["3xx","redirect","301/302"],["4xx","client側request問題/権限等","400/401/403/404"],["5xx","server側処理失敗","500/503"]],"note":"404=serverが死んでいる、500=network断、のように単純化しない。HTTPまで到達して返ったstatusです。"},
+    {"type":"code-trace","title":"4. HTTP messageを読む","question":"次のrequestでhostとresource、methodは何か。","code":["GET /products?id=10 HTTP/1.1","Host: shop.example.com","User-Agent: BrowserX","Accept: text/html"],"traceColumns":["項目","値"],"traceRows":[["method","GET"],["resource","/products?id=10"],["host","shop.example.com"],["protocol version","HTTP/1.1"]],"answer":"shop.example.com の /products?id=10 をGETしている。","explanation":"Host headerにより同じIP上の複数virtual hostを区別できます。"},
+    {"type":"comparison","title":"5. proxy・reverse proxy・CDN","columns":["仕組み","誰の前に立つか","主目的"],"rows":[["forward proxy","client側","外部access代理/制御/cache"],["reverse proxy","server側","backend隠蔽/振分/TLS termination等"],["CDN","利用者に近い配信拠点","latency/元server負荷を下げる"],["browser/intermediate cache","responseを再利用","再取得量を減らす"]],"note":"forwardとreverseを『向き』だけでなく、誰の代理かで判断します。"},
+    {"type":"comparison","title":"6. HTTP/1.1・2・3","columns":["version","主な改善点"],"rows":[["HTTP/1.1","persistent connection/Host等"],["HTTP/2","1connection内多重化・header圧縮"],["HTTP/3","QUIC上で動作し接続/多重化の特性を改善"]],"note":"HTTP/3はTCPではなくQUIC(UDP上)を基盤にします。"},
+    {"type":"comparison","title":"7. Cookieとbrowser security接点","columns":["項目","役割"],"rows":[["Cookie","clientに小さなstateを保存しrequest時に送る"],["Session","server側等で一連の利用者操作を関連付ける"],["SameSite","cross-site時のCookie送信を制御"],["CORS","異なるoriginへのbrowser accessをserver headerで制御"],["HSTS","browserへHTTPS利用を強制するpolicy"]],"note":"CORSはnetwork firewallではなくbrowserのsame-origin制約に関わる仕組みです。"},
+    {"type":"mistakes","title":"8. よくある誤解","items":["HTTPSならWeb applicationの脆弱性が全て消えるわけではない。TLSは通信経路保護が中心。","GETは絶対にbodyを持てない/POSTは必ず暗号化される、のような乱暴な覚え方をしない。","HTTP/2はUDP、HTTP/3はTCPという逆転をしない。","Cookie=Sessionそのもの、と同一視しない。"]}
+  ],
+  "checks":[
+    {"id":"net09-q1","prompt":"server側の前に立ってbackendへrequestを振り分けるのは？","options":["reverse proxy","forward proxy","ARP table","DHCP relay"],"answerIndex":0,"explanation":"reverse proxyはserver群の前段に置かれます。"},
+    {"id":"net09-q2","prompt":"HTTP 5xxの大分類は？","options":["server側error","成功","redirect","名前解決"],"answerIndex":0,"explanation":"5xxはserver側でrequest処理に失敗した分類です。"},
+    {"id":"net09-q3","prompt":"HTTP/3のtransport基盤は？","options":["QUIC","TCPのみ","ARP","SMTP"],"answerIndex":0,"explanation":"HTTP/3はQUICを利用します。"},
+    {"id":"net09-q4","prompt":"browserにHTTPS利用を強制するheader policyは？","options":["HSTS","TTL","MSS","VRRP"],"answerIndex":0,"explanation":"HSTSがHTTPS利用を強制します。"}
+  ]
+}
