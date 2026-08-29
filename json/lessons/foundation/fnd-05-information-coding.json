@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"FND-05","title":"情報量・エントロピー・符号化・圧縮","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"情報量は『珍しい出来事ほど多くの情報を持つ』という考え方です。そこからエントロピー、符号化、圧縮、誤り検出へつなげます。",
+  "objectives":["自己情報量 -log2(p) の意味を説明できる。","平均情報量としてエントロピーを計算できる。","可逆圧縮と非可逆圧縮を用途で区別できる。","パリティやハミング距離が誤り検出に使われる理由を説明できる。"],
+  "sections":[
+    {"type":"text","title":"1. 珍しい出来事ほど情報量が大きい","paragraphs":["確率pの事象の自己情報量は I=-log2(p) bit です。必ず起きるp=1の事象は0bit、確率1/2なら1bit、1/8なら3bitです。","これは『何回の2択でその事象を特定できるか』と対応します。"]},
+    {"type":"code-trace","title":"2. エントロピーを計算する","question":"AとBがそれぞれ確率1/2で出る情報源の平均情報量を求める。","code":["I(A) = -log2(1/2) = 1 bit","I(B) = -log2(1/2) = 1 bit","H = 1/2×1 + 1/2×1"],"traceColumns":["項目","値"],"traceRows":[["Aの情報量","1bit"],["Bの情報量","1bit"],["平均情報量H","1bit/記号"]],"answer":"1 bit/記号","explanation":"等確率な2種類なら1bitで区別できるため、エントロピーも1bitです。"},
+    {"type":"comparison","title":"3. 可逆圧縮と非可逆圧縮","columns":["方式","復元","向く用途"],"rows":[["可逆圧縮","元データへ完全復元","Program、文書、Database、PNG等"],["非可逆圧縮","一部情報を捨てる","写真、音声、動画など知覚品質を調整できるMedia"]],"note":"圧縮率が高いことだけで選ばず、完全復元が必要かで判断します。"},
+    {"type":"comparison","title":"4. 代表的な符号化・圧縮","columns":["考え方","特徴","例"],"rows":[["Run Length","同じ値の連続回数を符号化","単純な連続が多いDataに強い","AAAAA→A×5"],["Huffman","頻出記号へ短い符号","Prefix Codeを構成","可逆圧縮"],["差分符号化","前との差を保存","変化が小さいDataで有効","時系列等"],["量子化","連続値を離散段階へ丸める","誤差が生じる","音声・画像"]]},
+    {"type":"diagram","title":"5. 誤り検出の考え方","diagrams":[{"label":"送信データに冗長性を足す","connector":"→","nodes":[{"title":"Data","value":"元bit列"},{"title":"冗長bit","value":"Parity等"},{"title":"通信","value":"誤り発生可能"},{"title":"検査","value":"不整合を検出"}],"note":"誤り検出は『余分な情報』をあえて加え、受信側で矛盾を見つける考え方です。"}]},
+    {"type":"comparison","title":"6. ハミング距離","columns":["最小ハミング距離d","できることの目安"],"rows":[["2","1bit誤りを検出"],["3","1bit誤りを訂正"],["4","1bit訂正+2bit検出など設計可能"]],"note":"一般に検出可能誤り数はd-1、訂正可能誤り数はfloor((d-1)/2)。"}
+  ],
+  "checks":[
+    {"id":"fnd05-q1","prompt":"確率1/8の事象の自己情報量は？","options":["1bit","2bit","3bit","8bit"],"answerIndex":2,"explanation":"-log2(1/8)=3です。"},
+    {"id":"fnd05-q2","prompt":"Program実行ファイルの圧縮で原則必要なのは？","options":["非可逆圧縮","可逆圧縮","必ず無圧縮","量子化"],"answerIndex":1,"explanation":"1bitでも変わると実行結果が壊れる可能性があるため完全復元が必要です。"},
+    {"id":"fnd05-q3","prompt":"頻出記号に短いbit列を割り当てる代表方式は？","options":["Huffman符号","Polling","Round Robin","RAID1"],"answerIndex":0,"explanation":"Huffman符号は出現確率の高い記号へ短い符号を割り当てます。"},
+    {"id":"fnd05-q4","prompt":"最小ハミング距離3の符号で可能な代表的機能は？","options":["1bit誤り訂正","3bit誤り訂正","圧縮率3倍","暗号化"],"answerIndex":0,"explanation":"floor((3-1)/2)=1なので1bit誤り訂正が可能です。"}
+  ]
+}
