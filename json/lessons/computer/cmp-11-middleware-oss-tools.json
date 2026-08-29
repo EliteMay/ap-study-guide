@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-11","title":"ミドルウェア・開発ツール・OSS","unitId":"computer-systems","officialMiddleCodes":[5],"officialAreas":["ミドルウェア","開発ツール","オープンソースソフトウェア"],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"OSとApplicationの間に何があるかを整理し、Web Server、Application Server、Runtime、Compiler/Interpreter、Package管理、OSSの役割を混同しないようにします。",
+  "objectives":["OS・Middleware・Applicationの層を区別できる。","Web ServerとApplication Serverの役割を比較できる。","Compiler・Interpreter・Runtimeの違いを説明できる。","OSSの利用で確認すべきLicenseと保守責任を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. Software stack","diagrams":[{"label":"代表的な層","connector":"→","nodes":[{"title":"Hardware","value":"CPU/Memory/Device"},{"title":"OS","value":"Resource管理"},{"title":"Middleware","value":"共通機能"},{"title":"Application","value":"業務処理"}],"note":"MiddlewareはApplicationが毎回実装しなくてよい共通機能を提供する。"}]},
+    {"type":"comparison","title":"2. Web ServerとApplication Server","columns":["役割","Web Server","Application Server"],"rows":[["主な処理","HTTP受付・静的Content配信・Proxy等","Business Logic実行"],["例の責務","TLS終端/Reverse Proxy","Session/Transaction/API Logic"],["構成","前段に置くことが多い","Web Server後段に置くことがある"]],"note":"製品によって機能が重なるため、『どの責務を担当しているか』で読む。"},
+    {"type":"comparison","title":"3. Compiler / Interpreter / Runtime","columns":["要素","役割","特徴"],"rows":[["Compiler","Sourceを別形式へ変換","事前変換型"],["Interpreter","実行時に解釈しながら処理","逐次解釈型"],["Runtime / VM","Program実行環境を提供","Memory管理/JIT等を持つ場合"],["Linker","Object/Libraryを結合","Executable生成工程"]]},
+    {"type":"comparison","title":"4. 開発支援Tool","columns":["Tool","役割"],"rows":[["Debugger","Breakpointや変数確認"],["Profiler","CPU/Memory等のBottleneck計測"],["Build tool","Compile/Test/Packaging自動化"],["Package manager","Library依存関係管理"],["Version control","Source変更履歴管理"]]},
+    {"type":"comparison","title":"5. OSS利用で見る点","columns":["観点","確認内容"],"rows":[["License","利用・改変・再配布条件"],["Support","誰が障害対応するか"],["Update","脆弱性修正を追えるか"],["Community/Project","継続性・Release状況"],["SBOM等","依存Softwareを把握できるか"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["OSS=無料だから条件なし、ではない。License条件を確認する。","MiddlewareとOSは同じではない。OS上で共通Serviceを提供するSoftwareがMiddleware。","Compiler型/Interpreter型は現代のRuntimeで混合されることもあるため、代表的な処理方式として理解する。"]}
+  ],
+  "checks":[
+    {"id":"cmp11-q1","prompt":"OSとApplicationの間で共通機能を提供するSoftwareの総称は？","options":["Middleware","RAID","VLAN","Cache line"],"answerIndex":0,"explanation":"DB接続やMessaging等の共通機能を提供します。"},
+    {"id":"cmp11-q2","prompt":"Breakpointを置いて変数や実行位置を確認するToolは？","options":["Debugger","Load Balancer","DNS resolver","UPS"],"answerIndex":0,"explanation":"Debuggerは実行状態を調査する開発Toolです。"},
+    {"id":"cmp11-q3","prompt":"OSS利用時に必ず確認すべきものとして適切なのは？","options":["License条件","Monitorの壁紙だけ","URLの長さだけ","CPU fanの色だけ"],"answerIndex":0,"explanation":"利用・改変・配布条件等がLicenseで定められます。"}
+  ]
+}
