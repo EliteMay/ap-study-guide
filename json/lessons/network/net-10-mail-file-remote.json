@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-10","title":"メール・ファイル転送・リモート接続","unitId":"network","officialMiddleCodes":[10],"officialAreas":["通信プロトコル","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-mail-file-remote-","from":1,"to":40}],"estimatedMinutes":40},
+  "intro":"application protocolはport番号の丸暗記だけでなく、『送信/受信/転送/remote操作/ファイル共有』のどの役割かを通信方向で整理します。",
+  "objectives":["SMTP/POP3/IMAPの役割を通信方向で区別できる。","MUA/MTA/MDAのmail配送フローを説明できる。","FTP/FTPS/SFTP/TFTPの違いを説明できる。","SSH/Telnet/RDPを安全性と用途で比較できる。","SPF/DKIM/DMARCの役割を区別できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. メールが届くまで","diagrams":[{"label":"senderからrecipientへ","connector":"→","nodes":[{"title":"MUA","value":"mail client"},{"title":"Submission","value":"SMTP/587"},{"title":"MTA","value":"SMTP relay"},{"title":"MX/DNS","value":"宛先server発見"},{"title":"MTA/MDA","value":"mailboxへ配送"},{"title":"Recipient","value":"IMAP/POP3"}]}]},
+    {"type":"comparison","title":"2. SMTP・POP3・IMAP","columns":["protocol","主用途","特徴"],"rows":[["SMTP","送信・server間転送","mailを次serverへ送る"],["POP3","mailboxから取り出す","localへdownload中心"],["IMAP","server上mailを同期/管理","複数端末利用に向く"]],"note":"送信=SMTP、受信=POP3/IMAPという軸を先に固定します。"},
+    {"type":"comparison","title":"3. mail認証/保護","columns":["仕組み","何を確認/保護するか"],"rows":[["STARTTLS/SMTPS/IMAPS/POP3S","transportをTLSで保護"],["SPF","送信元IPがdomainで許可されているか"],["DKIM","domain署名で改ざん/送信domainを検証"],["DMARC","SPF/DKIM結果とalignmentを使い受信policyを示す"],["open relay","第三者mailを無制限中継する危険な設定"]],"note":"SPF/DKIM/DMARCは同じ仕組みの別名ではなく、組み合わせてなりすまし対策を強化します。"},
+    {"type":"comparison","title":"4. ファイル転送protocol","columns":["protocol","transport/security","特徴"],"rows":[["FTP","TCP / 基本は平文","control/data connectionを使う"],["FTPS","FTP + TLS","FTP系をTLS保護"],["SFTP","SSH上","FTPとは別protocol"],["SCP","SSH上","secure copy"],["TFTP","UDP/軽量","認証等を簡略化し機器boot等で利用"],["SMB","file/printer share","Windows系で代表的"],["NFS","network file system","UNIX/Linux系で代表的"]],"note":"SFTP=FTPSではありません。名前が似ていても基盤が違います。"},
+    {"type":"comparison","title":"5. remote接続","columns":["方式","保護/用途"],"rows":[["SSH","暗号化remote shell・公開鍵認証・port forwarding"],["Telnet","基本平文remote login。安全な管理には不向き"],["RDP","remote desktop画面操作"],["SSH port forwarding","SSH tunnel内へ別通信を通す"]],"note":"管理用remote接続では、経路暗号化だけでなく認証方式・接続元制限も重要です。"},
+    {"type":"steps","title":"6. mailが届かないときの確認順","items":[{"label":"① DNS MX","body":"宛先domainのmail serverを引けるか。"},{"label":"② SMTP connection","body":"送信serverから宛先serverへ接続できるか。"},{"label":"③ server response","body":"4xx一時失敗か5xx恒久失敗か等を確認。"},{"label":"④ queue/bounce","body":"配送待ちか、送信元へbounce済みか。"},{"label":"⑤ SPF/DKIM/DMARC","body":"認証policyで拒否/隔離されていないか。"}]},
+    {"type":"mistakes","title":"7. よくある混同","items":["SMTPをmail受信client protocolだと思わない。","SFTPとFTPSを同じものとしない。","SSH公開鍵認証は公開鍵を秘密に保管する方式ではない。秘密鍵をclient側で守る。","SNMP/NTP/LDAPはこの旧カテゴリに入っているが、mail/file専用protocolではない。用途で覚える。"]}
+  ],
+  "checks":[
+    {"id":"net10-q1","prompt":"mail送信・server間転送に使うprotocolは？","options":["SMTP","IMAP","POP3","NFS"],"answerIndex":0,"explanation":"SMTPがmailの送信・転送を担います。"},
+    {"id":"net10-q2","prompt":"SSH上でfile transferするprotocolは？","options":["SFTP","FTPS","TFTP","SMTP"],"answerIndex":0,"explanation":"SFTPはSSH File Transfer Protocolです。"},
+    {"id":"net10-q3","prompt":"mail本文等へdomain署名を付け検証する仕組みは？","options":["DKIM","SPF","ARP","STP"],"answerIndex":0,"explanation":"DKIMが電子署名を使います。"},
+    {"id":"net10-q4","prompt":"基本的に平文remote loginで安全性が低い旧方式は？","options":["Telnet","SSH","RDP","SFTP"],"answerIndex":0,"explanation":"Telnetは通信内容を基本暗号化しません。"}
+  ]
+}
