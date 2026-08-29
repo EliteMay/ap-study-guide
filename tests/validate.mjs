@@ -57,6 +57,43 @@ try{
   notes.push('curriculum: 9 major / 23 middle / 13 study units OK');
 }catch(error){fail(`curriculum: ${error.message}`);}
 
+try{
+  const audit=readJson('json/curriculum/audits/algorithm-audit.json');
+  const terms=readJson('json/terms/algorithm-terms.json').terms||[];
+  const decisions=Array.isArray(audit.decisions)?audit.decisions:[];
+  const lessonIds=new Set((audit.targetLessons||[]).map(item=>item.id));
+  const curriculum=readJson('json/curriculum/ap-2026-map.json');
+  const unitIds=new Set((curriculum.studyUnits||[]).map(item=>item.id));
+  const allowedActions=new Set(['keep-core','keep-supporting','merge-into-lesson','move-primary-unit']);
+  if(Number(audit.meta?.termsAudited)!==terms.length)fail(`algorithm audit: termsAudited ${audit.meta?.termsAudited} != ${terms.length}`);
+  if(decisions.length!==terms.length)fail(`algorithm audit: decision count ${decisions.length} != ${terms.length}`);
+  const termIds=terms.map(item=>item.id);
+  const decisionIds=decisions.map(item=>item.id);
+  if(new Set(decisionIds).size!==decisionIds.length)fail('algorithm audit: duplicate decision id');
+  if(!sameMembers(termIds,decisionIds)){
+    const missing=termIds.filter(id=>!decisionIds.includes(id));
+    const extra=decisionIds.filter(id=>!termIds.includes(id));
+    fail(`algorithm audit: ids mismatch missing=[${missing.join(',')}] extra=[${extra.join(',')}]`);
+  }
+  for(const item of decisions){
+    if(!allowedActions.has(item.action))fail(`algorithm audit: ${item.id} invalid action ${item.action}`);
+    if(!item.priority||!item.contentType||!item.targetLesson)fail(`algorithm audit: ${item.id} missing priority/contentType/targetLesson`);
+    if(item.action==='move-primary-unit'){
+      if(!unitIds.has(item.targetLesson))fail(`algorithm audit: ${item.id} unknown target unit ${item.targetLesson}`);
+    }else if(!lessonIds.has(item.targetLesson))fail(`algorithm audit: ${item.id} unknown target lesson ${item.targetLesson}`);
+  }
+  const counts=decisions.reduce((acc,item)=>{acc[item.action]=(acc[item.action]||0)+1;return acc;},{});
+  const expectedSummary={
+    'keep-core':Number(audit.summary?.keepCore||0),
+    'keep-supporting':Number(audit.summary?.keepSupporting||0),
+    'merge-into-lesson':Number(audit.summary?.mergeIntoLesson||0),
+    'move-primary-unit':Number(audit.summary?.movePrimaryUnit||0)
+  };
+  for(const [action,count] of Object.entries(expectedSummary))if((counts[action]||0)!==count)fail(`algorithm audit: ${action} count ${counts[action]||0} != summary ${count}`);
+  if(!(audit.missingLearningGoals||[]).length)fail('algorithm audit: missingLearningGoals is empty');
+  notes.push(`algorithm audit: ${decisions.length} decisions / ${audit.targetLessons?.length||0} target lessons OK`);
+}catch(error){fail(`algorithm audit: ${error.message}`);}
+
 for(const [id,termManifestPath,detailManifestPath] of domains){
   try{
     const tm=readJson(termManifestPath);
