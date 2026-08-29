@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-10","title":"ストレージ・RAID・ファイルシステム","unitId":"computer-systems","officialMiddleCodes":[3,5,6],"officialAreas":["入出力装置","ファイルシステム","ハードウェア"],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"HDD/SSDの違い、RAIDの冗長化、File Systemの役割を1本につなげます。RAID番号の丸暗記ではなく、Data・Mirror・Parityをどこへ置くかで判断します。",
+  "objectives":["HDDとSSDの特性を比較できる。","RAID 0/1/5/6を冗長性と容量効率で比較できる。","Parityを使う理由を説明できる。","File SystemとJournalingの役割を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. HDDとSSD","columns":["観点","HDD","SSD"],"rows":[["記録方式","磁気Disk","Flash Memory"],["Random Access","機械的Seekがある","比較的高速"],["耐衝撃","可動部あり","可動部なし"],["注意","回転/Seek latency","書換寿命・Controller特性"]]},
+    {"type":"comparison","title":"2. RAIDの基本","columns":["RAID","配置","最低台数","故障耐性","実効容量の概念"],"rows":[["0","Striping","2","なし","全容量"],["1","Mirroring","2","Mirror片側故障に耐える","約1/2"],["5","分散Parity","3","1台故障","(N-1)台分"],["6","二重Parity","4","2台故障","(N-2)台分"]],"note":"実際の利用可能容量はDisk sizeや実装で変わる。試験では同容量Diskの基本式を使う。"},
+    {"type":"diagram","title":"3. Striping / Mirror / Parity","diagrams":[{"label":"考え方","connector":"→","nodes":[{"title":"Striping","value":"Dataを分散"},{"title":"Mirroring","value":"同じDataを複製"},{"title":"Parity","value":"復元用情報を保持"}],"note":"RAID 0は速度/容量効率を狙うが冗長化ではない。"}]},
+    {"type":"code-trace","title":"4. RAID 5容量計算","question":"2TBのDiskを4台使うRAID 5。単純化した実効容量は？","code":["RAID5 capacity = (N - 1) × disk capacity","= (4 - 1) × 2TB"],"traceColumns":["項目","値"],"traceRows":[["Disk数","4"],["Parity相当","1台分"],["Data相当","3台分"]],"answer":"6TB","explanation":"1台分相当をParityへ使う基本計算。"},
+    {"type":"comparison","title":"5. File Systemの役割","columns":["機能","何を管理する"],"rows":[["Directory","Fileの階層"],["Metadata","名前・Size・時刻・権限"],["Block allocation","Storage上の配置"],["Access control","誰が読書きできるか"],["Journaling","更新途中の情報を記録しCrash後の整合性回復を助ける"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["RAIDはBackupの代替ではない。同時削除・Ransomware・装置全体障害には別Backupが必要。","RAID 0にはParityもMirrorもなく、1台故障でArray全体のDataを失う可能性がある。","File SystemとPhysical Diskは同じ概念ではない。File SystemはStorage上のData管理方式。"]}
+  ],
+  "checks":[
+    {"id":"cmp10-q1","prompt":"冗長性を持たないRAIDは？","options":["RAID 0","RAID 1","RAID 5","RAID 6"],"answerIndex":0,"explanation":"RAID 0はStripingのみで冗長化しません。"},
+    {"id":"cmp10-q2","prompt":"4台の同容量DiskによるRAID 5でData容量相当は何台分？","options":["3台分","4台分","2台分","1台分"],"answerIndex":0,"explanation":"基本式はN-1台分です。"},
+    {"id":"cmp10-q3","prompt":"File SystemのJournalingの目的に最も近いものは？","options":["更新記録を使いCrash後の整合性回復を助ける","CPU Clockを上げる","DNSを暗号化する","PacketをRouteする"],"answerIndex":0,"explanation":"更新途中の状態を追跡し復旧しやすくします。"},
+    {"id":"cmp10-q4","prompt":"RAIDを使っていても別Backupが必要な理由は？","options":["誤削除やRansomware等はRAIDだけでは防げない","RAIDは常にNetwork機能だから","RAIDはCPU Registerだから","RAIDは暗号方式だから"],"answerIndex":0,"explanation":"RAIDは主にDisk故障耐性であり、論理的なData損失対策とは別です。"}
+  ]
+}
