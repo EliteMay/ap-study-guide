@@ -4,43 +4,51 @@
 
 **教材再設計中 / BUILD `2026.08.29-r5`**
 
-正本: GitHub `EliteMay/ap-study-notes`
-
+正本: GitHub `EliteMay/ap-study-notes`  
 GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
 
 ## 目的
 
 単語数を増やすことではなく、APで必要な知識を **理解 → 適用 → 演習** までつなげることを目的にします。
 
-内容に応じて、用語・比較・図・コードトレース・計算・SQL・ケース・過去問などを使い分けます。
+教材形式は内容に合わせます。
+
+- 用語・比較
+- 図・構成図
+- 擬似言語 / コードトレース
+- SQL
+- E-R図 / 正規化
+- 計算
+- ケース判断
+- 過去問
 
 ## 現在の状態
 
 Webアプリ基盤は利用できますが、**AP教材全体としてはまだ完成扱いにしません**。
 
-旧6教材には1,422語ありますが、語数は完成度ではありません。旧データは検索・復習・既存進捗の互換を維持しながら、構造化Lessonへ移行します。
-
-### 全件監査・Lesson移行
+旧6教材は合計1,422語あります。現在は検索・復習・既存進捗の互換用索引として維持し、主教材を構造化Lessonへ移行しています。
 
 | 旧教材 | 語数 | 状態 |
 |---|---:|---|
-| アルゴリズム | 65 | **65/65を実Lessonへ一意割当済み** |
-| システム開発 | 75 | **75/75を実Lessonへ一意割当済み** |
-| プロジェクト管理 | 72 | **72/72を実Lessonへ一意割当済み** |
-| データベース | 229 | 要監査 |
+| アルゴリズム | 65 | **65/65 全件監査・Lesson割当済み** |
+| データベース | 229 | **229/229 全件監査・Lesson割当済み** |
+| システム開発 | 75 | **75/75 全件監査・Lesson割当済み** |
+| プロジェクト管理 | 72 | **72/72 全件監査・Lesson割当済み** |
 | ネットワーク | 480 | 要監査 |
 | セキュリティ | 501 | 要監査 |
 
-現在、**212 / 212語の監査・実Lesson割当が完了**しています。
+**441語を全件監査し、441/441を実装済みLessonへ一意割当済みです。**
+
+現在の構造化Lessonは **49本** です。
 
 ## カリキュラム基準
 
-2026年度現行制度はIPA「応用情報技術者試験 シラバス Ver.7.2」を分類基準にします。
+2026年度現行制度は IPA「応用情報技術者試験 シラバス Ver.7.2」を分類基準にします。
 
+- 内部: 9大分類 / 23中分類
+- 学習UI: 13学習ユニット
 - 定義: `json/curriculum/ap-2026-map.json`
 - 表示: `html/roadmap.html`
-- 内部分類: 9大分類 / 23中分類
-- 学習画面: 13学習ユニット
 
 13ユニット:
 
@@ -58,7 +66,7 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 12. 経営・会計・ビジネス
 13. 法務・標準化
 
-2027年度以降の新制度は別マップで管理し、2026年度マップを上書きしません。
+2027年度以降の新制度は別マップとして管理し、2026年度定義を上書きしません。
 
 ---
 
@@ -68,7 +76,7 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 
 `html/lesson.html?id=<LESSON_ID>`
 
-構成:
+主な構成:
 
 - `html/lesson.html`
 - `js/lesson.js`
@@ -76,7 +84,7 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 - `json/lessons/lesson-index.json`
 - `json/lessons/<unit>/*.json`
 
-対応section type:
+現在の表示形式:
 
 - `text`
 - `comparison`
@@ -85,132 +93,120 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 - `steps`
 - `mistakes`
 
-同じ学習ユニット内は`order`順で前後移動し、別ユニットへの移動は`next[]`で明示します。
+`worked-example` rendererも追加済みですが、現時点の49Lessonでは既存の検証済み形式を中心に使用しています。
 
-## 現在35Lesson
+## アルゴリズム・プログラミング
 
-### アルゴリズム・プログラミング 15本
-
-- ALG-01 擬似言語トレース
-- ALG-02 計算量
-- ALG-03 配列・リスト
-- ALG-04 スタック・キュー
-- ALG-05 ハッシュ
-- ALG-06 探索
-- ALG-07 ソート
-- ALG-08 再帰・問題分割
-- ALG-09 木・走査
-- ALG-10 グラフ・最短経路
-- ALG-11 文字列探索
-- PROG-01 基本制御・データ型
-- PROG-02 関数・引数・スコープ
-- PROG-03 プログラミング言語
-- PROG-04 Web・マークアップ・データ記述言語
-
-### 基礎理論 1本
-
+- ALG-01〜ALG-11
+- PROG-01〜PROG-04
 - FND-01 論理演算・ビットシフト
 
-### コンピュータシステム 1本
-
-- CMP-01 コンテナと仮想化
-
-### システム開発 9本
-
-- SYS-01 開発ライフサイクルと開発プロセス
-- SYS-02 要件定義とトレーサビリティ
-- SYS-03 設計・アーキテクチャ・モジュール
-- SYS-04 オブジェクト指向とUML
-- SYS-05 実装品質とリファクタリング
-- SYS-06 構成管理・CI/CD・DevOps
-- SYS-07 テスト設計・網羅・レビュー
-- SYS-08 保守とリリース方式
-- DEV-01 アジャイル開発とスクラム
-
-### プロジェクト管理 6本
-
-- PM-01 プロジェクト立上げ・スコープ・WBS
-- PM-02 PERT・クリティカルパス・日程短縮
-- PM-03 EVMを式と状態で読む
-- PM-04 品質マネジメントと分析
-- PM-05 リスク評価と対応
-- PM-06 組織・コミュニケーション・調達・変更
-
-### サービス管理・監査 2本
-
-- SVC-01 サービスマネジメントとSLA
-- AUD-01 システム監査と内部統制
-
-### システム戦略・企画 1本
-
-- STR-01 システム化計画・フィージビリティ・RFP
-
----
-
-# 監査と再分類
-
-## アルゴリズム65語
+旧65語は **65/65** 一意割当済み。
 
 監査: `json/curriculum/audits/algorithm-audit.json`
 
-- keep-core: 31
-- keep-supporting: 5
-- merge-into-lesson: 25
-- move-primary-unit: 4
+## データベース
 
-AND / OR / XOR / ビットシフトは`FND-01`へ移しました。
+旧229語を単語カードのまま磨かず、14Lessonへ再構成しました。
 
-## システム開発75語
+| Lesson | 内容 |
+|---|---|
+| DB-01 | DBMS・3層スキーマ・関係モデル |
+| DB-02 | E-R図・キー・参照整合性 |
+| DB-03 | 正規化と更新異常 |
+| DB-04 | SQL定義・更新・権限制御 |
+| DB-05 | SELECT・条件式・NULL |
+| DB-06 | 表結合を結果表から読む |
+| DB-07 | 集計・GROUP BY・集合演算 |
+| DB-08 | 副問合せ・EXISTS・CTE |
+| DB-09 | トランザクション・ロック・分離レベル |
+| DB-10 | ログ・バックアップ・障害回復 |
+| DB-11 | 索引・実行計画・性能 |
+| DB-12 | ビュー・ストアド処理・安全なSQL実行 |
+| DB-13 | 分散DB・NoSQL・CAP |
+| DB-14 | DWH・ETL・OLAP・スタースキーマ |
 
-監査: `json/curriculum/audits/system-audit.json`
+監査: `json/curriculum/audits/database-audit.json`
 
-- keep-core: 21
-- keep-supporting: 6
-- merge-into-lesson: 44
-- move-primary-unit: 4
+監査結果:
 
-再配置:
+- 主要概念: 84語
+- 補助: 76語
+- 上位Lessonへ統合: 69語
+- 別ユニット移動: 0語
 
-- フィージビリティスタディ → `STR-01` / 中分類18
-- RFP → `STR-01` / 中分類18
-- SLA → `SVC-01` / 中分類15
-- コンテナ → `CMP-01` / 中分類5
+補完した主な不足:
 
-## プロジェクト管理72語
+- 関係代数: 選択 / 射影 / 結合
+- SQL論理評価順
+- 関数従属性からの実正規化
+- NULL三値論理
+- JOIN結果表トレース
+- 分離レベルと読取り異常
+- UNDO / REDO / WAL / チェックポイント
+- フル / 差分 / 増分バックアップ
+- 索引の選択率・複合列順
+- 2相コミット
+- OLAPのslice / dice / drill-down / roll-up
 
-監査: `json/curriculum/audits/management-audit.json`
+既存の `database-details-*.json` 229件は定型文比率が高いため、現在は互換用の旧詳細として扱い、主教材にはしません。
 
-- keep-core: 18
-- keep-supporting: 6
-- merge-into-lesson: 30
-- move-primary-unit: 18
+## システム開発・PM・サービス管理
 
-再配置:
+実装済み:
 
-- Agile/Scrum 12語 → `DEV-01` / 中分類13
-- ITSM 6語 → `SVC-01` / 中分類15
+- SYS-01〜SYS-08
+- DEV-01 Agile / Scrum
+- PM-01〜PM-06
+- SVC-01 サービスマネジメント / SLA
+- AUD-01 システム監査 / 内部統制
+- STR-01 システム化計画 / RFP
+- CMP-01 コンテナ / 仮想化
 
-旧72語に不足していた中分類16は`AUD-01`で新規教材化しました。
+System 75語 + Management 72語 = **147/147** 一意割当済み。
 
-## 旧ページの扱い
+監査:
 
-- `html/algorithm.html`
-- `html/system.html`
-- `html/management.html`
-
-上部を正式Lessonの学習ハブへ変更済みです。
-
-旧65/75/72語は、検索・復習・localStorage進捗を壊さないため索引として下部へ残しています。
-
-`generatedDetail()` は移行互換として残りますが、正式Lessonの主本文として扱いません。
+- `json/curriculum/audits/system-audit.json`
+- `json/curriculum/audits/management-audit.json`
 
 ---
 
-# データ保存
+# 崩してはいけない仕様
 
-教材データ: GitHub上のJSON
+- 既存用語IDを不用意に変更・削除しない。
+- localStorageキーを変更する場合は移行処理を用意する。
+- 過去問PDF / 問題JSON / 解説JSONの対応を壊さない。
+- GitHub Pagesで動く相対パスを維持する。
+- 秘密情報やAPIキーを公開リポジトリへ置かない。
+- 監査前の大量削除をしない。
+- 「語数が多い = 教材完成」と扱わない。
 
-個人進捗: ブラウザlocalStorage
+# データ構成
+
+主な場所:
+
+```text
+index.html
+html/
+css/
+js/
+json/
+  curriculum/
+    ap-2026-map.json
+    audits/
+  lessons/
+  terms/
+  details/
+docs/
+tests/
+```
+
+教材本文・用語・監査結果はJSONへ分離し、大量データをHTMLへ直書きしません。
+
+# 保存方法
+
+教材データはGitHub上のJSON。個人進捗はブラウザのlocalStorageへ保存します。
 
 | 用途 | localStorageキー |
 |---|---|
@@ -225,74 +221,61 @@ AND / OR / XOR / ビットシフトは`FND-01`へ移しました。
 | 用語テスト履歴 | `ap-study-test-history-v1` |
 | テーマ | `ap-study-theme` |
 
-Lesson理解度の永続化は未実装です。
+Lesson理解度の永続保存は未実装です。
 
----
+# 起動・利用方法
 
-# 自動検証
+GitHub PagesではURLを開くだけで利用できます。
 
-`.github/workflows/validate.yml` をmain / PRごとに実行します。
+ローカル利用も静的HTML/CSS/JS/JSONのみで構成されていますが、`fetch()` でJSONを読むため、ブラウザの `file://` 直開きよりGitHub PagesやLive Server等のHTTP環境を推奨します。
 
-### `tests/validate.mjs`
+# GitHub Pages
 
-- 全JSON構文
-- JavaScript構文（Workflow側）
-- manifest件数 / ID / category / details
-- 過去問targets
-- 主要HTML相対参照
-- 9大分類 / 23中分類 / 13学習ユニット
-- Lesson ID / order / unit / IPA中分類
-- section / diagram / checks / next
-- 旧アルゴリズム65/65の一意Lesson割当
-
-### `tests/validate-audits.mjs`
-
-- System 75/75監査
-- Management 72/72監査
-- actionとsummary一致
-- IPA中分類・移動先ユニット存在
-- **System 75/75が実装Lessonへちょうど1回ずつ割当されていること**
-- **Management 72/72が実装Lessonへちょうど1回ずつ割当されていること**
-- 非move項目は監査指定Lessonと一致
-- move項目は監査指定unitと一致
-
----
-
-# GitHub Pagesでの利用
+公開URL:
 
 `https://elitemay.github.io/ap-study-notes/`
 
-静的HTML/CSS/JS/JSONだけで動き、通常はビルドやローカルサーバーは不要です。
+ビルド工程は不要です。main更新後にGitHub Pagesがデプロイされます。
 
-## ファイル構成
+# 自動検証
 
-- `index.html`: ダッシュボード
-- `html/`: 各学習ページ
-- `css/`: UI
-- `js/`: 共通処理・ページ処理
-- `json/terms/`: 旧用語データ
-- `json/lessons/`: 構造化Lesson
-- `json/curriculum/`: シラバス・監査データ
-- `tests/`: CI / ブラウザ検証
-- `docs/仕様書.md`: 現行仕様
-- `docs/作業報告書.md`: 変更記録
+`.github/workflows/validate.yml` でmain / PRごとに検証します。
 
----
+主な検査:
 
-# 現在の注意点・既知の問題
+- JavaScript構文
+- 全JSON構文
+- manifest件数 / ID / category
+- 9大分類 / 23中分類 / 13ユニット
+- Lesson ID / order / unit / IPA中分類
+- section / diagram / checks / next参照
+- Algorithm 65/65完全割当
+- System 75/75完全割当
+- Management 72/72完全割当
+- Database 229/229完全割当
+- 監査JSONと実装Lessonの割当一致
+- セキュリティ過去問targets
+- 主要HTML参照
 
-- Security 501 / Network 480 / Database 229はまだ大規模監査前。
-- 現行`html/test.html`は主に用語・定義の4択で、本番型総合テストではない。
-- Lessonの正答履歴・理解度はまだ永続保存しない。
-- 最近のAP過去問とのLesson単位の対応付けは不足。
-- 公開Pagesを通常ブラウザとして35Lesson全件クリックするE2E確認は未実施。
+監査専用: `tests/validate-audits.mjs`
 
-## 次の優先作業
+# 注意点・既知の問題
 
-1. Database 229 / Network 480 / Security 501の監査優先順を決める。
-2. 最近の過去問から逆算してLesson不足を補完する。
-3. 本番型の計算・SQL・コード・ケース問題を増やす。
-4. Lesson理解度・解答履歴の保存モデルを追加する。
+- Network 480語とSecurity 501語はまだ大規模監査前です。
+- UI/情報メディア、経営・会計、法務など独立教材が未整備のユニットがあります。
+- 現行 `html/test.html` は用語・定義中心の4択で、本番力測定としては未完成です。
+- Lessonの正答履歴を永続化する理解度システムは未実装です。
+- Databaseの旧229詳細JSONは定型文が多く、主教材には使用しません。
+- 公開Pagesを通常ブラウザで49Lessonすべて操作するE2E総当たり確認は未実施です。
+
+# 次の大バッチ
+
+残る最大の旧教材:
+
+1. Network 480語
+2. Security 501語
+
+この2分野を、重複・一般語・誤配置・テンプレ詳細を監査したうえで、通信フロー・構成図・サブネット計算・攻撃/対策対応・ケース問題中心のLessonへ移行します。
 
 # 完成条件
 
@@ -302,5 +285,5 @@ Lesson理解度の永続化は未実装です。
 - 必要な計算 / 図 / コード / SQL / ケース演習がある。
 - 最近の過去問へ接続できる。
 - 問題結果から理解度を確認できる。
-- 主要操作がPC/スマホで利用できる。
 - CIとPages buildが通る。
+- 重大な既知不具合がなく通常利用できる。
