@@ -94,6 +94,36 @@ try{
   notes.push(`algorithm audit: ${decisions.length} decisions / ${audit.targetLessons?.length||0} target lessons OK`);
 }catch(error){fail(`algorithm audit: ${error.message}`);}
 
+try{
+  const lessonIndex=readJson('json/lessons/lesson-index.json');
+  const lessons=Array.isArray(lessonIndex.lessons)?lessonIndex.lessons:[];
+  const curriculum=readJson('json/curriculum/ap-2026-map.json');
+  const unitIds=new Set((curriculum.studyUnits||[]).map(item=>item.id));
+  const validMiddleCodes=new Set((curriculum.middleCategories||[]).map(item=>Number(item.code)));
+  const algorithmTermIds=new Set((readJson('json/terms/algorithm-terms.json').terms||[]).map(item=>item.id));
+  if(!lessons.length)fail('lessons: lesson-index is empty');
+  const ids=lessons.map(item=>item.id);
+  if(new Set(ids).size!==ids.length)fail('lessons: duplicate lesson id');
+  for(const entry of lessons){
+    if(!entry.id||!entry.file||!entry.title)fail(`lessons: invalid index entry ${entry.id||'missing-id'}`);
+    if(!unitIds.has(entry.unitId))fail(`lessons: ${entry.id} unknown unit ${entry.unitId}`);
+    for(const code of entry.officialMiddleCodes||[])if(!validMiddleCodes.has(Number(code)))fail(`lessons: ${entry.id} invalid middle code ${code}`);
+    if(!exists(entry.file)){fail(`lessons: ${entry.id} missing ${entry.file}`);continue;}
+    const lesson=readJson(entry.file);
+    if(lesson.meta?.id!==entry.id)fail(`lessons: ${entry.id} meta.id mismatch ${lesson.meta?.id||'missing'}`);
+    if(lesson.meta?.unitId!==entry.unitId)fail(`lessons: ${entry.id} unitId mismatch`);
+    if(!(lesson.objectives||[]).length)fail(`lessons: ${entry.id} objectives empty`);
+    if(!(lesson.sections||[]).length)fail(`lessons: ${entry.id} sections empty`);
+    for(const termId of lesson.meta?.replacesTemplateFor||[])if(!algorithmTermIds.has(termId))fail(`lessons: ${entry.id} replaces unknown algorithm term ${termId}`);
+    for(const check of lesson.checks||[]){
+      const options=Array.isArray(check.options)?check.options:[];
+      const answer=Number(check.answerIndex);
+      if(!check.id||!check.prompt||options.length<2||!Number.isInteger(answer)||answer<0||answer>=options.length)fail(`lessons: ${entry.id} invalid check ${check.id||'missing-id'}`);
+    }
+  }
+  notes.push(`lessons: ${lessons.length} structured lesson(s) OK`);
+}catch(error){fail(`lessons: ${error.message}`);}
+
 for(const [id,termManifestPath,detailManifestPath] of domains){
   try{
     const tm=readJson(termManifestPath);
@@ -156,7 +186,7 @@ try{
   notes.push('security past questions OK');
 }catch(error){fail(`past: ${error.message}`);}
 
-const mainPages=['index.html','html/roadmap.html','html/security.html','html/network.html','html/database.html','html/algorithm.html','html/system.html','html/management.html','html/security-past.html','html/test.html'];
+const mainPages=['index.html','html/roadmap.html','html/lesson.html','html/security.html','html/network.html','html/database.html','html/algorithm.html','html/system.html','html/management.html','html/security-past.html','html/test.html'];
 for(const page of mainPages){
   if(!exists(page)){fail(`missing page: ${page}`);continue;}
   const html=fs.readFileSync(path.join(ROOT,page),'utf8');
