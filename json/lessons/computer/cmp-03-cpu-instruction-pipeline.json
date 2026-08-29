@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-03","title":"CPU・命令実行・レジスタ・パイプライン","unitId":"computer-systems","officialMiddleCodes":[3],"officialAreas":["プロセッサ"],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"CPU用語を部品名で暗記せず、1命令がフェッチされて実行される流れから理解します。レジスタ、ALU、制御装置、パイプライン、RISC/CISCを同じ実行経路上に置きます。",
+  "objectives":["命令のfetch→decode→execute→write backを追える。","PC・IR・汎用レジスタ・ALUの役割を区別できる。","パイプラインが速くなる理由とhazardを説明できる。","RISC/CISCを命令設計の違いとして比較できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 1命令がCPUを流れる","diagrams":[{"label":"命令サイクル","connector":"→","nodes":[{"title":"Fetch","value":"PCが指す命令を読む"},{"title":"Decode","value":"命令内容を解釈"},{"title":"Execute","value":"ALU等で処理"},{"title":"Memory","value":"必要ならMemoryアクセス"},{"title":"Write Back","value":"結果をRegisterへ"}],"note":"実CPUはもっと複雑ですが、APではこの骨格で命令の流れを読めればよい。"}]},
+    {"type":"comparison","title":"2. 主要レジスタと回路","columns":["要素","主な役割","見分け方"],"rows":[["PC / Program Counter","次に実行する命令Address","命令の位置"],["IR / Instruction Register","現在解釈中の命令を保持","今の命令"],["General-purpose Register","演算対象や途中結果","CPU内の高速作業場所"],["ALU","算術・論理演算","計算そのもの"],["Control Unit","命令を解釈して各部を制御","処理順を指示"]]},
+    {"type":"diagram","title":"3. パイプラインは工程を重ねる","diagrams":[{"label":"概念","connector":"→","nodes":[{"title":"Cycle 1","value":"I1 Fetch"},{"title":"Cycle 2","value":"I1 Decode / I2 Fetch"},{"title":"Cycle 3","value":"I1 Execute / I2 Decode / I3 Fetch"},{"title":"Cycle 4","value":"複数命令が同時進行"}],"note":"1命令のLatencyが必ず短くなるのではなく、複数命令のThroughputを上げる考え方。"}]},
+    {"type":"comparison","title":"4. Pipeline hazard","columns":["種類","何が起きる","代表的な対処"],"rows":[["Data hazard","前命令の結果待ち","forwarding / stall"],["Control hazard","branch先が確定しない","branch prediction等"],["Structural hazard","同じHardware資源を取り合う","資源分離 / stall"]]},
+    {"type":"comparison","title":"5. RISCとCISC","columns":["観点","RISC","CISC"],"rows":[["命令","比較的単純で規則的","複雑な命令も持つ"],["Pipeline","設計しやすい傾向","命令差が大きくなる場合がある"],["考え方","単純命令を高速に組合せる","1命令で多くの処理も可能"]],"note":"実製品は単純な二分ではありません。試験では設計思想の違いを読む。"},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Clock周波数だけでCPU性能は決まらない。CPIや命令数も必要。","Pipelineは1命令の処理を魔法のようにゼロ時間へする仕組みではない。","CacheやRegisterはどちらも高速だが、CPU内部での役割と階層が違う。"]}
+  ],
+  "checks":[
+    {"id":"cmp03-q1","prompt":"次に実行する命令のAddressを主に保持するのは？","options":["Program Counter","ALU","Cache line","DMA controller"],"answerIndex":0,"explanation":"PCは次の命令位置を指します。"},
+    {"id":"cmp03-q2","prompt":"Pipelineの主目的として最も近いものは？","options":["複数命令の工程を重ねてThroughputを上げる","Main Memoryを不要にする","全branchを削除する","DiskをRegister化する"],"answerIndex":0,"explanation":"工程を重ねることで一定時間当たりに完了する命令数を増やします。"},
+    {"id":"cmp03-q3","prompt":"前の命令結果を次の命令が必要として待つ問題は？","options":["Data hazard","DNS cache","RAID parity","Page replacement"],"answerIndex":0,"explanation":"命令間のデータ依存によるhazardです。"},
+    {"id":"cmp03-q4","prompt":"CPU性能比較でClock周波数以外にも重要なのは？","options":["命令数とCPI","URL文字数だけ","Monitor解像度だけ","File名だけ"],"answerIndex":0,"explanation":"実行時間は命令数・CPI・Clock周期の関係で考えます。"}
+  ]
+}
