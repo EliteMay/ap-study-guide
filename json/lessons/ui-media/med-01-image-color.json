@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"MED-01","title":"画像・解像度・色表現・Raster/Vector","unitId":"ui-media","officialMiddleCodes":[8],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"画像は『何pixelあるか』『1pixelを何bitで表すか』『RasterかVectorか』でData量と用途が決まります。色空間・解像度・圧縮まで計算につなげます。",
+  "objectives":["RasterとVectorを用途で選べる。","解像度・色深度から非圧縮画像Data量を計算できる。","RGBとCMYKの用途差を説明できる。","JPEG/PNG等を特性から選べる。"],
+  "sections":[
+    {"type":"comparison","title":"1. RasterとVector","columns":["方式","表現","向くもの"],"rows":[["Raster","Pixelの集合","写真・画素処理"],["Vector","線/曲線/図形の数式情報","Logo・図形・拡大縮小"]],"note":"Rasterは拡大するとPixelが見えやすい。Vectorは図形情報から再描画するため拡大に強い。"},
+    {"type":"code-trace","title":"2. 非圧縮画像Data量","question":"1920×1080、24bit colorの画像1枚のData量を概算する。","code":["pixel数 = 1920 × 1080 = 2,073,600","1pixel = 24bit = 3byte","Data量 = 2,073,600 × 3"],"traceColumns":["項目","値"],"traceRows":[["Pixel数","2,073,600"],["byte数","6,220,800 byte"],["概算","約6.22MB (10進) "]],"answer":"約6.22MB","explanation":"圧縮前の単純計算。実FileはHeaderや圧縮方式で変わります。"},
+    {"type":"comparison","title":"3. RGBとCMYK","columns":["色モデル","基本","用途"],"rows":[["RGB","光の加法混色","Display・Camera"],["CMYK","Inkの減法混色","印刷"],["Grayscale","輝度中心","白黒画像等"]],"note":"RGBのR/G/Bを最大にすると白に近づき、CMYKはInk量で考えます。"},
+    {"type":"comparison","title":"4. 代表的画像形式","columns":["形式","圧縮/特徴","用途"],"rows":[["JPEG","主に非可逆、写真向き","写真・Web画像"],["PNG","可逆、Alpha透明対応","UI素材・図・Screenshot"],["GIF","256色、Animation対応","単純なAnimation等"],["SVG","Vector/XML系","Icon・Logo・図形"]]},
+    {"type":"text","title":"5. 解像度を分けて考える","paragraphs":["画像のPixel寸法は1920×1080のような画素数です。印刷ではdpi/ppiのように物理長あたりのdot/pixel密度も関係します。","同じ1920×1080でも、表示する物理Sizeが変われば見かけの密度は変わります。"]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["24bit colorは画像全体24bitではなく、通常1pixelあたり24bitの意味。","解像度が高ければ必ず画質が良いとは限らず、元Data・Display・圧縮・視距離も影響する。","JPEGはText/UI Screenshotで劣化が目立つことがあり、用途でPNG等を選ぶ。","Vector画像にも複雑さによるFile Sizeはある。"]}
+  ],
+  "checks":[
+    {"id":"med01-q1","prompt":"1000×1000 pixel、24bit colorの非圧縮画像は約何MB？ 1MB=10^6byte","options":["1MB","3MB","8MB","24MB"],"answerIndex":1,"explanation":"1,000,000pixel×3byte=3,000,000byte=約3MBです。"},
+    {"id":"med01-q2","prompt":"拡大縮小しても輪郭を保ちやすいLogo形式として適するのは？","options":["SVG","JPEGだけ","PCM","CSV"],"answerIndex":0,"explanation":"SVGはVector形式なので図形を再描画できます。"},
+    {"id":"med01-q3","prompt":"Displayで基本となる加法混色は？","options":["RGB","CMYK","RAID","HSLだけしか使えない"],"answerIndex":0,"explanation":"Displayは光を加えるRGBが基本です。"},
+    {"id":"med01-q4","prompt":"透明Backgroundを含むUI画像で一般に使いやすい形式は？","options":["PNG","JPEGのみ","WAV","TXT"],"answerIndex":0,"explanation":"PNGは可逆圧縮とAlpha透明を扱えます。"}
+  ]
+}
