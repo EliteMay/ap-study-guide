@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"STR-05","title":"システム活用促進・導入定着・効果評価","unitId":"strategy-planning","officialMiddleCodes":[17],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"Systemを導入しても使われなければ価値は出ません。利用定着、教育、Change Management、PoC、効果測定を『導入したか』ではなく『業務成果が出たか』で評価します。",
+  "objectives":["導入率と活用率の違いを説明できる。","Change Managementで抵抗要因を扱える。","PoC/Pilotの役割を説明できる。","定量・定性の両面で効果を評価できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 導入と定着は別","columns":["段階","見るもの","例"],"rows":[["導入","利用可能になったか","Account配布済み"],["利用","実際に使っているか","Weekly Active User"],["定着","継続利用されているか","3か月後利用率"],["成果","Business結果が改善したか","Lead Time短縮/売上増"],["最適化","使い方を改善したか","Automation率向上"]]},
+    {"type":"steps","title":"2. 利用定着を進める","items":[{"label":"① Stakeholderを分ける","body":"利用者・Manager・Support・反対者の関心を整理する。"},{"label":"② Whyを伝える","body":"機能説明だけでなく何が良くなるかを共有する。"},{"label":"③ Training/Support","body":"役割別に学習と問い合わせ経路を用意する。"},{"label":"④ Champion","body":"現場の推進役を置き成功例を広げる。"},{"label":"⑤ Dataで改善","body":"利用率・離脱・問い合わせを見てUI/Processを直す。"}]},
+    {"type":"comparison","title":"3. PoC・Prototype・Pilot","columns":["段階","主目的","規模"],"rows":[["Prototype","形・操作を早く確かめる","小"],["PoC","技術/仮説が成立するか検証","限定"],["Pilot","実業務に近い条件で一部導入","一部部門/地域"],["Full Rollout","本格展開","全体"]],"note":"PoC成功=本番成功ではありません。運用、性能、Cost、教育、Data品質は別途確認が必要です。"},
+    {"type":"comparison","title":"4. 効果測定","columns":["指標","Before","After"],"rows":[["処理時間","20分/件","8分/件"],["Error率","4%","1%"],["利用率","—","85%"],["顧客待ち時間","10分","4分"],["運用Cost","月100万円","月70万円"]],"note":"機能数ではなく、目的に対応する成果指標をBefore/Afterで比較します。"},
+    {"type":"diagram","title":"5. 改善Loop","diagrams":[{"label":"導入して終わらない","connector":"→","nodes":[{"title":"Measure","value":"利用/成果"},{"title":"Analyze","value":"阻害要因"},{"title":"Improve","value":"Process/UI/Training"},{"title":"Re-measure","value":"再評価"}],"note":"利用率が低ければ『教育不足』『権限』『UI』『業務Process』『価値不足』など原因を分けます。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Account配布率100%=活用100%ではない。","研修を1回実施すれば定着完了とは限らない。","PoCは本番運用の全Riskを証明するものではない。","KPIが改善しても他要因の影響を考えず全てSystem効果と断定しない。"]}
+  ],
+  "checks":[
+    {"id":"str05-q1","prompt":"新SystemのAccount配布率100%だが実利用率30%。問題として最も近いのは？","options":["導入は済んだが活用定着が弱い","Systemは必ず成功","Audit不要","Network障害確定"],"answerIndex":0,"explanation":"Availabilityと実利用は別です。"},
+    {"id":"str05-q2","prompt":"技術仮説が成立するか限定環境で確かめるのは？","options":["PoC","Full Rollout","Cold Site","RAID1"],"answerIndex":0,"explanation":"Proof of Conceptは成立性検証です。"},
+    {"id":"str05-q3","prompt":"本格展開前に一部部門で実業務に近い条件を試すのは？","options":["Pilot","Hashing","Normalization","Static Routing"],"answerIndex":0,"explanation":"Pilot導入で運用上の問題を確認します。"},
+    {"id":"str05-q4","prompt":"System活用効果の指標として最も直接的なのは？","options":["業務処理時間のBefore/After","導入資料のPage数","Button数","CPU Brand"],"answerIndex":0,"explanation":"目的に対応したBusiness成果の変化を見るのが重要です。"}
+  ]
+}
