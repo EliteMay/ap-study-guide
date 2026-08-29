@@ -4,60 +4,61 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
-<title>ネットワーク用語まとめ | AP Study Notes</title>
+<title>ネットワーク | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
+<link href="../css/home.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
 <link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav">
-  <div class="container">
-    <span class="unit-nav-label">AP 単元一覧</span>
-    <ul class="unit-nav-list">
-      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link is-current" aria-current="page">🌐 ネットワーク</a></li>
-      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
-      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
-      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
-      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
-      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
-    </ul>
-  </div>
-</nav>
-<header class="site-header">
-  <div class="container">
-    <p class="eyebrow">Network Study Notes</p>
-    <h1>ネットワーク用語まとめ</h1>
-    <p class="lead">TCP/IP、IPアドレス、LAN、ルーティング、DNS、HTTP、運用監視までを体系的に学びます。</p>
-    <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
-    <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
-      <span id="search-count" class="search-count" hidden></span>
-    </div>
-    <div class="filter-row">
-      <select id="category-filter" class="category-select" aria-label="カテゴリで絞り込み"><option value="">すべてのカテゴリ</option></select>
-      <button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button>
-      <span id="filter-status" class="filter-status">読み込み中...</span>
-    </div>
-    <div class="progress-wrap">
-      <span class="progress-label">習得済み: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span>
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
-      <button class="progress-reset" id="progress-reset" type="button">リセット</button>
-    </div>
-  </div>
-</header>
-<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>構成図と通信方向を見る</h3><p>送信元・宛先・ポート・経路・セグメントを図と表から拾って判断します。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>ARP/DNSやNAT/NAPTなど、混同しやすい用語を☆で残して後からまとめて復習できます。</p></div><div class="study-guide-card"><h3>検索とカテゴリで絞る</h3><p>大量の用語から必要な範囲だけに絞り込めます。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
-<main id="main-content">
-  <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
-  <div id="term-sections"></div>
-</main>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link is-current" aria-current="page">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+</ul></div></nav>
+<header class="site-header"><div class="container">
+<p class="eyebrow">Network / 480 TERMS MIGRATED</p><h1>ネットワーク</h1>
+<p class="lead">既存480語を全件監査し、478語をNET-01〜NET-14へ、SLAとインシデント管理の2語をサービス管理SVC-01へ一意に再配置しました。主教材は通信フロー、サブネット計算、構成図、パケット時系列、障害切り分けを中心に学びます。</p>
+<p class="json-note"><strong>480 / 480語</strong> を実Lessonへ一意割当済み / Network Lesson <strong>14本</strong></p>
+<div class="home-actions"><a class="home-action-btn" href="lesson.html?id=NET-01">NET-01から始める</a><a class="home-action-btn secondary" href="roadmap.html">学習マップ</a><a class="home-action-btn secondary" href="#word-list">旧480語索引</a></div>
+<div class="search-wrap"><input type="search" id="search-input" class="search-input" placeholder="🔍 旧480語を検索（/ キーでも検索へ移動）" autocomplete="off"><span id="search-count" class="search-count" hidden></span></div>
+<div class="filter-row"><select id="category-filter" class="category-select" aria-label="旧カテゴリで絞り込み"><option value="">すべての旧カテゴリ</option></select><button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button><span id="filter-status" class="filter-status">読み込み中...</span></div>
+<div class="progress-wrap"><span class="progress-label">既存の習得チェック: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span><div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div><button class="progress-reset" id="progress-reset" type="button">リセット</button></div>
+</div></header>
+<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#lesson-hub">14Lesson</a></li><li><a href="#audit-status">480語監査</a></li><li><a href="#word-list">旧480語索引</a></li></ul></div></nav>
+<section class="section" id="lesson-hub"><div class="container"><h2>構造化Lesson 14本</h2><p class="term-index-lead">旧12カテゴリ×40語をそのまま学ぶのではなく、通信を追いやすい順に再構成しました。</p>
+<h3>通信の土台</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>NET-01 OSI/TCP-IPと通信の全体像</h3><p>DATA→segment→packet→frameのカプセル化、MAC/IP/port、MTU/MSS、ICMP/TTLまで通信全体を追います。</p><a href="lesson.html?id=NET-01">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-02 IPv4・CIDR・サブネット計算</h3><p>/26などからnetwork・broadcast・host範囲を求め、必要台数からprefixを逆算します。</p><a href="lesson.html?id=NET-02">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-03 IPv6・SLAAC・NDP</h3><p>link-local、multicast、SLAAC、NDP、dual stackをIPv4との差で理解します。</p><a href="lesson.html?id=NET-03">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-04 Ethernet・VLAN・STP</h3><p>MAC転送、collision/broadcast domain、access/trunk、802.1Q、L2 loopとSTPを構成図で追います。</p><a href="lesson.html?id=NET-04">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-05 無線LAN・Wi-Fi</h3><p>SSID/BSSID、beacon/probe/association、2.4/5/6GHz、MIMO/OFDMA、干渉切り分けを扱います。</p><a href="lesson.html?id=NET-05">教材を開く →</a></div>
+</div>
+<h3>経路・トランスポート</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>NET-06 ルーティング・NAT・WAN・VPN</h3><p>longest prefix match、RIP/OSPF/BGP、NAT/NAPT、VPN/IPsec/GRE、overlay/underlayを整理します。</p><a href="lesson.html?id=NET-06">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-07 TCP・UDP・ポートと信頼性制御</h3><p>3-way handshake、sequence/ACK、window、再送、flow/congestion control、socket pairを時系列で追います。</p><a href="lesson.html?id=NET-07">教材を開く →</a></div>
+</div>
+<h3>アプリケーション通信</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>NET-08 DNSと名前解決</h3><p>resolver→root→TLD→authoritative、主要record、TTL、DNSSEC、DoH/DoT、障害切り分けを扱います。</p><a href="lesson.html?id=NET-08">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-09 HTTP・HTTPS・Web通信</h3><p>DNS→transport→TLS→HTTP、method/status、proxy/CDN、HTTP/2・3、Cookie/CORS/HSTSを通信順で学びます。</p><a href="lesson.html?id=NET-09">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-10 メール・ファイル転送・リモート接続</h3><p>SMTP/POP3/IMAP、SPF/DKIM/DMARC、FTP/SFTP、SMB/NFS、SSH/Telnet/RDPを役割で比較します。</p><a href="lesson.html?id=NET-10">教材を開く →</a></div>
+</div>
+<h3>構成・運用・クラウド</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>NET-11 ネットワーク機器と構成図</h3><p>L2/L3/FW/LB/WAF、DMZ、OOB管理、SPOF、active-standby/active-activeを構成図で判断します。</p><a href="lesson.html?id=NET-11">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-12 DHCP・ARP・監視・障害切り分け</h3><p>DORA、ARP、ping/traceroute/dig/ss、SNMP/syslogを使い、link→IP→DNS→port→appの順で切り分けます。</p><a href="lesson.html?id=NET-12">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-13 可用性・性能・QoS</h3><p>bandwidth/throughput/latency/jitter/loss、VRRP/LACP、RTO/RPO、capacity planningを整理します。</p><a href="lesson.html?id=NET-13">教材を開く →</a></div>
+<div class="study-guide-card"><h3>NET-14 クラウド・仮想ネットワーク</h3><p>VPC/VNet、public/private subnet、SG/NACL、NAT GW、peering/TGW、SDN/NFV/VXLAN/Kubernetes通信を扱います。</p><a href="lesson.html?id=NET-14">教材を開く →</a></div>
+</div></div></section>
+<section class="section section-alt" id="audit-status"><div class="container"><h2>480語の監査結果</h2><div class="study-guide-grid">
+<div class="study-guide-card"><h3>478語：Network主教材へ</h3><p>OSI、IP、LAN、routing、TCP/UDP、DNS、HTTP、mail、構成図、監視、QoS、cloudをNET-01〜14へ再構成しました。</p></div>
+<div class="study-guide-card"><h3>2語：サービス管理へ移動</h3><p><strong>SLA</strong> と <strong>インシデント管理</strong> はIPA中分類15が主所属なので、既存SVC-01へ正式に吸収しました。</p><a href="lesson.html?id=SVC-01">SVC-01を開く →</a></div>
+<div class="study-guide-card"><h3>12×40の固定分類を廃止</h3><p>旧カテゴリは検索互換として残しますが、40語ずつの件数合わせを正式な学習構造とは扱いません。</p></div>
+<div class="study-guide-card"><h3>Security重複は保留</h3><p>TLS、DNSSEC、FW、IDS/IPS/WAF、SPF/DKIM/DMARCなどはSecurity 501語監査と照合するまで、Networkの通信文脈で保持します。</p></div>
+<div class="study-guide-card"><h3>480/480をCIで固定</h3><p><code>legacyTermRanges</code> を範囲展開し、未割当・重複・誤Lesson・誤中分類を自動検出します。</p></div>
+<div class="study-guide-card"><h3>まだ完成扱いではない</h3><p>最近のAP過去問との対応、本番型サブネット計算、長い構成図ケース、実ブラウザE2Eは継続課題です。</p></div>
+</div><p class="term-index-lead">監査: <code>json/curriculum/audits/network-audit.json</code></p></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>旧480語索引</h2><p class="term-index-lead">検索・☆復習・既存の<code>network-terms-checked</code>進捗を維持する互換索引です。旧12カテゴリは正式カリキュラムではありません。</p><div id="term-index-groups"></div></div></section>
+<main id="main-content"><div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">旧用語データを読み込み中...</p></div></div></div><div id="term-sections"></div></main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
 <script>window.TERM_PAGE_CONFIG={subject:'ネットワーク',pageKey:'network',pagePath:'html/network.html',termsManifest:'network-terms-manifest.json',detailsManifest:'network-details-manifest.json',storageKey:'network-terms-checked',fallbackIdPrefix:'net',rootPath:'../'};</script>
-<script src="../js/shell.js" defer></script>
-<script src="../js/term-page.js" defer></script>
+<script src="../js/shell.js" defer></script><script src="../js/term-page.js" defer></script>
 </body>
 </html>
