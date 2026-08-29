@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"LAW-03","title":"労働・取引法規・Compliance・技術者倫理","unitId":"law-standards","officialMiddleCodes":[23],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"法令問題は条文暗記より、誰を保護するRuleか、どの取引/雇用関係に適用されるか、組織としてどうComplianceを実装するかで整理します。",
+  "objectives":["労働関係法規の基本的な保護目的を説明できる。","下請・取引・契約に関するCompliance Riskを説明できる。","公益通報・内部通報制度の目的を説明できる。","技術者倫理で安全・Privacy・社会影響を考慮できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 労働法規の基本視点","columns":["領域","見るもの","例"],"rows":[["労働条件","労働時間/賃金/休暇等","労働基準法"],["雇用関係","契約/解雇/採用","労働契約"],["安全衛生","職場安全/健康","労働安全衛生"],["派遣/請負","指揮命令関係","偽装請負Risk"],["ハラスメント","就業環境保護","相談/防止措置"]],"note":"具体的な適用判断は最新法令・契約関係で確認が必要。試験では制度の目的と基本構造を押さえます。"},
+    {"type":"comparison","title":"2. 取引Compliance","columns":["Risk","問題例","管理"],"rows":[["優越的地位の濫用","不当な条件押付け","契約/価格決定Process"],["下請取引","支払/減額等の不適切運用","取引条件記録"],["独占禁止","競争制限","談合/Cartel防止"],["表示/広告","誤認表示","Review/根拠Data"],["機密情報","目的外利用","NDA/Access Control"]]},
+    {"type":"diagram","title":"3. Complianceを組織へ実装する","diagrams":[{"label":"Ruleだけで終わらせない","connector":"→","nodes":[{"title":"Policy","value":"禁止/期待"},{"title":"Training","value":"理解"},{"title":"Control","value":"承認/分掌"},{"title":"Reporting","value":"通報/相談"},{"title":"Investigation","value":"事実確認"},{"title":"Improve","value":"再発防止"}],"note":"規程が存在しても運用されなければControlとして弱いです。"}]},
+    {"type":"comparison","title":"4. 技術者倫理の判断軸","columns":["観点","問い","例"],"rows":[["Safety","人へ危害を与えないか","制御SystemのFail-safe"],["Privacy","必要以上のDataを集めていないか","Tracking"],["Fairness","特定Groupへ不当な影響がないか","Algorithm Bias"],["Transparency","説明可能か","自動判断の根拠"],["Professional Duty","能力/限界を正直に扱うか","未検証を安全と断言しない"]]},
+    {"type":"steps","title":"5. Case問題の解き方","items":[{"label":"① 関係者","body":"Employee/Customer/Vendor/社会を分ける。"},{"label":"② 法的/契約義務","body":"何を守る必要があるか確認。"},{"label":"③ 利益Conflict","body":"短期利益と安全/公平性の衝突を探す。"},{"label":"④ Escalation","body":"承認/法務/Complianceへ相談。"},{"label":"⑤ 記録","body":"判断根拠と対応を追跡可能にする。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["上司の指示なら違法/不正な処理も従えばよい、とはならない。","Contractに書いてあるから法令より常に優先されるわけではない。","Ethicsは法律違反の有無だけではなく、安全・公平・社会影響も扱う。","通報制度は密告奨励ではなく重大Riskを早期発見し是正する仕組み。"]}
+  ],
+  "checks":[
+    {"id":"law03-q1","prompt":"派遣と請負を区別する重要な視点の一つは？","options":["誰が作業者へ指揮命令するか","Monitor Size","Hash関数","Frame Rate"],"answerIndex":0,"explanation":"実態としての指揮命令関係が重要な論点です。"},
+    {"id":"law03-q2","prompt":"Compliance Programで規程だけでなく必要なのは？","options":["Training・Control・通報・改善","規程を誰にも見せない","Log削除","Backup禁止"],"answerIndex":0,"explanation":"運用Processとして実装する必要があります。"},
+    {"id":"law03-q3","prompt":"技術者倫理で自動判断Algorithmの偏りを考える観点は？","options":["Fairness","Throughputだけ","RAID Level","TTL"],"answerIndex":0,"explanation":"特定Groupへの不当な影響を評価するFairnessです。"},
+    {"id":"law03-q4","prompt":"短期売上のため安全Test未完了を隠す行為に対する判断は？","options":["Professional Duty/Safety上問題","必ず適切","Marketingだけの問題","Network設定だけの問題"],"answerIndex":0,"explanation":"安全性と専門職としての誠実性を優先すべきCaseです。"}
+  ]
+}
