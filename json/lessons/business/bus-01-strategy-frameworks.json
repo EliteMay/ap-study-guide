@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-01","title":"経営戦略・競争戦略・分析Framework","unitId":"business-accounting","officialMiddleCodes":[19],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"Frameworkは名前当てではなく、どの問いに答える道具かで整理します。外部環境、内部資源、競争Position、成長方向を分けて使います。",
+  "objectives":["SWOT/PEST/5Forces/VRIOを問いで使い分けられる。","Cost Leadership/Differentiation/Focusを区別できる。","PPMを市場成長率と相対Shareで読める。","Ansoff Matrixで成長方向を判断できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. Frameworkは問いで選ぶ","columns":["Framework","主な問い","対象"],"rows":[["PEST","政治・経済・社会・技術の変化は?","Macro外部環境"],["5 Forces","業界の競争圧力は?","Industry"],["SWOT","内部/外部をどう組み合わせる?","戦略整理"],["VRIO","自社資源は持続的優位か?","Internal Resource"],["Value Chain","どの活動で価値/Costが生まれる?","内部活動"]]},
+    {"type":"comparison","title":"2. Porterの基本戦略","columns":["戦略","狙い","例"],"rows":[["Cost Leadership","広い市場で低Cost","Scale/標準化"],["Differentiation","広い市場で独自価値","Brand/品質/UX"],["Focus","狭いSegmentへ集中","専門市場"]],"note":"『安売り』とCost Leadershipは同義ではなく、構造的に低Costを実現する能力が重要です。"},
+    {"type":"comparison","title":"3. PPM","columns":["区分","市場成長率","相対Share","典型判断"],"rows":[["花形","高","高","投資継続"],["金のなる木","低","高","Cash創出"],["問題児","高","低","選択的投資"],["負け犬","低","低","撤退/再構築検討"]],"note":"機械的に撤退を決める表ではなく、資源配分を考える補助です。"},
+    {"type":"comparison","title":"4. Ansoff Matrix","columns":["市場","製品","戦略"],"rows":[["既存","既存","市場浸透"],["新規","既存","市場開拓"],["既存","新規","製品開発"],["新規","新規","多角化"]]},
+    {"type":"steps","title":"5. Case問題の解き方","items":[{"label":"① 外部変化","body":"規制・顧客・競合・技術を見る。"},{"label":"② 内部能力","body":"資源・Brand・Data・Channel・Cost構造を見る。"},{"label":"③ 課題","body":"何が競争力を阻害しているかを特定。"},{"label":"④ 戦略","body":"誰へ何の価値をどう届けるかを決める。"},{"label":"⑤ 指標","body":"成功をどう測るかKPIへ落とす。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["SWOTのStrength/Weaknessは内部、Opportunity/Threatは外部。","Frameworkを多く書けば分析が深いわけではない。問いに合うものを使う。","PPMの市場成長率と自社売上成長率を混同しない。","差別化=機能を増やすことではなく、顧客が価値を感じる違いを作ること。"]}
+  ],
+  "checks":[
+    {"id":"bus01-q1","prompt":"政治・経済・社会・技術のMacro環境を分析するのは？","options":["PEST","VRIO","RAID","PERT"],"answerIndex":0,"explanation":"PESTはMacro外部環境分析です。"},
+    {"id":"bus01-q2","prompt":"内部資源がValue/Rarity/Imitability/Organizationを満たすか見るのは？","options":["VRIO","5 Forces","BEP","DNS"],"answerIndex":0,"explanation":"VRIOはResource-based Viewの代表Frameworkです。"},
+    {"id":"bus01-q3","prompt":"既存製品を新しい市場へ展開するAnsoff戦略は？","options":["市場開拓","市場浸透","製品開発","多角化"],"answerIndex":0,"explanation":"製品は既存、市場が新規なので市場開拓です。"},
+    {"id":"bus01-q4","prompt":"PPMで高成長・高Shareは？","options":["花形","金のなる木","問題児","負け犬"],"answerIndex":0,"explanation":"Star/花形です。"}
+  ]
+}
