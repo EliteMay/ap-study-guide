@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "title": "アルゴリズム用語マニフェスト",
+    "version": "v1-complete-20260829",
+    "totalTerms": 65,
+    "policy": "HTMLへ用語を直書きせずJSONから読み込む。"
+  },
+  "categories": [
+    {"id":"algorithm-01","title":"アルゴリズム基礎・計算量","description":"入力サイズnが増えたとき、処理回数やメモリ量がどう増えるかを見る。"},
+    {"id":"algorithm-02","title":"データ構造","description":"追加・削除・探索のどの操作が得意か、要素の保持順序と合わせて見る。"},
+    {"id":"algorithm-03","title":"探索・ソート","description":"前提条件、比較回数、交換・分割の仕方、安定性を区別する。"},
+    {"id":"algorithm-04","title":"再帰・動的計画法","description":"問題をどのように小さくし、同じ部分問題を再利用するかを見る。"},
+    {"id":"algorithm-05","title":"木・グラフ","description":"ノードと辺、訪問順序、経路コストのどれが問われているかを見る。"},
+    {"id":"algorithm-06","title":"論理・ビット・文字列","description":"入力ビットや文字位置を具体的に書き、1操作ずつ結果を追う。"}
+  ],
+  "files": [{"title":"アルゴリズム全体","file":"json/terms/algorithm-terms.json","count":65}]
+}
