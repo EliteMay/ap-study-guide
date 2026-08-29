@@ -19,6 +19,14 @@
     return { lessons:[...(base.lessons || []), ...(expansion.lessons || [])] };
   }
 
+  function applyCoverage(curriculum, coverage) {
+    const overrides = coverage?.overrides || {};
+    return {
+      ...curriculum,
+      studyUnits:(curriculum.studyUnits || []).map(unit => ({ ...unit, ...(overrides[unit.id] || {}) }))
+    };
+  }
+
   function middleMap(curriculum) {
     return new Map((curriculum.middleCategories || []).map(item => [Number(item.code), item]));
   }
@@ -64,11 +72,12 @@
 
   async function init() {
     try {
-      const [curriculum, index] = await Promise.all([
+      const [curriculum, coverage, index] = await Promise.all([
         loadJson('json/curriculum/ap-2026-map.json'),
+        loadJson('json/curriculum/ap-2026-coverage.json'),
         loadLessonIndex()
       ]);
-      render(curriculum, index);
+      render(applyCoverage(curriculum, coverage), index);
     } catch (error) {
       console.error(error);
       document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">CURRICULUM UNIT</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p>`;
