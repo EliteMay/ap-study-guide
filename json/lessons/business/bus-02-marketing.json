@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-02","title":"Marketing・STP・4P・顧客価値","unitId":"business-accounting","officialMiddleCodes":[19],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"Marketingは広告手法の名前ではなく、誰にどんな価値を届け、どのように選ばれるかを設計する活動です。STP→4P→顧客行動→指標の順で整理します。",
+  "objectives":["Segmentation/Targeting/Positioningを順に説明できる。","4Pと4Cを対応付けられる。","顧客獲得/維持の指標を区別できる。","市場調査Dataの読み方を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. STP","diagrams":[{"label":"市場を選び価値Positionを決める","connector":"→","nodes":[{"title":"Segmentation","value":"市場を分ける"},{"title":"Targeting","value":"狙う層を選ぶ"},{"title":"Positioning","value":"選ばれる理由を決める"}],"note":"全員向けに曖昧な価値を出すより、誰のどの課題に強いかを明確にします。"}]},
+    {"type":"comparison","title":"2. 4Pと4C","columns":["4P","企業側","4C","顧客側"],"rows":[["Product","製品/Service","Customer Value","得られる価値"],["Price","価格","Cost","負担全体"],["Place","流通/Channel","Convenience","入手しやすさ"],["Promotion","Promotion","Communication","対話/情報接点"]]},
+    {"type":"comparison","title":"3. 顧客指標","columns":["指標","意味","注意"],"rows":[["CAC","顧客獲得Cost","広告費だけでなくSales Cost等も定義次第"],["LTV","顧客生涯価値","継続率/粗利が重要"],["Churn Rate","解約率","期間定義を揃える"],["Conversion Rate","目的行動の達成率","母数を明確に"],["Retention Rate","継続率","Cohortで見ると有効"]]},
+    {"type":"code-trace","title":"4. Conversion Rateを計算","question":"Landing Page訪問10,000人、購入300人。Conversion Rateを求める。","code":["CVR = Conversion / Visit × 100","= 300 / 10,000 × 100"],"traceColumns":["項目","値"],"traceRows":[["Visit","10,000"],["Purchase","300"],["CVR","3%"]],"answer":"3%","explanation":"分母をSession/User/Clickのどれにするか定義を固定します。"},
+    {"type":"comparison","title":"5. 調査手法","columns":["手法","得意","弱点"],"rows":[["定量Survey","割合/傾向","質問設計に依存"],["Interview","動機/背景","Sampleが小さい"],["Observation","実行動","理由は別途確認"],["Experiment/A-B","因果に近い比較","実験条件設計が必要"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["PromotionだけをMarketing全体と考えない。","高ConversionでもDiscountで粗利が崩れていれば事業成果が良いとは限らない。","LTVと売上総額を混同せず、定義に粗利やCostを含むか確認する。","市場Segmentationは属性だけでなくNeeds/Behaviorでも分けられる。"]}
+  ],
+  "checks":[
+    {"id":"bus02-q1","prompt":"市場を複数のGroupへ分けるのは？","options":["Segmentation","Targeting","Positioning","Auditing"],"answerIndex":0,"explanation":"Segmentationで市場を意味のあるGroupへ分けます。"},
+    {"id":"bus02-q2","prompt":"4PのPlaceに対応する4Cは？","options":["Convenience","Communication","Cost","Customer Value"],"answerIndex":0,"explanation":"流通/Channelを顧客側から見るとConvenienceです。"},
+    {"id":"bus02-q3","prompt":"訪問2,000人中80人が購入したCVRは？","options":["2%","4%","8%","40%"],"answerIndex":1,"explanation":"80/2000=0.04=4%です。"},
+    {"id":"bus02-q4","prompt":"顧客が継続期間を通じて生む価値を見る指標は？","options":["LTV","TTL","CPI","MTTR"],"answerIndex":0,"explanation":"Lifetime Valueです。"}
+  ]
+}
