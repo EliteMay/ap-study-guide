@@ -1,0 +1,158 @@
+(() => {
+  'use strict';
+
+  const BUILD = '2026.08.29-r3';
+  const THEME_KEY = 'ap-study-theme';
+  const RECENT_KEY = 'ap-study-recent-v1';
+  const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
+
+  function readJson(key, fallback) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || 'null');
+      return value ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  function writeJson(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+  }
+
+  function applyTheme(theme) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem(THEME_KEY, next); } catch {}
+    document.querySelectorAll('[data-ap-theme-toggle]').forEach(button => {
+      button.textContent = next === 'dark' ? '☀' : '☾';
+      button.title = next === 'dark' ? 'ライトモード' : 'ダークモード';
+      button.setAttribute('aria-label', button.title);
+    });
+    return next;
+  }
+
+  function initialTheme() {
+    try {
+      const stored = localStorage.getItem(THEME_KEY);
+      if (stored === 'dark' || stored === 'light') return stored;
+    } catch {}
+    return matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function toast(message) {
+    if (!message) return;
+    let region = document.querySelector('.ap-toast-region');
+    if (!region) {
+      region = document.createElement('div');
+      region.className = 'ap-toast-region';
+      region.setAttribute('aria-live', 'polite');
+      document.body.appendChild(region);
+    }
+    const node = document.createElement('div');
+    node.className = 'ap-toast';
+    node.textContent = message;
+    region.appendChild(node);
+    setTimeout(() => node.remove(), 2200);
+  }
+
+  function recordRecent(item) {
+    if (!item?.id || !item?.term || !item?.href) return;
+    const list = Array.isArray(readJson(RECENT_KEY, [])) ? readJson(RECENT_KEY, []) : [];
+    const key = `${item.domain || 'unknown'}:${item.id}`;
+    const next = [
+      { ...item, key, viewedAt: Date.now() },
+      ...list.filter(entry => entry?.key !== key)
+    ].slice(0, 12);
+    writeJson(RECENT_KEY, next);
+  }
+
+  function getRecent() {
+    const value = readJson(RECENT_KEY, []);
+    return Array.isArray(value) ? value : [];
+  }
+
+  function getBookmarks() {
+    const value = readJson(BOOKMARK_KEY, []);
+    return Array.isArray(value) ? value : [];
+  }
+
+  function saveBookmarks(items) {
+    writeJson(BOOKMARK_KEY, Array.isArray(items) ? items : []);
+    window.dispatchEvent(new CustomEvent('ap-bookmarks-changed'));
+  }
+
+  function buildShell() {
+    const nav = document.querySelector('.unit-nav');
+    if (!nav) return;
+
+    const label = nav.querySelector('.unit-nav-label');
+    if (label) label.textContent = 'AP STUDY NOTES';
+
+    const footer = document.createElement('div');
+    footer.className = 'ap-shell-footer';
+    footer.innerHTML = `
+      <div class="ap-shell-actions">
+        <a class="ap-shell-btn" href="${nav.querySelector('a[href*="test.html"]')?.getAttribute('href') || 'html/test.html'}" style="display:grid;place-items:center;text-decoration:none">ランダムテスト</a>
+        <button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button>
+      </div>
+      <p class="ap-shell-version">BUILD ${BUILD}</p>`;
+    nav.querySelector('.container')?.appendChild(footer);
+
+    const current = nav.querySelector('.unit-nav-link.is-current')?.textContent?.trim() || document.querySelector('h1')?.textContent?.trim() || 'AP Study Notes';
+    const mobile = document.createElement('div');
+    mobile.className = 'ap-mobile-bar';
+    mobile.innerHTML = `
+      <button class="ap-mobile-menu" type="button" aria-label="メニューを開く" aria-expanded="false">☰</button>
+      <span class="ap-mobile-title">${current}</span>
+      <span class="ap-mobile-version">${BUILD}</span>`;
+    document.body.prepend(mobile);
+
+    const backdrop = document.createElement('button');
+    backdrop.type = 'button';
+    backdrop.className = 'ap-nav-backdrop';
+    backdrop.setAttribute('aria-label', 'メニューを閉じる');
+    document.body.appendChild(backdrop);
+
+    const menuButton = mobile.querySelector('.ap-mobile-menu');
+    const setOpen = (open) => {
+      document.body.classList.toggle('ap-nav-open', open);
+      menuButton?.setAttribute('aria-expanded', String(open));
+      menuButton?.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    };
+    menuButton?.addEventListener('click', () => setOpen(!document.body.classList.contains('ap-nav-open')));
+    backdrop.addEventListener('click', () => setOpen(false));
+    nav.addEventListener('click', event => {
+      if (event.target.closest('a') && matchMedia('(max-width: 920px)').matches) setOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') setOpen(false);
+      if (event.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || '')) {
+        const input = document.querySelector('input[type="search"]');
+        if (input) {
+          event.preventDefault();
+          input.focus();
+        }
+      }
+    });
+
+    document.querySelectorAll('[data-ap-theme-toggle]').forEach(button => {
+      button.addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+    });
+  }
+
+  window.APStudyUI = {
+    build: BUILD,
+    toast,
+    recordRecent,
+    getRecent,
+    getBookmarks,
+    saveBookmarks,
+    theme: {
+      get: () => document.documentElement.dataset.theme || initialTheme(),
+      set: applyTheme
+    }
+  };
+
+  applyTheme(initialTheme());
+  document.addEventListener('DOMContentLoaded', buildShell);
+})();
