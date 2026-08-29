@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"LAW-04","title":"標準化・ISO/JIS/IEC・Open Standard","unitId":"law-standards","officialMiddleCodes":[23],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"標準化は略称暗記ではなく、互換性・品質・安全・取引の共通基準を作る活動です。国際/国内標準、De jure/De facto、適合性評価を整理します。",
+  "objectives":["ISO/IEC/JISなどの位置付けを説明できる。","De jure StandardとDe facto Standardを区別できる。","Open Standardの狙いとVendor Lock-inとの関係を説明できる。","認証・適合性評価と標準規格そのものを区別できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 標準化組織・規格","columns":["名称","位置付け","例"],"rows":[["ISO","国際標準化機構","Management/System等広範"],["IEC","国際電気標準会議","電気・電子技術"],["ISO/IEC JTC 1","IT分野の共同Technical Committee","情報技術"],["JIS","日本産業規格","国内標準"],["IEEE","Professional Organization/Standard策定","802系等"]],"note":"試験では『誰が何を標準化するか』と代表例の関係を押さえます。"},
+    {"type":"comparison","title":"2. 標準の成立","columns":["種類","意味","例の考え方"],"rows":[["De jure","公的標準化機関等で正式化","規格として制定"],["De facto","市場普及で事実上の標準","広く採用された技術"],["Forum/Consortium Standard","業界団体で策定","業界共通仕様"],["Open Standard","公開仕様で相互運用を重視","複数実装可能"]]},
+    {"type":"diagram","title":"3. 標準化が価値を生む流れ","diagrams":[{"label":"共通仕様から相互運用へ","connector":"→","nodes":[{"title":"Requirement","value":"共通課題"},{"title":"Standard","value":"仕様/基準"},{"title":"Implementation","value":"複数製品"},{"title":"Interoperability","value":"相互接続"},{"title":"Market","value":"選択肢/規模"}],"note":"標準化により部品交換性・Data交換・接続性を高め、Switching Costを下げられる場合があります。"}]},
+    {"type":"comparison","title":"4. 規格と認証を分ける","columns":["概念","意味","注意"],"rows":[["Standard","要求事項/仕様","Document自体"],["Certification","第三者等が適合を評価し証明","対象範囲/有効期間あり"],["Conformity Assessment","適合性を確認する活動","Test/Audit等"],["Self-declaration","組織自身が適合を表明","第三者認証とは別"]]},
+    {"type":"comparison","title":"5. Open Standardの効果","columns":["効果","説明","Trade-off"],"rows":[["Interoperability","異Vendor間接続","実装差Testが必要"],["Portability","移行しやすい","完全互換とは限らない"],["Competition","複数Supplier","差別化領域が変わる"],["Long-term Access","仕様を追跡しやすい","Version管理必要"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["標準=法律で強制されるもの、とは限らない。契約・規制で参照され強制力を持つ場合もある。","De facto Standardは公的機関が正式制定したからde factoなのではなく、市場普及が中心。","Open Standard=必ずOpen Sourceではない。仕様の公開性とSource Code Licenseは別。","認証取得=将来も永遠に適合、ではなくScope・更新・継続運用がある。"]}
+  ],
+  "checks":[
+    {"id":"law04-q1","prompt":"日本の国内産業標準は？","options":["JIS","DNS","BSC","ROI"],"answerIndex":0,"explanation":"Japanese Industrial Standards/日本産業規格です。"},
+    {"id":"law04-q2","prompt":"市場普及によって事実上の標準になったものは？","options":["De facto Standard","De jureだけ","Audit Evidence","MTTR"],"answerIndex":0,"explanation":"市場で広く採用され事実上標準となるものです。"},
+    {"id":"law04-q3","prompt":"Open StandardとOpen Sourceの関係として適切なのは？","options":["別概念であり必ず同じではない","必ず同じ","Open StandardはSource Code公開義務だけを意味する","Open Sourceは標準化できない"],"answerIndex":0,"explanation":"仕様の公開性とSoftware Licenseは別の概念です。"},
+    {"id":"law04-q4","prompt":"製品がStandard要求に合っているか確認する活動は？","options":["Conformity Assessment","Subnetting","Sampling Audio","PERT"],"answerIndex":0,"explanation":"適合性評価です。"}
+  ]
+}
