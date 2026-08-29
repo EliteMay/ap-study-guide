@@ -44,11 +44,13 @@
 │  ├─ style.css          # 全体共通
 │  ├─ home.css           # ホーム専用
 │  ├─ term-page.css      # 用語ページ共通
+│  ├─ past.css           # 過去問ページ専用
 │  └─ test.css           # テスト専用
 │
 ├─ js/
 │  ├─ home.js            # ホームの件数・進捗集計
 │  ├─ term-page.js       # 用語ページ共通エンジン
+│  ├─ past.js            # 過去問表示エンジン
 │  └─ test.js            # 最新用語JSONからテスト生成
 │
 ├─ html/
@@ -66,25 +68,19 @@
 ├─ *-terms-manifest.json
 ├─ *-details-manifest.json
 ├─ security-past-index.json
-│
 ├─ json/
 │  ├─ terms/
 │  ├─ details/
 │  ├─ past/
 │  └─ past-problems/
-│
 ├─ sources/
-├─ tools/
-│  └─ check-json.html
+├─ tools/check-json.html
 └─ docs/
-   ├─ 仕様書.md
-   ├─ 作業報告書.md
-   └─ ai/
 ```
 
-## 用語ページの設計
+## 用語ページ
 
-情報セキュリティ・ネットワーク・データベースは同じ表示エンジン `js/term-page.js` を使います。
+情報セキュリティ・ネットワーク・データベースは同じ `js/term-page.js` と `css/term-page.css` を使います。
 
 各HTMLはページ固有の説明と `window.TERM_PAGE_CONFIG` を中心に持ち、検索・カード生成・進捗処理を個別コピーしません。
 
@@ -110,13 +106,7 @@
 
 `json/terms/*.json`
 
-主なフィールド:
-
-- `id`
-- `term`
-- `aliases`
-- `category`
-- `definition`
+主なフィールド: `id`, `term`, `aliases`, `category`, `definition`
 
 ### 詳細解説
 
@@ -124,31 +114,25 @@
 
 主なフィールド:
 
-- `id`
-- `term`
-- `category`
-- `level`
-- `tags`
-- `beginner`
-- `example`
-- `examPoint`
-- `trap`
-- `deepDive`
-- `relatedConcepts`
-- `commonMistakes`
-- `afternoonUse`
-- `howToRemember`
+`id`, `term`, `category`, `level`, `tags`, `beginner`, `example`, `examPoint`, `trap`, `deepDive`, `relatedConcepts`, `commonMistakes`, `afternoonUse`, `howToRemember`
 
 用語JSONと詳細JSONは `id`・`term`・`category` を対応させます。
 
-### 過去問
+## セキュリティ過去問
 
+- 表示: `html/security-past.html`
+- ロジック: `js/past.js`
+- スタイル: `css/past.css`
 - 索引: `security-past-index.json`
 - 問題文・設問: `json/past-problems/`
 - 解説: `json/past/`
 - PDF原本: `sources/`
 
 解説側 `sections[].answerTargets` と問題文側 `questions[].targets` は一致させます。
+
+過去データの世代差として `studyChecklist` / `reviewChecklist` の両方を表示側で吸収します。問題文の `choices` も文字列形式と `{key,text}` 形式の両方を表示できます。
+
+関連用語は `security.html#用語ID` へリンクし、辞書側で対象カードを開きます。
 
 ## テスト
 
@@ -158,17 +142,14 @@
 
 - 3分野ミックス / 分野指定
 - 問題数指定
-- 説明→用語
-- 用語→説明
-- ミックス出題
+- 説明→用語 / 用語→説明 / ミックス
 - 同カテゴリ中心の紛らわしい選択肢
 - 正解語・別名が説明文に含まれる場合の自動マスク
-- 1〜4キー回答
-- Enterで次へ
+- 1〜4キー回答、Enterで次へ
 - 間違えた問題だけ再テスト
 - 辞書カードへの復習リンク
 
-以前の手作りAP本番風問題は失わないよう `html/test-legacy.html` に一時保存しています。今後、良い問題だけを専用JSONへ抽出した後にlegacyページを削除できます。
+以前の手作りAP本番風問題は `html/test-legacy.html` に一時保存しています。今後、良い問題だけを専用JSONへ抽出した後にlegacyページを削除できます。
 
 ## 保存データ
 
@@ -190,9 +171,7 @@
 
 GitHub Pagesを有効にした場合はルートの `index.html` から利用できます。
 
-想定URL:
-
-`https://elitemay.github.io/ap-study-notes/`
+想定URL: `https://elitemay.github.io/ap-study-notes/`
 
 `.nojekyll` は配置済みです。
 
@@ -206,14 +185,10 @@ JSONを `fetch()` するため、`file://` 直開きではなくLive Server等�
 
 検査対象:
 
-- セキュリティ用語・詳細
-- ネットワーク用語・詳細
-- データベース用語・詳細
+- セキュリティ / ネットワーク / DB の用語・詳細
 - マニフェスト件数
-- ID重複
-- term重複
-- 用語と詳細のID対応
-- term/category不一致
+- ID重複・term重複
+- 用語と詳細のID / term / category対応
 - 過去問索引と解説JSON
 - 問題文JSONの存在
 - `answerTargets` / `expectedAnswers`
@@ -232,25 +207,13 @@ JSONを `fetch()` するため、`file://` 直開きではなくLive Server等�
 - 問題文JSONと解説JSONの設問対応
 - GitHub Pagesでの相対パス
 
-## 現在分かっている改善対象
+## 現在の次候補
 
-### 1. 過去問ページ
-
-過去データには `studyChecklist` と `reviewChecklist` など、時期によるフィールド名の揺れがあります。表示側で吸収するか、データを統一します。
-
-`security-past.html` 自体もCSS/JSがHTML内に多く残っており、今後外部化できます。
-
-### 2. 旧テストの手作り問題
-
-`test-legacy.html` から価値のある本番風問題だけを専用JSONへ移し、通常テストに「本番風モード」として統合する余地があります。
-
-### 3. 準備中単元
-
-アルゴリズム、システム開発、プロジェクト管理を追加する場合は、現在の共通用語ページ方式を利用できます。
-
-### 4. 実ブラウザ検証
-
-GitHub上の構成・コードは確認していますが、今回の作業ではGitHub Pages上での実クリック確認までは実施できていません。
+1. `test-legacy.html` から価値のある本番風問題だけを専用JSONへ抽出し、新テストへ統合。
+2. `studyChecklist` / `reviewChecklist` など過去問データ自体のフィールドを統一（表示側は既に両対応）。
+3. アルゴリズム・システム開発・プロジェクト管理を追加。
+4. `css/style.css` に残る旧ページ由来の未使用スタイルを精査して削減。
+5. GitHub Pagesを有効化し、主要導線を実ブラウザ検証。
 
 ## 開発方針
 
