@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-07","title":"企業活動・組織構造・人材・業務管理","unitId":"business-accounting","officialMiddleCodes":[22],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"企業活動は組織図の名称暗記ではなく、責任・権限・情報Flow・評価をどう設計するかで理解します。職能別/事業部制/Matrix、権限委譲、内部統制、人材管理をまとめます。",
+  "objectives":["代表的組織構造を長所短所で比較できる。","権限と責任の関係を説明できる。","職務分掌がControlになる理由を説明できる。","人材配置・評価・Skill管理の基本を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 組織構造","columns":["形態","長所","課題"],"rows":[["職能別組織","専門性を集約","部門間Silo"],["事業部制","製品/市場単位で意思決定","機能重複"],["Matrix","職能と事業の両軸","指揮命令が複雑"],["Project型","目的へ集中","終了後のKnowledge継承"]]},
+    {"type":"diagram","title":"2. 権限・責任・説明責任","diagrams":[{"label":"仕事を任せるとき","connector":"→","nodes":[{"title":"Responsibility","value":"実行責任"},{"title":"Authority","value":"必要権限"},{"title":"Accountability","value":"結果説明"}],"note":"責任だけ与えて必要権限がない、または権限だけ大きい状態はGovernance上の問題になります。"}]},
+    {"type":"comparison","title":"3. 職務分掌","columns":["分離する例","Risk","狙い"],"rows":[["発注と承認","架空発注","単独不正を難しくする"],["開発と本番承認","不正Code反映","独立Review"],["入金記録と照合","横領/改ざん","相互牽制"],["権限申請と付与","自己承認","承認分離"]],"note":"小規模組織で完全分離が難しい場合は事後Review等の代替Controlを考えます。"},
+    {"type":"comparison","title":"4. 人材管理","columns":["考え方","目的","例"],"rows":[["Skill Matrix","能力可視化","不足Skill特定"],["Succession Planning","重要Roleの後継確保","属人化対策"],["Training","能力向上","Security/Technical Skill"],["Job Rotation","経験拡張/牽制","担当固定Risk低減"],["Evaluation","成果/行動を測る","KPIだけに偏らない"]]},
+    {"type":"mistakes","title":"5. よくある誤解","items":["Matrix組織は必ず効率的ではなく、二重指揮のConflict管理が必要。","権限委譲してもManagerの最終Accountabilityが消えるとは限らない。","職務分掌を細かくしすぎると処理DelayやCostが増えるためRiskとBalanceする。","評価指標だけを最適化するとGoodhartの問題が起きる。"]}
+  ],
+  "checks":[
+    {"id":"bus07-q1","prompt":"専門機能ごとに人員をまとめる組織形態は？","options":["職能別組織","事業部制だけ","Matrixだけ","Virtual Memory"],"answerIndex":0,"explanation":"営業・開発・経理など機能で分ける形です。"},
+    {"id":"bus07-q2","prompt":"発注者と承認者を分ける主目的は？","options":["職務分掌による不正Risk低減","CPU高速化","画像圧縮","Subnet分割"],"answerIndex":0,"explanation":"1人で取引を完結できないよう相互牽制します。"},
+    {"id":"bus07-q3","prompt":"組織内のSkill保有状況を一覧化する代表Toolは？","options":["Skill Matrix","Routing Table","B-tree","PDU"],"answerIndex":0,"explanation":"Skill Matrixで人材能力と不足を可視化します。"},
+    {"id":"bus07-q4","prompt":"Matrix組織の代表的課題は？","options":["指揮命令系統が複雑になりやすい","専門性が必ず消える","事業が1つしか持てない","Dataを保存できない"],"answerIndex":0,"explanation":"職能/事業など複数軸のManager関係を調整する必要があります。"}
+  ]
+}
