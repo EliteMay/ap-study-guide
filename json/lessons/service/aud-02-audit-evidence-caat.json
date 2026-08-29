@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"AUD-02","title":"監査証拠・監査手続・CAAT・監査判断","unitId":"service-audit","officialMiddleCodes":[16],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"System監査はChecklistを埋める作業ではなく、監査目的に対して十分かつ適切な証拠を集め、Controlが設計・運用されているか判断する活動です。",
+  "objectives":["監査目的・監査手続・監査証拠をつなげて説明できる。","証拠の信頼性をSourceと取得方法から評価できる。","Samplingと全件検査を使い分けられる。","CAATを使う目的と限界を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 監査の論理Chain","diagrams":[{"label":"結論は証拠から作る","connector":"→","nodes":[{"title":"監査目的","value":"何を確かめる?"},{"title":"Control","value":"何があるべき?"},{"title":"監査手続","value":"どう確かめる?"},{"title":"証拠","value":"何が得られた?"},{"title":"判断","value":"有効か?"}],"note":"目的と無関係な資料を大量に集めても良い監査にはなりません。"}]},
+    {"type":"comparison","title":"2. 監査手続の例","columns":["手続","何をする","例"],"rows":[["閲覧/Inspection","Document/Recordを見る","Access権限一覧"],["観察/Observation","実際の作業を見る","Backup交換手順"],["質問/Inquiry","担当者へ確認","Incident対応Flow"],["再実施/Reperformance","手続を自分で再現","Control計算を再実行"],["再計算/Recalculation","数値を検算","請求/集計"],["確認/Confirmation","第三者へ確認","取引先確認等"]]},
+    {"type":"comparison","title":"3. 証拠の信頼性","columns":["証拠","一般的な見方","理由"],"rows":[["監査人が直接取得","比較的強い","改変経路が少ない"],["独立第三者から取得","比較的強い","被監査部門から独立"],["System自動Log","Control次第","改ざん防止/時刻同期/権限が重要"],["口頭説明だけ","弱め","裏付けが必要"]],"note":"形式だけで絶対的に決まらず、Source・Control・完全性を総合評価します。"},
+    {"type":"comparison","title":"4. Samplingと全件検査","columns":["方法","向く場面","Risk"],"rows":[["Sampling","大量取引から代表を抽出","Sampleが母集団を代表しないRisk"],["全件検査","件数が少ない/重大項目/自動分析可能","Cost/処理量"],["例外抽出","条件に合う異常候補を全件Search","条件設計に依存"]]},
+    {"type":"text","title":"5. CAAT","paragraphs":["CAAT(Computer-Assisted Audit Techniques)はData抽出・突合・再計算・例外検出などへComputerを利用する考え方です。大量Dataから重複支払、異常時刻Access、権限矛盾等を探せます。","Toolが出した結果そのものを無条件に証拠とせず、Input Dataの完全性、抽出条件、Program Logicも確認します。"]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["担当者が『やっています』と答えたことだけで運用有効性を結論にしない。","Policyが存在することと、現場でControlが継続運用されていることは別。","SampleにErrorがなかった=母集団にErrorが絶対ない、ではない。","監査人はControlを運用する当事者ではなく、独立性を保って評価する。"]}
+  ],
+  "checks":[
+    {"id":"aud02-q1","prompt":"Access Controlが実際に運用されているか確かめる証拠としてより直接的なのは？","options":["権限設定とAccess Logの確認","担当者の記憶だけ","UI Color","CPU Clock"],"answerIndex":0,"explanation":"設定と実績Logを組み合わせると設計・運用の両方を確認しやすいです。"},
+    {"id":"aud02-q2","prompt":"監査人自身がControl手順を再度実行して結果を確かめる手続は？","options":["Reperformance","Marketing","Compression","Caching"],"answerIndex":0,"explanation":"再実施は監査人が手続を再現して確かめます。"},
+    {"id":"aud02-q3","prompt":"CAAT利用時にも確認すべきものは？","options":["Input Dataの完全性と抽出Logic","Tool名だけ","Monitor Sizeだけ","SLA削除"],"answerIndex":0,"explanation":"Tool結果の前提となるDataとLogicが正しい必要があります。"},
+    {"id":"aud02-q4","prompt":"Samplingの主なRiskは？","options":["Sampleが母集団を適切に代表しない可能性","必ず全件より高Cost","暗号化できない","必ず違法"],"answerIndex":0,"explanation":"抽出したSampleから母集団を推定するためSampling Riskがあります。"}
+  ]
+}
