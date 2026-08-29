@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>情報セキュリティ用語まとめ | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -14,7 +16,7 @@
     <ul class="unit-nav-list">
       <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
       <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link is-current">🔐 情報セキュリティ</a></li>
+      <li><a href="security.html" class="unit-nav-link is-current" aria-current="page">🔐 情報セキュリティ</a></li>
       <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
       <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
       <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
@@ -31,7 +33,7 @@
     <p class="lead">暗号・認証・攻撃・防御・リスク管理まで、APで必要な情報セキュリティ用語をJSONから読み込みます。</p>
     <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
     <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（例: DNS、WAF、TLS、認証）" autocomplete="off">
+      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
       <span id="search-count" class="search-count" hidden></span>
     </div>
     <div class="filter-row">
@@ -47,14 +49,15 @@
   </div>
 </header>
 <nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>用語から仕組みまでつなげる</h3><p>短い定義だけで終わらず、具体例・試験での見方・ひっかけまで確認します。</p></div><div class="study-guide-card"><h3>検索とカテゴリで絞る</h3><p>500語以上あっても、必要な用語だけをすぐに探せます。</p></div><div class="study-guide-card"><h3>午後問題へつなげる</h3><p>過去問解説は専用ページに分離し、辞書カードへ相互リンクします。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ選択は一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
+<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>用語から仕組みまでつなげる</h3><p>短い定義だけで終わらず、具体例・試験での見方・ひっかけまで確認します。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>まだ怪しい用語は☆で残し、あとから復習リストだけに絞り込めます。</p></div><div class="study-guide-card"><h3>午後問題へつなげる</h3><p>過去問解説は専用ページに分離し、辞書カードへ相互リンクします。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
 <main id="main-content">
   <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
   <div id="term-sections"></div>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
-<script>window.TERM_PAGE_CONFIG={subject:'情報セキュリティ',termsManifest:'security-terms-manifest.json',detailsManifest:'security-details-manifest.json',storageKey:'security-terms-checked',fallbackIdPrefix:'sec',rootPath:'../'};</script>
+<script>window.TERM_PAGE_CONFIG={subject:'情報セキュリティ',pageKey:'security',pagePath:'html/security.html',termsManifest:'security-terms-manifest.json',detailsManifest:'security-details-manifest.json',storageKey:'security-terms-checked',fallbackIdPrefix:'sec',rootPath:'../'};</script>
+<script src="../js/shell.js" defer></script>
 <script src="../js/term-page.js" defer></script>
 </body>
 </html>
