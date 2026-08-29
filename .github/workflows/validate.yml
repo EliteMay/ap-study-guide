@@ -27,3 +27,5 @@ jobs:
         run: node tests/validate-audits.mjs
       - name: Validate Security 501-term audit
         run: node tests/validate-security-audit.mjs
+      - name: Validate Computer Systems coverage
+        run: node tests/validate-computer-systems.mjs
