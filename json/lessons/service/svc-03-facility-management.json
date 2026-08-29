@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"SVC-03","title":"ファシリティマネジメント・Data Center運用","unitId":"service-audit","officialMiddleCodes":[15],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "intro":"IT ServiceはSoftwareだけで動きません。電源・空調・防災・入退室・設備冗長化を含むFacilityを、可用性と安全性の観点から設計します。",
+  "objectives":["UPSと非常用発電機の役割を区別できる。","空調・電源・通信の冗長化を単一障害点の観点で説明できる。","物理Access Controlの基本を説明できる。","災害対策Siteの考え方を比較できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 電源対策","columns":["設備","役割","時間軸"],"rows":[["UPS","瞬断・停電直後をBattery等でつなぐ","短時間"],["非常用発電機","長時間停電へ電力供給","起動後の長時間"],["二重給電","一系統故障時も給電継続","常時冗長"],["PDU","Rack内へ電源分配","機器単位"]],"note":"UPSだけで長時間停電を乗り切る前提にはせず、発電機や安全停止と組み合わせます。"},
+    {"type":"comparison","title":"2. Facilityの主なRisk","columns":["Risk","対策例","監視"],"rows":[["停電","UPS/Generator/二重給電","電源状態"],["温度上昇","空調冗長化/Hot-Cold Aisle","温湿度"],["火災","検知/消火設備","Smoke/温度"],["浸水","設置階/Leak Sensor","漏水"],["侵入","認証/Mantrap/Camera","入退室Log"]]},
+    {"type":"diagram","title":"3. 単一障害点を探す","diagrams":[{"label":"Serverを二重化しても電源が1系統なら?","connector":"→","nodes":[{"title":"電源A","value":"1系統"},{"title":"PDU","value":"共有"},{"title":"Server1","value":"冗長"},{"title":"Server2","value":"冗長"}],"note":"Serverが2台でも共有電源が落ちれば両方停止します。冗長化は経路全体でSPOFを確認します。"}]},
+    {"type":"comparison","title":"4. 災害対策Site","columns":["種類","準備度","復旧"],"rows":[["Hot Site","設備/Dataを高い水準で準備","速い"],["Warm Site","一部設備/環境を準備","中間"],["Cold Site","場所中心で設備準備が少ない","遅いがCost低め"]],"note":"名称だけでなくRTO・Cost・Data同期要件で選びます。"},
+    {"type":"steps","title":"5. Facility点検の視点","items":[{"label":"① Power","body":"受電・UPS・Generator・Battery状態を確認。"},{"label":"② Cooling","body":"温度/湿度/空調冗長性を確認。"},{"label":"③ Physical Security","body":"入退室権限・Log・Cameraを確認。"},{"label":"④ Fire/Water","body":"火災・漏水検知と対応手順を確認。"},{"label":"⑤ Test","body":"切替や非常時手順を定期Testする。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Rack内Serverを二重化しただけでFacility全体が冗長とは言えない。","入退室認証が強くても、権限棚卸しや退職者削除がなければAccess Riskが残る。","Hot Siteは常に最適ではなくBusinessのRTO/RPOとCostで決める。","防災設備は設置するだけでなく点検・訓練が必要。"]}
+  ],
+  "checks":[
+    {"id":"svc03-q1","prompt":"停電直後の瞬断を吸収する代表設備は？","options":["UPS","DNS","WAF","Compiler"],"answerIndex":0,"explanation":"UPSはBattery等で停電直後の電力をつなぎます。"},
+    {"id":"svc03-q2","prompt":"Server2台が同じ1台のPDUだけに依存している場合の問題は？","options":["PDUがSPOFになる","必ず性能が2倍","Backup不要","Network暗号化済み"],"answerIndex":0,"explanation":"共有依存点が故障すると両Serverが停止し得ます。"},
+    {"id":"svc03-q3","prompt":"最も準備度が高く復旧が速い災害対策Siteは一般に？","options":["Hot Site","Cold Site","Paper Site","Offline Sheet"],"answerIndex":0,"explanation":"Hot Siteは設備やDataを高い水準で準備します。"},
+    {"id":"svc03-q4","prompt":"Facility Managementで監視対象として不適切なのは？","options":["温湿度","電源状態","入退室Log","SQLの正規形だけ"],"answerIndex":3,"explanation":"正規形はDatabase設計でありFacilityそのものの監視項目ではありません。"}
+  ]
+}
