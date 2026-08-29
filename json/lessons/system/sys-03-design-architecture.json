@@ -1,0 +1,17 @@
+{
+  "meta":{"schemaVersion":1,"id":"SYS-03","title":"設計・アーキテクチャ・モジュール","unitId":"system-development","officialMiddleCodes":[12],"officialAreas":["設計"],"qualityStatus":"individual-v1","legacySource":"system","legacyTermIds":["term-sys-013","term-sys-014","term-sys-015","term-sys-016","term-sys-017","term-sys-018","term-sys-019","term-sys-020","term-sys-021","term-sys-022","term-sys-023","term-sys-024"],"estimatedMinutes":35},
+  "intro":"設計は用語が多いですが、外から見える仕様・内部構造・責務分割・インタフェースという4軸で整理すると一貫して理解できます。",
+  "objectives":["外部設計と内部設計を区別できる。","三層・MVC・マイクロサービスの責務分割を比較できる。","高凝集・低結合・情報隠蔽の関係を説明できる。","APIとRESTの位置付けを説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 外部設計と内部設計","columns":["観点","外部設計","内部設計"],"rows":[["利用者から見えるか","見える","通常は見えない"],["対象","画面・帳票・入出力・外部IF","処理手順・データ構造・モジュール"],["主な質問","どう使うか","どう実現するか"]],"note":"呼び方は組織で異なることがありますが、利用者視点と実装内部の違いを押さえます。"},
+    {"type":"comparison","title":"2. アーキテクチャを責務で比較","columns":["方式","分け方","利点","注意"],"rows":[["三層","表示・業務・データ","責務を分離し変更影響を抑える","層をまたぐ設計が必要"],["MVC","Model・View・Controller","UIとデータ/制御を分離","三層と完全に同じ概念ではない"],["マイクロサービス","業務機能ごとの独立サービス","独立デプロイしやすい","通信・監視・データ整合性が複雑"]],"note":"方式名より『何を分け、何を独立させたいのか』を見ます。"},
+    {"type":"comparison","title":"3. モジュール設計の基本","columns":["概念","望ましい方向","意味"],"rows":[["モジュール強度（凝集度）","高い","1モジュールが1つの目的へまとまる"],["モジュール結合度","低い","他モジュールへの依存を減らす"],["情報隠蔽","強くする","内部実装を隠し公開IFだけ使わせる"]],"note":"一般に高凝集・低結合を目指すと変更影響を局所化しやすくなります。"},
+    {"type":"diagram","title":"4. APIは利用窓口、RESTは設計スタイル","diagrams":[{"label":"Web APIの例","connector":"→","nodes":[{"title":"Client","value":"注文一覧が欲しい"},{"title":"HTTP API","value":"GET /orders"},{"title":"Service","value":"注文データを返す"}],"note":"APIは機能を利用する窓口の総称です。RESTはHTTPの資源やメソッドを生かす設計上の考え方で、APIそのものと同義ではありません。"}]},
+    {"type":"mistakes","title":"5. 典型的な混同","items":["MVCと三層アーキテクチャを完全に同じものとして覚えない。","低結合だけを追い、モジュール内部が雑多になるのは良くない。高凝集とセットで考える。","RESTは通信プロトコル名ではない。HTTPを使った設計原則・スタイルとして理解する。"]}
+  ],
+  "checks":[
+    {"id":"sys03-q1","prompt":"画面レイアウトや外部インタフェースを決める側に近いのは？","options":["外部設計","内部設計"],"answerIndex":0,"explanation":"利用者や外部から見える仕様は外部設計側です。"},
+    {"id":"sys03-q2","prompt":"望ましいモジュール構造として最も適切なのは？","options":["低凝集・高結合","高凝集・低結合","高凝集・高結合","低凝集・低結合"],"answerIndex":1,"explanation":"1つの責務へまとまり、他モジュールへの依存を抑える高凝集・低結合が基本です。"},
+    {"id":"sys03-q3","prompt":"APIとRESTの関係として適切なのは？","options":["完全に同義","RESTはAPI設計の考え方の一つ","APIはREST専用","RESTはDB製品名"],"answerIndex":1,"explanation":"APIは利用窓口の総称で、RESTはAPIを設計する際にも使われる設計スタイルです。"}
+  ]
+}
