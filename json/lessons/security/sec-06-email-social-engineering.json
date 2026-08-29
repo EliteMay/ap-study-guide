@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-06","title":"メール認証・フィッシング・ソーシャルエンジニアリング","unitId":"security","officialMiddleCodes":[11],"officialAreas":["情報セキュリティ対策","メールセキュリティ"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":66,"to":68},{"prefix":"sec-","from":198,"to":203},{"prefix":"sec-","from":217,"to":223},{"prefix":"sec-","from":428,"to":430},{"prefix":"sec-","from":432,"to":437}],"legacyTermIds":["sec-447"],"estimatedMinutes":35},
+  "intro":"メールは『怪しいリンクを開かない』だけでは足りません。送信元ドメインを技術的に検証するSPF/DKIM/DMARCと、人を狙うPhishing/BECを別レイヤとして理解します。",
+  "objectives":["SPF/DKIM/DMARCの検証対象を区別できる。","Phishing・Spear Phishing・BEC・Smishing・Vishingを区別できる。","メールヘッダとAuthentication Resultから調査観点を説明できる。","人を狙う攻撃に技術対策と教育を組み合わせる理由を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. SPF / DKIM / DMARC","columns":["仕組み","何を確認するか","主な情報"],"rows":[["SPF","送信元IPがそのDomainの許可Serverか","DNS TXT/SPF"],["DKIM","署名したDomainとMessage改ざん有無","Mail署名+DNS公開鍵"],["DMARC","SPF/DKIMとFrom Domainの整合・失敗時Policy","none/quarantine/reject等"]],"note":"三つは同じことをしていません。SPF=送信経路、DKIM=署名、DMARC=整合とPolicyとして読む。"},
+    {"type":"diagram","title":"2. なりすましメールの確認順","diagrams":[{"label":"調査","connector":"→","nodes":[{"title":"表示名","value":"信用しない"},{"title":"From/Return-Path","value":"Domain確認"},{"title":"Received","value":"配送経路"},{"title":"SPF/DKIM","value":"認証結果"},{"title":"DMARC","value":"整合/Policy"}],"note":"見た目の送信者名だけで正当性を判断しない。"}]},
+    {"type":"comparison","title":"3. Social Engineeringの型","columns":["攻撃","媒体/標的","特徴"],"rows":[["Phishing","広くMail/Web","偽Login等へ誘導"],["Spear Phishing","特定個人/組織","業務文脈を作り込む"],["Whaling","経営層等","権限/送金判断を狙う"],["BEC","取引/経営者なりすまし","送金先変更等"],["Smishing","SMS","短URL等へ誘導"],["Vishing","電話","緊急性や権威を悪用"]]},
+    {"type":"comparison","title":"4. 人の行動を狙うその他手法","columns":["手法","狙い","対策例"],"rows":[["Shoulder Hacking","画面/入力を盗み見る","Screen Filter/周囲確認"],["Trashing","廃棄物から情報取得","Shred/媒体廃棄"],["Tailgating","入退室を便乗","一人ずつ認証/教育"],["Baiting","USB等の餌を使わせる","未知媒体禁止/EDR/教育"]]},
+    {"type":"steps","title":"5. 標的型メールを受けたとき","items":[{"label":"① 開かない・返信しない","body":"添付/URLを不用意に操作しない。"},{"label":"② 別経路で確認","body":"送金変更等は既知の電話番号や別Channelで確認する。"},{"label":"③ Header/添付/URLを保全","body":"調査用情報を残す。"},{"label":"④ SOC/CSIRTへ報告","body":"同様Mailの横展開やBlockへつなげる。"}]},
+    {"type":"mistakes","title":"6. 誤解しやすい点","items":["SPF passだけで表示Fromの本人性が完全に保証されるわけではない。DMARC alignment等も見る。","DKIMはMail本文等の改ざん検出に役立つが、署名Domain自体が悪意ある場合まで安全を保証しない。","添付File検査だけではCredential Phishingの偽Login Pageを防げない。","教育だけ、Gatewayだけ、の単独対策ではなく技術・手順・訓練を重ねる。"]}
+  ],
+  "checks":[
+    {"id":"sec06-q1","prompt":"送信元IPがそのDomainで許可されたMail Serverかを確認する仕組みは？","options":["SPF","DKIM","HMAC","SAML"],"answerIndex":0,"explanation":"SPFはDNS情報を用いて送信元IPを検証します。"},
+    {"id":"sec06-q2","prompt":"Mail本文等が署名後に改ざんされていないか確認する仕組みは？","options":["DKIM","NAT","DHCP","RBAC"],"answerIndex":0,"explanation":"DKIM署名を公開鍵で検証します。"},
+    {"id":"sec06-q3","prompt":"取引先担当になりすまして『振込先が変わった』と送る攻撃に最も近いのは？","options":["BEC","DDoS","XSS","ARP"],"answerIndex":0,"explanation":"Business Email Compromiseは業務Mailの信頼関係を悪用します。"},
+    {"id":"sec06-q4","prompt":"SMSで偽Login URLを送るPhishingは？","options":["Smishing","Vishing","Whaling","Fuzzing"],"answerIndex":0,"explanation":"SMSを使うPhishingがSmishingです。"},
+    {"id":"sec06-q5","prompt":"送金依頼Mailが本物か確認する最も安全な行動は？","options":["Mailに書かれた新しい電話番号へ連絡","既知の別経路で本人確認","表示名だけ確認","すぐ添付を開く"],"answerIndex":1,"explanation":"攻撃者がMail本文や連絡先を偽装している可能性があるため既知の別経路で確認します。"}
+  ],
+  "next":[{"lessonId":"SEC-07","label":"マルウェア・標的型攻撃・侵入後行動","status":"公開中"}]
+}
