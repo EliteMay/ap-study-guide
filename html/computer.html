@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>コンピュータシステム | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/home.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
+<li><a href="roadmap.html" class="unit-nav-link" data-ap-roadmap-link="true">🧭 学習マップ</a></li>
+<li><a href="computer.html" class="unit-nav-link is-current" aria-current="page">🧩 コンピュータシステム</a></li>
+<li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
+<li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
+<li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
+<li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li>
+<li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+</ul></div></nav>
+<header class="home-hero"><div class="container">
+<p class="eyebrow">COMPUTER SYSTEMS / IPA MIDDLE 3–6</p>
+<h1>コンピュータシステム</h1>
+<p class="lead">CPU・メモリ・OS・入出力・システム構成・性能・信頼性・ストレージ・ハードウェアを、計算・状態遷移・構成図で学びます。</p>
+<div class="home-actions"><a href="lesson.html?id=CMP-03" class="home-action-btn">CPUから始める</a><a href="roadmap.html" class="home-action-btn secondary">学習マップ</a></div>
+</div></header>
+<main>
+<section class="units-section"><div class="container">
+<h2>CPU・メモリ・I/O・OS</h2><p class="unit-section-note">命令が実行され、DataがMemoryとDeviceを動き、OSがProcessへCPUを割り当てる流れをつなげます。</p>
+<div class="units-grid">
+<a class="unit-card is-ready" href="lesson.html?id=CMP-03"><div class="unit-card-emoji">🧠</div><div class="unit-card-title">CMP-03 CPU・命令実行</div><p class="unit-card-desc">Register、ALU、命令Cycle、Pipeline、RISC/CISC。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-04"><div class="unit-card-emoji">💾</div><div class="unit-card-title">CMP-04 Memory・Cache・仮想記憶</div><p class="unit-card-desc">Memory階層、実効Access時間、Paging、TLB、Page Fault。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3・5</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-05"><div class="unit-card-emoji">🔌</div><div class="unit-card-title">CMP-05 Bus・I/O・DMA</div><p class="unit-card-desc">Bus、Polling、Interrupt、DMA、代表Interface。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3・6</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-06"><div class="unit-card-emoji">🧵</div><div class="unit-card-title">CMP-06 OS・Process・Thread</div><p class="unit-card-desc">状態遷移、Scheduling、Round Robin、Mutex、Deadlock。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類5</span></div></a>
+</div>
+<h2 class="subsection-title">システム構成・性能・信頼性</h2>
+<div class="units-grid">
+<a class="unit-card is-ready" href="lesson.html?id=CMP-07"><div class="unit-card-emoji">🏗️</div><div class="unit-card-title">CMP-07 システム構成</div><p class="unit-card-desc">3層構成、Scale up/out、Cluster、Load Balancer、State設計。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類4</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-08"><div class="unit-card-emoji">⏱️</div><div class="unit-card-title">CMP-08 性能計算</div><p class="unit-card-desc">Clock、CPI、CPU時間、MIPS、Response Time、Throughput。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3・4</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-09"><div class="unit-card-emoji">🛡️</div><div class="unit-card-title">CMP-09 信頼性・可用性</div><p class="unit-card-desc">MTBF/MTTR、稼働率、直列/並列信頼度、Failover。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類4</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-10"><div class="unit-card-emoji">🗃️</div><div class="unit-card-title">CMP-10 Storage・RAID</div><p class="unit-card-desc">HDD/SSD、RAID 0/1/5/6、Parity、File System、Journaling。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3・5・6</span></div></a>
+</div>
+<h2 class="subsection-title">Software基盤・Cloud・Hardware</h2>
+<div class="units-grid">
+<a class="unit-card is-ready" href="lesson.html?id=CMP-11"><div class="unit-card-emoji">🧱</div><div class="unit-card-title">CMP-11 Middleware・OSS</div><p class="unit-card-desc">Software stack、Web/App Server、Compiler、Debugger、OSS License。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類5</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-12"><div class="unit-card-emoji">🎛️</div><div class="unit-card-title">CMP-12 Hardware・Device</div><p class="unit-card-desc">Sensor、A/D・D/A、Actuator、GPU、UPS。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類3・6</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-01"><div class="unit-card-emoji">📦</div><div class="unit-card-title">CMP-01 Container・Virtualization</div><p class="unit-card-desc">VMとの違い、Image、実行Container、CI/CDとの接点。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類5</span></div></a>
+<a class="unit-card is-ready" href="lesson.html?id=CMP-02"><div class="unit-card-emoji">☁️</div><div class="unit-card-title">CMP-02 Cloud Service Model</div><p class="unit-card-desc">IaaS/PaaS/SaaS/Serverlessと責任分界。</p><div class="unit-card-meta"><span class="unit-badge ready">中分類4</span></div></a>
+</div>
+</div></section>
+</main>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
+<script src="../js/shell.js" defer></script>
+</body>
+</html>
