@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-03","title":"PKI・証明書・TLS・鍵管理","unitId":"security","officialMiddleCodes":[11],"officialAreas":["セキュリティ実装技術","PKI","暗号技術"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":124,"to":142},{"prefix":"sec-","from":400,"to":406}],"estimatedMinutes":40},
+  "intro":"証明書を『HTTPSで使うもの』で終わらせず、公開鍵が誰のものかを信頼する仕組み、失効確認、TLSの鍵合意、長期鍵とセッション鍵の役割までつなげます。",
+  "objectives":["CA/RA/CSR/証明書チェーンの役割を説明できる。","CRLとOCSPを比較できる。","TLSで証明書確認と鍵合意が何のためにあるか説明できる。","PFS・HSM・鍵ローテーションの狙いを説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 証明書発行まで","diagrams":[{"label":"発行の流れ","connector":"→","nodes":[{"title":"申請者","value":"鍵ペア/CSR作成"},{"title":"RA等","value":"本人・組織確認"},{"title":"CA","value":"証明書へ署名"},{"title":"利用者","value":"CA署名を検証"}],"note":"証明書は『公開鍵と主体の結び付きをCAが保証する文書』として読む。"}]},
+    {"type":"diagram","title":"2. 信頼のチェーン","diagrams":[{"label":"ブラウザがサーバ証明書を信頼する流れ","connector":"→","nodes":[{"title":"Server Cert","value":"example.com"},{"title":"Intermediate CA","value":"中間証明書"},{"title":"Root CA","value":"信頼の起点"}],"note":"ルート証明書はOS/ブラウザなどの信頼ストアに事前登録されます。"}]},
+    {"type":"comparison","title":"3. CRLとOCSP","columns":["方式","確認方法","特徴"],"rows":[["CRL","失効一覧を取得","まとめて確認するが一覧が大きくなり得る"],["OCSP","対象証明書をオンライン照会","1件単位で状態確認しやすい"]]},
+    {"type":"steps","title":"4. TLS接続で確認する順番","items":[{"label":"① サーバ証明書を受け取る","body":"接続先名、有効期限、署名、チェーンなどを確認する。"},{"label":"② 信頼できるCAへつながるか","body":"中間CAからルートCAまで署名を検証する。"},{"label":"③ 鍵合意を行う","body":"Diffie-Hellman系などで通信に使う秘密を安全に作る。"},{"label":"④ セッション鍵で本通信","body":"大量データは共通鍵暗号で効率よく保護する。"}]},
+    {"type":"comparison","title":"5. 鍵を守る仕組み","columns":["仕組み","目的","例"],"rows":[["鍵ローテーション","長期間同じ鍵を使わない","定期更新・漏えい時更新"],["HSM","秘密鍵を専用装置内で保護","CA鍵・署名鍵"],["PFS","長期鍵漏えい時も過去通信を守りやすくする","一時鍵による鍵合意"],["Certificate Transparency","証明書発行を公開ログで監視","不正発行の発見"]]},
+    {"type":"comparison","title":"6. 署名の用途を分ける","columns":["用途","保証したいこと","例"],"rows":[["電子署名","作成者・改ざん有無","契約データ"],["コード署名","配布元・改ざん有無","アプリ/更新ファイル"],["タイムスタンプ","その時刻に存在し以後変わっていないこと","長期保存文書"]]},
+    {"type":"mistakes","title":"7. よくある誤解","items":["証明書が有効でも、そのWebアプリ自体に脆弱性がないとは限らない。","TLSは通信路を保護する。サーバ内部の保存データまで自動で暗号化するわけではない。","公開鍵は秘密にする必要がないが、対応する秘密鍵は厳格に保護する。","PFSは『未来の通信を守る』という意味ではなく、長期鍵漏えい時の過去通信保護に関係する。"]}
+  ],
+  "checks":[
+    {"id":"sec03-q1","prompt":"公開鍵がexample.comのものだと第三者が保証する中心的な仕組みは？","options":["CAが署名した証明書","Salt","VLAN","NAT"],"answerIndex":0,"explanation":"CA署名付き証明書が公開鍵と主体を結び付けます。"},
+    {"id":"sec03-q2","prompt":"証明書が失効していないか1件ずつオンライン確認する方式は？","options":["OCSP","CRL","SAML","HMAC"],"answerIndex":0,"explanation":"OCSPは証明書状態をオンライン照会します。"},
+    {"id":"sec03-q3","prompt":"長期秘密鍵が後で漏れても過去のTLS通信を復号されにくくする性質は？","options":["PFS","RBAC","CORS","SLA"],"answerIndex":0,"explanation":"Perfect Forward Secrecyです。"},
+    {"id":"sec03-q4","prompt":"CAの秘密鍵を専用装置内で安全に利用したい。適切なのは？","options":["HSM","CDN","DHCP","WAF"],"answerIndex":0,"explanation":"HSMは暗号鍵を安全に保管・利用する専用装置です。"},
+    {"id":"sec03-q5","prompt":"サーバ証明書→中間CA→ルートCAの確認で見ているものは？","options":["信頼チェーン","サブネット範囲","SQL実行計画","EVM"],"answerIndex":0,"explanation":"証明書チェーンによって信頼できるルートCAまでつながるか確認します。"}
+  ],
+  "next":[{"lessonId":"SEC-04","label":"認証・認可・MFA・SSO・ID管理","status":"公開中"}]
+}
