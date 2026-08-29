@@ -2,18 +2,26 @@
   'use strict';
 
   const DOMAIN_CONFIGS = [
-    { id:'security', label:'情報セキュリティ', shortLabel:'セキュリティ', manifest:'security-terms-manifest.json', storage:'security-terms-checked', href:'html/security.html' },
-    { id:'network', label:'ネットワーク', shortLabel:'ネットワーク', manifest:'network-terms-manifest.json', storage:'network-terms-checked', href:'html/network.html' },
-    { id:'database', label:'データベース', shortLabel:'DB', manifest:'database-terms-manifest.json', storage:'database-terms-checked', href:'html/database.html' },
-    { id:'algorithm', label:'アルゴリズム', shortLabel:'アルゴリズム', manifest:'algorithm-terms-manifest.json', storage:'algorithm-terms-checked', href:'html/algorithm.html' },
-    { id:'system', label:'システム開発', shortLabel:'システム', manifest:'system-terms-manifest.json', storage:'system-terms-checked', href:'html/system.html' },
-    { id:'management', label:'プロジェクト管理', shortLabel:'管理', manifest:'management-terms-manifest.json', storage:'management-terms-checked', href:'html/management.html' }
+    { id:'security', shortLabel:'セキュリティ', manifest:'security-terms-manifest.json', storage:'security-terms-checked' },
+    { id:'network', shortLabel:'ネットワーク', manifest:'network-terms-manifest.json', storage:'network-terms-checked' },
+    { id:'database', shortLabel:'DB', manifest:'database-terms-manifest.json', storage:'database-terms-checked' },
+    { id:'algorithm', shortLabel:'アルゴリズム', manifest:'algorithm-terms-manifest.json', storage:'algorithm-terms-checked' },
+    { id:'system', shortLabel:'システム', manifest:'system-terms-manifest.json', storage:'system-terms-checked' },
+    { id:'management', shortLabel:'管理', manifest:'management-terms-manifest.json', storage:'management-terms-checked' }
   ];
   const TEST_HISTORY_KEY = 'ap-study-test-history-v1';
+  const LESSON_PROGRESS_KEY = 'ap-study-lesson-progress-v1';
 
   function readArray(key) {
     try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; }
     catch { return []; }
+  }
+
+  function readObject(key) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || '{}');
+      return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+    } catch { return {}; }
   }
 
   function safeStoredCount(key) { return new Set(readArray(key)).size; }
@@ -22,6 +30,14 @@
     const response = await fetch(path, { cache:'no-store' });
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     return response.json();
+  }
+
+  async function loadLessonIndex() {
+    const [base, expansion] = await Promise.all([
+      fetchJson('json/lessons/lesson-index.json'),
+      fetchJson('json/lessons/lesson-index-expansion.json')
+    ]);
+    return [...(base.lessons || []), ...(expansion.lessons || [])].sort((a,b) => Number(a.order) - Number(b.order));
   }
 
   function manifestCount(data) {
@@ -59,41 +75,9 @@
     }
   }
 
-  function getRecent() {
-    if (window.APStudyUI?.getRecent) return window.APStudyUI.getRecent();
-    return readArray('ap-study-recent-v1');
-  }
-
   function getBookmarks() {
     if (window.APStudyUI?.getBookmarks) return window.APStudyUI.getBookmarks();
     return readArray('ap-study-bookmarks-v1');
-  }
-
-  function domainConfig(id) { return DOMAIN_CONFIGS.find(item => item.id === id) || null; }
-
-  function renderRecentList(recent) {
-    const root = document.getElementById('recent-terms');
-    if (!root) return;
-    root.replaceChildren();
-    if (!recent.length) {
-      const empty = document.createElement('span');
-      empty.className = 'dashboard-empty';
-      empty.textContent = 'まだ履歴がありません。';
-      root.appendChild(empty);
-      return;
-    }
-    recent.slice(0, 5).forEach(item => {
-      if (!item?.term || !item?.href) return;
-      const link = document.createElement('a');
-      link.className = 'recent-term-link';
-      link.href = item.href;
-      const title = document.createElement('strong');
-      title.textContent = item.term;
-      const meta = document.createElement('span');
-      meta.textContent = [item.subject, item.category].filter(Boolean).join(' / ');
-      link.append(title, meta);
-      root.appendChild(link);
-    });
   }
 
   function renderBookmarkSummary(bookmarks) {
@@ -111,26 +95,6 @@
     breakdown.textContent = DOMAIN_CONFIGS.filter(item => counts.get(item.id)).map(item => `${item.shortLabel} ${counts.get(item.id)}`).join(' / ');
   }
 
-  function renderContinue(recent) {
-    const latest = recent.find(item => item?.term && item?.href);
-    const title = document.getElementById('continue-title');
-    const meta = document.getElementById('continue-meta');
-    const link = document.getElementById('continue-link');
-    const hero = document.getElementById('continue-hero');
-    if (!latest) {
-      if (title) title.textContent = '最初の単元を選ぶ';
-      if (meta) meta.textContent = 'まだ学習履歴がありません。';
-      if (link) { link.href = 'html/security.html'; link.textContent = '情報セキュリティから始める →'; }
-      if (hero) { hero.href = 'html/security.html'; hero.textContent = '学習を始める'; }
-      return;
-    }
-    const config = domainConfig(latest.domain);
-    if (title) title.textContent = latest.term;
-    if (meta) meta.textContent = `${latest.subject || config?.label || '学習'}${latest.category ? ` / ${latest.category}` : ''}`;
-    if (link) { link.href = latest.href; link.textContent = 'この用語の続きから →'; }
-    if (hero) { hero.href = latest.href; hero.textContent = '続きから学ぶ'; }
-  }
-
   function renderTestHistory() {
     const root = document.getElementById('recent-test-result');
     if (!root) return;
@@ -144,31 +108,85 @@
     root.innerHTML = `<strong>${Number(latest.percent || 0)}% · ${Number(latest.score || 0)} / ${Number(latest.total || 0)} 問</strong><span>${source} · ${date.toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`;
   }
 
-  function renderPersonalDashboard() {
-    const recent = getRecent();
-    renderContinue(recent);
-    renderRecentList(recent);
+  function renderLessonProgress(lessons) {
+    const progress = readObject(LESSON_PROGRESS_KEY);
+    const completed = lessons.filter(lesson => progress[lesson.id]?.completed).length;
+    const started = lessons.filter(lesson => Number(progress[lesson.id]?.latestAnswered || 0) > 0).length;
+    const total = lessons.length;
+
+    const totalLessons = document.getElementById('total-lessons');
+    const completedHero = document.getElementById('lesson-completed');
+    const number = document.getElementById('lesson-progress-number');
+    const meta = document.getElementById('lesson-progress-meta');
+    if (totalLessons) totalLessons.textContent = String(total);
+    if (completedHero) completedHero.textContent = String(completed);
+    if (number) number.textContent = `${completed} / ${total}`;
+    if (meta) meta.textContent = `${started}本着手 · ${completed}本完了。各Lessonでは最新点とBest scoreも保存します。`;
+
+    document.querySelectorAll('[data-curriculum-unit]').forEach(card => {
+      const unitId = card.dataset.curriculumUnit;
+      const unitLessons = lessons.filter(lesson => lesson.unitId === unitId);
+      const unitDone = unitLessons.filter(lesson => progress[lesson.id]?.completed).length;
+      const countEl = card.querySelector('[data-lesson-count]');
+      const doneEl = card.querySelector('[data-lesson-done]');
+      const bar = card.querySelector('[data-lesson-bar]');
+      if (countEl) countEl.textContent = `${unitLessons.length} Lesson`;
+      if (doneEl) doneEl.textContent = `${unitDone} / ${unitLessons.length} 完了`;
+      if (bar) bar.style.width = unitLessons.length ? `${Math.round(unitDone / unitLessons.length * 100)}%` : '0%';
+      card.classList.toggle('is-lesson-complete', Boolean(unitLessons.length && unitDone === unitLessons.length));
+    });
+
+    const recent = Object.entries(progress)
+      .filter(([id, value]) => lessons.some(lesson => lesson.id === id) && Number(value?.updatedAt || 0) > 0)
+      .sort((a,b) => Number(b[1].updatedAt || 0) - Number(a[1].updatedAt || 0))[0];
+    const title = document.getElementById('continue-title');
+    const continueMeta = document.getElementById('continue-meta');
+    const link = document.getElementById('continue-link');
+    const hero = document.getElementById('continue-hero');
+
+    if (!recent) {
+      if (title) title.textContent = '最初のLessonを選ぶ';
+      if (continueMeta) continueMeta.textContent = 'まだ構造化Lessonの学習履歴がありません。';
+      if (link) { link.href = 'html/unit.html?unit=foundation-theory'; link.textContent = '基礎理論から始める →'; }
+      if (hero) { hero.href = 'html/unit.html?unit=foundation-theory'; hero.textContent = '学習を始める'; }
+      return;
+    }
+
+    const [lessonId, saved] = recent;
+    const entry = lessons.find(lesson => lesson.id === lessonId);
+    if (!entry) return;
+    if (title) title.textContent = `${entry.id} ${entry.title}`;
+    if (continueMeta) continueMeta.textContent = saved.completed
+      ? `完了済み · Best ${Number(saved.bestCorrect || 0)} / ${Number(saved.total || 0)} · もう一度復習できます。`
+      : `途中 ${Number(saved.latestCorrect || 0)} / ${Number(saved.latestAnswered || 0)} 正解。`;
+    const href = `html/lesson.html?id=${encodeURIComponent(entry.id)}`;
+    if (link) { link.href = href; link.textContent = saved.completed ? 'このLessonを復習する →' : 'このLessonの続きへ →'; }
+    if (hero) { hero.href = href; hero.textContent = saved.completed ? '最後のLessonを復習' : '続きから学ぶ'; }
+  }
+
+  async function renderPersonalDashboard(lessons) {
     renderBookmarkSummary(getBookmarks());
     renderTestHistory();
+    renderLessonProgress(lessons);
   }
 
   async function init() {
-    const unitCards = [...document.querySelectorAll('[data-study-unit]')];
-    const readyCards = unitCards.filter(card => card.classList.contains('is-ready'));
-    if (document.getElementById('total-units')) document.getElementById('total-units').textContent = String(unitCards.length);
-    if (document.getElementById('ready-units')) document.getElementById('ready-units').textContent = String(readyCards.length);
-    renderPersonalDashboard();
-    const progress = await Promise.all(DOMAIN_CONFIGS.map(updateDomain));
-    const checked = progress.reduce((sum,item) => sum + item.checked, 0);
-    const totalTerms = progress.reduce((sum,item) => sum + item.total, 0);
-    if (document.getElementById('total-checked')) document.getElementById('total-checked').textContent = String(checked);
+    const [lessons, ...domainProgress] = await Promise.all([
+      loadLessonIndex(),
+      ...DOMAIN_CONFIGS.map(updateDomain)
+    ]);
+    const totalTerms = domainProgress.reduce((sum,item) => sum + item.total, 0);
     if (document.getElementById('total-terms')) document.getElementById('total-terms').textContent = String(totalTerms);
+    await renderPersonalDashboard(lessons);
     await updatePastCount();
   }
 
-  window.addEventListener('ap-bookmarks-changed', renderPersonalDashboard);
-  window.addEventListener('storage', event => {
-    if (['ap-study-bookmarks-v1','ap-study-recent-v1',TEST_HISTORY_KEY].includes(event.key)) renderPersonalDashboard();
+  window.addEventListener('ap-bookmarks-changed', () => renderBookmarkSummary(getBookmarks()));
+  window.addEventListener('ap-lesson-progress-changed', async () => renderLessonProgress(await loadLessonIndex()));
+  window.addEventListener('storage', async event => {
+    if (event.key === 'ap-study-bookmarks-v1') renderBookmarkSummary(getBookmarks());
+    if (event.key === TEST_HISTORY_KEY) renderTestHistory();
+    if (event.key === LESSON_PROGRESS_KEY) renderLessonProgress(await loadLessonIndex());
   });
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => init().catch(error => console.error('[home] init failed', error)));
 })();
