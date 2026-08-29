@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"MED-02","title":"音声・Sampling・量子化・Audio圧縮","unitId":"ui-media","officialMiddleCodes":[8],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"Digital音声は時間方向のSamplingと振幅方向の量子化で作られます。Sample Rate、bit depth、channel数からPCM Data量を計算し、圧縮方式の違いまで扱います。",
+  "objectives":["Sampling周波数と量子化bit数の役割を区別できる。","PCM音声Data量を計算できる。","Nyquistの考え方を説明できる。","可逆/非可逆Audio圧縮を用途で区別できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. Analog音声をDigital化する","diagrams":[{"label":"PCMの基本","connector":"→","nodes":[{"title":"Analog波形","value":"連続時間/振幅"},{"title":"Sampling","value":"時間を区切る"},{"title":"量子化","value":"振幅を段階化"},{"title":"符号化","value":"bit列"}],"note":"Sampling周波数は時間方向、量子化bit数は振幅方向の細かさを決めます。"}]},
+    {"type":"comparison","title":"2. Sample Rateとbit depth","columns":["項目","増やすと","代償"],"rows":[["Sampling周波数","高い周波数成分を扱いやすい","Data量増加"],["量子化bit数","振幅を細かく表現","Data量増加"],["Channel数","Stereo等の空間情報","Data量増加"]]},
+    {"type":"code-trace","title":"3. PCM Data量を計算する","question":"44.1kHz、16bit、Stereo、60秒の非圧縮音声のData量を概算する。","code":["44,100 sample/s × 16 bit × 2 channel × 60s","= 84,672,000 bit","÷ 8 = 10,584,000 byte"],"traceColumns":["項目","値"],"traceRows":[["bit量","84.672Mbit"],["byte量","10.584MB"],["概算","約10.6MB"]],"answer":"約10.6MB","explanation":"Header等を無視したPCM部分の単純計算です。"},
+    {"type":"text","title":"4. Nyquistの考え方","paragraphs":["理想化した条件では、最高周波数fを再現するには2fより高いSampling周波数が必要です。これがNyquistの基本的な考え方です。","不足すると高周波成分が別の低周波として見えるAliasingが起きるため、Sampling前に不要な高周波を抑えるFilterも使われます。"]},
+    {"type":"comparison","title":"5. Audio形式・圧縮","columns":["例","特徴","用途"],"rows":[["PCM/WAV","非圧縮またはContainerとしてPCM保持","編集・原音保持"],["FLAC","可逆圧縮","音質を完全保持しつつ圧縮"],["MP3/AAC","非可逆圧縮","配信・保存容量削減"],["Streaming Codec","Bitrate/Delayも重要","通話・配信"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Sampling周波数44.1kHzは1sampleが44.1kbitという意味ではない。","16bit Stereoは16bit×2channelであり、StereoだからSample Rateが2倍になるわけではない。","Bitrateを下げれば必ず同じ音質でFileだけ小さくなるわけではない。","Losslessは無圧縮と同義ではない。FLACのように完全復元できる圧縮もある。"]}
+  ],
+  "checks":[
+    {"id":"med02-q1","prompt":"Sampling周波数が主に決めるのは？","options":["時間方向の標本間隔","暗号鍵長","Disk冗長度","SQL行数"],"answerIndex":0,"explanation":"1秒あたり何回波形を測るかを決めます。"},
+    {"id":"med02-q2","prompt":"48kHz・16bit・MonoのPCM 1秒分は何bit？","options":["48,000bit","96,000bit","768,000bit","7,680,000bit"],"answerIndex":2,"explanation":"48,000×16=768,000bitです。"},
+    {"id":"med02-q3","prompt":"完全復元できるAudio圧縮の例は？","options":["FLAC","MP3だけ","JPEG","H.264"],"answerIndex":0,"explanation":"FLACはLossless Audio Codecです。"},
+    {"id":"med02-q4","prompt":"Sampling不足で高周波が別の低周波として現れる現象は？","options":["Aliasing","Deadlock","Cache Miss","Phishing"],"answerIndex":0,"explanation":"Sampling周波数不足による折り返しがAliasingです。"}
+  ]
+}
