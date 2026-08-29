@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-01","title":"OSI/TCP-IPと通信の全体像","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","通信プロトコル"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-tcpip-osi-","from":1,"to":40}],"estimatedMinutes":35},
+  "intro":"層の名前を7個暗記するのではなく、ブラウザのデータがTCP/IP/Ethernetのヘッダをまとって相手へ届き、受信側で逆向きに外される流れとして理解します。",
+  "objectives":["OSIとTCP/IPの層を役割で対応付けられる。","カプセル化でセグメント・パケット・フレームへ変化する流れを説明できる。","MAC/IP/ポートのどれがどの範囲を識別するか区別できる。","MTU・MSS・フラグメンテーション・Path MTUの関係を説明できる。","ICMP・TTL・ping/tracerouteの土台を理解する。"],
+  "sections":[
+    {"type":"comparison","title":"1. 層は『何を識別するか』で覚える","columns":["役割","代表層","主な識別/単位","例"],"rows":[["アプリの会話","アプリケーション","メッセージ","HTTP/DNS/SMTP"],["端末内のアプリを識別","トランスポート","ポート / セグメント","TCP/UDP"],["ネットワークを越えて届ける","ネットワーク/インターネット","IP / パケット","IPv4/IPv6/ICMP"],["同一リンクで届ける","データリンク","MAC / フレーム","Ethernet/Wi-Fi"],["信号として送る","物理","bit","ケーブル/電波"]],"note":"OSI第5〜7層はTCP/IPではアプリケーション側へまとめて考えると通信フローを追いやすくなります。"},
+    {"type":"diagram","title":"2. カプセル化と非カプセル化","diagrams":[{"label":"送信側","connector":"→","nodes":[{"title":"Application","value":"DATA"},{"title":"TCP/UDP","value":"Header + DATA","meta":"segment/datagram"},{"title":"IP","value":"IP + transport","meta":"packet"},{"title":"Ethernet","value":"MAC + IP + FCS","meta":"frame"}]},{"label":"受信側","connector":"→","nodes":[{"title":"Frame","value":"宛先MAC確認"},{"title":"Packet","value":"宛先IP確認"},{"title":"Segment","value":"宛先port確認"},{"title":"Application","value":"データを渡す"}]}]},
+    {"type":"comparison","title":"3. ヘッダ情報は途中で同じとは限らない","columns":["情報","主な範囲","ルータ通過時"],"rows":[["MACアドレス","同一リンク","次のリンク向けに変わる"],["IPアドレス","送信元〜宛先","NAT等がなければ基本維持"],["ポート番号","アプリ間","NAPT等がなければ基本維持"],["TTL","ルータ通過回数を制限","ルータごとに減少"]],"note":"『全部のヘッダが端から端まで同じ』と考えないことが構成図問題で重要です。"},
+    {"type":"code-trace","title":"4. MTU 1500 byteのリンクを考える","question":"IPv4/TCPでEthernet MTUが1500 byte、IPヘッダ20 byte、TCPヘッダ20 byteなら典型的なMSSはいくつか。","code":["MTU = 1500","IP header = 20","TCP header = 20","MSS = MTU - IP header - TCP header"],"traceColumns":["計算","値"],"traceRows":[["1500 - 20","1480"],["1480 - 20","1460"]],"answer":"1460 byte","explanation":"MSSはTCPのデータ本体の上限です。IPv6やTCPオプション等では条件が変わるので、式の前提を確認します。"},
+    {"type":"steps","title":"5. ICMP/TTLを使った疎通確認の読み方","items":[{"label":"ping","body":"ICMP Echo Request/Replyで到達性と往復応答を確認する。応答しない=必ず停止、ではなくICMP遮断もあり得る。"},{"label":"TTL","body":"ルータを通るたび減り、0になると破棄される。ループによる無限転送を防ぐ。"},{"label":"tracerouteの原理","body":"TTLを段階的に変え、途中ルータから返るTTL exceeded等を利用して経路を推定する。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["OSI参照モデルは実際のインターネットが必ず7層実装になっている、という意味ではない。","パケット・セグメント・フレームを全部同じ意味として扱わない。","MTUはTCPデータ本体サイズではない。","pingが失敗しただけで物理断と断定しない。"]}
+  ],
+  "checks":[
+    {"id":"net01-q1","prompt":"ルータが主に判断する識別情報は？","options":["IPアドレス","MACアドレスだけ","HTTP Cookie","ファイル名"],"answerIndex":0,"explanation":"異なるネットワーク間の転送は主にIPアドレスと経路表で判断します。"},
+    {"id":"net01-q2","prompt":"Ethernetで同一リンクの転送に使う主な識別子は？","options":["MACアドレス","ポート番号","URL","TTL"],"answerIndex":0,"explanation":"Ethernetのリンク層ではMACアドレスを使います。"},
+    {"id":"net01-q3","prompt":"TTLの主目的は？","options":["パケットが無限に転送されるのを防ぐ","暗号化する","DNSを高速化する","帯域を保証する"],"answerIndex":0,"explanation":"ルータ通過ごとにTTLを減らしてループ時の無限転送を防ぎます。"},
+    {"id":"net01-q4","prompt":"MTU1500、IP20、TCP20のときMSSの典型値は？","options":["1460","1500","1480","1540"],"answerIndex":0,"explanation":"1500-20-20=1460です。"}
+  ]
+}
