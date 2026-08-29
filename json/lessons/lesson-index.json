@@ -6,12 +6,23 @@
   "lessons": [
     {
       "id": "ALG-01",
+      "order": 1,
       "title": "アルゴリズムの表現と擬似言語トレース",
       "unitId": "algorithm-programming",
       "officialMiddleCodes": [2],
       "contentTypes": ["concept", "code-trace", "exercise"],
       "status": "individual-v1",
       "file": "json/lessons/algorithm/alg-01-pseudocode-trace.json"
+    },
+    {
+      "id": "ALG-02",
+      "order": 2,
+      "title": "計算量とオーダの読み方",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "calculation", "code-trace", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-02-complexity.json"
     }
   ]
 }
