@@ -3,29 +3,29 @@
 
   const STATUS_LABELS = {
     'existing-needs-audit': '既存教材あり・要監査',
-    partial: '一部あり',
+    partial: '構造化教材あり・拡張中',
     missing: '未整備'
-  };
-  const UNIT_HUBS = {
-    'foundation-theory': 'lesson.html?id=FND-01',
-    'algorithm-programming': 'algorithm.html',
-    'computer-systems': 'computer.html',
-    database: 'database.html',
-    network: 'network.html',
-    security: 'security.html',
-    'system-development': 'system.html',
-    'project-management': 'management.html',
-    'service-audit': 'lesson.html?id=SVC-01',
-    'strategy-planning': 'lesson.html?id=STR-01',
-    'law-standards': 'lesson.html?id=LAW-01'
   };
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
-  async function loadMap() {
-    const response = await fetch('../json/curriculum/ap-2026-map.json', { cache:'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  async function fetchJson(path) {
+    const response = await fetch(path, { cache:'no-store' });
+    if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     return response.json();
+  }
+
+  async function loadMap() {
+    const [base, coverage] = await Promise.all([
+      fetchJson('../json/curriculum/ap-2026-map.json'),
+      fetchJson('../json/curriculum/ap-2026-coverage.json')
+    ]);
+    const overrides = coverage?.overrides || {};
+    return {
+      ...base,
+      effectiveCoverageMeta:coverage?.meta || {},
+      studyUnits:(base.studyUnits || []).map(unit => ({ ...unit, ...(overrides[unit.id] || {}) }))
+    };
   }
 
   function renderSummary(data) {
@@ -38,9 +38,9 @@
     document.getElementById('roadmap-summary').innerHTML = `
       <div class="summary-item"><strong>${official.length}</strong><span>IPA中分類</span></div>
       <div class="summary-item"><strong>${units.length}</strong><span>学習ユニット</span></div>
-      <div class="summary-item status-audit"><strong>${counts['existing-needs-audit'] || 0}</strong><span>既存・要監査</span></div>
-      <div class="summary-item status-partial"><strong>${counts.partial || 0}</strong><span>一部あり</span></div>
-      <div class="summary-item status-missing"><strong>${counts.missing || 0}</strong><span>未整備</span></div>`;
+      <div class="summary-item status-audit"><strong>${data.effectiveCoverageMeta?.structuredLessons || '-'}</strong><span>構造化Lesson</span></div>
+      <div class="summary-item status-partial"><strong>${counts.partial || 0}</strong><span>教材あり・拡張中</span></div>
+      <div class="summary-item status-missing"><strong>${counts.missing || 0}</strong><span>完全未整備</span></div>`;
   }
 
   function renderUnits(data) {
@@ -49,7 +49,7 @@
       const official = (unit.officialMiddleCodes || []).map(code => middleByCode.get(code)).filter(Boolean);
       const types = (unit.contentTypes || []).map(type => `<span>${escapeHtml(type)}</span>`).join('');
       const officialLabels = official.map(item => `<li>中分類${item.code}：${escapeHtml(item.title)}</li>`).join('');
-      const hub = UNIT_HUBS[unit.id];
+      const hub = unit.hubHref || '';
       return `<article class="study-unit-card" data-status="${escapeHtml(unit.coverage)}">
         <div class="study-unit-top"><span class="study-unit-order">${String(unit.order).padStart(2,'0')}</span><span class="coverage-badge ${escapeHtml(unit.coverage)}">${escapeHtml(STATUS_LABELS[unit.coverage] || unit.coverage)}</span></div>
         <h3>${escapeHtml(unit.title)}</h3>
