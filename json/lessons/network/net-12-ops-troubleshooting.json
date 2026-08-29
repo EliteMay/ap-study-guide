@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-12","title":"DHCP・ARP・監視・障害切り分け","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク管理","通信プロトコル"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-ops-troubleshoot-","from":1,"to":38},{"prefix":"net-ops-troubleshoot-","from":40,"to":40}],"estimatedMinutes":45},
+  "intro":"障害調査はコマンド名暗記ではなく、下位層から順に『link→IP設定→同一LAN→gateway→DNS→port→application』を切り分けます。DHCP/ARP/SNMP/syslogもその流れへ組み込みます。",
+  "objectives":["DHCPのDORAを順番に説明できる。","ARPでIP→MACを解決する流れを説明できる。","ping/traceroute/nslookup/dig/ss等を目的で使い分けられる。","SNMP trap/MIB/OIDとsyslogの監視役割を説明できる。","障害を段階的に切り分けられる。"],
+  "sections":[
+    {"type":"diagram","title":"1. DHCP DORA","diagrams":[{"label":"address取得","connector":"→","nodes":[{"title":"Client","value":"Discover","meta":"serverを探す"},{"title":"Server","value":"Offer","meta":"候補address"},{"title":"Client","value":"Request","meta":"これを使いたい"},{"title":"Server","value":"ACK","meta":"lease確定"}]}]},
+    {"type":"comparison","title":"2. ARPが必要になる場面","columns":["宛先","調べるMAC","理由"],"rows":[["同一subnet host","相手hostのMAC","frameを直接相手へ送る"],["別subnet host","default gatewayのMAC","routerへframeを渡す"],["DNS server名","まずIP解決が別途必要","ARPはname→IPではない"]],"note":"IP宛先がInternet先でも、最初のEthernet frameの宛先MACは通常default gatewayです。"},
+    {"type":"steps","title":"3. 『Webだけ開けない』を切り分ける固定順","items":[{"label":"① Link","body":"NIC/link/AP接続、interface up/downを確認。"},{"label":"② IP設定","body":"address/mask/gateway/DNSが期待値か。169.254.x.xならDHCP失敗も疑う。"},{"label":"③ localhost/自分","body":"network stackやservice local動作を必要に応じ確認。"},{"label":"④ gateway ping","body":"同一LAN・ARP・VLAN周辺を確認。"},{"label":"⑤ 外部IP ping/route","body":"routing/NAT/WANを確認。"},{"label":"⑥ DNS","body":"nslookup/digでname resolutionを確認。"},{"label":"⑦ port","body":"443等へTCP connectionできるか。"},{"label":"⑧ application","body":"HTTP status/TLS/server log等へ進む。"}]},
+    {"type":"comparison","title":"4. 調査toolは質問で選ぶ","columns":["知りたいこと","代表tool"],"rows":[["IP設定","ipconfig / ip addr"],["到達性/RTT","ping"],["途中route","traceroute/tracert"],["DNS回答","nslookup/dig"],["local socket/listen","ss/netstat"],["route table","ip route/route"],["ARP cache","arp/ip neigh"],["packet中身","tcpdump/Wireshark"]],"note":"toolを全部実行するのではなく、前段結果から次の仮説を立てます。"},
+    {"type":"comparison","title":"5. packet品質の指標","columns":["指標","意味","悪化時の症状"],"rows":[["latency","到達/応答までの遅延","操作が遅い"],["jitter","到着間隔の揺れ","音声/映像が不安定"],["packet loss","途中でpacket消失","再送・音切れ"],["throughput","実際に転送できる量","download等が遅い"]],"note":"bandwidthは理論的な回線幅、throughputは実効転送量という違いも意識します。"},
+    {"type":"comparison","title":"6. 監視とlog","columns":["仕組み","役割"],"rows":[["SNMP polling","manager側から機器状態を取得"],["SNMP trap","機器側からeventを能動通知"],["MIB","監視objectの定義体系"],["OID","個々のobject識別子"],["syslog","機器/server logを送信・集約"],["time sync/NTP","複数logの時系列を合わせる"]],"note":"障害解析で時刻がずれているとevent順序を誤るため、時刻同期は重要です。"},
+    {"type":"code-trace","title":"7. 症状から原因範囲を絞る","question":"PCはgateway 192.168.1.1へping成功。8.8.8.8へもping成功。example.comだけ開けず、nslookupも失敗する。最初に疑う範囲は？","code":["gateway ping: OK","external IP ping: OK","DNS lookup: FAIL"],"traceColumns":["層/機能","判定"],"traceRows":[["local LAN","概ねOK"],["routing/WAN","IP到達性あり"],["DNS","異常候補"]],"answer":"DNS設定/名前解決系を優先して調べる。","explanation":"下位のIP到達性が成立しているため、まずDNS server設定やDNS応答を確認します。"},
+    {"type":"mistakes","title":"8. よくある調査ミス","items":["ping失敗だけでserver停止と断定しない。ICMP遮断もある。","DNSが失敗しているのにHTTP設定だけを調べ続けない。","packet captureを最初から大量取得して仮説なしで眺めない。","監視thresholdを厳しくしすぎ、alert noiseで本当の異常を埋もれさせない。"]}
+  ],
+  "checks":[
+    {"id":"net12-q1","prompt":"DHCPの正しい順序は？","options":["Discover→Offer→Request→ACK","Offer→ACK→Discover→Request","ARP→DNS→DHCP→HTTP","SYN→SYN/ACK→ACK→FIN"],"answerIndex":0,"explanation":"DORAの順です。"},
+    {"id":"net12-q2","prompt":"別subnet宛てframeで最初に必要になる代表的なMACは？","options":["default gatewayのMAC","最終serverのMACをInternet越しに直接取得","DNS serverのMX","自分のloopback"],"answerIndex":0,"explanation":"同一LANではdefault gatewayへframeを渡します。"},
+    {"id":"net12-q3","prompt":"途中のrouter経路を確認するtoolは？","options":["traceroute","nslookup","MIME","CORS"],"answerIndex":0,"explanation":"traceroute/tracertが途中hopを調べます。"},
+    {"id":"net12-q4","prompt":"機器が監視serverへ異常を能動通知するSNMP機能は？","options":["trap","pollingだけ","CNAME","SLAAC"],"answerIndex":0,"explanation":"SNMP trapがeventを能動通知します。"}
+  ]
+}
