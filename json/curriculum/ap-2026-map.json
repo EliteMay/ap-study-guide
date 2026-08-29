@@ -7,7 +7,7 @@
     "syllabusPublished": "2026-01-08",
     "source": "IPA 応用情報技術者試験（レベル3）シラバス Ver.7.2",
     "sourceUrl": "https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
-    "policy": "公式分類を正確さの基準にしつつ、学習画面では受験者が理解しやすい13ユニットへ再編する。既存6分野は完成範囲ではなく、再分類・品質監査対象として扱う。",
+    "policy": "公式分類を正確さの基準にしつつ、学習画面では受験者が理解しやすい13ユニットへ再編する。旧6教材は1,422/1,422語の監査完了後も検索・復習・進捗互換の索引として維持する。",
     "nextSystemNote": "2027年度開始予定の新試験制度には別マップを追加し、この2026マップを上書きしない。"
   },
   "coverageStatuses": {
@@ -54,7 +54,7 @@
   "studyUnits": [
     {"id":"foundation-theory","order":1,"title":"基礎理論・数学","officialMiddleCodes":[1],"coverage":"partial","existingDomains":[],"contentTypes":["概念","計算","演習"],"auditNote":"FND-01で論理演算・ビットシフトを実装済み。2進数、確率統計、情報理論、待ち行列、計測制御などは引き続き不足。"},
     {"id":"algorithm-programming","order":2,"title":"アルゴリズム・プログラミング","officialMiddleCodes":[2],"coverage":"partial","existingDomains":["algorithm"],"contentTypes":["概念","擬似言語トレース","コード","計算","演習"],"auditNote":"旧65語は65/65を実Lessonへ移行し、PROG-01〜04で言語領域も補完。最近の過去問・本番型演習との照合は継続する。"},
-    {"id":"computer-systems","order":3,"title":"コンピュータシステム","officialMiddleCodes":[3,4,5,6],"coverage":"partial","existingDomains":["security"],"contentTypes":["概念","構成図","計算","比較"],"auditNote":"CMP-01でコンテナ/仮想化、CMP-02でIaaS/PaaS/SaaS・Serverless・Cloud Storageなどシステム構成の一部を実装。CPU、メモリ、OS、性能、ハードウェア等は依然不足。"},
+    {"id":"computer-systems","order":3,"title":"コンピュータシステム","officialMiddleCodes":[3,4,5,6],"coverage":"partial","existingDomains":["security"],"contentTypes":["概念","構成図","計算","状態遷移","比較"],"auditNote":"CMP-01〜12を実装し、中分類3〜6をすべてLessonでカバー。CPU命令実行、Cache/仮想記憶、I/O/DMA、OS Process/Scheduling、3層/Cluster、性能計算、MTBF/MTTR、RAID/File System、Middleware/OSS、Hardware/Sensor、Container/Cloudを再教材化済み。最近の過去問照合と演習量の拡充は継続する。"},
     {"id":"ui-media","order":4,"title":"UI・情報メディア","officialMiddleCodes":[7,8],"coverage":"missing","existingDomains":[],"contentTypes":["概念","図","比較","ケース"],"auditNote":"UI/UXとマルチメディアを独立教材として整備する。"},
     {"id":"database","order":5,"title":"データベース","officialMiddleCodes":[9],"coverage":"partial","existingDomains":["database"],"contentTypes":["概念","ER図","SQL","正規化手順","計算","ケース"],"auditNote":"旧229語を229/229で監査・実Lessonへ一意割当し、DB-01〜14で方式・設計・SQL・トランザクション・性能・分散・分析を再教材化済み。最近の過去問照合と本番型SQL/設計演習は追加が必要。"},
     {"id":"network","order":6,"title":"ネットワーク","officialMiddleCodes":[10],"coverage":"partial","existingDomains":["network","security"],"contentTypes":["概念","通信フロー","構成図","サブネット計算","障害切り分け"],"auditNote":"旧Network480語を480/480で監査しNET-01〜14へ再教材化。Security旧501語からも純粋な通信基礎104語をNetworkへ再配置し、DNS/HTTP/TCP等の二重主教材を解消した。過去問照合・本番型構成図演習は継続する。"},
