@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-10","title":"監視・インシデント対応・フォレンジック・復旧","unitId":"security","officialMiddleCodes":[11],"officialAreas":["情報セキュリティ対策","インシデント管理","ディジタルフォレンジックス"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":19,"to":21},{"prefix":"sec-","from":259,"to":263},{"prefix":"sec-","from":278,"to":290},{"prefix":"sec-","from":450,"to":454},{"prefix":"sec-","from":460,"to":468},{"prefix":"sec-","from":471,"to":473}],"legacyTermIds":["sec-481"],"estimatedMinutes":50},
+  "intro":"事故対応は『ウイルスを消す』ではありません。観測→判定→封じ込め→根絶→復旧→事後改善までを、ログと証拠を壊さない順序で進めます。",
+  "objectives":["SIEM/SOC/CSIRT/EDR/XDR/NDR/SOARの役割を区別できる。","IOCとThreat Intelligenceを調査で利用できる。","Incident Responseの各段階を順序立てて説明できる。","Forensicsで証拠保全とChain of Custodyが必要な理由を説明できる。","Backup/BCP/DR/RTO/RPOを復旧要件として判断できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 監視・対応の道具と組織","columns":["要素","主な役割","観測場所"],"rows":[["SIEM","Log集約・相関分析","Server/FW/Cloud等"],["SOC","継続監視・分析","組織/Service"],["CSIRT","Incident対応の調整/実行","組織横断"],["EDR","Endpoint挙動の検知・調査・隔離","PC/Server"],["NDR","Network Trafficの異常検知","Network"],["XDR","複数領域の検知情報を統合","Endpoint/Network/Cloud"],["SOAR","Playbookで対応を自動化/連携","運用Workflow"]]},
+    {"type":"comparison","title":"2. IOCとThreat Intelligence","columns":["情報","例","使い方"],"rows":[["IOC","悪性IP/Domain/File Hash","既知侵害痕跡をSearch"],["Threat Intelligence","攻撃者/TTP/Campaign情報","優先監視やHuntingへ利用"],["YARA","File/Memoryの特徴Rule","Malware family等を探索"]]},
+    {"type":"steps","title":"3. Incident Response","items":[{"label":"① Detect / Triage","body":"Alertを確認しIncidentか、範囲・重大度は何か判断する。"},{"label":"② Containment","body":"端末隔離・Account停止等で被害拡大を止める。"},{"label":"③ Eradication","body":"Malware、Backdoor、侵入口、盗まれたCredential等を除去する。"},{"label":"④ Recovery","body":"安全を確認してServiceを戻し監視を強める。"},{"label":"⑤ Lessons Learned","body":"原因、検知遅延、手順、Controlを改善する。"}]},
+    {"type":"comparison","title":"4. Forensicsで守るもの","columns":["作業","目的","注意"],"rows":[["Disk/Log保全","後から再分析","原本を不用意に変更しない"],["Memory Forensics","Fileless/Credential/Process情報","電源断で消える可能性"],["Timeline Analysis","出来事の時系列復元","時刻同期が重要"],["Chain of Custody","誰がいつ証拠を扱ったか記録","証拠の信頼性を維持"]]},
+    {"type":"comparison","title":"5. Backupは『取る』より『戻せる』","columns":["仕組み","狙い","Ransomware視点"],"rows":[["3-2-1","Copy/媒体/場所を分散","単一障害・同時被害を避ける"],["Immutable Backup","一定期間変更不可","攻撃者による削除/暗号化を困難に"],["Restore Test","復旧手順を検証","壊れたBackupや手順漏れを発見"]]},
+    {"type":"comparison","title":"6. BCP / DR / RTO / RPO","columns":["用語","質問","例"],"rows":[["BCP","Businessをどう継続するか","代替拠点/優先業務"],["DR","ITをどう復旧するか","予備Site/Backup"],["RTO","何時間以内に戻すか","4時間"],["RPO","どの時点までDataを戻せればよいか","最大15分Loss"]]},
+    {"type":"mistakes","title":"7. 初動でやってはいけないこと","items":["原因不明のままLogや不審Fileを消して証拠を失わない。","感染端末を隔離することと、すぐ電源を切ることは同義ではない。Memory証拠が必要な場合がある。","IOC一致だけで『攻撃確定』と決めずContextを確認する。","RTOとRPOを逆にしない。RTO=時間、RPO=Data時点。"]}
+  ],
+  "checks":[
+    {"id":"sec10-q1","prompt":"複数機器のLogを集約し相関分析する仕組みは？","options":["SIEM","DHCP","PKI","VLAN"],"answerIndex":0,"explanation":"SIEMはSecurity Event/Logを集約・分析します。"},
+    {"id":"sec10-q2","prompt":"Incident発生後、感染端末をNetworkから切り離す段階は？","options":["Containment","Eradication","Recovery","Audit"],"answerIndex":0,"explanation":"被害拡大を止める封じ込めです。"},
+    {"id":"sec10-q3","prompt":"Malware ProcessがMemory上だけに残る可能性がある。優先して検討する調査は？","options":["Memory Forensics","DNS zone transfer","EVM","Subnetting"],"answerIndex":0,"explanation":"揮発性情報を扱うMemory Forensicsが重要です。"},
+    {"id":"sec10-q4","prompt":"『障害から4時間以内にServiceを復旧』は？","options":["RTO","RPO","MTBF","TTL"],"answerIndex":0,"explanation":"復旧に許容される時間目標がRTOです。"},
+    {"id":"sec10-q5","prompt":"証拠を誰がいつ受け渡したか記録する考え方は？","options":["Chain of Custody","Load Balancing","RBAC","CORS"],"answerIndex":0,"explanation":"証拠の取扱履歴を維持するChain of Custodyです。"}
+  ],
+  "next":[{"lessonId":"SEC-11","label":"ISMS・リスクアセスメント・脆弱性管理","status":"公開中"}]
+}
