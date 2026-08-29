@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-07","title":"システム構成・3層構成・クラスタ・負荷分散","unitId":"computer-systems","officialMiddleCodes":[4],"officialAreas":["システムの構成"],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"システム構成を製品名で覚えず、どこに処理を分け、障害時にどこへ逃がすかで整理します。Client/Server、3層構成、Cluster、Load Balancer、Shared Nothingを構成図で比較します。",
+  "objectives":["Client/Serverと3層構成の役割分担を説明できる。","Scale upとScale outを比較できる。","Active-StandbyとActive-Activeを区別できる。","Load BalancerとClusterの役割を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 3層Architecture","diagrams":[{"label":"Web Systemの典型","connector":"→","nodes":[{"title":"Presentation","value":"Browser / Web"},{"title":"Application","value":"Business Logic"},{"title":"Data","value":"DB"}],"note":"層を分ける目的は責務分離・保守性・Scale・Security境界の明確化。"}]},
+    {"type":"comparison","title":"2. Scale up / Scale out","columns":["方式","何をする","利点","注意"],"rows":[["Scale up","1台を強化","構成が単純","上限・高価格化"],["Scale out","台数を増やす","水平拡張しやすい","分散設計が必要"]]},
+    {"type":"diagram","title":"3. Load Balancerと複数Server","diagrams":[{"label":"Traffic分散","connector":"→","nodes":[{"title":"Client","value":"Request"},{"title":"Load Balancer","value":"Health Check + 振分"},{"title":"App Servers","value":"A / B / C"}],"note":"LBは分散点。SessionやStateをどう扱うかも重要。"}]},
+    {"type":"comparison","title":"4. Cluster方式","columns":["方式","通常時","障害時","特徴"],"rows":[["Active-Standby","Active側が処理","StandbyへFailover","切替が分かりやすい"],["Active-Active","複数Nodeが処理","残存Nodeで継続","Resourceを平常時も使える"],["Shared Nothing","各Nodeが独立Storage/Memoryを持つ","分散で耐障害性を作る","Scale out向き"]]},
+    {"type":"comparison","title":"5. Stateの置き場所","columns":["設計","特徴","問題"],"rows":[["Server内Session","実装は簡単","別Serverへ振るとSession消失"],["Shared Session Store","どのServerでも参照","Store自体の可用性が必要"],["Stateless","Requestごとに必要情報を持つ","Scaleしやすい"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Load Balancerを置くだけでBackendが自動的に無停止になるわけではない。Health CheckやState設計が必要。","Scale outは単純にServer台数を増やせば必ず性能が比例するわけではない。共有DB等がBottleneckになる。","Active-Activeでも共通StorageやNetworkがSingle Point of Failureなら全体可用性は上がりきらない。"]}
+  ],
+  "checks":[
+    {"id":"cmp07-q1","prompt":"1台をより高性能なServerへ強化するのは？","options":["Scale up","Scale out","Failover","Paging"],"answerIndex":0,"explanation":"Vertical scalingがScale upです。"},
+    {"id":"cmp07-q2","prompt":"Web/App/DBの責務を分ける構成は？","options":["3層Architecture","RAID 0","LRU","HMAC"],"answerIndex":0,"explanation":"Presentation/Application/Dataを分離します。"},
+    {"id":"cmp07-q3","prompt":"平常時は1系が処理し、障害時に待機系へ切り替える方式は？","options":["Active-Standby","Active-Activeのみ","Round Robin Scheduling","Cache miss"],"answerIndex":0,"explanation":"Standby系を待機させFailoverします。"}
+  ]
+}
