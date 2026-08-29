@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-04","title":"認証・認可・MFA・SSO・ID管理","unitId":"security","officialMiddleCodes":[11],"officialAreas":["認証技術","アクセス制御","ID管理"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":9,"to":18},{"prefix":"sec-","from":143,"to":166},{"prefix":"sec-","from":174,"to":178},{"prefix":"sec-","from":407,"to":415}],"legacyTermIds":["sec-349","sec-350","sec-391"],"estimatedMinutes":45},
+  "intro":"認証・認可・SSO・OAuthを一括りにせず、『誰かを名乗る→本人か確認→何を許す→どのサービスへ権限を渡す』の順に整理します。",
+  "objectives":["識別・本人確認・認証・認可を区別できる。","MFAの要素を種類で判定できる。","FIDO2/WebAuthn/Passkeyの狙いを説明できる。","SAML/OAuth/OIDCの役割を区別できる。","RBAC/ABAC/PAMを利用場面で選べる。"],
+  "sections":[
+    {"type":"diagram","title":"1. ID利用の流れ","diagrams":[{"label":"アクセス判断","connector":"→","nodes":[{"title":"識別","value":"私はuserA"},{"title":"認証","value":"本当にuserAか"},{"title":"認可","value":"何をしてよいか"},{"title":"記録","value":"誰が何をしたか"}],"note":"IDを入力しただけでは認証ではありません。"}]},
+    {"type":"comparison","title":"2. MFAは『回数』ではなく『種類』","columns":["要素","例","注意"],"rows":[["知識","パスワード/PIN","パスワード2個でも同一要素"],["所持","スマホ/セキュリティキー","端末そのものを所持"],["生体","指紋/顔/静脈","身体特徴"]],"note":"パスワード+秘密の質問は2段階でも同じ知識要素なので、典型的なMFAとは言いにくい。"},
+    {"type":"comparison","title":"3. OTPとパスワードレス","columns":["方式","仕組み","主な特徴"],"rows":[["HOTP","カウンタでOTP生成","同期するカウンタが重要"],["TOTP","時刻でOTP生成","短時間で値が変化"],["FIDO2/WebAuthn","サイトごとの公開鍵認証","共有秘密をサーバへ送らない"],["Passkey","FIDO系資格情報を使いやすくした仕組み","フィッシング耐性を高めやすい"]]},
+    {"type":"comparison","title":"4. SSO・SAML・OAuth・OIDC","columns":["仕組み","主目的","覚え方"],"rows":[["SSO","一度の認証で複数サービス利用","利用体験の概念"],["SAML","認証結果をIdP/SP間で連携","企業SSOで多い"],["OAuth","別サービスへの権限委譲","認証そのものではない"],["OpenID Connect","OAuth 2.0上で認証情報も扱う","ID Tokenを使う"]]},
+    {"type":"comparison","title":"5. Tokenを分ける","columns":["Token","役割","漏えい時の注意"],"rows":[["Access Token","APIを利用する権限","短い有効期限・scope制限"],["Refresh Token","Access Tokenを再発行","より長期なので厳格に保護"],["ID Token","認証した利用者情報","OIDCで利用"],["JWT","署名付き情報を表せる形式","JWT=必ず暗号化、ではない"]]},
+    {"type":"comparison","title":"6. Access Control","columns":["方式","判断軸","向く例"],"rows":[["ACL","対象ごとの許可一覧","ファイル/ネットワーク規則"],["RBAC","役割","経理・管理者など職務単位"],["ABAC","属性・条件","部署+時刻+端末状態など"],["PAM","特権IDの申請/承認/記録","root/Administrator管理"]]},
+    {"type":"mistakes","title":"7. 認証の落とし穴","items":["OAuthは『Googleでログイン』に使われることがあっても、OAuth自体の中心目的は権限委譲。認証はOIDC等が担当する。","SMS認証はパスワード単独より強化になるが、SIMスワップ等のリスクがある。","アカウントロックを厳しくし過ぎると、第三者が故意に失敗させるDoSにもなり得る。","共有アカウントは誰が操作したか追跡しにくく、責任追跡性を弱める。"]}
+  ],
+  "checks":[
+    {"id":"sec04-q1","prompt":"ログイン済みユーザが管理画面を開いてよいか判断する処理は？","options":["認証","認可","暗号化","名前解決"],"answerIndex":1,"explanation":"本人確認後に何を許すか判断するのが認可です。"},
+    {"id":"sec04-q2","prompt":"パスワード+指紋の組合せは？","options":["同一要素2回","多要素認証","認可のみ","SSOのみ"],"answerIndex":1,"explanation":"知識要素と生体要素を組み合わせたMFAです。"},
+    {"id":"sec04-q3","prompt":"別サービスに写真閲覧権限だけを渡す用途の中心技術は？","options":["OAuth","DNSSEC","OCSP","VLAN"],"answerIndex":0,"explanation":"OAuthはユーザのパスワードを渡さず権限を委譲します。"},
+    {"id":"sec04-q4","prompt":"OpenID Connectでログインした利用者情報を表すものは？","options":["ID Token","CRL","MAC address","RPO"],"answerIndex":0,"explanation":"OIDCではID Tokenが認証された主体の情報を表します。"},
+    {"id":"sec04-q5","prompt":"『経理部かつ社給端末かつ営業時間内』で許可する方式に最も近いのは？","options":["RBAC","ABAC","単純ACL","HOTP"],"answerIndex":1,"explanation":"複数属性や条件を評価するのはABACです。"}
+  ],
+  "next":[{"lessonId":"SEC-05","label":"Webアプリ攻撃と安全な実装","status":"公開中"}]
+}
