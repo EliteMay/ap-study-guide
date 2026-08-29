@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-02","title":"クラウドサービスモデルと責任分界","unitId":"computer-systems","officialMiddleCodes":[4],"officialAreas":["システムの構成","クラウドコンピューティング"],"qualityStatus":"individual-v1","legacySources":["security"],"estimatedMinutes":30},
+  "intro":"Security旧教材に混在していたIaaS/PaaS/SaaSなどのクラウド基礎をComputer Systemsへ戻します。『何をProviderへ任せ、何を利用者が管理するか』でService Modelを比較します。Security上の責任共有はSEC-12、VPC等のNetwork構成はNET-14へ接続します。",
+  "objectives":["IaaS/PaaS/SaaSを利用者の管理範囲で区別できる。","Serverlessの管理境界を説明できる。","Cloud Storage/Object Storageの位置付けを説明できる。","Service Modelが変わるとSecurity責任の境界も変わることを説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. IaaS / PaaS / SaaS","columns":["Model","Providerへ任せる範囲の例","利用者が主に管理"],"rows":[["IaaS","物理基盤/Virtualization","OS・Middleware・App・Data"],["PaaS","OS/Runtime等も含むPlatform","App・Data・設定"],["SaaS","Application本体まで提供","User・Data・利用設定"],["HaaS","Hardware資源をService利用","文脈により範囲が異なる"]],"note":"製品ごとに境界は違うため、試験では『どこまで自分で管理するか』を問題文から読む。"},
+    {"type":"diagram","title":"2. 管理範囲は上へ行くほど減る","diagrams":[{"label":"概念図","connector":"→","nodes":[{"title":"On-Premises","value":"ほぼ全部自分"},{"title":"IaaS","value":"基盤を任せる"},{"title":"PaaS","value":"実行Platformも任せる"},{"title":"SaaS","value":"完成Appを利用"}],"note":"任せる範囲が増えても、利用者のData分類・Account管理・設定責任が消えるわけではありません。"}]},
+    {"type":"comparison","title":"3. Serverless","columns":["観点","Serverless","IaaS VM"],"rows":[["Server管理","Providerへ大きく委ねる","利用者がOS等も管理"],["実行単位","Function/Managed Service","常時稼働VM等"],["Scaling","自動化されやすい","構成次第"],["利用者責任","Code/権限/Secret/Data","OS Patchも含みやすい"]]},
+    {"type":"comparison","title":"4. Cloud Storage","columns":["種類","特徴","例の使い方"],"rows":[["Cloud Storage","Cloud上のStorage総称","File/Block/Object等"],["Object Storage","Object+Metadataで保存","Backup/静的Content/Data Lake等"]],"note":"Public/Private設定や暗号化等のSecurityはSEC-12で扱います。"},
+    {"type":"steps","title":"5. Service選択の考え方","items":[{"label":"① Controlしたい範囲","body":"OSまで自由に設定したいならIaaS寄り。"},{"label":"② 運用負荷","body":"Patch/Runtime管理を減らしたいならManaged/PaaS/SaaSを検討。"},{"label":"③ Portability/制約","body":"Provider固有Serviceへの依存と利便性を比較する。"},{"label":"④ Security責任","body":"任せた範囲と自分に残るIdentity/Data/Config責任を確認する。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["SaaSならSecurity責任が利用者ゼロ、ではない。Account・権限・Data共有設定等は残る。","ServerlessはServerが存在しないという意味ではなく、利用者がServer管理を強く意識しないModel。","Cloud StorageとObject Storageを常に同義にしない。Object StorageはStorage方式の一つ。","HaaSは文脈により使われ方が揺れるため、IaaS/PaaS/SaaSほど中心暗記にしない。"]}
+  ],
+  "checks":[
+    {"id":"cmp02-q1","prompt":"利用者がOSのPatchやMiddleware設定まで管理することが多いModelは？","options":["IaaS","SaaS","完成済みWeb Mailのみ","DNS"],"answerIndex":0,"explanation":"IaaSではVMのOSより上を利用者が管理する典型構成です。"},
+    {"id":"cmp02-q2","prompt":"Application Codeに集中し、OS/Runtime管理をProviderへ委ねやすいModelは？","options":["PaaS","On-Premisesのみ","VLAN","PKI"],"answerIndex":0,"explanation":"PaaSは実行PlatformをProviderが管理します。"},
+    {"id":"cmp02-q3","prompt":"完成済み業務ApplicationをBrowser等から利用する形に最も近いのは？","options":["SaaS","IaaS","ARP","HMAC"],"answerIndex":0,"explanation":"SaaSはApplicationをServiceとして利用します。"},
+    {"id":"cmp02-q4","prompt":"Serverlessの説明として適切なのは？","options":["利用者がServer管理を大きくProviderへ委ねる","物理Serverが世界から消える","Security設定が不要","必ずOfflineで動く"],"answerIndex":0,"explanation":"基盤Serverは存在しますが、利用者の管理範囲を減らすModelです。"},
+    {"id":"cmp02-q5","prompt":"SaaS利用時にも利用者側へ残る責任として適切なのは？","options":["User権限とData共有設定","Data Center建物の電源管理だけ","Hypervisor開発だけ","海底Cable敷設だけ"],"answerIndex":0,"explanation":"Account/権限/Data利用設定などは利用者責任として残ります。"}
+  ],
+  "next":[{"lessonId":"SEC-12","label":"クラウドセキュリティ・ゼロトラスト","status":"公開中"},{"lessonId":"NET-14","label":"クラウド・仮想ネットワーク","status":"公開中"}]
+}
