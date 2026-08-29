@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
 <title>ネットワーク用語まとめ | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
 <nav class="unit-nav">
@@ -15,7 +17,7 @@
       <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
       <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
       <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link is-current">🌐 ネットワーク</a></li>
+      <li><a href="network.html" class="unit-nav-link is-current" aria-current="page">🌐 ネットワーク</a></li>
       <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
       <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
       <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
@@ -31,7 +33,7 @@
     <p class="lead">TCP/IP、IPアドレス、LAN、ルーティング、DNS、HTTP、運用監視までを体系的に学びます。</p>
     <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
     <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（例: TCP、サブネット、DNS、VLAN）" autocomplete="off">
+      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
       <span id="search-count" class="search-count" hidden></span>
     </div>
     <div class="filter-row">
@@ -47,14 +49,15 @@
   </div>
 </header>
 <nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>構成図と通信方向を見る</h3><p>送信元・宛先・ポート・経路・セグメントを図と表から拾って判断します。</p></div><div class="study-guide-card"><h3>似た用語を比較する</h3><p>ARP/DNS、NAT/NAPT、TCP/UDPなど混同しやすい組み合わせを関連語から確認します。</p></div><div class="study-guide-card"><h3>検索とカテゴリで絞る</h3><p>大量の用語から必要な範囲だけに絞り込めます。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ選択は一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
+<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>構成図と通信方向を見る</h3><p>送信元・宛先・ポート・経路・セグメントを図と表から拾って判断します。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>ARP/DNSやNAT/NAPTなど、混同しやすい用語を☆で残して後からまとめて復習できます。</p></div><div class="study-guide-card"><h3>検索とカテゴリで絞る</h3><p>大量の用語から必要な範囲だけに絞り込めます。</p></div><div class="study-guide-card"><h3>覚えたらチェック</h3><p>習得済み状態はブラウザに保存され、ホームの進捗にも反映されます。</p></div></div></div></section>
+<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
 <main id="main-content">
   <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
   <div id="term-sections"></div>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
-<script>window.TERM_PAGE_CONFIG={subject:'ネットワーク',termsManifest:'network-terms-manifest.json',detailsManifest:'network-details-manifest.json',storageKey:'network-terms-checked',fallbackIdPrefix:'net',rootPath:'../'};</script>
+<script>window.TERM_PAGE_CONFIG={subject:'ネットワーク',pageKey:'network',pagePath:'html/network.html',termsManifest:'network-terms-manifest.json',detailsManifest:'network-details-manifest.json',storageKey:'network-terms-checked',fallbackIdPrefix:'net',rootPath:'../'};</script>
+<script src="../js/shell.js" defer></script>
 <script src="../js/term-page.js" defer></script>
 </body>
 </html>
