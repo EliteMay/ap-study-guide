@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-06","title":"Engineering System・IoT・Smart Factory・Supply Chain","unitId":"business-accounting","officialMiddleCodes":[21],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"産業系SystemはSensorを付けること自体が目的ではありません。現場Dataを取得し、状態を判断し、制御・保全・品質改善へつなげるFlowで理解します。",
+  "objectives":["CAD/CAM/CAE/CIMの役割を区別できる。","IoTのSensor→通信→分析→制御Flowを説明できる。","予知保全と事後保全を区別できる。","Digital TwinやSmart Factoryの狙いを説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. Engineering System","columns":["System","主目的","例"],"rows":[["CAD","設計をComputer支援","図面/3D Model"],["CAE","設計を解析/Simulation","強度/熱/流体"],["CAM","製造工程を支援","NC加工Data"],["CIM","設計〜製造を統合","生産情報統合"],["PLM","製品Lifecycle情報管理","設計変更/部品構成"]]},
+    {"type":"diagram","title":"2. IoTの基本Flow","diagrams":[{"label":"現場からActionまで","connector":"→","nodes":[{"title":"Sensor","value":"温度/振動/位置"},{"title":"Edge/Gateway","value":"収集/前処理"},{"title":"Network","value":"送信"},{"title":"Platform","value":"蓄積/分析"},{"title":"Action","value":"通知/制御/保全"}],"note":"Dataを集めるだけでは価値にならず、判断とActionまで設計します。"}]},
+    {"type":"comparison","title":"3. 保全方式","columns":["方式","Timing","特徴"],"rows":[["事後保全","故障後","単純だが停止影響"],["予防保全","時間/回数で定期","故障前交換だが過剰保全も"],["状態基準保全","状態値を監視","劣化兆候で判断"],["予知保全","Data分析で故障時期を予測","Model/Data品質が重要"]]},
+    {"type":"comparison","title":"4. Digital Twin","columns":["要素","現実側","Digital側"],"rows":[["設備","Machine/Line","Model"],["Data","Sensor/実績","状態同期"],["分析","故障/品質","Simulation/Prediction"],["Action","設定/保全","最適化案"]],"note":"単なる3D Modelではなく、現実の状態Dataと結び付いたDigital表現として使います。"},
+    {"type":"steps","title":"5. IoT導入Caseの考え方","items":[{"label":"① Business課題","body":"停止、品質、在庫、Energy等の課題を決める。"},{"label":"② 必要Data","body":"何をどの精度/周期で測るか定義。"},{"label":"③ Communication","body":"Delay/範囲/電力/Securityを考える。"},{"label":"④ Analysis","body":"閾値/統計/ML等を選ぶ。"},{"label":"⑤ Action","body":"誰が何を変えるかまで決める。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Sensorを増やすほど良いとは限らず、使わないDataはCostとRiskを増やす。","予知保全は故障を必ず当てるものではなくFalse Positive/Negativeを含む。","Digital Twinは実世界Dataとの関係が重要で、単独のCG Modelとは違う。","工場NetworkはAvailabilityだけでなくSafetyやReal-time性も重要になる。"]}
+  ],
+  "checks":[
+    {"id":"bus06-q1","prompt":"設計Modelの強度や熱をSimulationするSystemは？","options":["CAE","CAM","CRM","SFA"],"answerIndex":0,"explanation":"Computer Aided Engineeringです。"},
+    {"id":"bus06-q2","prompt":"振動Dataから故障時期を予測して交換時期を決めるのは？","options":["予知保全","事後保全","Cold Site","BPR"],"answerIndex":0,"explanation":"状態Dataを分析して将来故障を予測する保全です。"},
+    {"id":"bus06-q3","prompt":"IoT導入で最初に決めるべきものとして最も適切なのは？","options":["解決したいBusiness課題","Sensor Brandだけ","Cloud Logo","画面色"],"answerIndex":0,"explanation":"課題と必要Actionから逆算します。"},
+    {"id":"bus06-q4","prompt":"現実設備の状態Dataと連動するDigital Modelは？","options":["Digital Twin","Hash Table","BSC","OAuth"],"answerIndex":0,"explanation":"Digital Twinは現実とDigital表現をDataで結び付けます。"}
+  ]
+}
