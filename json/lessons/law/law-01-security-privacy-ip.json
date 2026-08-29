@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"LAW-01","title":"セキュリティ関連法規・個人情報・知的財産","unitId":"law-standards","officialMiddleCodes":[23],"officialAreas":["セキュリティ関連法規","知的財産権","その他の法律・ガイドライン"],"qualityStatus":"individual-v1","legacySources":["security"],"estimatedMinutes":35},
+  "intro":"Security教材に混在していた法律・制度・契約を法務へ戻します。試験では細かな条文暗記より、『何を守る法律/制度か』『契約か法律か』『国内制度か海外規則か』を区別できることを優先します。法的助言ではなくAP学習用の整理です。",
+  "objectives":["個人情報と要配慮個人情報を区別できる。","個人情報保護法・不正アクセス禁止法・サイバーセキュリティ基本法の役割を区別できる。","NDAと法律を混同しない。","著作権・電子署名法・GDPR・プライバシーマークの位置付けを説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 法律・契約・制度を分ける","columns":["種類","例","何を決めるか"],"rows":[["法律","個人情報保護法/不正アクセス禁止法","社会全体に適用されるRule"],["契約","NDA","当事者間の義務"],["認証/制度","プライバシーマーク","一定の取扱体制を評価・表示"],["海外規則","GDPR","EUの個人Data保護Rule"]]},
+    {"type":"comparison","title":"2. 個人情報と要配慮個人情報","columns":["項目","考え方","例"],"rows":[["個人情報","生存する個人を識別できる情報","氏名+連絡先等"],["要配慮個人情報","差別・偏見等につながり得るため特に慎重な取扱いが必要","病歴等の法定Category"]],"note":"試験では『要配慮=単に秘密度が高い情報全般』と広げ過ぎない。"},
+    {"type":"comparison","title":"3. Security関連の代表法","columns":["法令","中心テーマ","問題で見る語"],"rows":[["個人情報保護法","個人情報の適正な取扱い","取得/利用/提供/安全管理"],["不正アクセス禁止法","Access Controlを侵害する不正Access等","他人のID等による不正Login"],["サイバーセキュリティ基本法","国のCyber Security政策の基本枠組み","国/関係主体の施策"],["電子署名法","一定の電子署名と電子文書","電子署名の法的扱い"]]},
+    {"type":"comparison","title":"4. 著作権とNDA","columns":["項目","守る対象","例"],"rows":[["著作権","著作物の表現","Software Source/文章/画像"],["NDA","契約で定めた秘密情報","設計資料/顧客情報/未公開仕様"]],"note":"NDAがなくても著作権が消えるわけではなく、著作権があるから秘密保持義務が自動で同じ範囲になるわけでもありません。"},
+    {"type":"comparison","title":"5. 国内制度と海外規則","columns":["項目","地域/性質","覚え方"],"rows":[["Privacy Mark","日本の制度","個人情報保護体制の評価表示"],["GDPR","EU Regulation","EU域内の個人Data保護を中心とする"],["JIS/ISO","Standard","法律とは別Category"]]},
+    {"type":"mistakes","title":"6. よくある混同","items":["プライバシーマークは法律名ではない。","NDAは法律そのものではなく契約。","不正アクセス禁止法を『Virus作成を全部取り締まる法律』と覚えない。Access Control侵害等が中心。","海外規則や国内法の詳細は改正され得るため、APでは役割・対象を中心に整理する。"]}
+  ],
+  "checks":[
+    {"id":"law01-q1","prompt":"取引先と未公開設計情報を第三者へ漏らさない義務を当事者間で定めるものは？","options":["NDA","DNSSEC","SLA","CVE"],"answerIndex":0,"explanation":"秘密保持契約NDAは当事者間の契約です。"},
+    {"id":"law01-q2","prompt":"他人のID/Passwordを悪用してAccess Controlを突破する行為と特に関係が深い法律は？","options":["不正アクセス禁止法","著作権法のみ","電子署名法のみ","商標だけ"],"answerIndex":0,"explanation":"不正AccessやAccess Control侵害に関する代表法です。"},
+    {"id":"law01-q3","prompt":"EUの個人Data保護規則は？","options":["GDPR","Pマーク","OCSP","ISMS"],"answerIndex":0,"explanation":"GDPRはEUのGeneral Data Protection Regulationです。"},
+    {"id":"law01-q4","prompt":"Source Codeや文章など創作物の表現を保護する権利は？","options":["著作権","CIDR","RPO","OAuth"],"answerIndex":0,"explanation":"Softwareや文章等は著作物となり得ます。"},
+    {"id":"law01-q5","prompt":"プライバシーマークの説明として適切なのは？","options":["個人情報の取扱体制に関する日本の制度","EUの法律そのもの","暗号Algorithm","Network Protocol"],"answerIndex":0,"explanation":"Pマークは日本の個人情報保護に関する評価制度です。"}
+  ],
+  "next":[]
+}
