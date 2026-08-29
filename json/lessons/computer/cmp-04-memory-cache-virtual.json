@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"CMP-04","title":"メモリ階層・キャッシュ・仮想記憶","unitId":"computer-systems","officialMiddleCodes":[3,5],"officialAreas":["メモリ","オペレーティングシステム"],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"Register→Cache→Main Memory→Storageの階層を、速さ・容量・役割で整理します。さらにCache hit率と実効Access時間、Paging、Page fault、置換までつなげます。",
+  "objectives":["メモリ階層を速度・容量・単価で説明できる。","Cache hit率から実効Access時間を計算できる。","仮想Address・Page・Frameの関係を説明できる。","Page faultとPage replacementの意味を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. メモリ階層","diagrams":[{"label":"CPUに近い順","connector":"→","nodes":[{"title":"Register","value":"最速・最小"},{"title":"Cache","value":"高速・小容量"},{"title":"Main Memory","value":"DRAM"},{"title":"SSD/HDD","value":"大容量・低速"}],"note":"一般にCPUから遠いほど大容量・低単価だが遅くなる。"}]},
+    {"type":"comparison","title":"2. Cacheの基本","columns":["用語","意味","試験で見る点"],"rows":[["Hit","必要DataがCacheにある","高速側で完了"],["Miss","Cacheにない","Main Memoryへアクセス"],["Hit ratio","Hitする割合","実効時間計算"],["Locality","近いAddress/最近使ったDataを再利用しやすい性質","Cacheが効く理由"]]},
+    {"type":"code-trace","title":"3. 実効Access時間を計算する","question":"Cache 2ns、Main Memory 50ns、Hit率90%。Miss時はCache確認後にMain Memoryへ行くとすると平均は？","code":["hit   : 0.90 × 2ns","miss  : 0.10 × (2ns + 50ns)","average = 1.8 + 5.2"],"traceColumns":["経路","確率","時間","寄与"],"traceRows":[["Hit","0.90","2ns","1.8ns"],["Miss","0.10","52ns","5.2ns"]],"answer":"7.0ns","explanation":"問題文が『Miss時の時間にCache確認を含むか』で式が変わるので、前提を読む。"},
+    {"type":"diagram","title":"4. 仮想記憶のAddress変換","diagrams":[{"label":"Paging","connector":"→","nodes":[{"title":"Virtual Address","value":"Page番号 + Offset"},{"title":"Page Table","value":"Page→Frame変換"},{"title":"Physical Address","value":"Frame + Offset"},{"title":"Main Memory","value":"実Data"}],"note":"TLBはPage Table変換結果を高速にCacheする。"}]},
+    {"type":"comparison","title":"5. Page faultと置換","columns":["状態","意味","次に起きること"],"rows":[["Page hit","必要PageがMemoryにある","そのままAccess"],["Page fault","必要PageがMemoryにない","Storageから読み込む"],["空きFrameなし","新Pageを置けない","既存Pageを置換"],["LRU","最近最も使われていないPageを候補","局所性を利用"],["FIFO","最も古く入ったPageを候補","単純だがBelady anomalyがあり得る"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Virtual MemoryはMain Memoryを物理的に増やす技術ではない。Address空間とStorage退避を使う。","Page faultは必ずProgram異常という意味ではない。通常の仮想記憶でも起きる。","Hit率が高くてもMiss penaltyが極端に大きければ性能へ効く。","TLBとCPU CacheはどちらもCacheだが、TLBは主にAddress変換結果を保持する。"]}
+  ],
+  "checks":[
+    {"id":"cmp04-q1","prompt":"CPUに最も近く通常最も高速なのは？","options":["Register","HDD","Optical Disk","Tape"],"answerIndex":0,"explanation":"RegisterはCPU内部の高速な記憶です。"},
+    {"id":"cmp04-q2","prompt":"Cacheが有効な主な理由は？","options":["Program/Dataに局所性がある","全Dataが永久に同じAddress","Diskが存在しない","Networkが常に切断される"],"answerIndex":0,"explanation":"時間的・空間的局所性を利用します。"},
+    {"id":"cmp04-q3","prompt":"Page faultとは？","options":["必要PageがMain Memoryに存在せず読み込みが必要","CPU Clockが0Hz","必ずDisk故障","必ずProgram終了"],"answerIndex":0,"explanation":"Virtual Memoryで必要PageがResidentでない状態です。"},
+    {"id":"cmp04-q4","prompt":"TLBが主にCacheするものは？","options":["Address変換結果","Email本文","RAID parityだけ","HTTP Cookieだけ"],"answerIndex":0,"explanation":"Virtual Page→Physical Frame等の変換情報を高速化します。"}
+  ]
+}
