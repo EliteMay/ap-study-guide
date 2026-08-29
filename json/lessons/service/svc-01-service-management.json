@@ -1,6 +1,6 @@
 {
-  "meta":{"schemaVersion":1,"id":"SVC-01","title":"サービスマネジメントとSLA","unitId":"service-audit","officialMiddleCodes":[15],"officialAreas":["サービスマネジメント","サービスの運用"],"qualityStatus":"individual-v1","legacySources":["system","management"],"legacyTermIds":["term-sys-012","term-pm-067","term-pm-068","term-pm-069","term-pm-070","term-pm-071","term-pm-072"],"estimatedMinutes":40},
-  "intro":"旧SystemのSLAと旧ManagementのITSM 6語を、中分類15『サービスマネジメント』へ統合します。障害復旧・根本原因・変更・可用性を、サービス価値を維持する運用フローとして学びます。",
+  "meta":{"schemaVersion":1,"id":"SVC-01","title":"サービスマネジメントとSLA","unitId":"service-audit","officialMiddleCodes":[15],"officialAreas":["サービスマネジメント","サービスの運用"],"qualityStatus":"individual-v1","legacySources":["system","management","network"],"legacyTermIds":["term-sys-012","term-pm-067","term-pm-068","term-pm-069","term-pm-070","term-pm-071","term-pm-072","net-availability-performance-015","net-ops-troubleshoot-039"],"estimatedMinutes":40},
+  "intro":"旧SystemのSLA、旧ManagementのITSM 6語に加え、旧Networkへ重複配置されていたSLA/インシデント管理を中分類15『サービスマネジメント』へ統合します。障害復旧・根本原因・変更・可用性を、サービス価値を維持する運用フローとして学びます。",
   "objectives":["ITサービスマネジメントとSLAの役割を説明できる。","インシデント管理と問題管理を区別できる。","サービス変更管理の目的を説明できる。","サービスデスクと可用性管理の役割を説明できる。","サービスレベル・継続・キャパシティなど不足領域の位置付けを把握できる。"],
   "sections":[
     {"type":"comparison","title":"1. SLAはサービス品質の合意","columns":["項目","例","測定の考え方"],"rows":[["可用性","月間99.9%以上","稼働時間/対象時間"],["応答時間","主要画面2秒以内","測定条件を固定"],["復旧目標","重大障害4時間以内","優先度や対象時間帯を明示"],["サポート時間","平日9:00〜18:00","受付と対応時間を区別"]],"note":"SLAは『高品質にします』のような曖昧表現ではなく、測定可能なサービス水準と責任範囲を合意します。"},
