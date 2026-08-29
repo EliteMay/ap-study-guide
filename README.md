@@ -2,7 +2,7 @@
 
 応用情報技術者試験（AP）の個人学習用Webアプリです。
 
-**教材再設計中 / BUILD `2026.08.30-r7`**
+**教材再設計中 / BUILD `2026.08.30-r8`**
 
 - 正本: GitHub `EliteMay/ap-study-notes`
 - GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
@@ -14,10 +14,10 @@
 
 内容に合わせて、用語・比較だけでなく以下を使います。
 
-- 図 / 構成図
+- 図 / 構成図 / 状態遷移
 - 擬似言語 / コードトレース
 - SQL / E-R図 / 正規化
-- 計算
+- CPU / Cache / 稼働率 / RAID等の計算
 - 通信フロー / 障害切り分け
 - 攻撃 → 成立条件 → 観測 → 影響 → 対策
 - ケース判断
@@ -40,7 +40,7 @@ Webアプリ基盤は利用可能ですが、**AP全範囲の完成教材では�
 
 **旧1,422 / 1,422語の監査が完了しています。**
 
-現在の構造化Lessonは **77本** です。
+現在の構造化Lessonは **87本** です。
 
 ## カリキュラム
 
@@ -84,6 +84,39 @@ Webアプリ基盤は利用可能ですが、**AP全範囲の完成教材では�
 - FND-01
 
 監査: `json/curriculum/audits/algorithm-audit.json`
+
+### Computer Systems
+
+専用Hub: `html/computer.html`
+
+CMP-01〜12でIPA中分類3〜6をすべてLesson化しています。
+
+| Lesson | 内容 |
+|---|---|
+| CMP-01 | Container・Virtualization |
+| CMP-02 | Cloud Service Model・責任分界 |
+| CMP-03 | CPU・命令実行・Register・Pipeline |
+| CMP-04 | Memory階層・Cache・Virtual Memory |
+| CMP-05 | Bus・I/O・Interrupt・DMA |
+| CMP-06 | OS・Process・Thread・Scheduling |
+| CMP-07 | 3層構成・Cluster・Load Balancer |
+| CMP-08 | Clock・CPI・CPU時間・MIPS・Throughput |
+| CMP-09 | Reliability・Availability・MTBF/MTTR |
+| CMP-10 | Storage・RAID・File System |
+| CMP-11 | Middleware・開発Tool・OSS |
+| CMP-12 | Hardware・Sensor・A/D/D/A・GPU・UPS |
+
+主な計算/適用:
+
+- Cache実効Access時間
+- Round Robin Scheduling trace
+- CPU実行時間 = 命令数 × CPI × Clock周期
+- Clock周期
+- MTBF / MTTRからAvailability
+- 直列/並列構成のReliability
+- RAID 5容量
+
+Computer Systems専用検証: `tests/validate-computer-systems.mjs`
 
 ### Database
 
@@ -138,12 +171,8 @@ Security旧教材からも純粋な通信基礎 **104語** をNetworkへ再配�
 - **2語 → System Development**
 - **3語 → Service / Audit**
 
-純粋な通信や法規をSecurityへ重複保持せず、公式中分類へ主所属を戻しています。
-
 ### その他
 
-- CMP-01 コンテナと仮想化
-- CMP-02 クラウドサービスモデルと責任分界
 - SYS-01〜08
 - DEV-01 Agile / Scrum
 - PM-01〜06
@@ -181,6 +210,7 @@ Security旧教材からも純粋な通信基礎 **104語** をNetworkへ再配�
 ```text
 index.html
 html/
+  computer.html
 css/
 js/
 json/
@@ -188,6 +218,7 @@ json/
     ap-2026-map.json
     audits/
   lessons/
+    computer/
   terms/
   details/
 docs/
@@ -237,16 +268,20 @@ main更新後にPagesがデプロイされます。静的HTML/CSS/JS/JSON構成�
 - Database 229/229
 - Network 480/480
 - Security 501/501
+- Computer Systems CMP-01〜12
+- Computer Systemsの中分類3/4/5/6 coverage
+- `html/computer.html` のCMP-01〜12リンク
 - `legacyTermRanges` 範囲展開
 - 監査JSONとLesson割当の一致
 - Securityでは369語のSEC Lesson meta一致と132語のcross-domain再配置
 - セキュリティ過去問targets
 - 主要HTML参照
 
-監査:
+検証:
 
 - `tests/validate-audits.mjs`
 - `tests/validate-security-audit.mjs`
+- `tests/validate-computer-systems.mjs`
 
 ## 注意点・既知の問題
 
@@ -255,14 +290,15 @@ main更新後にPagesがデプロイされます。静的HTML/CSS/JS/JSON構成�
 主な不足:
 
 - UI・情報メディア
-- CPU / Memory / OS / HardwareなどComputer Systemsの大部分
 - 経営戦略 / Marketing / Accounting / Business
+- システム戦略の中分類17
 - 労働・取引法規 / 倫理 / 標準化
+- 基礎理論の2進数 / 確率統計 / 情報理論 / 待ち行列等
 - 最近のAP過去問と各Lessonの体系的な紐付け
 - 本番型の長文Case / 計算 / 構成図問題
 - Lesson正答履歴の永続保存と理解度判定
 
-公開Pagesを通常ブラウザで77Lessonすべて操作するE2E総当たり確認は未実施です。
+公開Pagesを通常ブラウザで87Lessonすべて操作するE2E総当たり確認は未実施です。
 
 ## 次の段階
 
@@ -270,11 +306,12 @@ main更新後にPagesがデプロイされます。静的HTML/CSS/JS/JSON構成�
 
 優先候補:
 
-1. Computer SystemsのCPU / Memory / OS / 性能計算
-2. UI・情報メディア
-3. 経営・会計・ビジネス
+1. UI・情報メディア（中分類7・8）
+2. 経営・会計・ビジネス（中分類19〜22）
+3. システム戦略（中分類17）
 4. 法務の未整備領域
-5. 過去問・本番型演習の増強
+5. 基礎理論の不足範囲
+6. 過去問・本番型演習の増強
 
 ## 完成条件
 
