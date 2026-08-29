@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"MED-03","title":"動画・Frame Rate・Codec・Media圧縮","unitId":"ui-media","officialMiddleCodes":[8],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"動画は画像の連続だけではなく、時間方向の差分を利用して圧縮します。Frame Rate・解像度・Bitrate・Codec・Containerを分けて理解します。",
+  "objectives":["Frame Rateと解像度の違いを説明できる。","Bitrateから動画Data量を概算できる。","CodecとContainerを区別できる。","I/P/B Frameなど時間方向圧縮の考え方を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 動画品質を決める主な軸","columns":["軸","意味","上げると"],"rows":[["解像度","1FrameのPixel数","空間情報増加"],["Frame Rate","1秒のFrame数","動きが滑らかになりやすい"],["Bitrate","1秒あたりData量","品質余裕と容量が増える"],["Codec","圧縮方式","同Bitrateでも効率が変わる"]]},
+    {"type":"code-trace","title":"2. BitrateからFile Sizeを概算","question":"8Mbpsの動画を10分保存すると何MB程度か。1MB=10^6byteとする。","code":["10分 = 600秒","8 Mbit/s × 600s = 4,800 Mbit","÷ 8 = 600 Mbyte"],"traceColumns":["項目","値"],"traceRows":[["時間","600s"],["総bit","4,800Mbit"],["総byte","約600MB"]],"answer":"約600MB","explanation":"VideoとAudioの合計Bitrateを使う場合は両方を足してから計算します。"},
+    {"type":"comparison","title":"3. CodecとContainer","columns":["概念","役割","例"],"rows":[["Codec","映像/音声を圧縮・復号","H.264/AVC、H.265/HEVC、AV1、AAC"],["Container","Video/Audio/Subtitle等をまとめる入れ物","MP4、WebM、MKV"]],"note":"MP4=H.264とは限りません。Containerと中身のCodecを分けます。"},
+    {"type":"diagram","title":"4. Frame間圧縮","diagrams":[{"label":"時間方向の冗長性を減らす","connector":"→","nodes":[{"title":"I Frame","value":"単独で復号しやすい基準Frame"},{"title":"P Frame","value":"過去Frameとの差分"},{"title":"B Frame","value":"前後Frameを参照"}],"note":"実Codecの仕様は複雑ですが、毎Frameを完全画像として保存しないことで大きく圧縮できます。"}]},
+    {"type":"comparison","title":"5. Streamingで見る指標","columns":["指標","意味","問題例"],"rows":[["Startup Delay","再生開始まで","長いと待たされる"],["Buffering","再生途中の停止","Network不足"],["Adaptive Bitrate","回線に合わせ品質変更","帯域変動へ追従"],["Latency","撮影/送信から表示まで","Live/会議で重要"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["60fpsにすれば必ず映像が高精細になるわけではなく、空間解像度とは別。","同じ4KでもCodec/Bitrate/撮影品質でFile Sizeと画質は大きく変わる。","Container拡張子だけで内部Codecを断定しない。","非可逆圧縮では再Encodingを繰り返すと劣化が蓄積する場合がある。"]}
+  ],
+  "checks":[
+    {"id":"med03-q1","prompt":"5Mbpsの動画を8分保存したとき概算File Sizeは？ 1MB=10^6byte","options":["30MB","120MB","300MB","2.4GB"],"answerIndex":2,"explanation":"5Mbit/s×480s=2400Mbit、÷8=300MBです。"},
+    {"id":"med03-q2","prompt":"H.264は主に何？","options":["Video Codec","Containerだけ","File System","SQL言語"],"answerIndex":0,"explanation":"H.264/AVCはVideo圧縮Codecです。"},
+    {"id":"med03-q3","prompt":"MP4は主に何？","options":["Container","CPU命令Set","Hash関数","Routing Protocol"],"answerIndex":0,"explanation":"MP4は映像・音声等を格納するContainer Formatです。"},
+    {"id":"med03-q4","prompt":"Network状況に応じて配信品質を変える方式は？","options":["Adaptive Bitrate","RAID5","Round Robin Scheduling","2の補数"],"answerIndex":0,"explanation":"Adaptive Bitrate Streamingは回線状況に合わせて品質/Bitrateを切り替えます。"}
+  ]
+}
