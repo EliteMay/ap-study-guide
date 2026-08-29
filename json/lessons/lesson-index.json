@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "policy": "用語カードでは表現しにくい学習内容を、目的に合う専用教材として管理する。lesson idから静的JSONを解決し、HTMLへ教材本文を直書きしない。"
+  },
+  "lessons": [
+    {
+      "id": "ALG-01",
+      "title": "アルゴリズムの表現と擬似言語トレース",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "code-trace", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-01-pseudocode-trace.json"
+    }
+  ]
+}
