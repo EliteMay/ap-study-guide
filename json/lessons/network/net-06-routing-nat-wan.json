@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-06","title":"ルーティング・NAT・WAN・VPN","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","通信プロトコル","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-routing-wan-","from":1,"to":40}],"estimatedMinutes":45},
+  "intro":"routingはprotocol名暗記より、宛先prefixに対して最も具体的なrouteを選ぶこと、default route、metric、NAT/NAPT、WAN/VPNの役割を構成図で追うことが重要です。",
+  "objectives":["routing tableからnext hopを選べる。","longest prefix matchとdefault routeを説明できる。","static/dynamic routingとRIP/OSPF/BGPの位置付けを比較できる。","NATとNAPTの違いを通信表で説明できる。","VPN/IPsec/tunnelとWAN接続の役割を説明できる。"],
+  "sections":[
+    {"type":"code-trace","title":"1. route tableから出口を選ぶ","question":"宛先10.1.2.55へのpacketはどのrouteを使うか。","code":["10.0.0.0/8     -> R1","10.1.0.0/16    -> R2","10.1.2.0/24    -> R3","0.0.0.0/0      -> ISP"],"traceColumns":["候補","一致","prefix長"],"traceRows":[["10.0.0.0/8","一致","8"],["10.1.0.0/16","一致","16"],["10.1.2.0/24","一致","24"],["default","一致","0"]],"answer":"R3。/24が最も具体的。","explanation":"route選択では一般にlongest prefix matchが先に効きます。metric比較は同じ/同等候補の中で考える場面があります。"},
+    {"type":"comparison","title":"2. routing方式を位置付ける","columns":["方式","範囲/特徴","代表"],"rows":[["static","管理者が手動設定","小規模・default route"],["distance vector","距離と方向を交換","RIP"],["link state","topology情報から最短path計算","OSPF"],["path vector / inter-AS","AS間でpolicyを含め経路交換","BGP"]],"note":"OSPF=組織内、BGP=AS間という大枠を先に押さえます。"},
+    {"type":"diagram","title":"3. NAPTはIPだけでなくportも対応付ける","diagrams":[{"label":"家庭/社内LANからInternet","connector":"→","nodes":[{"title":"PC-A","value":"192.168.1.10:51000"},{"title":"NAPT Router","value":"203.0.113.5:40001"},{"title":"Web","value":"198.51.100.20:443"}]},{"label":"別端末も同じglobal IP","connector":"→","nodes":[{"title":"PC-B","value":"192.168.1.11:51000"},{"title":"NAPT Router","value":"203.0.113.5:40002"},{"title":"Web","value":"198.51.100.20:443"}]}]},
+    {"type":"comparison","title":"4. NAT/NAPT/port forwarding","columns":["機能","変換/役割","典型"],"rows":[["NAT","主にIP addressを変換","private↔global"],["NAPT/PAT","IP+portで多数sessionを多重化","複数端末が1global IPを共有"],["port forwarding","外部の特定portを内部serverへ固定転送","公開server"]],"note":"NAT自体をsecurity機能そのものと断定しない。address変換と通信制御は別の観点です。"},
+    {"type":"comparison","title":"5. WANとtunnel","columns":["技術","役割"],"rows":[["VPN","公衆網上に論理的なprivate通信を作る"],["IPsec","IP層で認証・暗号化を行うprotocol群"],["GRE","様々なprotocolをIP上へencapsulateするが単独では暗号化を目的にしない"],["MPLS","labelで転送するcarrier網等の技術"],["広域Ethernet","拠点間をEthernetのように接続するservice"],["overlay/underlay","論理networkと、それを実際に運ぶ基盤network"]],"note":"tunnel=必ず暗号化、ではありません。GREとIPsecの目的を分けます。"},
+    {"type":"steps","title":"6. 経路問題の読み順","items":[{"label":"① 宛先IP","body":"まずどのprefixに一致するかを見る。"},{"label":"② 最長prefix","body":"より具体的なrouteを選ぶ。"},{"label":"③ next hop/interface","body":"次に渡すrouter/linkを決める。"},{"label":"④ NAT/VPN境界","body":"address/port変換やtunnel開始点があるか確認する。"},{"label":"⑤ 冗長経路","body":"ECMP、gateway/WAN redundancy等で複数pathがあるかを見る。"}]},
+    {"type":"mistakes","title":"7. よくある混同","items":["default routeは常に最優先ではない。より具体的なrouteがあればそちらを使う。","RIPとOSPFとBGPを単に『全部dynamic routing』だけで終わらせない。範囲と仕組みが違う。","GRE tunnelだけで機密性が得られるとは限らない。","DMZはNAT方式の名前ではなくnetwork分離設計。"]}
+  ],
+  "checks":[
+    {"id":"net06-q1","prompt":"10.1.2.55に対して/8,/16,/24が全て一致する場合、通常優先するのは？","options":["/24","/8","default route","最初に書かれたものだけ"],"answerIndex":0,"explanation":"longest prefix matchで最も具体的な/24を使います。"},
+    {"id":"net06-q2","prompt":"複数private端末を1global IPへportも使って対応付けるのは？","options":["NAPT","STP","DNSSEC","SLAAC"],"answerIndex":0,"explanation":"NAPT/PATはport番号も使ってsessionを区別します。"},
+    {"id":"net06-q3","prompt":"主にAS間で使うrouting protocolは？","options":["BGP","OSPF","ARP","DHCP"],"answerIndex":0,"explanation":"BGPはAS間routingの中心です。"},
+    {"id":"net06-q4","prompt":"単独では暗号化を主目的にしないtunnel方式は？","options":["GRE","IPsec","HTTPS","SFTP"],"answerIndex":0,"explanation":"GREはencapsulationが主で、暗号化が必要ならIPsec等と組み合わせます。"}
+  ]
+}
