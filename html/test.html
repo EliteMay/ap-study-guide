@@ -1,88 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1220">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
 <title>テストモード | AP Study Notes</title>
-<link href="../css/style.css" rel="stylesheet">
-<link href="../css/test.css" rel="stylesheet">
-<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet"><link href="../css/test.css" rel="stylesheet"><link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav">
-  <div class="container">
-    <span class="unit-nav-label">AP 単元一覧</span>
-    <ul class="unit-nav-list">
-      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
-      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
-      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
-      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
-      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
-      <li><a href="test.html" class="unit-nav-link is-current" aria-current="page">📝 テスト</a></li>
-    </ul>
-  </div>
-</nav>
-<header class="site-header">
-  <div class="container">
-    <p class="eyebrow">AP Study Test</p>
-    <h1>テストモード</h1>
-    <p class="lead">現在の情報セキュリティ・ネットワーク・データベースJSONから、その場で問題を生成します。</p>
-    <p class="test-hero-note">通常のランダム出題に加えて、各用語ページで「☆ 復習」を付けた項目だけを集中的に出題できます。</p>
-  </div>
-</header>
-<main id="main-content">
-  <section class="section">
-    <div class="container">
-      <h2>ランダムテスト</h2>
-      <div class="test-panel">
-        <div class="test-controls">
-          <label>出題元
-            <select id="domain-mode">
-              <option value="all">3分野ミックス</option>
-              <option value="bookmarks">☆ 復習リスト</option>
-              <option value="security">情報セキュリティ</option>
-              <option value="network">ネットワーク</option>
-              <option value="database">データベース</option>
-            </select>
-          </label>
-          <label>問題数
-            <input id="question-count" type="number" min="1" max="100" value="10">
-          </label>
-          <label>出題形式
-            <select id="question-mode">
-              <option value="mixed">ミックス</option>
-              <option value="definition-to-term">説明 → 用語</option>
-              <option value="term-to-definition">用語 → 説明</option>
-            </select>
-          </label>
-          <label>選択肢
-            <select id="difficulty-mode">
-              <option value="similar">同カテゴリ中心</option>
-              <option value="standard">標準</option>
-            </select>
-          </label>
-          <button id="start-test" class="primary-link-btn" type="button" disabled>テスト開始</button>
-        </div>
-        <p id="data-status" class="test-status">学習データを読み込み中...</p>
-        <div class="test-tools">
-          <button id="restart-test" class="secondary-btn" type="button" hidden>同じ設定でもう一度</button>
-          <button id="retry-wrongs" class="secondary-btn" type="button" hidden>間違えた問題だけ再テスト</button>
-        </div>
-        <div class="legacy-note">
-          以前の手作りAP本番風問題は削除せず保存しています。必要なら <a href="test-legacy.html">旧テストを開く</a> から利用できます。今後、良い問題だけ専用JSONへ移します。
-        </div>
-      </div>
-      <div id="test-area" class="test-panel" hidden><div id="question-box"></div></div>
-      <div id="result-area" class="test-result" hidden></div>
-    </div>
-  </section>
-</main>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link is-current" aria-current="page">📝 テスト</a></li>
+</ul></div></nav>
+<header class="site-header"><div class="container"><p class="eyebrow">AP Study Test</p><h1>テストモード</h1><p class="lead">6分野の最新用語JSONから、その場で4択問題を生成します。</p><p class="test-hero-note">全分野ミックス、分野指定、☆復習リストに対応。結果は直近30回だけこのブラウザへ保存し、ホームDashboardにも表示します。</p></div></header>
+<main id="main-content"><section class="section"><div class="container"><h2>ランダムテスト</h2><div class="test-panel">
+<div class="test-controls">
+<label>出題元<select id="domain-mode"><option value="all">6分野ミックス</option><option value="bookmarks">☆ 復習リスト</option><option value="security">情報セキュリティ</option><option value="network">ネットワーク</option><option value="database">データベース</option><option value="algorithm">アルゴリズム</option><option value="system">システム開発</option><option value="management">プロジェクト管理</option></select></label>
+<label>問題数<input id="question-count" type="number" min="1" max="100" value="10"></label>
+<label>出題形式<select id="question-mode"><option value="mixed">ミックス</option><option value="definition-to-term">説明 → 用語</option><option value="term-to-definition">用語 → 説明</option></select></label>
+<label>選択肢<select id="difficulty-mode"><option value="similar">同カテゴリ中心</option><option value="standard">標準</option></select></label>
+<button id="start-test" class="primary-link-btn" type="button" disabled>テスト開始</button>
+</div>
+<p id="data-status" class="test-status">学習データを読み込み中...</p>
+<div class="test-tools"><button id="restart-test" class="secondary-btn" type="button" hidden>同じ設定でもう一度</button><button id="retry-wrongs" class="secondary-btn" type="button" hidden>間違えた問題だけ再テスト</button></div>
+<div class="legacy-note">使い方: まず10〜20問で確認し、間違えた問題だけ再テスト。迷った用語は辞書カードで「☆ 復習」に入れると、次回から復習リストだけを出題できます。</div>
+</div><div id="test-area" class="test-panel" hidden><div id="question-box"></div></div><div id="result-area" class="test-result" hidden></div></div></section></main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
-<script src="../js/shell.js" defer></script>
-<script src="../js/test.js" defer></script>
-</body>
-</html>
+<script src="../js/shell.js" defer></script><script src="../js/test.js" defer></script>
+</body></html>
