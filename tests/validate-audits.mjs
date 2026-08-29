@@ -9,6 +9,20 @@ const sameMembers = (a,b) => {
   const x=[...a].map(String).sort(), y=[...b].map(String).sort();
   return x.length===y.length && x.every((v,i)=>v===y[i]);
 };
+const pad3 = value => String(value).padStart(3,'0');
+const expandRanges = ranges => (Array.isArray(ranges) ? ranges : []).flatMap(range => {
+  const from = Number(range?.from);
+  const to = Number(range?.to);
+  if (!range?.prefix || !Number.isInteger(from) || !Number.isInteger(to) || from < 0 || to < from) {
+    fail(`legacy range invalid: ${JSON.stringify(range)}`);
+    return [];
+  }
+  return Array.from({length:to-from+1}, (_,index) => `${range.prefix}${pad3(from+index)}`);
+});
+const lessonLegacyIds = lesson => [
+  ...(lesson.meta?.legacyTermIds || []),
+  ...expandRanges(lesson.meta?.legacyTermRanges || [])
+];
 
 const curriculum = read('json/curriculum/ap-2026-map.json');
 const validMiddle = new Set((curriculum.middleCategories||[]).map(x=>Number(x.code)));
@@ -21,7 +35,9 @@ const legacyAssignments = new Map();
 
 for (const entry of lessonEntries) {
   const lesson = read(entry.file);
-  for (const termId of lesson.meta?.legacyTermIds || []) {
+  const ids = lessonLegacyIds(lesson);
+  if (new Set(ids).size !== ids.length) fail(`lesson ${entry.id}: duplicate legacy ID within lesson`);
+  for (const termId of ids) {
     if (!legacyAssignments.has(termId)) legacyAssignments.set(termId, []);
     legacyAssignments.get(termId).push({lessonId:entry.id, unitId:entry.unitId, middleCodes:entry.officialMiddleCodes||[]});
   }
@@ -188,10 +204,90 @@ try {
   fail(`database audit: ${error.message}`);
 }
 
+try {
+  const name = 'network audit';
+  const audit = read('json/curriculum/audits/network-audit.json');
+  const terms = loadManifestTerms('network-terms-manifest.json');
+  const termIds = terms.map(item => item.id);
+  const groups = Array.isArray(audit.assignmentGroups) ? audit.assignmentGroups : [];
+  const seen = new Map();
+  let networkCount = 0;
+  let movedCount = 0;
+  let networkLessonCount = 0;
+
+  if (terms.length !== 480) fail(`${name}: term count ${terms.length} != 480`);
+  if (Number(audit.meta?.termsAudited) !== 480) fail(`${name}: termsAudited ${audit.meta?.termsAudited} != 480`);
+  if (!groups.length) fail(`${name}: assignmentGroups empty`);
+
+  for (const group of groups) {
+    if (!group.lessonId) {
+      fail(`${name}: group lessonId missing`);
+      continue;
+    }
+    const ids = [
+      ...(Array.isArray(group.ids) ? group.ids : []),
+      ...expandRanges(group.ranges || [])
+    ];
+    if (!ids.length) fail(`${name}: ${group.lessonId} has no ids/ranges`);
+    const entry = lessonById.get(group.lessonId);
+    if (!entry) {
+      fail(`${name}: lesson ${group.lessonId} has not been implemented`);
+      continue;
+    }
+    const middle = Number(group.officialMiddleCode);
+    if (!validMiddle.has(middle)) fail(`${name}: ${group.lessonId} invalid middle ${group.officialMiddleCode}`);
+    if (!(entry.officialMiddleCodes||[]).map(Number).includes(middle)) fail(`${name}: ${group.lessonId} index missing middle ${middle}`);
+    if (entry.unitId !== group.unitId) fail(`${name}: ${group.lessonId} unit ${entry.unitId} != audit ${group.unitId}`);
+
+    const moved = group.action === 'move-primary-unit';
+    if (moved) movedCount += ids.length;
+    else {
+      networkCount += ids.length;
+      networkLessonCount += 1;
+      if (group.unitId !== 'network' || middle !== 10) fail(`${name}: ${group.lessonId} must be network/middle 10`);
+    }
+
+    for (const id of ids) {
+      if (!String(id).startsWith('net-')) fail(`${name}: invalid id ${id}`);
+      if (seen.has(id)) fail(`${name}: ${id} assigned more than once (${seen.get(id)} / ${group.lessonId})`);
+      seen.set(id, group.lessonId);
+      const assignments = legacyAssignments.get(id) || [];
+      if (assignments.length !== 1) {
+        fail(`${name}: ${id} must map to exactly one implemented lesson, found ${assignments.length}`);
+        continue;
+      }
+      const assigned = assignments[0];
+      if (assigned.lessonId !== group.lessonId) fail(`${name}: ${id} expected ${group.lessonId}, mapped to ${assigned.lessonId}`);
+      if (assigned.unitId !== group.unitId) fail(`${name}: ${id} expected unit ${group.unitId}, mapped to ${assigned.unitId}`);
+      if (!assigned.middleCodes.map(Number).includes(middle)) fail(`${name}: ${id} lesson ${assigned.lessonId} missing middle ${middle}`);
+    }
+  }
+
+  const assignedIds = [...seen.keys()];
+  if (!sameMembers(termIds, assignedIds)) {
+    const missing = termIds.filter(id => !seen.has(id));
+    const extra = assignedIds.filter(id => !termIds.includes(id));
+    fail(`${name}: audit assignment mismatch missing=[${missing.join(',')}] extra=[${extra.join(',')}]`);
+  }
+  const mappedIds = [...legacyAssignments.keys()].filter(id => id.startsWith('net-'));
+  if (!sameMembers(termIds, mappedIds)) {
+    const missing = termIds.filter(id => !mappedIds.includes(id));
+    const extra = mappedIds.filter(id => !termIds.includes(id));
+    fail(`${name}: lesson migration mismatch missing=[${missing.join(',')}] extra=[${extra.join(',')}]`);
+  }
+
+  if (networkCount !== Number(audit.summary?.mappedToNetworkLessons||0)) fail(`${name}: mappedToNetworkLessons ${networkCount} != summary ${audit.summary?.mappedToNetworkLessons}`);
+  if (movedCount !== Number(audit.summary?.movedPrimaryUnit||0)) fail(`${name}: movedPrimaryUnit ${movedCount} != summary ${audit.summary?.movedPrimaryUnit}`);
+  if (networkLessonCount !== Number(audit.summary?.networkLessons||0)) fail(`${name}: networkLessons ${networkLessonCount} != summary ${audit.summary?.networkLessons}`);
+  if (!(audit.missingLearningGoals||[]).length) fail(`${name}: missingLearningGoals empty`);
+} catch (error) {
+  fail(`network audit: ${error.message}`);
+}
+
 if (errors.length) {
   console.error(`AUDIT VALIDATION FAILED: ${errors.length} error(s)`);
   errors.forEach(e=>console.error(`- ${e}`));
   process.exit(1);
 }
 
-console.log('AUDIT VALIDATION OK: system 75/75, management 72/72, database 229/229 audited and mapped exactly once to implemented lessons');
+console.log('AUDIT VALIDATION OK: system 75/75, management 72/72, database 229/229, network 480/480 audited and mapped exactly once to implemented lessons');
