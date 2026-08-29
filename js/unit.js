@@ -11,6 +11,14 @@
     return response.json();
   }
 
+  async function loadLessonIndex() {
+    const [base, expansion] = await Promise.all([
+      loadJson('json/lessons/lesson-index.json'),
+      loadJson('json/lessons/lesson-index-expansion.json')
+    ]);
+    return { lessons:[...(base.lessons || []), ...(expansion.lessons || [])] };
+  }
+
   function middleMap(curriculum) {
     return new Map((curriculum.middleCategories || []).map(item => [Number(item.code), item]));
   }
@@ -58,7 +66,7 @@
     try {
       const [curriculum, index] = await Promise.all([
         loadJson('json/curriculum/ap-2026-map.json'),
-        loadJson('json/lessons/lesson-index.json')
+        loadLessonIndex()
       ]);
       render(curriculum, index);
     } catch (error) {
