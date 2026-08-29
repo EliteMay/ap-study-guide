@@ -1,11 +1,47 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r8';
+  const BUILD = '2026.08.30-r9';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
   const DOMAIN_ALIASES = { sec:'security', net:'network', db:'database', alg:'algorithm', sys:'system', pm:'management' };
+
+  const NAV_ITEMS = [
+    ['home','🏠 ホーム','index.html'],
+    ['roadmap','🧭 学習マップ','roadmap.html'],
+    ['foundation-theory','∑ 基礎理論','unit.html?unit=foundation-theory'],
+    ['algorithm-programming','⚙️ アルゴリズム・プログラミング','algorithm.html'],
+    ['computer-systems','🧩 コンピュータシステム','computer.html'],
+    ['ui-media','🖱️ UI・情報メディア','unit.html?unit=ui-media'],
+    ['database','🗄️ データベース','database.html'],
+    ['network','🌐 ネットワーク','network.html'],
+    ['security','🔐 セキュリティ','security.html'],
+    ['system-development','🖥️ システム開発','system.html'],
+    ['project-management','📋 プロジェクト管理','management.html'],
+    ['service-audit','🛠️ サービス管理・監査','unit.html?unit=service-audit'],
+    ['strategy-planning','🧭 システム戦略・企画','unit.html?unit=strategy-planning'],
+    ['business-accounting','📊 経営・会計・ビジネス','unit.html?unit=business-accounting'],
+    ['law-standards','⚖️ 法務・標準化','unit.html?unit=law-standards'],
+    ['past','📘 過去問解説','security-past.html'],
+    ['test','📝 テスト','test.html']
+  ];
+
+  const LESSON_UNIT_PREFIX = [
+    [/^(FND)-/,'foundation-theory'],
+    [/^(ALG|PROG)-/,'algorithm-programming'],
+    [/^CMP-/,'computer-systems'],
+    [/^(UIM|MED)-/,'ui-media'],
+    [/^DB-/,'database'],
+    [/^NET-/,'network'],
+    [/^SEC-/,'security'],
+    [/^(SYS|DEV)-/,'system-development'],
+    [/^PM-/,'project-management'],
+    [/^(SVC|AUD)-/,'service-audit'],
+    [/^STR-/,'strategy-planning'],
+    [/^BUS-/,'business-accounting'],
+    [/^LAW-/,'law-standards']
+  ];
 
   function readJson(key, fallback) {
     try { const value = JSON.parse(localStorage.getItem(key) || 'null'); return value ?? fallback; }
@@ -94,62 +130,63 @@
     window.dispatchEvent(new CustomEvent('ap-bookmarks-changed'));
   }
 
-  function navRootPrefix(nav) {
-    const homeLink = nav.querySelector('.unit-nav-list a[href$="index.html"]');
-    const homeHref = homeLink?.getAttribute('href') || 'index.html';
-    return homeHref.startsWith('../') ? '../' : '';
+  function isHtmlPage() {
+    return /\/html\//.test(location.pathname);
   }
 
-  function ensureRoadmapLink(nav) {
-    const list = nav.querySelector('.unit-nav-list');
-    if (!list || list.querySelector('[data-ap-roadmap-link]')) return;
-    const homeLink = list.querySelector('a[href$="index.html"]');
-    if (!homeLink) return;
-    const rootPrefix = navRootPrefix(nav);
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = `${rootPrefix}html/roadmap.html`;
-    link.className = 'unit-nav-link';
-    link.dataset.apRoadmapLink = 'true';
-    link.textContent = '🧭 学習マップ';
-    if (location.pathname.endsWith('/roadmap.html')) {
-      link.classList.add('is-current');
-      link.setAttribute('aria-current', 'page');
-    }
-    li.appendChild(link);
-    homeLink.closest('li')?.after(li);
+  function hrefFor(target) {
+    if (target === 'index.html') return isHtmlPage() ? '../index.html' : 'index.html';
+    return isHtmlPage() ? target : `html/${target}`;
   }
 
-  function ensureComputerLink(nav) {
-    const list = nav.querySelector('.unit-nav-list');
-    if (!list || list.querySelector('a[href$="computer.html"]')) return;
-    const rootPrefix = navRootPrefix(nav);
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = `${rootPrefix}html/computer.html`;
-    link.className = 'unit-nav-link';
-    link.textContent = '🧩 コンピュータシステム';
-    if (location.pathname.endsWith('/computer.html')) {
-      link.classList.add('is-current');
-      link.setAttribute('aria-current', 'page');
+  function activeNavKey() {
+    const page = location.pathname.split('/').pop() || 'index.html';
+    if (page === 'index.html' || !page) return 'home';
+    if (page === 'roadmap.html') return 'roadmap';
+    if (page === 'security-past.html') return 'past';
+    if (page === 'test.html') return 'test';
+    if (page === 'algorithm.html') return 'algorithm-programming';
+    if (page === 'computer.html') return 'computer-systems';
+    if (page === 'database.html') return 'database';
+    if (page === 'network.html') return 'network';
+    if (page === 'security.html') return 'security';
+    if (page === 'system.html') return 'system-development';
+    if (page === 'management.html') return 'project-management';
+    if (page === 'unit.html') return new URLSearchParams(location.search).get('unit') || '';
+    if (page === 'lesson.html') {
+      const id = (new URLSearchParams(location.search).get('id') || '').toUpperCase();
+      return LESSON_UNIT_PREFIX.find(([pattern]) => pattern.test(id))?.[1] || '';
     }
-    li.appendChild(link);
-    const roadmap = list.querySelector('[data-ap-roadmap-link]')?.closest('li');
-    const home = list.querySelector('a[href$="index.html"]')?.closest('li');
-    (roadmap || home)?.after(li);
+    return '';
+  }
+
+  function rebuildNavigation(nav) {
+    const list = nav.querySelector('.unit-nav-list');
+    if (!list) return;
+    const active = activeNavKey();
+    list.replaceChildren();
+    for (const [key,label,target] of NAV_ITEMS) {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = hrefFor(target);
+      link.className = 'unit-nav-link';
+      link.textContent = label;
+      link.dataset.navKey = key;
+      if (key === 'roadmap') link.dataset.apRoadmapLink = 'true';
+      if (key === active) {
+        link.classList.add('is-current');
+        link.setAttribute('aria-current','page');
+      }
+      li.appendChild(link);
+      list.appendChild(li);
+    }
   }
 
   function buildShell() {
     const nav = document.querySelector('.unit-nav');
     if (!nav) return;
 
-    nav.querySelectorAll('.unit-nav-link.is-coming').forEach(link => {
-      link.classList.remove('is-coming');
-      link.removeAttribute('aria-disabled');
-    });
-
-    ensureRoadmapLink(nav);
-    ensureComputerLink(nav);
+    rebuildNavigation(nav);
 
     const label = nav.querySelector('.unit-nav-label');
     if (label) label.textContent = 'AP STUDY NOTES';
@@ -158,7 +195,7 @@
     footer.className = 'ap-shell-footer';
     footer.innerHTML = `
       <div class="ap-shell-actions">
-        <a class="ap-shell-btn" href="${nav.querySelector('a[href*="test.html"]')?.getAttribute('href') || 'html/test.html'}" style="display:grid;place-items:center;text-decoration:none">ランダムテスト</a>
+        <a class="ap-shell-btn" href="${hrefFor('test.html')}" style="display:grid;place-items:center;text-decoration:none">ランダムテスト</a>
         <button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button>
       </div>
       <p class="ap-shell-version">BUILD ${BUILD}</p>`;
