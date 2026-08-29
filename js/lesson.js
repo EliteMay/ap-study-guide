@@ -121,12 +121,14 @@
   }
 
   function renderLessonNav(entry, lesson, lessons) {
-    const ordered = [...lessons].sort((a, b) => Number(a.order || 9999) - Number(b.order || 9999));
-    const currentIndex = ordered.findIndex(item => item.id === entry.id);
-    const previous = currentIndex > 0 ? ordered[currentIndex - 1] : null;
-    const indexedById = new Map(ordered.map(item => [item.id, item]));
+    const indexedById = new Map(lessons.map(item => [item.id, item]));
+    const sameUnit = lessons
+      .filter(item => item.unitId === entry.unitId)
+      .sort((a, b) => Number(a.order || 9999) - Number(b.order || 9999));
+    const currentIndex = sameUnit.findIndex(item => item.id === entry.id);
+    const previous = currentIndex > 0 ? sameUnit[currentIndex - 1] : null;
+    const indexNext = currentIndex >= 0 && currentIndex + 1 < sameUnit.length ? sameUnit[currentIndex + 1] : null;
     const explicitNext = Array.isArray(lesson.next) ? lesson.next : [];
-    const indexNext = currentIndex >= 0 && currentIndex + 1 < ordered.length ? ordered[currentIndex + 1] : null;
     const rows = [];
 
     if (previous) {
