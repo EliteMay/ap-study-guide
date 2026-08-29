@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-03","title":"IPv6・SLAAC・NDP","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","通信プロトコル"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-ip-subnet-","from":2,"to":2},{"prefix":"net-ip-subnet-","from":34,"to":40}],"estimatedMinutes":25},
+  "intro":"IPv6は128bitという数字だけでなく、broadcastを使わないこと、link-localが必ず重要になること、SLAAC/NDPで近隣・ルータを発見することをIPv4との差で理解します。",
+  "objectives":["IPv4とIPv6の基本差を説明できる。","IPv6のlink-local/global unicast/multicast/anycastを区別できる。","SLAACでアドレス設定する流れを説明できる。","NDPがIPv4のARP相当以上の役割を持つことを説明できる。","dual stackの移行方式を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. IPv4とIPv6の違い","columns":["観点","IPv4","IPv6"],"rows":[["アドレス長","32bit","128bit"],["表記","10進ドット区切り","16進コロン区切り"],["broadcast","あり","使わない"],["近隣探索","ARP","NDP"],["自動設定","DHCP/APIPA等","SLAAC/DHCPv6等"],["link-local","169.254/16等","fe80::/10"]],"note":"IPv6は『アドレスが長いIPv4』ではなく、近隣探索や自動設定の仕組みも変わります。"},
+    {"type":"diagram","title":"2. SLAACのイメージ","diagrams":[{"label":"端末が自動設定する流れ","connector":"→","nodes":[{"title":"Host","value":"link-local生成"},{"title":"Router","value":"RA","meta":"prefix等を広告"},{"title":"Host","value":"global address生成"},{"title":"NDP","value":"重複/近隣確認"}]}]},
+    {"type":"comparison","title":"3. IPv6アドレスの役割","columns":["種類","役割","特徴"],"rows":[["link-local","同一リンク内","fe80::/10、ルータ越え不可"],["global unicast","通常の広域通信","インターネットで一意に利用"],["multicast","複数ノード宛て","broadcastの代わりにも使う"],["anycast","同じアドレスの近い1ノード","経路上近い拠点へ到達"]],"note":"IPv6には通常のbroadcastアドレスはありません。"},
+    {"type":"steps","title":"4. NDPが行うこと","items":[{"label":"Neighbor Discovery","body":"IPv6アドレスから近隣ノードのリンク層情報を得る。"},{"label":"Router Discovery","body":"どのルータを出口に使うかを発見する。"},{"label":"Prefix Discovery","body":"リンク上で使うprefix等の情報を得る。"},{"label":"Duplicate Address Detection","body":"同じIPv6アドレスが既に使われていないか確認する。"}]},
+    {"type":"comparison","title":"5. 移行時の考え方","columns":["方式","考え方"],"rows":[["dual stack","IPv4とIPv6を同時に使えるようにする"],["tunnel","片方のネットワーク上で別方式を包んで運ぶ"],["translation","IPv4/IPv6間を変換する"]],"note":"旧用語データではdual stackを主に扱うため、他方式は位置付けだけ押さえます。"},
+    {"type":"mistakes","title":"6. よくある誤解","items":["IPv6でもARPをそのまま使う、と覚えない。NDPが近隣探索を担う。","link-localアドレスでインターネット越しに通信できる、と考えない。","IPv6にもIPv4と同じbroadcastがある、としない。"]}
+  ],
+  "checks":[
+    {"id":"net03-q1","prompt":"IPv6でARP相当の近隣探索を担うのは？","options":["NDP","SMTP","BGP","FTP"],"answerIndex":0,"explanation":"NDPが近隣探索やルータ探索などを行います。"},
+    {"id":"net03-q2","prompt":"IPv6 link-localの代表prefixは？","options":["fe80::/10","127.0.0.0/8","ff00::/8だけ","10.0.0.0/8"],"answerIndex":0,"explanation":"IPv6 link-localはfe80::/10です。"},
+    {"id":"net03-q3","prompt":"IPv4とIPv6を同時に有効化する移行方式は？","options":["dual stack","NATだけ","STP","SACK"],"answerIndex":0,"explanation":"dual stackは両方のプロトコルを併用します。"},
+    {"id":"net03-q4","prompt":"IPv6で通常使わない宛先方式は？","options":["broadcast","multicast","unicast","anycast"],"answerIndex":0,"explanation":"IPv6では通常broadcastを使わずmulticast等を利用します。"}
+  ]
+}
