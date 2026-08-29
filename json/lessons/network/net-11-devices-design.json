@@ -1,0 +1,21 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-11","title":"ネットワーク機器と構成図","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","ネットワーク管理"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-devices-design-","from":1,"to":40}],"estimatedMinutes":40},
+  "intro":"構成図問題では、機器名を覚えるより『どの層を見て何を判断するか』『通信がどの境界を通るか』『どこが単一障害点か』を順に読むことが重要です。",
+  "objectives":["L2/L3 switch・router・gatewayの役割を区別できる。","FW/LB/proxy/AP等を通信経路上の役割で説明できる。","physical/logical network diagramを区別できる。","DMZ・management network・OOB管理の分離目的を説明できる。","冗長構成とSPOFを構成図から見つけられる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 機器は『何を見るか』で整理","columns":["機器","主に見る情報","主役"],"rows":[["L2 switch","MAC/VLAN","同一LAN内frame転送"],["L3 switch/router","IP/prefix","network間routing"],["Firewall","IP/port/state等","通信許可/遮断"],["L4 LB","IP/port/connection","server振分"],["L7 LB/reverse proxy","HTTP header/URL等","application層振分"],["Access Point","802.11 wireless frame","wireless clientをLANへ接続"]],"note":"機器名だけでなく、どのheader情報を使って判断するかを対応させます。"},
+    {"type":"diagram","title":"2. Web公開構成の読み方","diagrams":[{"label":"Internetから業務serverまで","connector":"→","nodes":[{"title":"Internet","value":"external"},{"title":"Firewall","value":"boundary"},{"title":"DMZ","value":"reverse proxy/LB"},{"title":"Firewall","value":"internal boundary"},{"title":"Internal LAN","value":"app/db"}]}]},
+    {"type":"comparison","title":"3. security applianceの位置付け","columns":["機能","役割","主な違い"],"rows":[["FW","通信条件でallow/deny","network境界制御"],["IDS","不審通信をdetect/alert","基本は検知中心"],["IPS","detectしてblock可能","inline構成が多い"],["WAF","HTTP requestをapplication観点で検査","Web application向け"],["UTM","複数security機能を統合","機能集合"],["port mirroring","traffic copyを監視系へ送る","本通信を直接遮断しない"]],"note":"これらはSecurityでも再登場しますが、ここでは『構成図のどこに置かれるか』を中心に扱います。"},
+    {"type":"comparison","title":"4. physical図とlogical図","columns":["図","見るもの","例"],"rows":[["physical","実機・port・cable・設置場所","SW1 Gi0/1→FW port1"],["logical","subnet/VLAN/route/security zone","VLAN10=10.0.10.0/24"]],"note":"同じsystemでも目的により必要な図が違います。"},
+    {"type":"comparison","title":"5. 管理経路を分ける","columns":["構成","意味"],"rows":[["management network","利用者trafficとは別segmentで機器管理"],["OOB management","通常network障害時も別経路から管理"],["bastion/jump server","管理対象へ直接入らず中継点を限定"]],"note":"管理経路分離は可用性とsecurityの両面で意味があります。"},
+    {"type":"code-trace","title":"6. SPOFを見つける","question":"Web serverは2台、LBは1台、Internet回線1本、FW1台。どこが単一障害点か。","code":["Internet -- line1 -- FW1 -- LB1 -- Web1/Web2"],"traceColumns":["要素","冗長?","SPOF?"],"traceRows":[["Web server","2台","単体故障では継続可能"],["LB","1台","Yes"],["FW","1台","Yes"],["WAN line","1本","Yes"]],"answer":"LB1、FW1、WAN line1がSPOF。","explanation":"serverだけ二重化しても、通信経路の途中に単一要素があればservice全体は止まり得ます。"},
+    {"type":"comparison","title":"7. 冗長構成","columns":["方式","動き"],"rows":[["active-standby","通常片系、障害時standbyへ切替"],["active-active","複数系を同時利用"],["heartbeat","冗長機器間で生存確認"],["health check","LB等がbackendの利用可否を確認"]],"note":"冗長化は『2台置く』だけでなく、故障検知・切替・state同期まで考えます。"},
+    {"type":"mistakes","title":"8. よくある誤解","items":["L3 switchを単なる高速L2 switchと思わない。routing機能を持つ。","WAFを一般的な全port firewallと同一視しない。","serverを二重化しただけでnetwork全体のSPOFが消えるとは限らない。","DMZを『安全だから制御不要な場所』と考えない。外部/内部の間に制御境界を設けるための分離領域。"]}
+  ],
+  "checks":[
+    {"id":"net11-q1","prompt":"MAC addressで主にframe転送するのは？","options":["L2 switch","routerだけ","DNS server","MTA"],"answerIndex":0,"explanation":"L2 switchはMAC address tableを使います。"},
+    {"id":"net11-q2","prompt":"HTTP request内容をapplication観点で検査する機器は？","options":["WAF","hub","NTP server","DHCP server"],"answerIndex":0,"explanation":"WAFはWeb application向けrequestを検査します。"},
+    {"id":"net11-q3","prompt":"業務networkと別経路で機器管理する方式は？","options":["OOB management","NAT","SLAAC","CNAME"],"answerIndex":0,"explanation":"Out-of-Band managementは通常経路と別の管理経路を持ちます。"},
+    {"id":"net11-q4","prompt":"1台故障でservice全体停止につながる箇所は？","options":["SPOF","VLAN tag","CNAME","MSS"],"answerIndex":0,"explanation":"Single Point of Failureです。"}
+  ]
+}
