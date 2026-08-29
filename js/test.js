@@ -22,6 +22,7 @@
   };
 
   let terms = [];
+  let bookmarkKeys = new Set();
   let questions = [];
   let index = 0;
   let score = 0;
@@ -76,15 +77,44 @@
     })).filter(term => term.id && term.term && term.definition);
   }
 
+  function loadBookmarks() {
+    const items = window.APStudyUI?.getBookmarks?.() || (() => {
+      try {
+        const value = JSON.parse(localStorage.getItem('ap-study-bookmarks-v1') || '[]');
+        return Array.isArray(value) ? value : [];
+      } catch { return []; }
+    })();
+    bookmarkKeys = new Set(items.filter(item => item?.domain && item?.id).map(item => `${item.domain}:${item.id}`));
+  }
+
   function domainTerms() {
-    return els.domain.value === 'all' ? terms : terms.filter(term => term.domain === els.domain.value);
+    if (els.domain.value === 'all') return terms;
+    if (els.domain.value === 'bookmarks') return terms.filter(term => bookmarkKeys.has(`${term.domain}:${term.id}`));
+    return terms.filter(term => term.domain === els.domain.value);
+  }
+
+  function distractorPool() {
+    return els.domain.value === 'bookmarks' ? terms : domainTerms();
   }
 
   function updateCountLimit() {
-    const available = domainTerms().length || 1;
-    els.count.max = Math.min(100, available);
-    if (Number(els.count.value) > Number(els.count.max)) els.count.value = els.count.max;
-    els.dataStatus.textContent = `${available}語から出題可能 / 全体 ${terms.length}語`;
+    loadBookmarks();
+    const available = domainTerms().length;
+    els.count.max = Math.max(1, Math.min(100, available || 1));
+    if (available && Number(els.count.value) > Number(els.count.max)) els.count.value = els.count.max;
+
+    if (!available) {
+      els.start.disabled = true;
+      els.dataStatus.textContent = els.domain.value === 'bookmarks'
+        ? '復習リストが空です。用語ページで「☆ 復習」を付けると、ここから出題できます。'
+        : 'この条件で出題できる用語がありません。';
+      return;
+    }
+
+    els.start.disabled = false;
+    els.dataStatus.textContent = els.domain.value === 'bookmarks'
+      ? `復習リスト ${available}語から出題可能 / 全体 ${terms.length}語`
+      : `${available}語から出題可能 / 全体 ${terms.length}語`;
   }
 
   function uniqueBy(items, getLabel) {
@@ -134,15 +164,20 @@
   }
 
   function buildQuestionSet(sourceTerms, count) {
-    const pool = domainTerms();
+    const pool = distractorPool();
     return shuffle(sourceTerms).slice(0, Math.min(count, sourceTerms.length)).map(term => makeQuestion(term, pool));
   }
 
   function start(sourceTerms = null) {
+    loadBookmarks();
     const pool = sourceTerms || domainTerms();
     const requested = Math.max(1, Number(els.count.value || 10));
     questions = buildQuestionSet(pool, requested);
-    if (!questions.length) return;
+    if (!questions.length) {
+      window.APStudyUI?.toast?.('出題できる用語がありません');
+      updateCountLimit();
+      return;
+    }
     index = 0;
     score = 0;
     review = [];
@@ -223,9 +258,11 @@
     try {
       const loaded = await Promise.all(DOMAINS.map(loadDomain));
       terms = loaded.flat();
-      const counts = DOMAINS.map(domain => `${domain.label} ${terms.filter(term=>term.domain===domain.id).length}語`).join(' / ');
-      els.dataStatus.textContent = `読み込み完了: ${counts}`;
-      els.start.disabled = false;
+      loadBookmarks();
+
+      const params = new URLSearchParams(location.search);
+      if (params.get('source') === 'bookmarks') els.domain.value = 'bookmarks';
+
       updateCountLimit();
     } catch (error) {
       console.error(error);
@@ -237,10 +274,11 @@
   els.start.addEventListener('click', () => start());
   els.restart.addEventListener('click', () => start());
   els.retry.addEventListener('click', () => {
-    const retryPool = [...new Map(wrongTerms.map(term => [term.id, term])).values()];
+    const retryPool = [...new Map(wrongTerms.map(term => [`${term.domain}:${term.id}`, term])).values()];
     els.count.value = retryPool.length;
     start(retryPool);
   });
+  window.addEventListener('ap-bookmarks-changed', updateCountLimit);
   document.addEventListener('keydown', event => {
     if (els.testArea.hidden) return;
     if (!answered && /^[1-4]$/.test(event.key)) {
