@@ -1,33 +1,38 @@
 # AP Study Notes tests
 
-このフォルダは、サイト本体とは分けて壊れやすいデータ構造を検査するためのブラウザテスト置き場です。
+品質確認をサイト本体から分離して管理するフォルダです。
 
-ASMRTubeの `tests/` 構成を参考にしています。
+## `data-integrity.test.html`
 
-## data-integrity.test.html
+GitHub PagesまたはLive Serverで開くブラウザ検査。
 
-GitHub PagesまたはLive Server経由で開くと自動実行します。
+対象:
 
-検査対象:
-
-- 情報セキュリティ terms / details
-- ネットワーク terms / details
-- データベース terms / details
-- 各manifestの件数と実JSON件数
+- 6分野のterms manifest / JSON件数
 - 用語ID重複
-- 用語名重複
-- termとdetailのID対応
-- term / categoryの一致
-- セキュリティ過去問の解説JSONと問題文JSON
-- `sections[].answerTargets` と `problem.questions[].targets` の設問単位一致
-- 解説済み設問の答案情報
+- 必須フィールド
+- manifest category対応
+- 情報セキュリティ / ネットワーク / DBのterms/details対応
+- アルゴリズム / システム開発 / プロジェクト管理の共通生成詳細方式
+- 主要HTML / JS / CSSの取得
+- セキュリティ過去問の問題文 / 解説 / targets / 答案情報
 
-## 利用URL
+## `validate.mjs`
 
-GitHub Pages公開後は次の形で開けます。
+GitHub ActionsとローカルNode用のCI検証。
 
-`https://<user>.github.io/<repo>/tests/data-integrity.test.html`
+実行:
 
-## 注意
+```bash
+node tests/validate.mjs
+```
 
-このHTMLはデータ整合性を検査するもので、実際のUIクリック操作や全ブラウザ互換性まで保証するものではありません。
+`.github/workflows/validate.yml` ではさらに全 `js/*.js` へ `node --check` を実行します。
+
+古いJSONに存在するUTF-8 BOMは検証時に正規化してからJSON.parseします。
+
+## 完成時確認
+
+2026-08-29 v1.0で `Validate AP Study Notes` run #2 が成功することを確認済みです。
+
+このテストはデータ・構文・内部参照を確認するもので、実機ブラウザでの全クリックや見た目を完全保証するものではありません。
