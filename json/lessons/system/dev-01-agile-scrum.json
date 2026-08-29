@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"DEV-01","title":"アジャイル開発とスクラム","unitId":"system-development","officialMiddleCodes":[13],"officialAreas":["開発プロセス・手法"],"qualityStatus":"individual-v1","legacySource":"management","legacyTermIds":["term-pm-055","term-pm-056","term-pm-057","term-pm-058","term-pm-059","term-pm-060","term-pm-061","term-pm-062","term-pm-063","term-pm-064","term-pm-065","term-pm-066"],"estimatedMinutes":35},
+  "intro":"旧プロジェクト管理ページに混ざっていたAgile/Scrum 12語を、IPA中分類13『ソフトウェア開発管理技術』へ移して学びます。役割・イベント・作成物を別々に暗記せず、1スプリントの流れで整理します。",
+  "objectives":["アジャイル開発の考え方を説明できる。","Scrumの役割・イベント・作成物を分類できる。","プロダクトバックログからインクリメントまでの流れを追える。","プロダクトオーナ・スクラムマスタ・開発者の責任を区別できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 1スプリントを流れで見る","diagrams":[{"label":"Scrumの基本サイクル","connector":"→","nodes":[{"title":"Product Backlog","value":"価値順の候補"},{"title":"Sprint","value":"短い反復"},{"title":"Sprint Backlog","value":"今回の計画"},{"title":"Daily Scrum","value":"日々調整"},{"title":"Increment","value":"利用可能な成果"},{"title":"Review / Retro","value":"価値確認・改善"}],"note":"スプリントレビューは成果と今後を関係者と確認し、レトロスペクティブはチームの進め方を改善します。"}]},
+    {"type":"comparison","title":"2. Scrumの3つの責任","columns":["役割","中心責任","しないこと"],"rows":[["プロダクトオーナ","プロダクト価値とバックログ優先度","開発者の細かな作業指示を常時行う役ではない"],["スクラムマスタ","Scrumの理解・実践支援、障害除去を促進","従来型の上司として命令する役ではない"],["開発者","スプリントで利用可能なインクリメントを作る","単なるコード担当だけに限定されない"]],"note":"現在のScrumでは『Development Team』ではなくDevelopersとして扱われます。"},
+    {"type":"comparison","title":"3. バックログとインクリメント","columns":["作成物","意味","更新タイミング"],"rows":[["プロダクトバックログ","プロダクトに必要なものの優先順位付き一覧","継続的に更新"],["スプリントバックログ","スプリント目標と選択した作業・計画","スプリント中も学習に応じ調整"],["インクリメント","利用可能な完成成果の増分","各スプリントで積み上げ"]],"note":"バックログは『固定仕様書』ではなく、価値と学習に応じて変化する管理対象です。"},
+    {"type":"comparison","title":"4. ReviewとRetrospectiveを混同しない","columns":["イベント","主に見る対象","目的"],"rows":[["スプリントレビュー","プロダクト成果と環境変化","次に何を作るか調整"],["レトロスペクティブ","チームの人・プロセス・道具","次のスプリントで仕事の仕方を改善"]],"note":"Review=成果と方向、Retro=仕事の仕方、と分けます。"},
+    {"type":"mistakes","title":"5. よくある混同","items":["Daily Scrumは管理者への進捗報告会ではなく、開発者が計画を調整するイベント。","Sprint BacklogはProduct Ownerだけが管理するものではない。開発者が計画を扱う。","アジャイル=計画しない、ではない。短いサイクルで計画と学習を更新する。"]}
+  ],
+  "checks":[
+    {"id":"dev01-q1","prompt":"プロダクトバックログの優先順位と価値最大化に責任を持つのは？","options":["スクラムマスタ","プロダクトオーナ","開発者","サービスデスク"],"answerIndex":1,"explanation":"プロダクトオーナがプロダクト価値とProduct Backlogの管理に責任を持ちます。"},
+    {"id":"dev01-q2","prompt":"チームの進め方を振り返り、次のスプリントで改善するイベントは？","options":["Sprint Review","Sprint Retrospective","Daily Scrum","受入テスト"],"answerIndex":1,"explanation":"仕事の仕方を改善する振返りがSprint Retrospectiveです。"},
+    {"id":"dev01-q3","prompt":"スプリント終了時までに利用可能な状態になった価値の増分は？","options":["インクリメント","WBS","RFP","SLA"],"answerIndex":0,"explanation":"完成して利用可能な成果の増分がIncrementです。"},
+    {"id":"dev01-q4","prompt":"Daily Scrumの中心目的として最も近いものは？","options":["上司への報告","開発者が進捗を確認し次の計画を調整","契約締結","監査証拠収集"],"answerIndex":1,"explanation":"Daily Scrumは開発者がスプリント目標に向け計画を調整するイベントです。"}
+  ]
+}
