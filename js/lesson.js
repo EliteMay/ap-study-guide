@@ -2,7 +2,7 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
   async function json(path) {
     const response = await fetch(`../${path}`, { cache:'no-store' });
@@ -58,7 +58,7 @@
         const connectorHtml = connector && index < nodes.length - 1
           ? `<span class="structure-connector" aria-hidden="true">${escapeHtml(connector)}</span>`
           : '';
-        return `<div class="structure-item"><div class="structure-node"><span class="structure-node-title">${escapeHtml(node.title || '')}</span><strong>${escapeHtml(node.value || '')}</strong>${node.meta ? `<small>${escapeHtml(node.meta)}</small>` : ''}</div>${connectorHtml}</div>`;
+        return `<div class="structure-item" role="listitem"><div class="structure-node"><span class="structure-node-title">${escapeHtml(node.title || '')}</span><strong>${escapeHtml(node.value || '')}</strong>${node.meta ? `<small>${escapeHtml(node.meta)}</small>` : ''}</div>${connectorHtml}</div>`;
       }).join('');
       return `<div class="structure-diagram"><h3>${escapeHtml(diagram.label || '')}</h3><div class="structure-scroll"><div class="structure-flow" role="list">${nodeHtml}</div></div>${diagram.note ? `<p class="structure-note">${escapeHtml(diagram.note)}</p>` : ''}</div>`;
     }).join('');
