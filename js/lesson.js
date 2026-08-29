@@ -78,6 +78,14 @@
     if (section.type === 'code-trace') {
       return `<section class="lesson-block code-trace-block"><h2>${title}</h2>${section.question ? `<p class="lesson-question-lead">${escapeHtml(section.question)}</p>` : ''}<pre class="lesson-code"><code>${escapeHtml((section.code || []).join('\n'))}</code></pre><h3>実行トレース</h3>${table(section.traceColumns, section.traceRows, 'trace-table')}<div class="lesson-answer"><strong>答え</strong><p>${escapeHtml(section.answer || '')}</p></div>${section.explanation ? `<p>${escapeHtml(section.explanation)}</p>` : ''}</section>`;
     }
+    if (section.type === 'worked-example') {
+      const code = Array.isArray(section.code) && section.code.length
+        ? `<pre class="lesson-code"><code>${escapeHtml(section.code.join('\n'))}</code></pre>` : '';
+      const result = Array.isArray(section.resultColumns) && Array.isArray(section.resultRows)
+        ? `<h3>${escapeHtml(section.resultTitle || '結果')}</h3>${table(section.resultColumns, section.resultRows, 'worked-result-table')}` : '';
+      const answer = section.answer ? `<div class="lesson-answer"><strong>答え</strong><p>${escapeHtml(section.answer)}</p></div>` : '';
+      return `<section class="lesson-block worked-example-block"><h2>${title}</h2>${section.problem ? `<p class="lesson-question-lead">${escapeHtml(section.problem)}</p>` : ''}${code}${result}${answer}${section.explanation ? `<p>${escapeHtml(section.explanation)}</p>` : ''}</section>`;
+    }
     if (section.type === 'steps') {
       return `<section class="lesson-block"><h2>${title}</h2><div class="lesson-step-list">${(section.items || []).map(item => `<article><strong>${escapeHtml(item.label)}</strong><p>${escapeHtml(item.body)}</p></article>`).join('')}</div></section>`;
     }
@@ -171,7 +179,7 @@
       console.error(error);
       $('lesson-status').classList.add('error');
       $('lesson-status').textContent = `教材の読み込みに失敗しました: ${error.message}`;
-      $('lesson-sections').innerHTML = '<p><a href="algorithm.html">アルゴリズムページへ戻る</a></p>';
+      $('lesson-sections').innerHTML = '<p><a href="roadmap.html">学習マップへ戻る</a></p>';
     }
   }
 
