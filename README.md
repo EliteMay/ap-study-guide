@@ -2,7 +2,7 @@
 
 応用情報技術者試験（AP）の個人学習用Webアプリです。
 
-**教材再設計中 / BUILD `2026.08.29-r5`**
+**教材再設計中 / BUILD `2026.08.30-r6`**
 
 正本: GitHub `EliteMay/ap-study-notes`  
 GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
@@ -16,9 +16,9 @@ GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
 - 用語・比較
 - 図・構成図
 - 擬似言語 / コードトレース
-- SQL
-- E-R図 / 正規化
-- 計算
+- SQL / E-R図 / 正規化
+- サブネット計算 / 通信フロー
+- 障害切り分け
 - ケース判断
 - 過去問
 
@@ -26,20 +26,20 @@ GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
 
 Webアプリ基盤は利用できますが、**AP教材全体としてはまだ完成扱いにしません**。
 
-旧6教材は合計1,422語あります。現在は検索・復習・既存進捗の互換用索引として維持し、主教材を構造化Lessonへ移行しています。
+旧6教材は合計1,422語あります。検索・復習・既存進捗の互換索引として維持し、主教材を構造化Lessonへ移行しています。
 
 | 旧教材 | 語数 | 状態 |
 |---|---:|---|
 | アルゴリズム | 65 | **65/65 全件監査・Lesson割当済み** |
 | データベース | 229 | **229/229 全件監査・Lesson割当済み** |
+| ネットワーク | 480 | **480/480 全件監査・Lesson割当済み** |
 | システム開発 | 75 | **75/75 全件監査・Lesson割当済み** |
 | プロジェクト管理 | 72 | **72/72 全件監査・Lesson割当済み** |
-| ネットワーク | 480 | 要監査 |
 | セキュリティ | 501 | 要監査 |
 
-**441語を全件監査し、441/441を実装済みLessonへ一意割当済みです。**
+**921語を全件監査し、921/921を実装済みLessonへ一意割当済みです。**
 
-現在の構造化Lessonは **49本** です。
+現在の構造化Lessonは **63本** です。
 
 ## カリキュラム基準
 
@@ -49,22 +49,6 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 - 学習UI: 13学習ユニット
 - 定義: `json/curriculum/ap-2026-map.json`
 - 表示: `html/roadmap.html`
-
-13ユニット:
-
-1. 基礎理論・数学
-2. アルゴリズム・プログラミング
-3. コンピュータシステム
-4. UI・情報メディア
-5. データベース
-6. ネットワーク
-7. セキュリティ
-8. システム開発
-9. プロジェクト管理
-10. サービス管理・監査
-11. システム戦略・企画
-12. 経営・会計・ビジネス
-13. 法務・標準化
 
 2027年度以降の新制度は別マップとして管理し、2026年度定義を上書きしません。
 
@@ -84,7 +68,7 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 - `json/lessons/lesson-index.json`
 - `json/lessons/<unit>/*.json`
 
-現在の表示形式:
+表示形式:
 
 - `text`
 - `comparison`
@@ -92,8 +76,6 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 - `code-trace`
 - `steps`
 - `mistakes`
-
-`worked-example` rendererも追加済みですが、現時点の49Lessonでは既存の検証済み形式を中心に使用しています。
 
 ## アルゴリズム・プログラミング
 
@@ -107,49 +89,66 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 
 ## データベース
 
-旧229語を単語カードのまま磨かず、14Lessonへ再構成しました。
+DB-01〜DB-14へ再構成し、旧229語を **229/229** 一意割当済み。
 
-| Lesson | 内容 |
-|---|---|
-| DB-01 | DBMS・3層スキーマ・関係モデル |
-| DB-02 | E-R図・キー・参照整合性 |
-| DB-03 | 正規化と更新異常 |
-| DB-04 | SQL定義・更新・権限制御 |
-| DB-05 | SELECT・条件式・NULL |
-| DB-06 | 表結合を結果表から読む |
-| DB-07 | 集計・GROUP BY・集合演算 |
-| DB-08 | 副問合せ・EXISTS・CTE |
-| DB-09 | トランザクション・ロック・分離レベル |
-| DB-10 | ログ・バックアップ・障害回復 |
-| DB-11 | 索引・実行計画・性能 |
-| DB-12 | ビュー・ストアド処理・安全なSQL実行 |
-| DB-13 | 分散DB・NoSQL・CAP |
-| DB-14 | DWH・ETL・OLAP・スタースキーマ |
+主な教材:
+
+- DBMS / 3層スキーマ / 関係モデル
+- E-R図 / キー / 参照整合性
+- 正規化 / 関数従属性
+- SELECT / JOIN / GROUP BY / 副問合せ
+- トランザクション / 分離レベル
+- WAL / UNDO / REDO / バックアップ
+- 索引 / 実行計画
+- 分散DB / CAP / NoSQL
+- DWH / ETL / OLAP
 
 監査: `json/curriculum/audits/database-audit.json`
 
-監査結果:
+## ネットワーク
 
-- 主要概念: 84語
-- 補助: 76語
-- 上位Lessonへ統合: 69語
-- 別ユニット移動: 0語
+旧12カテゴリ×40語を正式学習構造とはみなさず、14Lessonへ再構成しました。
 
-補完した主な不足:
+| Lesson | 内容 |
+|---|---|
+| NET-01 | OSI/TCP-IPと通信の全体像 |
+| NET-02 | IPv4・CIDR・サブネット計算 |
+| NET-03 | IPv6・SLAAC・NDP |
+| NET-04 | Ethernet・VLAN・STP |
+| NET-05 | 無線LAN・Wi-Fi |
+| NET-06 | ルーティング・NAT・WAN・VPN |
+| NET-07 | TCP・UDP・ポートと信頼性制御 |
+| NET-08 | DNSと名前解決 |
+| NET-09 | HTTP・HTTPS・Web通信 |
+| NET-10 | メール・ファイル転送・リモート接続 |
+| NET-11 | ネットワーク機器と構成図 |
+| NET-12 | DHCP・ARP・監視・障害切り分け |
+| NET-13 | 可用性・性能・QoS |
+| NET-14 | クラウド・仮想ネットワーク |
 
-- 関係代数: 選択 / 射影 / 結合
-- SQL論理評価順
-- 関数従属性からの実正規化
-- NULL三値論理
-- JOIN結果表トレース
-- 分離レベルと読取り異常
-- UNDO / REDO / WAL / チェックポイント
-- フル / 差分 / 増分バックアップ
-- 索引の選択率・複合列順
-- 2相コミット
-- OLAPのslice / dice / drill-down / roll-up
+監査: `json/curriculum/audits/network-audit.json`
 
-既存の `database-details-*.json` 229件は定型文比率が高いため、現在は互換用の旧詳細として扱い、主教材にはしません。
+再分類:
+
+- 478語 → NET-01〜NET-14
+- `net-availability-performance-015` SLA → SVC-01 / 中分類15
+- `net-ops-troubleshoot-039` インシデント管理 → SVC-01 / 中分類15
+
+Securityと重複するTLS、DNSSEC、FW、IDS/IPS/WAF、SPF/DKIM/DMARC、ZTNA等は、Security 501語監査前に削除・二重移動せず、現在はNetworkの通信文脈で保持します。
+
+### `legacyTermRanges`
+
+Networkは478個のIDをLesson JSONへベタ書きせず、連続IDを範囲で保持します。
+
+```json
+{
+  "legacyTermRanges": [
+    {"prefix":"net-dns-","from":1,"to":40}
+  ]
+}
+```
+
+`tests/validate-audits.mjs` が実IDへ展開し、480語すべての未割当・重複・誤Lesson・誤中分類を検証します。
 
 ## システム開発・PM・サービス管理
 
@@ -165,11 +164,6 @@ Webアプリ基盤は利用できますが、**AP教材全体としてはまだ�
 
 System 75語 + Management 72語 = **147/147** 一意割当済み。
 
-監査:
-
-- `json/curriculum/audits/system-audit.json`
-- `json/curriculum/audits/management-audit.json`
-
 ---
 
 # 崩してはいけない仕様
@@ -183,8 +177,6 @@ System 75語 + Management 72語 = **147/147** 一意割当済み。
 - 「語数が多い = 教材完成」と扱わない。
 
 # データ構成
-
-主な場所:
 
 ```text
 index.html
@@ -223,19 +215,13 @@ tests/
 
 Lesson理解度の永続保存は未実装です。
 
-# 起動・利用方法
-
-GitHub PagesではURLを開くだけで利用できます。
-
-ローカル利用も静的HTML/CSS/JS/JSONのみで構成されていますが、`fetch()` でJSONを読むため、ブラウザの `file://` 直開きよりGitHub PagesやLive Server等のHTTP環境を推奨します。
-
 # GitHub Pages
 
 公開URL:
 
 `https://elitemay.github.io/ap-study-notes/`
 
-ビルド工程は不要です。main更新後にGitHub Pagesがデプロイされます。
+main更新後にGitHub Pagesがデプロイされます。静的HTML/CSS/JS/JSON構成です。
 
 # 自動検証
 
@@ -243,8 +229,7 @@ GitHub PagesではURLを開くだけで利用できます。
 
 主な検査:
 
-- JavaScript構文
-- 全JSON構文
+- JavaScript構文 / 全JSON構文
 - manifest件数 / ID / category
 - 9大分類 / 23中分類 / 13ユニット
 - Lesson ID / order / unit / IPA中分類
@@ -253,6 +238,8 @@ GitHub PagesではURLを開くだけで利用できます。
 - System 75/75完全割当
 - Management 72/72完全割当
 - Database 229/229完全割当
+- **Network 480/480完全割当**
+- `legacyTermRanges` の範囲展開
 - 監査JSONと実装Lessonの割当一致
 - セキュリティ過去問targets
 - 主要HTML参照
@@ -261,28 +248,26 @@ GitHub PagesではURLを開くだけで利用できます。
 
 # 注意点・既知の問題
 
-- Network 480語とSecurity 501語はまだ大規模監査前です。
+- **Security 501語が最後の巨大旧教材として大規模監査前です。**
+- NetworkとSecurityの重複語はSecurity監査後に主所属・横断参照を最終整理します。
 - UI/情報メディア、経営・会計、法務など独立教材が未整備のユニットがあります。
 - 現行 `html/test.html` は用語・定義中心の4択で、本番力測定としては未完成です。
 - Lessonの正答履歴を永続化する理解度システムは未実装です。
-- Databaseの旧229詳細JSONは定型文が多く、主教材には使用しません。
-- 公開Pagesを通常ブラウザで49Lessonすべて操作するE2E総当たり確認は未実施です。
+- 最近のAP過去問とLesson単位の対応付けは不足しています。
+- 公開Pagesを通常ブラウザで63Lessonすべて操作するE2E総当たり確認は未実施です。
 
 # 次の大バッチ
 
-残る最大の旧教材:
+最後の巨大旧教材 **Security 501語** を全件監査します。
 
-1. Network 480語
-2. Security 501語
-
-この2分野を、重複・一般語・誤配置・テンプレ詳細を監査したうえで、通信フロー・構成図・サブネット計算・攻撃/対策対応・ケース問題中心のLessonへ移行します。
+Network側との重複も同時に整理し、暗号・認証・PKI・攻撃・マルウェア・Web・ネットワーク防御・リスク管理・法規接点を、攻撃→成立条件→影響→検知→対策までつながるLessonへ再構成します。
 
 # 完成条件
 
 - 対象シラバス全範囲を追跡できる。
 - テンプレ文章による水増しがない。
 - 各内容に適した教材形式がある。
-- 必要な計算 / 図 / コード / SQL / ケース演習がある。
+- 必要な計算 / 図 / コード / SQL / 通信フロー / ケース演習がある。
 - 最近の過去問へ接続できる。
 - 問題結果から理解度を確認できる。
 - CIとPages buildが通る。
