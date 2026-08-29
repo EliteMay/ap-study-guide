@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-03","title":"KGI・CSF・KPI・BSCと経営管理","unitId":"business-accounting","officialMiddleCodes":[19],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "intro":"指標は数字を集めるためではなく、戦略を実行し改善するために使います。KGI/CSF/KPIの階層とBalanced Scorecardを、因果関係で理解します。",
+  "objectives":["KGI/CSF/KPIを目的・成功要因・進捗指標として区別できる。","Leading/Lagging Indicatorを区別できる。","BSCの4Perspectiveを説明できる。","悪いKPIが行動を歪める例を説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 目標を指標へ落とす","diagrams":[{"label":"指標の階層","connector":"→","nodes":[{"title":"KGI","value":"最終Goal"},{"title":"CSF","value":"成功要因"},{"title":"KPI","value":"途中の測定"},{"title":"Action","value":"具体施策"}],"note":"KPI自体を目的にせず、KGI達成との因果を説明できるようにします。"}]},
+    {"type":"comparison","title":"2. Leading/Lagging","columns":["種類","特徴","例"],"rows":[["Leading Indicator","将来成果の先行兆候","提案件数、Training完了率"],["Lagging Indicator","結果として確定する指標","売上、利益、Churn実績"]],"note":"先行指標だけでも結果指標だけでも不十分。行動と成果をつなげます。"},
+    {"type":"comparison","title":"3. Balanced Scorecard","columns":["Perspective","問い","例"],"rows":[["財務","株主/財務成果は?","利益率/ROIC"],["顧客","顧客からどう見える?","満足度/Retention"],["内部Process","何を優秀に行う?","Lead Time/Error率"],["学習と成長","将来能力をどう作る?","Skill/改善提案件数"]]},
+    {"type":"comparison","title":"4. 良いKPIの条件","columns":["条件","良い例","悪い例"],"rows":[["目的と接続","障害復旧時間","会議資料Page数"],["測定可能","平均Lead Time","『頑張り』"],["行動可能","再作業率","自社で変えられない天候"],["定義明確","月次解約率=解約/期首顧客","『利用率』だけ"],["副作用確認","顧客解決率+品質","処理件数だけ"]]},
+    {"type":"text","title":"5. Goodhartの問題","paragraphs":["指標がTargetになると、その数字だけを良くする行動が起き、本来の目的から外れることがあります。例えばSupportの平均通話時間だけを短くすると、十分に解決せず電話を切る誘因が生まれます。","Quality/Customer Outcomeと組み合わせ、指標を定期Reviewします。"]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["KPIが多いほど管理が精密とは限らない。重要指標が埋もれる。","KGIとKPIを同じ階層で並べると施策との因果が曖昧になる。","数字が改善してもDefinition変更や母数変化を確認する。","BSCは4分類へ数字を埋めるだけでなく戦略の因果Chainを考える。"]}
+  ],
+  "checks":[
+    {"id":"bus03-q1","prompt":"最終的な経営Goalを表す指標に近いのは？","options":["KGI","KPI","TTL","CRC"],"answerIndex":0,"explanation":"Key Goal Indicatorです。"},
+    {"id":"bus03-q2","prompt":"売上に先行する提案件数はどちらに近い？","options":["Leading Indicator","Lagging Indicator","Checksum","Availability"],"answerIndex":0,"explanation":"将来成果に先行する活動指標です。"},
+    {"id":"bus03-q3","prompt":"BSCでEmployee Skillや改善能力を見るPerspectiveは？","options":["学習と成長","財務だけ","顧客だけ","Network"],"answerIndex":0,"explanation":"Learning and Growthです。"},
+    {"id":"bus03-q4","prompt":"Support担当の評価を『処理件数だけ』にすると起き得る問題は？","options":["品質を犠牲に件数を増やす誘因","必ず顧客満足が上がる","Networkが高速化","税率が下がる"],"answerIndex":0,"explanation":"指標最適化が本来目的を損なう可能性があります。"}
+  ]
+}
