@@ -1,0 +1,16 @@
+{
+  "meta":{"schemaVersion":1,"id":"PM-01","title":"プロジェクト立上げ・スコープ・WBS","unitId":"project-management","officialMiddleCodes":[14],"officialAreas":["プロジェクトの統合","ステークホルダ","スコープ","資源","時間"],"qualityStatus":"individual-v1","legacySource":"management","legacyTermIds":["term-pm-001","term-pm-002","term-pm-003","term-pm-004","term-pm-005","term-pm-006","term-pm-007","term-pm-008","term-pm-009","term-pm-010","term-pm-011","term-pm-012"],"estimatedMinutes":30},
+  "intro":"プロジェクト管理の最初は、目的と権限を定め、関係者を確認し、成果物と作業範囲をWBSへ分解して日程管理できる単位にする流れです。",
+  "objectives":["プロジェクトと定常業務の違いを説明できる。","プロジェクト憲章・ステークホルダ・スコープの役割を説明できる。","WBSとワークパッケージの関係を説明できる。","スコープクリープを変更管理と結び付けて説明できる。"],
+  "sections":[
+    {"type":"diagram","title":"1. 立上げから日程化まで","diagrams":[{"label":"計画の流れ","connector":"→","nodes":[{"title":"Charter","value":"目的・権限"},{"title":"Stakeholder","value":"関係者"},{"title":"Scope","value":"範囲"},{"title":"WBS","value":"作業分解"},{"title":"Activity","value":"作業"},{"title":"Schedule","value":"依存と日程"}],"note":"WBSは単なるTODOリストではなく、成果物や作業範囲を管理可能な単位へ階層分解するものです。"}]},
+    {"type":"comparison","title":"2. WBS周辺の用語","columns":["概念","役割","注意"],"rows":[["WBS","成果物・作業を階層分解","日付を並べる図ではない"],["ワークパッケージ","見積・担当・進捗管理できる下位単位","必要以上に細分化しない"],["アクティビティ","実施する個々の作業","依存関係を持つ"],["マイルストーン","主要な完了点・判断点","通常は期間を持たない"],["ガントチャート","作業期間を時系列表示","依存の論理分析はネットワーク図が得意"]],"note":"WBS=何を行うか、ガント=いつ行うか、と役割を分けます。"},
+    {"type":"text","title":"3. スコープクリープ","paragraphs":["承認なしに要求が少しずつ追加されると、期限・コスト・品質への影響を評価できないまま作業が膨らみます。これがスコープクリープです。","要求追加そのものが悪いのではありません。変更要求として正式に影響を評価し、承認・却下を行う変更管理が必要です。"]},
+    {"type":"steps","title":"4. WBSを作るときの考え方","items":[{"label":"① 成果物を明確化","body":"何を完成させればスコープを満たすか確認する。"},{"label":"② 階層分解","body":"見積・担当・進捗を管理できる大きさまで分ける。"},{"label":"③ 依存関係を付ける","body":"どの作業が先に終わる必要があるか整理する。"},{"label":"④ 日程へ展開","body":"アクティビティと所要時間を使い、ガントやPERTへつなげる。"}]}
+  ],
+  "checks":[
+    {"id":"pm01-q1","prompt":"成果物や作業を階層的に分解するものは？","options":["WBS","SLA","EVM","UML"],"answerIndex":0,"explanation":"WBSはプロジェクトの成果物・作業を管理可能な単位へ分解します。"},
+    {"id":"pm01-q2","prompt":"正式な変更管理なしに作業範囲が徐々に拡大する現象は？","options":["スコープクリープ","クラッシング","回帰テスト","可用性管理"],"answerIndex":0,"explanation":"承認なしに範囲が膨らむのがscope creepです。"},
+    {"id":"pm01-q3","prompt":"主要な完了点や判断点で、通常は期間を持たないものは？","options":["ワークパッケージ","マイルストーン","アクティビティ","インシデント"],"answerIndex":1,"explanation":"マイルストーンは重要な節目を表します。"}
+  ]
+}
