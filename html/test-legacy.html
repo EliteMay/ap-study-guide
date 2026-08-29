@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>テストモード | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet"/>
+<style>
+  .test-panel { background:#fff; border:1px solid #dbe5ee; border-radius:18px; padding:24px; box-shadow:0 8px 20px rgba(15,23,42,.06); margin:18px 0; }
+  .test-controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; align-items:end; }
+  .test-controls label { display:flex; flex-direction:column; gap:6px; font-weight:800; color:#334155; }
+  .test-controls input,.test-controls select { padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; background:#fff; }
+  .question-card { background:#fff; }
+  .question-meta { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-size:.9rem; color:#64748b; font-weight:800; margin-bottom:12px; }
+  .question-title { font-size:1.12rem; font-weight:900; color:#0f172a; line-height:1.85; margin:10px 0 18px; white-space:pre-line; }
+  .question-tag { display:inline-block; padding:3px 10px; border-radius:999px; background:#e0f2fe; color:#075985; font-size:.8rem; font-weight:800; }
+  .option-grid { display:grid; gap:10px; }
+  .option-btn { width:100%; text-align:left; padding:14px 16px; border:1px solid #cbd5e1; border-radius:14px; background:#f8fafc; color:#0f172a; font:inherit; line-height:1.6; cursor:pointer; transition:.15s; }
+  .option-btn:hover { transform:translateY(-1px); border-color:#0f766e; background:#ecfdf5; }
+  .option-btn.correct { border-color:#16a34a; background:#dcfce7; }
+  .option-btn.wrong { border-color:#dc2626; background:#fee2e2; }
+  .test-feedback { margin-top:16px; padding:14px 16px; border-radius:14px; background:#f1f5f9; color:#334155; font-weight:700; line-height:1.7; }
+  .test-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .test-result { background:#fff; border:1px solid #dbe5ee; border-radius:18px; padding:24px; box-shadow:0 8px 20px rgba(15,23,42,.06); }
+  .review-list { display:grid; gap:12px; margin-top:16px; }
+  .review-item { border:1px solid #e2e8f0; border-radius:14px; padding:14px; background:#f8fafc; }
+  .review-item strong { color:#0f172a; }
+  .small-muted { color:#475569; font-size:.95rem; font-weight:700; }
+  .quality-note { margin-top:10px; color:#475569; }
+</style>
+</head>
+<body>
+
+<nav class="unit-nav">
+  <div class="container">
+    <span class="unit-nav-label">AP 単元一覧</span>
+    <ul class="unit-nav-list">
+      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
+      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
+      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
+      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
+      <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
+      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
+      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
+      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
+      <li><a href="test.html" class="unit-nav-link is-current" aria-current="page">📝 テスト</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="site-header">
+  <div class="container">
+    <p class="eyebrow">AP Study Notes</p>
+    <h1>テストモード</h1>
+    <p class="lead">
+      問題文の語尾や選択肢の形だけで答えが分からないように、語群の種類を揃えたテストです。
+    </p>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="section">
+    <div class="container">
+      <h2>ランダム選択テスト</h2>
+      <div class="test-panel">
+        <div class="test-controls">
+          <label>
+            問題数
+            <input type="number" id="question-count" min="1" max="72" value="10">
+          </label>
+          <label>
+            出題形式
+            <select id="question-mode">
+              <option value="exam-only">AP本番風だけ</option>
+              <option value="auto">ミックス</option>
+              <option value="definition-to-term">説明 → 用語を選ぶ</option>
+              <option value="term-to-definition">用語 → 説明を選ぶ</option>
+            </select>
+          </label>
+          <label>
+            難易度
+            <select id="difficulty-mode">
+              <option value="exam">ガチ寄り</option>
+              <option value="mixed">標準＋ひっかけ</option>
+              <option value="standard">標準</option>
+            </select>
+          </label>
+          <button id="start-test" class="primary-link-btn" type="button">テスト開始</button>
+          <button id="restart-test" class="secondary-btn" type="button" hidden>やり直す</button>
+        </div>
+        <p class="quality-note">例：「ペネトレーションテスト」が正解なら、選択肢も「単体テスト・結合テスト・受入テスト」のように同じ形で出します。</p>
+      </div>
+
+      <div id="test-area" class="test-panel" hidden>
+        <div id="question-box"></div>
+      </div>
+
+      <div id="result-area" class="test-result" hidden></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AP Study Notes</p>
+    <p class="small">応用情報技術者試験 学習用ページ</p>
+  </div>
+</footer>
+
+<script>
+const TERMS = [
+  {
+    "id": "term-001",
+    "term": "ディジタル証明書",
+    "definition": "公開鍵が本当にその人・会社・サーバのものだと証明する電子文書。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-002",
+    "term": "認証局",
+    "definition": "ディジタル証明書を発行・失効する信頼された機関。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-003",
+    "term": "認証局の鍵",
+    "definition": "認証局がディジタル証明書に署名したり、その署名を検証したりするために使う鍵ペア。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-004",
+    "term": "ディジタル署名",
+    "definition": "データが本人から送られたこと、途中で改ざんされていないことを確認する仕組み。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-005",
+    "term": "公開鍵暗号方式",
+    "definition": "公開鍵と秘密鍵の2つの鍵を使う暗号方式。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-006",
+    "term": "CRL",
+    "definition": "Certificate Revocation List。失効したディジタル証明書の一覧。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-053",
+    "term": "OCSP",
+    "definition": "ディジタル証明書が有効か失効済みかを、オンラインで1件ずつ確認するプロトコル。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-007",
+    "term": "SSL/TLS",
+    "definition": "通信を暗号化し、盗聴・改ざん・なりすましを防ぎやすくする仕組み。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-008",
+    "term": "ハッシュ関数",
+    "definition": "元データから固定長の短い値（ハッシュ値）を作る一方向の関数。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-009",
+    "term": "メッセージダイジェスト",
+    "definition": "ハッシュ関数で得られる値。データの指紋のようなもの。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-010",
+    "term": "完全性（CIA の3要素）",
+    "definition": "情報が正しく、勝手に改ざん・削除・破壊されていない状態。情報セキュリティの3要素（CIA）のひとつ。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-011",
+    "term": "S/MIME",
+    "definition": "電子メールを暗号化したり、電子署名したりする仕組み。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-012",
+    "term": "暗号化アルゴリズムの危殆化",
+    "definition": "昔は安全だった暗号方式が、技術の進歩や弱点の発見によって安全とは言えなくなること。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-013",
+    "term": "LAN",
+    "definition": "家・学校・会社など、限られた範囲のネットワーク。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-014",
+    "term": "スイッチ",
+    "definition": "LAN内の機器同士の通信を整理して、正しい相手へ送るネットワーク機器。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-015",
+    "term": "ポート",
+    "definition": "通信の出入口。「物理ポート」と「ポート番号」の2種類がある。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-016",
+    "term": "パケット",
+    "definition": "通信データを小さく分けたかたまり。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-044",
+    "term": "ブロードバンドルーター",
+    "definition": "家や会社のLANとインターネットをつなぐ機器。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-045",
+    "term": "NAT",
+    "definition": "家の中のプライベートIPアドレスと、外向きのグローバルIPアドレスを変換する仕組み。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-046",
+    "term": "DHCP",
+    "definition": "端末にIPアドレスなどのネットワーク設定を自動で配る仕組み。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-056",
+    "term": "ARP",
+    "definition": "IPアドレスからMACアドレスを調べるためのプロトコル。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-057",
+    "term": "ARPスプーフィング / ARPポイズニング",
+    "definition": "偽のARP応答で、ARPキャッシュに偽のIPアドレスとMACアドレスの対応を覚えさせる攻撃。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-017",
+    "term": "ミラーポート",
+    "definition": "スイッチを流れる通信をコピーして、監視用機器に渡すポート。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-018",
+    "term": "LANアナライザ",
+    "definition": "LAN上を流れる通信パケットを収集・解析する装置やソフト。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-019",
+    "term": "DNSキャッシュポイズニング",
+    "definition": "DNSサーバに偽の情報を覚えさせて、利用者を偽サイトなどへ誘導する攻撃。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-047",
+    "term": "SSH",
+    "definition": "離れた場所にあるサーバやPCへ、安全にリモートログイン・遠隔操作するためのプロトコル。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-048",
+    "term": "SSHの公開鍵認証",
+    "definition": "サーバに公開鍵を登録し、利用者が対応する秘密鍵を持っていることを証明してログインする方式。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-050",
+    "term": "SMTP AUTH",
+    "definition": "メールを送信するときに、ユーザーID・パスワードなどで認証する仕組み。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-054",
+    "term": "SNMP",
+    "definition": "ルーター、スイッチ、サーバなどのネットワーク機器を監視・管理するためのプロトコル。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-055",
+    "term": "WPA2",
+    "definition": "Wi-Fi通信を暗号化し、無断接続や盗聴を防ぎやすくする無線LANのセキュリティ規格。",
+    "category": "ネットワーク"
+  },
+  {
+    "id": "term-049",
+    "term": "APT",
+    "definition": "特定の組織を狙い、長期間しつこく侵入・潜伏・情報窃取などを行う高度な脅威。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-020",
+    "term": "ソーシャルエンジニアリング",
+    "definition": "人の心理・不注意・信頼を悪用して、パスワードや機密情報をだまし取る手口。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-021",
+    "term": "フィッシング",
+    "definition": "本物っぽいメール・SMS・サイトで人をだまし、ID・パスワード・カード情報などを盗む手口。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-022",
+    "term": "SQLインジェクション",
+    "definition": "入力欄などに悪意あるSQL文を混ぜて、データベースを不正操作する攻撃。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-023",
+    "term": "クロスサイトスクリプティング（XSS）",
+    "definition": "Webページに悪意あるスクリプトを埋め込み、利用者のブラウザ上で実行させる攻撃。",
+    "category": "その他"
+  },
+  {
+    "id": "term-024",
+    "term": "USBワーム",
+    "definition": "USBメモリなどを経由して、別のPCへ自分自身を広げるマルウェア。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-025",
+    "term": "ゼロデイ攻撃",
+    "definition": "まだ修正パッチや対策情報が出る前の脆弱性を悪用する攻撃。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-026",
+    "term": "ブルートフォース攻撃",
+    "definition": "パスワードなどを、考えられる組み合わせで片っ端から試す攻撃。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-043",
+    "term": "ペネトレーションテスト",
+    "definition": "攻撃者の視点で、実際にシステムへ侵入できるかを試すセキュリティテスト。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-027",
+    "term": "サンドボックス",
+    "definition": "怪しいプログラムやファイルを、安全な隔離環境で実行して動きを調べる仕組み。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-036",
+    "term": "ビヘイビア法",
+    "definition": "プログラムの動き・ふるまいを見て、マルウェアかどうか判断する検出方法。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-029",
+    "term": "WAF",
+    "definition": "Web Application Firewall。Webアプリへの攻撃を検知・遮断する仕組み。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-030",
+    "term": "パケットフィルタリング型ファイアウォール",
+    "definition": "パケットのヘッダ情報を見て、通信を許可・拒否するファイアウォール。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-060",
+    "term": "ステートフル型ファイアウォール",
+    "definition": "通信の「状態（ステート）」を記録し、正しい流れの通信かどうかを確認するファイアウォール。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-031",
+    "term": "シングルサインオン（SSO）",
+    "definition": "1回ログインすれば、複数のサービスを追加認証なしで使える仕組み。",
+    "category": "その他"
+  },
+  {
+    "id": "term-032",
+    "term": "リバースプロキシ",
+    "definition": "利用者とWebサーバの間に立ち、利用者からのアクセスを代わりに受け取って裏側のWebサーバへ転送するサーバ。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-033",
+    "term": "SSOとリバースプロキシの関係",
+    "definition": "リバースプロキシが入口でSSOログインを確認し、認証済みの利用者だけをWebアプリに通す構成がある。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-028",
+    "term": "チャレンジレスポンス認証",
+    "definition": "サーバが出した毎回違う値（チャレンジ）に対して、利用者側が秘密情報を使って計算した答え（レスポンス）を返す認証方式。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-051",
+    "term": "CHAP",
+    "definition": "チャレンジレスポンス方式を使って、相手が正規の利用者か確認する認証プロトコル。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-052",
+    "term": "LDAP",
+    "definition": "ディレクトリサービスにアクセスして、ユーザー情報や組織情報などを検索・参照するためのプロトコル。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-034",
+    "term": "ダイジェスト認証",
+    "definition": "パスワードそのものを送らず、ハッシュ値（ダイジェスト）を使って認証するHTTP認証方式。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-035",
+    "term": "Cookie",
+    "definition": "Webサイトがブラウザに保存させる小さなデータ。ログイン状態などの管理に使われる。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-058",
+    "term": "JPCERT/CC",
+    "definition": "日本国内に関係するコンピュータセキュリティインシデントの報告受付・対応支援・調整を行う組織。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-037",
+    "term": "ISMS",
+    "definition": "Information Security Management System。情報セキュリティを継続的に管理・改善する仕組み（体制・ルール・運用の総称）。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-038",
+    "term": "ISMS適合性評価制度",
+    "definition": "組織のISMSが JIS Q 27001 / ISO/IEC 27001 に合っているかを、第三者が審査・認証する制度。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-039",
+    "term": "JIS Q 27001",
+    "definition": "ISMS認証の基準。組織が満たすべき要求事項を示す規格。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-040",
+    "term": "JIS Q 27002",
+    "definition": "情報セキュリティ管理策の実施ガイド。どんな対策をすればよいかをまとめた規格。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-041",
+    "term": "インシデント",
+    "definition": "セキュリティ上の事故・問題・その可能性がある出来事。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-042",
+    "term": "ディジタルフォレンジック",
+    "definition": "PC・スマホ・サーバ・USB・ログなどに残った電子的な証拠を、保全・収集・分析して、何が起きたか調べる技術。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-059",
+    "term": "HaaS / IaaS / PaaS / SaaS",
+    "definition": "それぞれ「〇〇 as a Service」＝〇〇をサービスとして提供・利用する形態。",
+    "category": "クラウド"
+  },
+  {
+    "id": "term-061",
+    "term": "リスクアセスメント",
+    "definition": "組織の情報資産に対するリスクを特定・分析・評価するプロセス全体。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-062",
+    "term": "リスク対応の4種類",
+    "definition": "リスクアセスメント後に取る対応策。4種類ある。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-063",
+    "term": "共通鍵暗号方式",
+    "definition": "暗号化と復号に同じ鍵（共通鍵）を使う暗号方式。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-064",
+    "term": "PKI（公開鍵基盤）",
+    "definition": "公開鍵暗号を安全に運用するための仕組み・体制全体。認証局・証明書・CRL・OCSPなどをまとめた概念。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-065",
+    "term": "タイムスタンプ（時刻認証）",
+    "definition": "電子文書が「いつ存在していたか」「その時点から改ざんされていないか」を証明する仕組み。",
+    "category": "暗号・証明書"
+  },
+  {
+    "id": "term-066",
+    "term": "多要素認証（MFA）と認証の3要素",
+    "definition": "異なる種類の認証要素を2つ以上組み合わせて本人確認する方式。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-067",
+    "term": "不正のトライアングル",
+    "definition": "不正行為が起こるには「動機」「機会」「正当化」の3要素がそろうという理論。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-068",
+    "term": "CSIRT",
+    "definition": "組織内でセキュリティインシデントに対応する専門チーム。",
+    "category": "管理・リスク"
+  },
+  {
+    "id": "term-069",
+    "term": "セキュリティバイデザイン",
+    "definition": "システムの設計・開発の最初の段階からセキュリティを組み込む考え方。",
+    "category": "防御・認証"
+  },
+  {
+    "id": "term-070",
+    "term": "DoS攻撃 / DDoS攻撃",
+    "definition": "大量のリクエストや不正なパケットを送りつけ、サービスを使えなくさせる攻撃。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-071",
+    "term": "ランサムウェア",
+    "definition": "感染した端末・ファイルを暗号化して使えなくし、復号と引き換えに身代金を要求するマルウェア。",
+    "category": "攻撃手法"
+  },
+  {
+    "id": "term-072",
+    "term": "VPN",
+    "definition": "インターネット上に暗号化した仮想的な専用通信路（トンネル）を作る技術。",
+    "category": "ネットワーク"
+  }
+];
+const EXAM_QUESTIONS = [
+  {
+    "question": "次の記述に該当するものとして最も適切なものはどれか。\nサーバ証明書について、対象の1件が現在も有効かをオンラインで問い合わせる。",
+    "answer": "OCSP",
+    "choices": [
+      "OCSP",
+      "CRL",
+      "LDAP",
+      "SNMP"
+    ],
+    "explain": "OCSPは証明書1件ごとに失効状態を問い合わせる。CRLは失効した証明書の一覧。"
+  },
+  {
+    "question": "次の記述に該当するものとして最も適切なものはどれか。\n失効したディジタル証明書を一覧として配布する。",
+    "answer": "CRL",
+    "choices": [
+      "CRL",
+      "OCSP",
+      "CSR",
+      "LDAP"
+    ],
+    "explain": "CRLはCertificate Revocation List、失効証明書のリスト。OCSPはオンライン照会。"
+  },
+  {
+    "question": "次のうち、Webサイトの通信内容の盗聴や改ざんを防ぎ、サーバの真正性確認にも使われるものはどれか。",
+    "answer": "SSL/TLS",
+    "choices": [
+      "SSL/TLS",
+      "S/MIME",
+      "WPA2",
+      "SSH"
+    ],
+    "explain": "SSL/TLSはHTTPSなどで使われ、通信の暗号化・完全性確認・サーバ認証に関係する。"
+  },
+  {
+    "question": "次のうち、電子メールの暗号化や電子署名に使われるものはどれか。",
+    "answer": "S/MIME",
+    "choices": [
+      "S/MIME",
+      "SSL/TLS",
+      "SMTP AUTH",
+      "SSH"
+    ],
+    "explain": "S/MIMEはメール本文の暗号化や電子署名に使う。SMTP AUTHはメール送信時の利用者認証。"
+  },
+  {
+    "question": "次のうち、電子文書の作成者確認と改ざん検知に主に関係するものはどれか。",
+    "answer": "ディジタル署名",
+    "choices": [
+      "ディジタル署名",
+      "共通鍵暗号方式",
+      "メッセージダイジェスト",
+      "タイムスタンプ（時刻認証）"
+    ],
+    "explain": "ディジタル署名は本人性・完全性・否認防止に関係する。単なるハッシュ値だけでは本人性は示しにくい。"
+  },
+  {
+    "question": "公開鍵暗号で秘密の文書を相手だけに読ませたい。暗号化に使う鍵として適切なものはどれか。",
+    "answer": "受信者の公開鍵",
+    "choices": [
+      "受信者の公開鍵",
+      "受信者の秘密鍵",
+      "送信者の公開鍵",
+      "送信者の秘密鍵"
+    ],
+    "explain": "暗号化は相手の公開鍵、復号は相手の秘密鍵。署名とは鍵の向きが違う。"
+  },
+  {
+    "question": "電子署名を付けるとき、署名者が使う鍵として適切なものはどれか。",
+    "answer": "送信者の秘密鍵",
+    "choices": [
+      "送信者の秘密鍵",
+      "送信者の公開鍵",
+      "受信者の公開鍵",
+      "受信者の秘密鍵"
+    ],
+    "explain": "署名は自分の秘密鍵、検証は自分の公開鍵。"
+  },
+  {
+    "question": "認証局がサーバ証明書に対して行う処理として最も適切なものはどれか。",
+    "answer": "認証局の秘密鍵で署名する",
+    "choices": [
+      "認証局の秘密鍵で署名する",
+      "サーバの秘密鍵を公開する",
+      "利用者のパスワードを暗号化する",
+      "通信経路を直接暗号化する"
+    ],
+    "explain": "認証局は証明書に署名して信頼を与える。通信そのものを直接暗号化する装置ではない。"
+  },
+  {
+    "question": "証明書の署名を利用者側で検証するときに使われるものとして最も適切なものはどれか。",
+    "answer": "認証局の公開鍵",
+    "choices": [
+      "認証局の公開鍵",
+      "認証局の秘密鍵",
+      "利用者の秘密鍵",
+      "Webサーバの秘密鍵"
+    ],
+    "explain": "認証局の秘密鍵で署名された証明書は、認証局の公開鍵で検証する。"
+  },
+  {
+    "question": "次のうち、元データから固定長の値を作り、改ざん検知に使われるものはどれか。",
+    "answer": "ハッシュ関数",
+    "choices": [
+      "ハッシュ関数",
+      "公開鍵暗号方式",
+      "共通鍵暗号方式",
+      "リバースプロキシ"
+    ],
+    "explain": "ハッシュ関数は固定長のハッシュ値を作る。一方向なので暗号化とは違う。"
+  },
+  {
+    "question": "次のうち、ハッシュ関数によって得られる値の呼び名として最も適切なものはどれか。",
+    "answer": "メッセージダイジェスト",
+    "choices": [
+      "メッセージダイジェスト",
+      "ディジタル証明書",
+      "共通鍵",
+      "公開鍵"
+    ],
+    "explain": "メッセージダイジェストはデータの指紋のような値。"
+  },
+  {
+    "question": "暗号技術や計算機性能の変化により、以前は安全だった方式が安全とは言えなくなる状態に最も近いものはどれか。",
+    "answer": "暗号化アルゴリズムの危殆化",
+    "choices": [
+      "暗号化アルゴリズムの危殆化",
+      "証明書の失効",
+      "鍵配送問題",
+      "可用性の低下"
+    ],
+    "explain": "危殆化は、時間の経過や解析技術の進歩で暗号方式の安全性が低下すること。"
+  },
+  {
+    "question": "社内LANでIPアドレスからMACアドレスを求めるときに使われるものはどれか。",
+    "answer": "ARP",
+    "choices": [
+      "ARP",
+      "DHCP",
+      "NAT",
+      "DNS"
+    ],
+    "explain": "ARPはIPアドレスとMACアドレスの対応を解決する。DNSは名前解決。"
+  },
+  {
+    "question": "端末にIPアドレスやデフォルトゲートウェイなどを自動で割り当てるものはどれか。",
+    "answer": "DHCP",
+    "choices": [
+      "DHCP",
+      "ARP",
+      "NAT",
+      "SNMP"
+    ],
+    "explain": "DHCPはネットワーク設定を自動配布する。"
+  },
+  {
+    "question": "プライベートIPアドレスとグローバルIPアドレスを変換するものはどれか。",
+    "answer": "NAT",
+    "choices": [
+      "NAT",
+      "DHCP",
+      "ARP",
+      "LDAP"
+    ],
+    "explain": "NATはIPアドレス変換。家庭用ルータでも使われる。"
+  },
+  {
+    "question": "スイッチの特定ポートを流れる通信を別ポートにも複製して解析しやすくする設定に最も近いものはどれか。",
+    "answer": "ミラーポート",
+    "choices": [
+      "ミラーポート",
+      "ポート番号",
+      "デフォルトゲートウェイ",
+      "アクセスポート"
+    ],
+    "explain": "ミラーポートは監視・解析用に通信を複製するポート。"
+  },
+  {
+    "question": "ネットワーク上のパケットを取得・解析するために使う装置やソフトウェアとして最も適切なものはどれか。",
+    "answer": "LANアナライザ",
+    "choices": [
+      "LANアナライザ",
+      "WAF",
+      "リバースプロキシ",
+      "認証局"
+    ],
+    "explain": "LANアナライザはパケット解析に使う。"
+  },
+  {
+    "question": "DNSサーバに偽の対応情報を覚えさせ、利用者を意図しない宛先へ誘導するものはどれか。",
+    "answer": "DNSキャッシュポイズニング",
+    "choices": [
+      "DNSキャッシュポイズニング",
+      "ARPスプーフィング / ARPポイズニング",
+      "クロスサイトスクリプティング",
+      "ブルートフォース攻撃"
+    ],
+    "explain": "DNSのキャッシュ情報を汚染する攻撃。"
+  },
+  {
+    "question": "偽の応答でIPアドレスとMACアドレスの対応を誤認させ、通信を盗聴・中継しやすくするものはどれか。",
+    "answer": "ARPスプーフィング / ARPポイズニング",
+    "choices": [
+      "ARPスプーフィング / ARPポイズニング",
+      "DNSキャッシュポイズニング",
+      "SQLインジェクション",
+      "DoS攻撃 / DDoS攻撃"
+    ],
+    "explain": "ARPキャッシュに偽の対応を覚えさせる。"
+  },
+  {
+    "question": "入力欄に不正な命令を混ぜ、データベースを意図しない形で操作させるものはどれか。",
+    "answer": "SQLインジェクション",
+    "choices": [
+      "SQLインジェクション",
+      "クロスサイトスクリプティング",
+      "OSコマンドインジェクション",
+      "LDAPインジェクション"
+    ],
+    "explain": "SQL文を注入してDBを不正操作する。選択肢はすべて注入系なので語尾だけでは解けない。"
+  },
+  {
+    "question": "Webページに悪意ある処理を埋め込み、利用者のブラウザ上で実行させるものはどれか。",
+    "answer": "クロスサイトスクリプティング",
+    "choices": [
+      "クロスサイトスクリプティング",
+      "SQLインジェクション",
+      "クリックジャッキング",
+      "クロスサイトリクエストフォージェリ"
+    ],
+    "explain": "XSSは利用者のブラウザでスクリプトを実行させる攻撃。"
+  },
+  {
+    "question": "人の心理や不注意を利用し、秘密情報を聞き出したり操作させたりするものはどれか。",
+    "answer": "ソーシャルエンジニアリング",
+    "choices": [
+      "ソーシャルエンジニアリング",
+      "フィッシング",
+      "ショルダーハッキング",
+      "スキャベンジング"
+    ],
+    "explain": "広い概念がソーシャルエンジニアリング。フィッシングなどはその一種として扱われることがある。"
+  },
+  {
+    "question": "本物に見せかけたメールやWebサイトで認証情報を入力させるものはどれか。",
+    "answer": "フィッシング",
+    "choices": [
+      "フィッシング",
+      "ファーミング",
+      "スミッシング",
+      "ソーシャルエンジニアリング"
+    ],
+    "explain": "偽メール・偽サイトでだますのがフィッシング。"
+  },
+  {
+    "question": "修正プログラムが提供される前、または対策前の脆弱性を狙うものはどれか。",
+    "answer": "ゼロデイ攻撃",
+    "choices": [
+      "ゼロデイ攻撃",
+      "標的型攻撃",
+      "ブルートフォース攻撃",
+      "DoS攻撃 / DDoS攻撃"
+    ],
+    "explain": "ゼロデイは修正前など防御側の猶予が少ない脆弱性を狙う。"
+  },
+  {
+    "question": "考え得る候補を順番に試し、正しいパスワードを探すものはどれか。",
+    "answer": "ブルートフォース攻撃",
+    "choices": [
+      "ブルートフォース攻撃",
+      "辞書攻撃",
+      "パスワードリスト攻撃",
+      "リプレイ攻撃"
+    ],
+    "explain": "ブルートフォースは総当たり。辞書攻撃は候補リストを使う。"
+  },
+  {
+    "question": "特定の組織を長期間狙い、侵入・潜伏・情報窃取を継続するものとして最も近いものはどれか。",
+    "answer": "APT",
+    "choices": [
+      "APT",
+      "DDoS",
+      "XSS",
+      "WPA2"
+    ],
+    "explain": "APTはAdvanced Persistent Threat。持続的・標的型の脅威。"
+  },
+  {
+    "question": "不審なファイルを隔離環境で動かし、実環境への影響を抑えながら確認するものはどれか。",
+    "answer": "サンドボックス",
+    "choices": [
+      "サンドボックス",
+      "仮想パッチ",
+      "検疫ネットワーク",
+      "ホワイトリスト方式"
+    ],
+    "explain": "サンドボックスは隔離された実行環境。"
+  },
+  {
+    "question": "プログラムの振る舞いを観察し、定義ファイルにない不審な動作も検知しようとするものはどれか。",
+    "answer": "ビヘイビア法",
+    "choices": [
+      "ビヘイビア法",
+      "パターンマッチング法",
+      "ヒューリスティック法",
+      "サンドボックス解析"
+    ],
+    "explain": "ビヘイビア法は動作・振る舞いから判断する。"
+  },
+  {
+    "question": "次の記述に該当するものとして最も適切なものはどれか。\n攻撃者と同じ観点で対象へ侵入を試み、実際に悪用可能な弱点を確認する。",
+    "answer": "ペネトレーションテスト",
+    "choices": [
+      "ペネトレーションテスト",
+      "単体テスト",
+      "結合テスト",
+      "受入テスト"
+    ],
+    "explain": "ペネトレーションテストは侵入テスト。ほかのテストは主にソフトウェア開発工程の確認。"
+  },
+  {
+    "question": "次の記述に該当するものとして最も適切なものはどれか。\n発生後に証拠を保全し、ログや記録を解析して原因・影響範囲を調べる。",
+    "answer": "ディジタルフォレンジック",
+    "choices": [
+      "ディジタルフォレンジック",
+      "ペネトレーションテスト",
+      "インシデントレスポンス",
+      "リスクアセスメント"
+    ],
+    "explain": "フォレンジックは証拠保全と解析が中心。"
+  },
+  {
+    "question": "組織内でセキュリティインシデントへの対応を担うチームとして最も適切なものはどれか。",
+    "answer": "CSIRT",
+    "choices": [
+      "CSIRT",
+      "SOC",
+      "JPCERT/CC",
+      "CA"
+    ],
+    "explain": "CSIRTは組織内・組織単位のインシデント対応チーム。JPCERT/CCは国内外の調整機関。"
+  },
+  {
+    "question": "国内外の関係組織と連携し、コンピュータセキュリティインシデント対応の調整などを行う代表的な組織はどれか。",
+    "answer": "JPCERT/CC",
+    "choices": [
+      "JPCERT/CC",
+      "CSIRT",
+      "SOC",
+      "ISMS認証機関"
+    ],
+    "explain": "JPCERT/CCは日本におけるインシデント対応調整などを担う組織。"
+  },
+  {
+    "question": "組織の情報セキュリティを管理するための仕組み全体を表すものはどれか。",
+    "answer": "ISMS",
+    "choices": [
+      "ISMS",
+      "CSIRT",
+      "PKI",
+      "BCP"
+    ],
+    "explain": "ISMSは情報セキュリティマネジメントシステム。"
+  },
+  {
+    "question": "ISMS認証で要求事項として参照される規格はどれか。",
+    "answer": "JIS Q 27001",
+    "choices": [
+      "JIS Q 27001",
+      "JIS Q 27002",
+      "JIS Q 27017",
+      "JIS Q 20000"
+    ],
+    "explain": "27001は要求事項。27002は管理策の実践規範。"
+  },
+  {
+    "question": "ISMSに関する管理策の実践規範として位置づけられるものはどれか。",
+    "answer": "JIS Q 27002",
+    "choices": [
+      "JIS Q 27002",
+      "JIS Q 27001",
+      "JIS Q 27017",
+      "JIS Q 20000"
+    ],
+    "explain": "27002は管理策のガイド。認証要求事項は27001。"
+  },
+  {
+    "question": "脅威・脆弱性・影響を考え、リスクの大きさを洗い出して評価する活動はどれか。",
+    "answer": "リスクアセスメント",
+    "choices": [
+      "リスクアセスメント",
+      "ペネトレーションテスト",
+      "ディジタルフォレンジック",
+      "セキュリティ監査"
+    ],
+    "explain": "評価する活動がリスクアセスメント。評価後に回避・低減・移転・受容などを選ぶ。"
+  },
+  {
+    "question": "リスク対応で、保険加入などにより損失負担を第三者へ移す考え方はどれか。",
+    "answer": "リスク移転",
+    "choices": [
+      "リスク移転",
+      "リスク低減",
+      "リスク回避",
+      "リスク受容"
+    ],
+    "explain": "保険や外部委託などで負担を移すのが移転。"
+  },
+  {
+    "question": "暗号化と復号に同じ鍵を用いる方式はどれか。",
+    "answer": "共通鍵暗号方式",
+    "choices": [
+      "共通鍵暗号方式",
+      "公開鍵暗号方式",
+      "ハイブリッド暗号方式",
+      "ディジタル署名"
+    ],
+    "explain": "同じ鍵を使うのが共通鍵暗号方式。鍵配送が課題。"
+  },
+  {
+    "question": "公開鍵暗号を安全に運用するため、認証局・証明書・失効確認などを含む基盤はどれか。",
+    "answer": "PKI（公開鍵基盤）",
+    "choices": [
+      "PKI（公開鍵基盤）",
+      "公開鍵暗号方式",
+      "ディジタル証明書",
+      "認証局"
+    ],
+    "explain": "PKIは仕組み全体。CA・証明書・失効確認などは構成要素。"
+  },
+  {
+    "question": "電子文書がある時点で存在し、その後改ざんされていないことの証明に使うものはどれか。",
+    "answer": "タイムスタンプ（時刻認証）",
+    "choices": [
+      "タイムスタンプ（時刻認証）",
+      "ディジタル署名",
+      "メッセージダイジェスト",
+      "OCSP"
+    ],
+    "explain": "タイムスタンプは存在時刻と非改ざん性の証明に使う。"
+  },
+  {
+    "question": "知識・所持・生体など、種類の異なる認証要素を組み合わせるものはどれか。",
+    "answer": "多要素認証（MFA）と認証の3要素",
+    "choices": [
+      "多要素認証（MFA）と認証の3要素",
+      "二段階認証",
+      "シングルサインオン",
+      "チャレンジレスポンス認証"
+    ],
+    "explain": "MFAは異なる認証要素を複数組み合わせる。二段階でも同じ要素だけなら多要素とは限らない。"
+  },
+  {
+    "question": "一度のログインで複数サービスを利用できるようにするものはどれか。",
+    "answer": "シングルサインオン",
+    "choices": [
+      "シングルサインオン",
+      "多要素認証",
+      "フェデレーション",
+      "チャレンジレスポンス認証"
+    ],
+    "explain": "SSOは一度の認証で複数サービスを使う仕組み。"
+  },
+  {
+    "question": "乱数などを提示し、秘密情報そのものを送らず応答値で本人確認するものはどれか。",
+    "answer": "チャレンジレスポンス認証",
+    "choices": [
+      "チャレンジレスポンス認証",
+      "ダイジェスト認証",
+      "パスワード認証",
+      "生体認証"
+    ],
+    "explain": "チャレンジに対する応答値で認証するので、秘密情報をそのまま送らない。"
+  },
+  {
+    "question": "PPPなどで使われる、チャレンジレスポンス方式の認証プロトコルとして最も適切なものはどれか。",
+    "answer": "CHAP",
+    "choices": [
+      "CHAP",
+      "PAP",
+      "LDAP",
+      "RADIUS"
+    ],
+    "explain": "CHAPはChallenge Handshake Authentication Protocol。PAPはパスワードを平文に近い形で扱う古い方式。"
+  },
+  {
+    "question": "ディレクトリサービスに問い合わせ、利用者情報や組織情報を扱うものはどれか。",
+    "answer": "LDAP",
+    "choices": [
+      "LDAP",
+      "CHAP",
+      "RADIUS",
+      "Kerberos"
+    ],
+    "explain": "LDAPはディレクトリサービスへアクセスするためのプロトコル。"
+  },
+  {
+    "question": "ネットワーク機器の状態監視や管理に使われるものはどれか。",
+    "answer": "SNMP",
+    "choices": [
+      "SNMP",
+      "SMTP AUTH",
+      "SSH",
+      "LDAP"
+    ],
+    "explain": "SNMPはネットワーク管理用。SMTP AUTHはメール送信時認証。"
+  },
+  {
+    "question": "暗号化された通信路でリモートログインや遠隔操作を行うときに使われるものはどれか。",
+    "answer": "SSH",
+    "choices": [
+      "SSH",
+      "Telnet",
+      "SNMP",
+      "SMTP AUTH"
+    ],
+    "explain": "SSHは安全なリモートログインに使う。Telnetは暗号化されない。"
+  },
+  {
+    "question": "メール送信時、送信者が正当な利用者であることを確認するものはどれか。",
+    "answer": "SMTP AUTH",
+    "choices": [
+      "SMTP AUTH",
+      "S/MIME",
+      "POP before SMTP",
+      "SPF"
+    ],
+    "explain": "SMTP AUTHはメール送信時の認証。S/MIMEはメールの暗号化・署名。"
+  },
+  {
+    "question": "インターネット上に暗号化された仮想的な専用通信路を作るものはどれか。",
+    "answer": "VPN",
+    "choices": [
+      "VPN",
+      "VLAN",
+      "WPA2",
+      "SSH"
+    ],
+    "explain": "VPNはVirtual Private Network。VLANはLANを論理的に分ける技術。"
+  },
+  {
+    "question": "無線LANで使われる暗号化・認証方式として最も適切なものはどれか。",
+    "answer": "WPA2",
+    "choices": [
+      "WPA2",
+      "VPN",
+      "SSL/TLS",
+      "S/MIME"
+    ],
+    "explain": "WPA2は無線LANのセキュリティ方式。"
+  },
+  {
+    "question": "Webアプリケーションへの攻撃をHTTPレベルで検査・遮断するものはどれか。",
+    "answer": "WAF",
+    "choices": [
+      "WAF",
+      "パケットフィルタリング型ファイアウォール",
+      "ステートフル型ファイアウォール",
+      "IDS"
+    ],
+    "explain": "WAFはWebアプリケーション層の攻撃に対応する。通常のFWとは見る層が違う。"
+  },
+  {
+    "question": "送信元・宛先IPアドレスやポート番号などを見て通信を許可・遮断するものはどれか。",
+    "answer": "パケットフィルタリング型ファイアウォール",
+    "choices": [
+      "パケットフィルタリング型ファイアウォール",
+      "ステートフル型ファイアウォール",
+      "WAF",
+      "プロキシ型ファイアウォール"
+    ],
+    "explain": "パケットフィルタリング型は主にIPアドレスやポート番号などで判断する。"
+  },
+  {
+    "question": "通信の状態を追跡し、戻り通信かどうかも考慮して許可・遮断するものはどれか。",
+    "answer": "ステートフル型ファイアウォール",
+    "choices": [
+      "ステートフル型ファイアウォール",
+      "パケットフィルタリング型ファイアウォール",
+      "WAF",
+      "プロキシ型ファイアウォール"
+    ],
+    "explain": "ステートフル型は通信状態を管理して判断する。"
+  },
+  {
+    "question": "利用者から見た接続先として振る舞い、背後のWebサーバへ代理で中継するものはどれか。",
+    "answer": "リバースプロキシ",
+    "choices": [
+      "リバースプロキシ",
+      "フォワードプロキシ",
+      "ロードバランサ",
+      "WAF"
+    ],
+    "explain": "リバースプロキシはサーバ側の代理として動作する。"
+  },
+  {
+    "question": "端末内に保存され、Webサイト側が状態管理などに使う小さな情報はどれか。",
+    "answer": "Cookie",
+    "choices": [
+      "Cookie",
+      "セッションID",
+      "トークン",
+      "キャッシュ"
+    ],
+    "explain": "Cookieはブラウザ側に保存される小さな情報。セッションIDを入れることもある。"
+  },
+  {
+    "question": "不正が起こりやすい条件として、動機・機会・正当化の3要素で説明する考え方はどれか。",
+    "answer": "不正のトライアングル",
+    "choices": [
+      "不正のトライアングル",
+      "リスクアセスメント",
+      "CIAの3要素",
+      "認証の3要素"
+    ],
+    "explain": "不正のトライアングルは動機・機会・正当化。"
+  },
+  {
+    "question": "設計段階からセキュリティを組み込む考え方として最も適切なものはどれか。",
+    "answer": "セキュリティバイデザイン",
+    "choices": [
+      "セキュリティバイデザイン",
+      "ゼロトラスト",
+      "シフトレフト",
+      "プライバシーバイデザイン"
+    ],
+    "explain": "セキュリティバイデザインは後付けではなく設計時から考える発想。"
+  },
+  {
+    "question": "多数の通信などでサービスを利用不能にしようとするものはどれか。",
+    "answer": "DoS攻撃 / DDoS攻撃",
+    "choices": [
+      "DoS攻撃 / DDoS攻撃",
+      "ブルートフォース攻撃",
+      "ゼロデイ攻撃",
+      "リプレイ攻撃"
+    ],
+    "explain": "DoS/DDoSは可用性を狙う。DDoSは分散型。"
+  },
+  {
+    "question": "ファイルを暗号化するなどして利用不能にし、復旧と引き換えに金銭を要求するものはどれか。",
+    "answer": "ランサムウェア",
+    "choices": [
+      "ランサムウェア",
+      "ワーム",
+      "トロイの木馬",
+      "スパイウェア"
+    ],
+    "explain": "ランサムウェアは身代金要求型マルウェア。"
+  },
+  {
+    "question": "利用者が意識して準備・管理する必要が最も少ないクラウドサービスはどれか。",
+    "answer": "SaaS",
+    "choices": [
+      "SaaS",
+      "PaaS",
+      "IaaS",
+      "HaaS"
+    ],
+    "explain": "SaaSはアプリケーションまで提供される。IaaSはOSなど利用者側の管理が増える。"
+  },
+  {
+    "question": "クラウド分類で、仮想サーバやストレージなどの基盤を主に提供するものはどれか。",
+    "answer": "IaaS",
+    "choices": [
+      "IaaS",
+      "PaaS",
+      "SaaS",
+      "HaaS"
+    ],
+    "explain": "IaaSはインフラを提供する。PaaSは実行環境、SaaSはアプリ。"
+  }
+];
+const FORCED_DISTRACTORS = {
+  "ペネトレーションテスト": [
+    "単体テスト",
+    "結合テスト",
+    "受入テスト"
+  ],
+  "パケットフィルタリング型ファイアウォール": [
+    "ステートフル型ファイアウォール",
+    "WAF",
+    "プロキシ型ファイアウォール"
+  ],
+  "ステートフル型ファイアウォール": [
+    "パケットフィルタリング型ファイアウォール",
+    "WAF",
+    "プロキシ型ファイアウォール"
+  ],
+  "SQLインジェクション": [
+    "OSコマンドインジェクション",
+    "LDAPインジェクション",
+    "クロスサイトスクリプティング"
+  ],
+  "クロスサイトスクリプティング": [
+    "クロスサイトリクエストフォージェリ",
+    "SQLインジェクション",
+    "クリックジャッキング"
+  ],
+  "フィッシング": [
+    "ファーミング",
+    "スミッシング",
+    "ソーシャルエンジニアリング"
+  ],
+  "ブルートフォース攻撃": [
+    "辞書攻撃",
+    "パスワードリスト攻撃",
+    "リプレイ攻撃"
+  ],
+  "ゼロデイ攻撃": [
+    "標的型攻撃",
+    "ブルートフォース攻撃",
+    "DoS攻撃 / DDoS攻撃"
+  ],
+  "DoS攻撃 / DDoS攻撃": [
+    "ブルートフォース攻撃",
+    "ゼロデイ攻撃",
+    "リプレイ攻撃"
+  ],
+  "ランサムウェア": [
+    "ワーム",
+    "トロイの木馬",
+    "スパイウェア"
+  ],
+  "WAF": [
+    "パケットフィルタリング型ファイアウォール",
+    "ステートフル型ファイアウォール",
+    "IDS"
+  ],
+  "リバースプロキシ": [
+    "フォワードプロキシ",
+    "ロードバランサ",
+    "WAF"
+  ],
+  "認証局": [
+    "登録局",
+    "ルート認証局",
+    "中間認証局"
+  ],
+  "認証局の鍵": [
+    "サーバの公開鍵",
+    "サーバの秘密鍵",
+    "利用者の秘密鍵"
+  ],
+  "ディジタル署名": [
+    "メッセージ認証コード",
+    "タイムスタンプ（時刻認証）",
+    "ディジタル証明書"
+  ],
+  "ディジタル証明書": [
+    "ディジタル署名",
+    "公開鍵",
+    "CSR"
+  ],
+  "CRL": [
+    "OCSP",
+    "CSR",
+    "CTL"
+  ],
+  "OCSP": [
+    "CRL",
+    "CSR",
+    "LDAP"
+  ],
+  "SSL/TLS": [
+    "S/MIME",
+    "SSH",
+    "WPA2"
+  ],
+  "S/MIME": [
+    "SSL/TLS",
+    "SMTP AUTH",
+    "SSH"
+  ],
+  "SSH": [
+    "Telnet",
+    "SNMP",
+    "SMTP AUTH"
+  ],
+  "SMTP AUTH": [
+    "S/MIME",
+    "POP before SMTP",
+    "SPF"
+  ],
+  "VPN": [
+    "VLAN",
+    "SSH",
+    "SSL/TLS"
+  ],
+  "WPA2": [
+    "WEP",
+    "WPA",
+    "VPN"
+  ],
+  "CHAP": [
+    "PAP",
+    "LDAP",
+    "RADIUS"
+  ],
+  "LDAP": [
+    "CHAP",
+    "RADIUS",
+    "Kerberos"
+  ],
+  "SNMP": [
+    "SMTP AUTH",
+    "SSH",
+    "LDAP"
+  ],
+  "ARP": [
+    "DHCP",
+    "NAT",
+    "DNS"
+  ],
+  "DHCP": [
+    "ARP",
+    "NAT",
+    "SNMP"
+  ],
+  "NAT": [
+    "NAPT",
+    "DHCP",
+    "ARP"
+  ],
+  "HaaS / IaaS / PaaS / SaaS": [
+    "IaaS",
+    "PaaS",
+    "SaaS"
+  ],
+  "多要素認証（MFA）と認証の3要素": [
+    "二段階認証",
+    "シングルサインオン",
+    "チャレンジレスポンス認証"
+  ],
+  "シングルサインオン": [
+    "多要素認証",
+    "フェデレーション",
+    "チャレンジレスポンス認証"
+  ],
+  "タイムスタンプ（時刻認証）": [
+    "ディジタル署名",
+    "メッセージダイジェスト",
+    "OCSP"
+  ],
+  "ISMS": [
+    "CSIRT",
+    "PKI",
+    "BCP"
+  ],
+  "JIS Q 27001": [
+    "JIS Q 27002",
+    "JIS Q 27017",
+    "JIS Q 20000"
+  ],
+  "JIS Q 27002": [
+    "JIS Q 27001",
+    "JIS Q 27017",
+    "JIS Q 20000"
+  ],
+  "リスクアセスメント": [
+    "ペネトレーションテスト",
+    "ディジタルフォレンジック",
+    "セキュリティ監査"
+  ]
+};
+const TERM_PROMPTS = {
+  "ペネトレーションテスト": "攻撃者と同じ観点で対象へ侵入を試み、実際に悪用可能な弱点を確認する活動。",
+  "ディジタルフォレンジック": "発生後に証拠を保全し、ログや記録を解析して原因・影響範囲を調べる活動。",
+  "WAF": "Webアプリケーションへの不正なリクエストを検査し、遮断する仕組み。",
+  "パケットフィルタリング型ファイアウォール": "IPアドレスやポート番号などの条件で通信を許可・遮断する仕組み。",
+  "ステートフル型ファイアウォール": "通信の状態を追跡し、戻り通信かどうかも考慮して通信を許可・遮断する仕組み。",
+  "SQLインジェクション": "入力欄に不正な命令を混ぜ、データベースを意図しない形で操作させる手口。",
+  "クロスサイトスクリプティング": "Webページに悪意ある処理を混ぜ、利用者のブラウザ上で実行させる手口。",
+  "フィッシング": "本物に見せかけたメールやWebサイトで認証情報を入力させる手口。",
+  "ブルートフォース攻撃": "候補を順番に試し、正しいパスワードを探す手口。",
+  "ゼロデイ攻撃": "修正プログラムが提供される前、または対策前の脆弱性を狙う手口。",
+  "CRL": "失効済みのディジタル証明書を一覧として配布する仕組み。",
+  "OCSP": "対象の証明書1件が現在も有効かをオンラインで問い合わせる仕組み。",
+  "SSL/TLS": "Web通信などで盗聴・改ざんを防ぎ、サーバの真正性確認にも使われる仕組み。",
+  "S/MIME": "電子メールの本文を暗号化したり、送信者確認・改ざん検知に使われたりする仕組み。",
+  "ARP": "社内LANなどでIPアドレスからMACアドレスを求める仕組み。",
+  "DHCP": "端末にIPアドレスやデフォルトゲートウェイなどを自動で割り当てる仕組み。",
+  "NAT": "プライベートIPアドレスとグローバルIPアドレスを変換する仕組み。"
+};
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let review = [];
+
+const questionCountInput = document.getElementById('question-count');
+const questionModeInput = document.getElementById('question-mode');
+const difficultyModeInput = document.getElementById('difficulty-mode');
+const startBtn = document.getElementById('start-test');
+const restartBtn = document.getElementById('restart-test');
+const testArea = document.getElementById('test-area');
+const questionBox = document.getElementById('question-box');
+const resultArea = document.getElementById('result-area');
+
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
+}
+
+function stripParen(text) {
+  return String(text).replace(/（.*?）/g, '').trim();
+}
+
+function getQuestionText(term) {
+  if (TERM_PROMPTS[term.term]) return TERM_PROMPTS[term.term];
+  let text = term.definition;
+  const directWords = [term.term, stripParen(term.term), term.term.split(' / ')[0], term.term.split('（')[0]];
+  directWords.forEach(w => {
+    if (w && w.length >= 2) text = text.replaceAll(w, 'これ');
+  });
+  return text;
+}
+
+function getTermByName(name) {
+  return TERMS.find(t => t.term === name);
+}
+
+function getDistractorLabels(correct, count = 3) {
+  const forced = FORCED_DISTRACTORS[correct.term];
+  if (forced && forced.length >= count) return shuffle(forced).slice(0, count);
+
+  const sameCategory = TERMS.filter(t => t.id !== correct.id && t.category === correct.category).map(t => t.term);
+  if (sameCategory.length >= count) return shuffle(sameCategory).slice(0, count);
+
+  return shuffle(TERMS.filter(t => t.id !== correct.id).map(t => t.term)).slice(0, count);
+}
+
+function makeDefinitionChoiceText(term) {
+  return getQuestionText(term);
+}
+
+function getDefinitionDistractors(correct, count = 3) {
+  const forced = FORCED_DISTRACTORS[correct.term] || [];
+  const forcedTerms = forced.map(getTermByName).filter(Boolean);
+  if (forcedTerms.length >= count) return shuffle(forcedTerms).slice(0, count);
+  const sameCategory = TERMS.filter(t => t.id !== correct.id && t.category === correct.category);
+  if (sameCategory.length >= count) return shuffle(sameCategory).slice(0, count);
+  return shuffle(TERMS.filter(t => t.id !== correct.id)).slice(0, count);
+}
+
+function makeStandardQuestion(term, forcedMode) {
+  const mode = forcedMode === 'auto'
+    ? (Math.random() < 0.55 ? 'definition-to-term' : 'term-to-definition')
+    : forcedMode;
+
+  if (mode === 'term-to-definition') {
+    const candidates = [term, ...getDefinitionDistractors(term)];
+    const choices = shuffle(candidates).map(item => ({
+      label: makeDefinitionChoiceText(item),
+      isCorrect: item.id === term.id
+    }));
+    return {
+      type: 'standard',
+      category: term.category,
+      prompt: `「${escapeHtml(term.term)}」の説明として最も適切なものはどれか。`,
+      answerText: term.term,
+      choices,
+      explain: `${term.term}：${term.definition}`
+    };
+  }
+
+  const labels = [term.term, ...getDistractorLabels(term)];
+  const choices = shuffle(labels).map(label => ({ label, isCorrect: label === term.term }));
+  return {
+    type: 'standard',
+    category: term.category,
+    prompt: `次の説明に該当するものとして最も適切なものはどれか。
+<span class="small-muted">${escapeHtml(getQuestionText(term))}</span>`,
+    answerText: term.term,
+    choices,
+    explain: `${term.term}：${term.definition}`
+  };
+}
+
+function makeExamQuestion(q) {
+  return {
+    type: 'exam',
+    category: 'AP本番風',
+    prompt: escapeHtml(q.question),
+    answerText: q.answer,
+    choices: shuffle(q.choices).map(c => ({ label: c, isCorrect: c === q.answer })),
+    explain: q.explain
+  };
+}
+
+function buildQuestions(count, difficulty, mode) {
+  if (mode === 'exam-only' || difficulty === 'exam') {
+    return shuffle(EXAM_QUESTIONS).slice(0, Math.min(count, EXAM_QUESTIONS.length)).map(makeExamQuestion);
+  }
+  if (difficulty === 'mixed') {
+    const examCount = Math.min(Math.ceil(count * 0.55), EXAM_QUESTIONS.length);
+    const standardCount = count - examCount;
+    return shuffle([
+      ...shuffle(EXAM_QUESTIONS).slice(0, examCount).map(makeExamQuestion),
+      ...shuffle(TERMS).slice(0, standardCount).map(t => makeStandardQuestion(t, mode))
+    ]);
+  }
+  return shuffle(TERMS).slice(0, count).map(t => makeStandardQuestion(t, mode));
+}
+
+function startTest() {
+  const max = questionModeInput.value === 'exam-only' || difficultyModeInput.value === 'exam' ? EXAM_QUESTIONS.length : TERMS.length;
+  let count = Number(questionCountInput.value || 10);
+  count = Math.max(1, Math.min(max, count));
+  questionCountInput.value = count;
+
+  questions = buildQuestions(count, difficultyModeInput.value, questionModeInput.value);
+  currentIndex = 0;
+  score = 0;
+  answered = false;
+  review = [];
+  resultArea.hidden = true;
+  testArea.hidden = false;
+  restartBtn.hidden = false;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[currentIndex];
+  questionBox.innerHTML = `
+    <div class="question-card">
+      <div class="question-meta">
+        <span>${currentIndex + 1} / ${questions.length} 問</span>
+        <span class="question-tag">${escapeHtml(q.category)}・${q.type === 'exam' ? 'ひっかけ' : '標準'}</span>
+      </div>
+      <div class="question-title">${q.prompt}</div>
+      <div class="option-grid">
+        ${q.choices.map((choice, idx) => `
+          <button type="button" class="option-btn" data-correct="${choice.isCorrect}">
+            ${idx + 1}. ${escapeHtml(choice.label)}
+          </button>
+        `).join('')}
+      </div>
+      <div id="test-feedback" class="test-feedback" hidden></div>
+      <div class="test-actions">
+        <button id="next-question" class="primary-link-btn" type="button" hidden>次へ</button>
+      </div>
+    </div>
+  `;
+
+  questionBox.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', () => chooseAnswer(btn));
+  });
+  document.getElementById('next-question').addEventListener('click', goNext);
+}
+
+function chooseAnswer(button) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentIndex];
+  const correct = button.dataset.correct === 'true';
+  const feedback = document.getElementById('test-feedback');
+  const nextBtn = document.getElementById('next-question');
+  questionBox.querySelectorAll('.option-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.dataset.correct === 'true') btn.classList.add('correct');
+  });
+  if (correct) {
+    score++;
+    feedback.innerHTML = `正解。<br>${escapeHtml(q.explain)}`;
+  } else {
+    button.classList.add('wrong');
+    feedback.innerHTML = `不正解。正解は「${escapeHtml(q.answerText)}」。<br>${escapeHtml(q.explain)}`;
+  }
+  review.push({ prompt: q.prompt.replace(/<[^>]+>/g, ''), answer: q.answerText, correct });
+  feedback.hidden = false;
+  nextBtn.hidden = false;
+  nextBtn.textContent = currentIndex + 1 >= questions.length ? '結果を見る' : '次へ';
+}
+
+function goNext() {
+  currentIndex++;
+  if (currentIndex >= questions.length) finishTest();
+  else renderQuestion();
+}
+
+function finishTest() {
+  testArea.hidden = true;
+  const pct = Math.round((score / questions.length) * 100);
+  const wrongs = review.filter(r => !r.correct);
+  resultArea.hidden = false;
+  resultArea.innerHTML = `
+    <h2>結果：${score} / ${questions.length} 問 正解（${pct}%）</h2>
+    <p class="study-note">間違えた問題だけ下に出します。</p>
+    <div class="review-list">
+      ${wrongs.length ? wrongs.map(w => `
+        <div class="review-item">
+          <div><strong>問題：</strong>${escapeHtml(w.prompt)}</div>
+          <div><strong>正解：</strong>${escapeHtml(w.answer)}</div>
+        </div>
+      `).join('') : '<div class="review-item">全問正解です。</div>'}
+    </div>
+  `;
+}
+
+startBtn.addEventListener('click', startTest);
+restartBtn.addEventListener('click', startTest);
+</script>
+
+</body>
+</html>
