@@ -2,7 +2,7 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
 
   async function json(path) {
     const response = await fetch(`../${path}`, { cache:'no-store' });
@@ -50,6 +50,20 @@
     return `<div class="lesson-table-wrap"><table class="lesson-table ${className}"><thead><tr>${(columns || []).map(col => `<th>${escapeHtml(col)}</th>`).join('')}</tr></thead><tbody>${(rows || []).map(row => `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }
 
+  function renderDiagram(section) {
+    return (section.diagrams || []).map(diagram => {
+      const nodes = Array.isArray(diagram.nodes) ? diagram.nodes : [];
+      const connector = String(diagram.connector ?? '→');
+      const nodeHtml = nodes.map((node, index) => {
+        const connectorHtml = connector && index < nodes.length - 1
+          ? `<span class="structure-connector" aria-hidden="true">${escapeHtml(connector)}</span>`
+          : '';
+        return `<div class="structure-item"><div class="structure-node"><span class="structure-node-title">${escapeHtml(node.title || '')}</span><strong>${escapeHtml(node.value || '')}</strong>${node.meta ? `<small>${escapeHtml(node.meta)}</small>` : ''}</div>${connectorHtml}</div>`;
+      }).join('');
+      return `<div class="structure-diagram"><h3>${escapeHtml(diagram.label || '')}</h3><div class="structure-scroll"><div class="structure-flow" role="list">${nodeHtml}</div></div>${diagram.note ? `<p class="structure-note">${escapeHtml(diagram.note)}</p>` : ''}</div>`;
+    }).join('');
+  }
+
   function renderSection(section, index) {
     const title = escapeHtml(section.title || `${index + 1}. セクション`);
     if (section.type === 'text') {
@@ -57,6 +71,9 @@
     }
     if (section.type === 'comparison') {
       return `<section class="lesson-block"><h2>${title}</h2>${table(section.columns, section.rows, 'comparison-table')}${section.note ? `<div class="lesson-note"><strong>ポイント</strong><p>${escapeHtml(section.note)}</p></div>` : ''}</section>`;
+    }
+    if (section.type === 'diagram') {
+      return `<section class="lesson-block diagram-block"><h2>${title}</h2>${renderDiagram(section)}</section>`;
     }
     if (section.type === 'code-trace') {
       return `<section class="lesson-block code-trace-block"><h2>${title}</h2>${section.question ? `<p class="lesson-question-lead">${escapeHtml(section.question)}</p>` : ''}<pre class="lesson-code"><code>${escapeHtml((section.code || []).join('\n'))}</code></pre><h3>実行トレース</h3>${table(section.traceColumns, section.traceRows, 'trace-table')}<div class="lesson-answer"><strong>答え</strong><p>${escapeHtml(section.answer || '')}</p></div>${section.explanation ? `<p>${escapeHtml(section.explanation)}</p>` : ''}</section>`;
