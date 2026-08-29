@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "id": "ALG-04",
+    "title": "スタック・キューと操作順",
+    "unitId": "algorithm-programming",
+    "officialMiddleCodes": [2],
+    "officialAreas": ["データ構造"],
+    "qualityStatus": "individual-v1",
+    "replacesTemplateFor": ["term-alg-018", "term-alg-019", "term-alg-020"],
+    "estimatedMinutes": 25
+  },
+  "intro": "スタックとキューは、要素そのものより『どの順番で入れて、どこから取り出すか』が本体です。この教材ではLIFO/FIFOを言葉で暗記せず、push・pop・enqueue・dequeueを1操作ずつ実行して状態を追います。デック、循環キュー、オーバーフロー/アンダーフローも派生として整理します。",
+  "objectives": [
+    "スタックのpush/popとLIFOを状態変化から説明できる。",
+    "キューのenqueue/dequeueとFIFOを状態変化から説明できる。",
+    "デックが通常のキューと何が違うかを説明できる。",
+    "配列でキューを実装するときのfront/rearと循環キューの意味を理解できる。",
+    "オーバーフローとアンダーフローがどの操作で起こるか判断できる。"
+  ],
+  "sections": [
+    {
+      "type": "comparison",
+      "title": "1. まず『入れる場所』と『取り出す場所』を分ける",
+      "columns": ["構造", "追加", "取り出し", "順序", "代表用途"],
+      "rows": [
+        ["スタック", "push: topへ追加", "pop: topから取り出す", "LIFO / 後入れ先出し", "関数呼出し、戻る操作、DFS"],
+        ["キュー", "enqueue: rearへ追加", "dequeue: frontから取り出す", "FIFO / 先入れ先出し", "待ち行列、処理待ち、BFS"],
+        ["デック", "先頭・末尾の両端", "先頭・末尾の両端", "使い方で変わる", "両端操作が必要な処理"]
+      ],
+      "note": "LIFO/FIFOだけを丸暗記せず、どの端から追加し、どの端から取り出すかを図にすると混乱しにくくなります。"
+    },
+    {
+      "type": "code-trace",
+      "title": "2. スタックを1操作ずつ追う",
+      "question": "空のスタックに次の操作を行う。各操作後のスタックと、popで取り出される値を追う。",
+      "code": [
+        "push(10)",
+        "push(20)",
+        "push(30)",
+        "x ← pop()",
+        "push(40)",
+        "y ← pop()"
+      ],
+      "traceColumns": ["操作", "実行後のスタック bottom → top", "取り出した値"],
+      "traceRows": [
+        ["push(10)", "[10]", "-"],
+        ["push(20)", "[10, 20]", "-"],
+        ["push(30)", "[10, 20, 30]", "-"],
+        ["x ← pop()", "[10, 20]", "x = 30"],
+        ["push(40)", "[10, 20, 40]", "-"],
+        ["y ← pop()", "[10, 20]", "y = 40"]
+      ],
+      "answer": "x = 30、y = 40、最後のスタックは [10, 20]",
+      "explanation": "最後にpushされた要素がtopにあるため、30が先に出て、その後追加した40が次に出ます。スタックの問題では、毎回topがどこかを明示するとミスが減ります。"
+    },
+    {
+      "type": "code-trace",
+      "title": "3. キューを1操作ずつ追う",
+      "question": "空のキューに次の操作を行う。frontからrearの順で状態を追う。",
+      "code": [
+        "enqueue(10)",
+        "enqueue(20)",
+        "enqueue(30)",
+        "x ← dequeue()",
+        "enqueue(40)",
+        "y ← dequeue()"
+      ],
+      "traceColumns": ["操作", "実行後のキュー front → rear", "取り出した値"],
+      "traceRows": [
+        ["enqueue(10)", "[10]", "-"],
+        ["enqueue(20)", "[10, 20]", "-"],
+        ["enqueue(30)", "[10, 20, 30]", "-"],
+        ["x ← dequeue()", "[20, 30]", "x = 10"],
+        ["enqueue(40)", "[20, 30, 40]", "-"],
+        ["y ← dequeue()", "[30, 40]", "y = 20"]
+      ],
+      "answer": "x = 10、y = 20、最後のキューは [30, 40]",
+      "explanation": "先にenqueueされた10、20から順に取り出されます。キューではfrontとrearを逆にしないことが最重要です。"
+    },
+    {
+      "type": "diagram",
+      "title": "4. 配列キューと循環キュー",
+      "diagrams": [
+        {
+          "label": "容量5の配列キュー: front=2, rear=4",
+          "connector": "",
+          "nodes": [
+            {"title":"0","value":"空","meta":"再利用候補"},
+            {"title":"1","value":"空","meta":"再利用候補"},
+            {"title":"2","value":"30","meta":"front"},
+            {"title":"3","value":"40","meta":""},
+            {"title":"4","value":"50","meta":"rear"}
+          ],
+          "note": "単純にrearを右へ進めるだけだと、0・1が空いていても末尾で追加できなくなります。"
+        },
+        {
+          "label": "循環キュー: rearの次を0へ戻して空き領域を再利用",
+          "connector": "→",
+          "nodes": [
+            {"title":"2","value":"30","meta":"front"},
+            {"title":"3","value":"40","meta":""},
+            {"title":"4","value":"50","meta":""},
+            {"title":"0","value":"60","meta":"rearが循環"},
+            {"title":"1","value":"空","meta":"次の追加候補"}
+          ],
+          "note": "添字を容量で剰余計算するなどして、末尾の次を先頭へ循環させます。"
+        }
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "5. オーバーフローとアンダーフロー",
+      "columns": ["状態", "起きる場面", "例", "確認ポイント"],
+      "rows": [
+        ["オーバーフロー", "満杯の構造へさらに追加しようとする", "固定長スタックへpush、満杯キューへenqueue", "追加前に空きがあるか"],
+        ["アンダーフロー", "空の構造から取り出そうとする", "空スタックからpop、空キューからdequeue", "取り出し前に要素があるか"]
+      ],
+      "note": "『overflow=数値が大きすぎる』だけではありません。データ構造では容量超過もオーバーフローと呼びます。"
+    },
+    {
+      "type": "steps",
+      "title": "6. 試験で操作列を追う手順",
+      "items": [
+        {"label":"① 向きを固定する","body":"スタックならbottom→top、キューならfront→rearなど、紙に書く向きを最初に決めます。"},
+        {"label":"② 1操作ごとに状態を書き直す","body":"複数操作を頭の中でまとめず、push/pop/enqueue/dequeueのたびに状態を更新します。"},
+        {"label":"③ 取り出した値を別欄へ書く","body":"pop/dequeueで消えた値を忘れないよう、戻り値xやyを別に記録します。"},
+        {"label":"④ 配列実装ならfront/rearも追う","body":"値だけでなく添字の移動を追い、循環する場合は容量を超えた添字が先頭へ戻ることを確認します。"}
+      ]
+    },
+    {
+      "type": "mistakes",
+      "title": "7. よくある失点",
+      "items": [
+        "スタックのtopを先頭側だと思い込み、逆からpopする。",
+        "キューでenqueueとdequeueを同じ端から行うと思う。",
+        "dequeue後にrearも必ず動くと思う。",
+        "循環キューで、配列末尾へ到達したら満杯だと決めつける。",
+        "空の構造へのpop/dequeueをそのまま実行してしまう。",
+        "デックをFIFO専用のキューと同じものだと思う。"
+      ]
+    }
+  ],
+  "checks": [
+    {"id":"ALG-04-Q1","prompt":"空のスタックにpush(1), push(2), push(3), pop()を行った。pop()の戻り値は？","options":["1","2","3","空"],"answerIndex":2,"explanation":"最後に入れた3がtopにあるため、LIFOで3が取り出されます。"},
+    {"id":"ALG-04-Q2","prompt":"空のキューにenqueue(A), enqueue(B), enqueue(C), dequeue()を行った。戻り値は？","options":["A","B","C","不定"],"answerIndex":0,"explanation":"FIFOなので最初に入ったAが先に取り出されます。"},
+    {"id":"ALG-04-Q3","prompt":"デックの特徴として正しいものは？","options":["末尾からしか削除できない","先頭と末尾の両方で追加・削除できる","常にLIFOで使う","常にFIFOで使う"],"answerIndex":1,"explanation":"dequeはdouble-ended queueで、両端から操作できます。"},
+    {"id":"ALG-04-Q4","prompt":"空のスタックに対してpop()しようとした状態は？","options":["オーバーフロー","アンダーフロー","衝突","デッドロック"],"answerIndex":1,"explanation":"要素がないのに取り出そうとするのがアンダーフローです。"},
+    {"id":"ALG-04-Q5","prompt":"循環キューを使う主な理由は？","options":["要素を自動整列するため","配列先頭側の空き領域を再利用するため","常にO(log n)で探索するため","重複要素を禁止するため"],"answerIndex":1,"explanation":"末尾の次を先頭へ循環させ、dequeueで空いた領域を再利用します。"},
+    {"id":"ALG-04-Q6","prompt":"グラフの幅優先探索(BFS)と特に関係が深いデータ構造は？","options":["スタック","キュー","ハッシュ表","ヒープだけ"],"answerIndex":1,"explanation":"BFSは近い頂点から順に処理するため、FIFOのキューと相性が良いです。"}
+  ],
+  "next": [{"lessonId":"ALG-05","label":"ハッシュ表と衝突処理","status":"planned"}]
+}
