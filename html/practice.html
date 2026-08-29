@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>総合演習 | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/practice.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="practice.html" class="unit-nav-link is-current">🧪 総合演習</a></li></ul></div></nav>
+<header class="practice-hero"><div class="container"><p class="eyebrow">ORIGINAL AP PRACTICE</p><h1>総合演習</h1><p class="lead">公式過去問の転載ではなく、IPAシラバスVer.7.2と本サイトLessonを基に作ったオリジナル問題です。選択式は自動採点、記述式は自分で答えてから模範観点と照合します。</p></div></header>
+<main>
+<section class="section"><div class="container">
+<div class="practice-toolbar">
+<label>学習ユニット<select id="practice-unit"><option value="all">全ユニット</option></select></label>
+<label>問題形式<select id="practice-type"><option value="all">すべて</option><option value="choice">選択式</option><option value="written">記述式</option></select></label>
+<label>難易度<select id="practice-difficulty"><option value="all">すべて</option><option value="2">標準</option><option value="3">応用</option><option value="4">やや難</option></select></label>
+<button type="button" id="practice-random">条件内からランダム</button>
+</div>
+<div id="practice-summary" class="practice-summary" aria-live="polite"></div>
+<div class="practice-layout">
+<aside class="practice-list-panel"><div id="practice-list" class="practice-list"></div></aside>
+<section id="practice-question" class="practice-question-panel"><p class="practice-empty">問題を読み込み中...</p></section>
+</div>
+</div></section>
+</main>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">オリジナル総合演習</p></div></footer>
+<script src="../js/shell.js" defer></script>
+<script src="../js/practice.js" defer></script>
+</body>
+</html>
