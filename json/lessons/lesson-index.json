@@ -33,6 +33,46 @@
       "contentTypes": ["concept", "diagram", "comparison", "exercise"],
       "status": "individual-v1",
       "file": "json/lessons/algorithm/alg-03-array-list.json"
+    },
+    {
+      "id": "ALG-04",
+      "order": 4,
+      "title": "スタック・キューと操作順",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "diagram", "code-trace", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-04-stack-queue.json"
+    },
+    {
+      "id": "ALG-05",
+      "order": 5,
+      "title": "ハッシュ表と衝突処理",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "diagram", "calculation", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-05-hash-table.json"
+    },
+    {
+      "id": "ALG-06",
+      "order": 6,
+      "title": "探索アルゴリズム",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["concept", "diagram", "code-trace", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-06-search.json"
+    },
+    {
+      "id": "ALG-07",
+      "order": 7,
+      "title": "ソートを比較して理解する",
+      "unitId": "algorithm-programming",
+      "officialMiddleCodes": [2],
+      "contentTypes": ["comparison", "diagram", "code-trace", "exercise"],
+      "status": "individual-v1",
+      "file": "json/lessons/algorithm/alg-07-sorting.json"
     }
   ]
 }
