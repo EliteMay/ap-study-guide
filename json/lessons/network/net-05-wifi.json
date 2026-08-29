@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"NET-05","title":"無線LAN・Wi-Fi","unitId":"network","officialMiddleCodes":[10],"officialAreas":["ネットワーク方式","ネットワーク応用"],"qualityStatus":"individual-v1","legacySource":"network","legacyTermRanges":[{"prefix":"net-lan-wireless-","from":17,"to":36}],"estimatedMinutes":30},
+  "intro":"Wi-Fiは規格名を並べるより、端末がAPを発見して接続する流れ、2.4/5/6GHzの特徴、channel干渉、MIMO/OFDMAの目的で整理します。",
+  "objectives":["SSIDとBSSIDを区別できる。","beacon/probe/associationの接続流れを説明できる。","2.4GHz/5GHz/6GHzの特徴を比較できる。","channel幅・干渉・MIMO・OFDMAが性能へ与える影響を説明できる。","Wi-Fi規格を目的レベルで整理できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. SSIDとBSSID","columns":["項目","意味","見る場面"],"rows":[["SSID","利用者に見えるnetwork名","同じ無線LANを識別"],["BSSID","個々のAP無線interfaceの識別子/MAC","同じSSID内のどのAPへ接続中か"],["roaming","同一/関連network内でAPを切替","移動時の接続維持"]],"note":"SSIDが同じでもBSSIDはAPごとに異なります。"},
+    {"type":"diagram","title":"2. 端末がAPへ接続する流れ","diagrams":[{"label":"探索から接続","connector":"→","nodes":[{"title":"AP","value":"Beacon","meta":"SSID等を通知"},{"title":"Client","value":"Probe Request","meta":"AP探索"},{"title":"AP","value":"Probe Response"},{"title":"Client/AP","value":"Authentication"},{"title":"Client/AP","value":"Association"}]}]},
+    {"type":"comparison","title":"3. 周波数帯の性格","columns":["帯域","特徴","注意"],"rows":[["2.4GHz","届きやすく障害物に比較的強い","混雑・他機器干渉が多い"],["5GHz","広いchannelを取りやすく高速化しやすい","壁などで減衰しやすい"],["6GHz","新しい広い周波数資源を利用しやすい","対応端末/APが必要"]],"note":"『高い周波数=常に良い』ではなく距離・障害物・混雑・対応機器で選びます。"},
+    {"type":"comparison","title":"4. Wi-Fi高速化技術の目的","columns":["技術","何を改善するか"],"rows":[["channel bonding","複数channel幅を束ねて帯域を広げる"],["MIMO","複数antenna/streamを使い速度・安定性を高める"],["OFDMA","周波数資源を細分化し多数端末へ効率配分"],["Wi-Fi 5 / 802.11ac","主に5GHzで高速化"],["Wi-Fi 6 / 802.11ax","多数端末環境の効率改善を強化"]],"note":"速度だけでなく『多数端末で効率が落ちにくいか』も重要です。"},
+    {"type":"steps","title":"5. 無線が遅いときの切り分け","items":[{"label":"① 電波強度・距離","body":"APから遠い/遮蔽物が多いか。"},{"label":"② 周波数帯","body":"2.4GHz混雑か、5/6GHzへ切替可能か。"},{"label":"③ channel干渉","body":"近隣APと重なっていないか。"},{"label":"④ 端末数","body":"同一APへ集中していないか。"},{"label":"⑤ 有線uplink","body":"Wi-Fi側だけでなくAP以降の回線がbottleneckでないか。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["SSIDをAP固有のMACアドレスだと思わない。","channel幅を広げれば必ず改善するわけではない。干渉しやすくなる場合がある。","Wi-Fiが遅い=必ず電波が弱い、と断定しない。uplinkやInternet側も確認する。","認証frameという用語だけでWPA等のsecurity方式を説明したことにはならない。Security側で別途扱う。"]}
+  ],
+  "checks":[
+    {"id":"net05-q1","prompt":"個々のAP無線interfaceを識別するのは？","options":["BSSID","SSIDだけ","CIDR","AS番号"],"answerIndex":0,"explanation":"BSSIDは一般にAPの無線interfaceのMACアドレスに対応します。"},
+    {"id":"net05-q2","prompt":"多数端末へ周波数資源を細かく割り当てる技術は？","options":["OFDMA","STP","NAT","ARP"],"answerIndex":0,"explanation":"OFDMAは周波数資源を分割して複数端末へ効率よく割り当てます。"},
+    {"id":"net05-q3","prompt":"一般に障害物に比較的強いが混雑しやすい帯域は？","options":["2.4GHz","5GHz","6GHz","光fiberだけ"],"answerIndex":0,"explanation":"2.4GHzは届きやすい反面、利用機器が多く混雑しやすい傾向です。"},
+    {"id":"net05-q4","prompt":"端末がAPとの接続関係を確立する処理は？","options":["association","NAT","route aggregation","DNSSEC"],"answerIndex":0,"explanation":"associationでAPとの接続関係を確立します。"}
+  ]
+}
