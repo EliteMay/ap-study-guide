@@ -1,17 +1,21 @@
 {
   "meta": {
     "title": "アルゴリズム用語マニフェスト",
-    "version": "v1-complete-20260829",
+    "version": "v2-audit-in-progress-20260829",
     "totalTerms": 65,
-    "policy": "HTMLへ用語を直書きせずJSONから読み込む。"
+    "status": "audit-in-progress",
+    "officialMiddleCode": 2,
+    "officialMiddleTitle": "アルゴリズムとプログラミング",
+    "auditFile": "json/curriculum/audits/algorithm-audit.json",
+    "policy": "現在の65語・6カテゴリを完成形とは扱わない。IPAシラバスVer.7.2の中分類2に照らして再分類し、独立カード・統合教材・別ユニット移動・専用演習へ段階的に移行する。"
   },
   "categories": [
-    {"id":"algorithm-01","title":"アルゴリズム基礎・計算量","description":"入力サイズnが増えたとき、処理回数やメモリ量がどう増えるかを見る。"},
-    {"id":"algorithm-02","title":"データ構造","description":"追加・削除・探索のどの操作が得意か、要素の保持順序と合わせて見る。"},
-    {"id":"algorithm-03","title":"探索・ソート","description":"前提条件、比較回数、交換・分割の仕方、安定性を区別する。"},
-    {"id":"algorithm-04","title":"再帰・動的計画法","description":"問題をどのように小さくし、同じ部分問題を再利用するかを見る。"},
-    {"id":"algorithm-05","title":"木・グラフ","description":"ノードと辺、訪問順序、経路コストのどれが問われているかを見る。"},
-    {"id":"algorithm-06","title":"論理・ビット・文字列","description":"入力ビットや文字位置を具体的に書き、1操作ずつ結果を追う。"}
+    {"id":"algorithm-01","title":"アルゴリズム基礎・計算量","description":"暫定カテゴリ。アルゴリズムの表現、擬似言語、計算量を含むが、最終的には表現/トレースと計算量教材へ分ける。"},
+    {"id":"algorithm-02","title":"データ構造","description":"配列、リスト、スタック、キュー、ハッシュなど。IPA範囲に対して不足する派生構造と操作演習を追加する。"},
+    {"id":"algorithm-03","title":"探索・ソート","description":"代表探索・ソートを収録。最終的には各用語の長文カードより、同じ入力を使った比較・実行トレースを中心にする。"},
+    {"id":"algorithm-04","title":"再帰・動的計画法","description":"暫定カテゴリ。再帰、分割統治、動的計画法などを含む。用語暗記ではなく実行追跡と問題分割の理解へ移行する。"},
+    {"id":"algorithm-05","title":"木・グラフ","description":"木・走査・グラフ・最短経路を含む。派生構造と訪問順を図・表・トレースで学ぶ教材へ再構成する。"},
+    {"id":"algorithm-06","title":"論理・ビット・文字列","description":"暫定カテゴリ。AND/OR/XOR/シフトは基礎理論への移動候補。文字列探索はアルゴリズム側で拡張する。"}
   ],
-  "files": [{"title":"アルゴリズム全体","file":"json/terms/algorithm-terms.json","count":65}]
+  "files": [{"title":"アルゴリズム既存語・監査対象","file":"json/terms/algorithm-terms.json","count":65}]
 }
