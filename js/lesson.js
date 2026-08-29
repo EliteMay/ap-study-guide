@@ -2,7 +2,7 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
 
   async function json(path) {
     const response = await fetch(`../${path}`, { cache:'no-store' });
@@ -18,11 +18,12 @@
     const id = requestedLessonId();
     if (!id) throw new Error('lesson id が指定されていません。');
     const index = await json('json/lessons/lesson-index.json');
-    const entry = (index.lessons || []).find(item => String(item.id).toUpperCase() === id);
+    const lessons = Array.isArray(index.lessons) ? index.lessons : [];
+    const entry = lessons.find(item => String(item.id).toUpperCase() === id);
     if (!entry) throw new Error(`教材 ${id} は見つかりません。`);
     const lesson = await json(entry.file);
     if (lesson.meta?.id !== entry.id) throw new Error(`${entry.id}: index と教材JSONのIDが一致しません。`);
-    return { entry, lesson };
+    return { entry, lesson, lessons };
   }
 
   function renderHero(entry, lesson) {
@@ -102,19 +103,50 @@
     });
   }
 
-  function renderNext(lesson) {
-    const next = lesson.next || [];
-    if (!next.length) return '';
-    return `<section class="lesson-block next-lesson-block"><h2>次に進む</h2>${next.map(item => `<div class="next-lesson-row"><div><strong>${escapeHtml(item.lessonId)}</strong><p>${escapeHtml(item.label || '')}</p></div><span>${item.status === 'planned' ? '準備中' : escapeHtml(item.status || '')}</span></div>`).join('')}</section>`;
+  function renderLessonNav(entry, lesson, lessons) {
+    const ordered = [...lessons].sort((a, b) => Number(a.order || 9999) - Number(b.order || 9999));
+    const currentIndex = ordered.findIndex(item => item.id === entry.id);
+    const previous = currentIndex > 0 ? ordered[currentIndex - 1] : null;
+    const indexedById = new Map(ordered.map(item => [item.id, item]));
+    const explicitNext = Array.isArray(lesson.next) ? lesson.next : [];
+    const indexNext = currentIndex >= 0 && currentIndex + 1 < ordered.length ? ordered[currentIndex + 1] : null;
+    const rows = [];
+
+    if (previous) {
+      rows.push({ id:previous.id, label:`前の教材：${previous.title}`, available:true, direction:'PREV' });
+    }
+
+    if (explicitNext.length) {
+      for (const item of explicitNext) {
+        const resolved = indexedById.get(item.lessonId);
+        rows.push({
+          id:item.lessonId,
+          label:resolved?.title || item.label || '',
+          available:Boolean(resolved),
+          direction:'NEXT',
+          status:item.status || (resolved ? '公開中' : 'planned')
+        });
+      }
+    } else if (indexNext) {
+      rows.push({ id:indexNext.id, label:indexNext.title, available:true, direction:'NEXT', status:'公開中' });
+    }
+
+    if (!rows.length) return '';
+    return `<section class="lesson-block next-lesson-block"><h2>教材ナビ</h2>${rows.map(item => {
+      const inner = `<div><small>${escapeHtml(item.direction)}</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.label)}</strong></div><span>${item.available ? '開く' : '準備中'}</span>`;
+      return item.available
+        ? `<a class="next-lesson-row is-link" href="lesson.html?id=${encodeURIComponent(item.id)}">${inner}</a>`
+        : `<div class="next-lesson-row">${inner}</div>`;
+    }).join('')}</section>`;
   }
 
   async function init() {
     try {
-      const { entry, lesson } = await loadLesson();
+      const { entry, lesson, lessons } = await loadLesson();
       renderHero(entry, lesson);
       renderObjectives(lesson);
       $('lesson-status').innerHTML = `<strong>${escapeHtml(lesson.meta.id)}</strong> は、共通生成の長文ではなく、この学習内容専用に作った構造化教材です。`;
-      $('lesson-sections').innerHTML = (lesson.sections || []).map(renderSection).join('') + renderNext(lesson);
+      $('lesson-sections').innerHTML = (lesson.sections || []).map(renderSection).join('') + renderLessonNav(entry, lesson, lessons);
       renderChecks(lesson);
     } catch (error) {
       console.error(error);
