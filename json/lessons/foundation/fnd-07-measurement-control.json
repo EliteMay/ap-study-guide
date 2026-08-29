@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"FND-07","title":"計測・制御・フィードバックの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "intro":"計測制御はSensor名の暗記ではなく、目標値と実測値の差をどう使うかで整理します。Open Loop/Closed Loop、Feedback、Sampling、A/D・D/AをSystemとしてつなげます。",
+  "objectives":["Open LoopとClosed Loopを比較できる。","Feedback Controlの基本Flowを説明できる。","Sampling周期とSampling周波数を変換できる。","A/D・D/A変換の役割を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. Open LoopとClosed Loop","columns":["方式","実測Feedback","特徴"],"rows":[["Open Loop","使わない","単純だが外乱や個体差を自動補正しにくい"],["Closed Loop","使う","目標と実測の差を見て操作量を調整する"]],"note":"TimerだけでHeaterを動かすのはOpen Loop、温度Sensorを見ながらHeater出力を変えるのはClosed Loopの典型です。"},
+    {"type":"diagram","title":"2. Feedback Controlの流れ","diagrams":[{"label":"目標値へ近づける","connector":"→","nodes":[{"title":"目標値","value":"Set Point"},{"title":"比較","value":"偏差"},{"title":"Controller","value":"操作量"},{"title":"Plant","value":"対象"},{"title":"Sensor","value":"実測"}],"note":"Sensorの実測値を比較点へ戻すのがFeedback。外乱が入っても偏差を見て修正できます。"}]},
+    {"type":"comparison","title":"3. 制御の代表概念","columns":["概念","役割","注意"],"rows":[["比例制御(P)","偏差に比例して操作","単純で応答が速いが定常偏差が残る場合"],["積分(I)","偏差の累積を使う","定常偏差を減らす"],["微分(D)","変化速度を見る","急変を抑える方向に使う"],["PID","P/I/Dを組み合わせる","調整値次第で応答が変わる"]]},
+    {"type":"code-trace","title":"4. Sampling周波数","question":"Sampling周期が0.5msのときSampling周波数を求める。","code":["0.5 ms = 0.0005 s","f = 1 / T","f = 1 / 0.0005"],"traceColumns":["項目","値"],"traceRows":[["周期T","0.0005s"],["周波数f","2000Hz"]],"answer":"2kHz","explanation":"周期と周波数は逆数関係です。"},
+    {"type":"comparison","title":"5. AnalogとDigitalの橋渡し","columns":["変換","方向","例"],"rows":[["A/D","Analog→Digital","Sensor電圧を数値へ"],["D/A","Digital→Analog","数値からAnalog出力へ"],["量子化","連続振幅を段階化","bit数が多いほど細かい段階"],["Sampling","時間軸を離散化","一定周期で値を取得"]]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Feedbackは出力をそのまま入力へ戻すことではなく、目標との差を制御へ利用する考え方。","Sampling周波数を上げると時間分解能は高くなるがData量も増える。","A/Dのbit数とSampling周波数は別の軸。bit数は振幅方向、Samplingは時間方向。","Closed Loopだから必ず安定とは限らず、制御Parameterが不適切だと振動・発散する場合もある。"]}
+  ],
+  "checks":[
+    {"id":"fnd07-q1","prompt":"室温Sensorを読み目標温度との差でHeater出力を調整する方式は？","options":["Open Loop","Closed Loop","Batch処理","Pollingだけ"],"answerIndex":1,"explanation":"実測をFeedbackしているのでClosed Loopです。"},
+    {"id":"fnd07-q2","prompt":"Sampling周期2msのSampling周波数は？","options":["50Hz","500Hz","2kHz","200kHz"],"answerIndex":1,"explanation":"2ms=0.002sなので1/0.002=500Hzです。"},
+    {"id":"fnd07-q3","prompt":"SensorのAnalog電圧をComputerで扱うDigital値にするのは？","options":["D/A","A/D","RAID","NAT"],"answerIndex":1,"explanation":"AnalogからDigitalへの変換なのでA/Dです。"},
+    {"id":"fnd07-q4","prompt":"PIDのIが主に利用するものは？","options":["偏差の累積","現在偏差だけ","Packet TTL","Disk parity"],"answerIndex":0,"explanation":"積分項は偏差を時間方向に蓄積して使います。"}
+  ]
+}
