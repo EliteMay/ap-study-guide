@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"LAW-02","title":"知的財産権・Software License・契約の基礎","unitId":"law-standards","officialMiddleCodes":[23],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"法務は法律名当てではなく、『何を保護する権利か』『誰が何を許諾されたか』『契約で何を合意したか』を分けて判断します。",
+  "objectives":["著作権・特許権・商標権・営業秘密を対象で区別できる。","Software Licenseの代表的な違いを説明できる。","NDA・業務委託・請負/準委任の論点を説明できる。","知財の帰属・利用許諾を契約で確認する理由を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 知的財産を区別する","columns":["権利/制度","主に保護するもの","例"],"rows":[["著作権","創作的表現","Program Code、文書、画像"],["特許権","発明/技術的Idea","新規な技術"],["商標権","商品/Serviceの識別標識","Brand名/Logo"],["意匠権","物品等のDesign","製品外観"],["営業秘密","秘密管理された有用情報","Algorithm Know-how/顧客List"]],"note":"同じ製品に複数の権利が重なる場合があります。"},
+    {"type":"comparison","title":"2. Software Licenseの読み方","columns":["Type例","特徴","確認点"],"rows":[["Proprietary","利用条件を権利者が定める","User数/Device/再配布"],["Permissive OSS","再利用しやすい","Notice/License表示等"],["Copyleft OSS","派生物の配布条件が強い場合","Source公開条件等"],["SaaS Terms","Software配布ではなくService利用","Data/Account/SLA/終了時"]],"note":"具体的義務は各License本文と利用形態で確認します。名称だけで断定しません。"},
+    {"type":"comparison","title":"3. 契約で見る項目","columns":["項目","確認すること","Risk"],"rows":[["Scope","何を提供するか","期待不一致"],["Deliverable/Acceptance","成果物と検収条件","完成定義不明"],["IP Ownership","成果物の権利帰属/利用許諾","再利用不可"],["Confidentiality","秘密情報の扱い","漏えい"],["Liability","損害責任/上限","無制限Risk"],["Termination/Exit","終了時のData/移行","Lock-in"]]},
+    {"type":"comparison","title":"4. 請負と準委任の考え方","columns":["観点","請負","準委任"],"rows":[["中心","仕事の完成","一定の業務遂行"],["成果物完成責任","中心になる","通常は完成そのものを約束する形ではない"],["適用例","仕様が明確な成果物等","専門業務/支援等" ]],"note":"実際の契約解釈は条項全体で決まり、名称だけで法的性質を断定しません。試験では基本概念を押さえます。"},
+    {"type":"steps","title":"5. 外部Code/素材を使う前に","items":[{"label":"① Source確認","body":"どこから取得したか。"},{"label":"② License確認","body":"利用/改変/再配布条件を見る。"},{"label":"③ Product形態","body":"内部利用、配布、SaaS等を確認。"},{"label":"④ Notice/Source義務","body":"必要表示やSource提供条件を確認。"},{"label":"⑤ 記録","body":"SBOM/License List等で追跡可能にする。"}]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Internet上で無料取得できる=著作権放棄ではない。","OSS=何をしても自由ではなくLicense条件がある。","委託費を払った=知財が自動的に全て自社へ移る、とは限らない。契約確認が必要。","NDAがあってもAccess ControlやData管理が不要になるわけではない。"]}
+  ],
+  "checks":[
+    {"id":"law02-q1","prompt":"Program Codeの創作的表現を主に保護する権利は？","options":["著作権","特許権だけ","商標権だけ","SLA"],"answerIndex":0,"explanation":"Software Codeは著作物として著作権の対象になり得ます。"},
+    {"id":"law02-q2","prompt":"Brand名やLogoの識別標識を保護する代表権利は？","options":["商標権","著作権だけ","MTBF","RAID"],"answerIndex":0,"explanation":"Trademark/商標権です。"},
+    {"id":"law02-q3","prompt":"OSS利用でまず確認すべきことは？","options":["License条件と利用形態","Download Sizeだけ","作者の好きな色","CPU Clock"],"answerIndex":0,"explanation":"改変・再配布・Notice等の義務はLicenseと利用形態で決まります。"},
+    {"id":"law02-q4","prompt":"委託成果物を別製品でも自由に再利用できるか確認する契約項目は？","options":["IP Ownership/License","Temperature","Subnet","Frame Rate"],"answerIndex":0,"explanation":"成果物の権利帰属と利用許諾範囲を確認します。"}
+  ]
+}
