@@ -1,0 +1,20 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-09","title":"損益分岐点・ROI・NPV・投資判断","unitId":"business-accounting","officialMiddleCodes":[22],"qualityStatus":"individual-v1","estimatedMinutes":45},
+  "intro":"投資評価は公式を覚えるより、『固定費と変動費』『利益率』『将来Cashの現在価値』を分けて考えます。BEP、ROI、Payback、NPVを実際に計算します。",
+  "objectives":["損益分岐点売上高を計算できる。","ROIを投資額と利益から計算できる。","現在価値と割引率の意味を説明できる。","NPVの正負から投資案を判断できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 固定費と変動費","columns":["Cost","特徴","例"],"rows":[["固定費","売上量が変わっても短期に一定","家賃/固定給与/License基本料"],["変動費","販売/生産量に比例しやすい","材料/決済手数料"],["限界利益","売上-変動費","固定費回収と利益の源泉"]]},
+    {"type":"code-trace","title":"2. 損益分岐点売上高","question":"固定費300万円、変動費率60%のときBEP売上高を求める。","code":["限界利益率 = 1 - 0.60 = 0.40","BEP売上高 = 固定費 / 限界利益率","= 300 / 0.40"],"traceColumns":["項目","値"],"traceRows":[["固定費","300万円"],["限界利益率","40%"],["BEP売上高","750万円"]],"answer":"750万円","explanation":"売上750万円なら限界利益300万円となり固定費と一致して利益0です。"},
+    {"type":"code-trace","title":"3. ROI","question":"投資額500万円で年間利益100万円を生む場合、単純ROIを求める。","code":["ROI = 利益 / 投資額 × 100","= 100 / 500 × 100"],"traceColumns":["項目","値"],"traceRows":[["投資","500万円"],["利益","100万円"],["ROI","20%"]],"answer":"20%","explanation":"期間や利益Definitionを揃えて比較します。"},
+    {"type":"text","title":"4. 現在価値","paragraphs":["将来100万円と今100万円は同じ価値とは限りません。今の資金は運用でき、将来にはRiskもあるため、割引率rで将来Cash Flowを現在価値へ戻します。","n年後のCash Flow CFの現在価値は PV=CF/(1+r)^n です。"]},
+    {"type":"code-trace","title":"5. NPVの簡単な例","question":"初期投資100万円、1年後に110万円回収、割引率5%のNPVを求める。","code":["PV = 110 / 1.05 ≒ 104.76","NPV = 104.76 - 100"],"traceColumns":["項目","値"],"traceRows":[["将来CF現在価値","約104.76万円"],["初期投資","100万円"],["NPV","約+4.76万円"]],"answer":"約+4.76万円","explanation":"NPVが正なら、この割引率を基準に価値を増やす案と判断できます。"},
+    {"type":"comparison","title":"6. 投資評価指標","columns":["指標","見るもの","弱点"],"rows":[["ROI","投資に対する利益率","Timingを単純化しやすい"],["Payback Period","回収までの時間","回収後Cashを無視しやすい"],["NPV","時間価値込みの価値増減","割引率設定に依存"],["IRR","NPV=0となる収益率","複雑なCash Flowで解釈注意"]]},
+    {"type":"mistakes","title":"7. よくある誤解","items":["BEPで利益最大になるわけではなく利益0の境界。","ROI比較では期間を揃える。","将来Cashを単純合計して初期投資と比較すると時間価値を無視する。","NPVが正でも他のRisk・資金制約・戦略適合を無視してよいわけではない。"]}
+  ],
+  "checks":[
+    {"id":"bus09-q1","prompt":"固定費200、変動費率50%のBEP売上高は？","options":["100","200","400","500"],"answerIndex":2,"explanation":"限界利益率50%、200/0.5=400です。"},
+    {"id":"bus09-q2","prompt":"投資400、年間利益80の単純ROIは？","options":["5%","20%","40%","80%"],"answerIndex":1,"explanation":"80/400=20%です。"},
+    {"id":"bus09-q3","prompt":"NPVが正である意味として最も近いのは？","options":["設定した割引率基準で価値を増やす","必ずRiskゼロ","利益が毎年一定","投資額が0"],"answerIndex":0,"explanation":"現在価値で見た流入が初期投資を上回ります。"},
+    {"id":"bus09-q4","prompt":"将来Cash Flowを現在価値へ戻すとき使うのは？","options":["割引率","Subnet Mask","Checksum","Color Depth"],"answerIndex":0,"explanation":"時間価値を割引率で反映します。"}
+  ]
+}
