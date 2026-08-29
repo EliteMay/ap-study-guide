@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AP Study Notes Data Integrity Tests</title>
+<style>
+:root{font-family:"Yu Gothic",Meiryo,sans-serif;color:#172033;background:#f4f7fb}*{box-sizing:border-box}body{margin:0}.wrap{width:min(980px,92%);margin:0 auto;padding:38px 0 64px}h1{margin:0 0 8px}.lead{color:#64748b}.summary{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}.pill{padding:7px 12px;border-radius:999px;background:#e2e8f0;font-weight:800}.pill.pass{background:#dcfce7;color:#166534}.pill.fail{background:#fee2e2;color:#991b1b}.group{margin:16px 0;padding:18px;background:#fff;border:1px solid #dbe5ee;border-radius:14px}.group h2{margin:0 0 10px;font-size:1.05rem}.case{display:grid;grid-template-columns:68px 1fr;gap:10px;padding:8px 0;border-top:1px solid #edf2f7}.case:first-of-type{border-top:0}.status{font-weight:900}.status.pass{color:#15803d}.status.fail{color:#b91c1c}.status.info{color:#475569}code{font-family:Consolas,monospace}.error{white-space:pre-wrap;color:#991b1b}.actions{display:flex;gap:10px;margin-top:16px}button,a{font:inherit}.btn{display:inline-block;border:1px solid #cbd5e1;border-radius:10px;padding:9px 13px;background:#fff;color:#0f172a;text-decoration:none;font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p><a class="btn" href="../index.html">← サイトへ戻る</a></p>
+  <h1>Data Integrity Tests</h1>
+  <p class="lead">ASMRTubeの <code>tests/</code> 構成を参考に、APサイトのJSON追加・編集で壊れやすい対応関係を自動検査します。</p>
+  <div class="actions"><button class="btn" id="rerun" type="button">再実行</button></div>
+  <div class="summary" id="summary"><span class="pill">実行待ち</span></div>
+  <div id="results"></div>
+</main>
+<script>
+(() => {
+  'use strict';
+  const ROOT='../';
+  const DOMAIN_SETS=[
+    {id:'security',label:'情報セキュリティ',terms:'security-terms-manifest.json',details:'security-details-manifest.json'},
+    {id:'network',label:'ネットワーク',terms:'network-terms-manifest.json',details:'network-details-manifest.json'},
+    {id:'database',label:'データベース',terms:'database-terms-manifest.json',details:'database-details-manifest.json'}
+  ];
+  const results=[];
+  const root=document.getElementById('results');
+  const summary=document.getElementById('summary');
+
+  async function json(path){
+    const res=await fetch(ROOT+path,{cache:'no-store'});
+    if(!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
+    return res.json();
+  }
+  function add(group,name,pass,detail=''){
+    results.push({group,name,pass,detail});
+  }
+  function manifestExpected(manifest,key){
+    const direct=Number(manifest?.meta?.[key]);
+    if(Number.isFinite(direct)&&direct>=0) return direct;
+    return (manifest.files||[]).reduce((sum,item)=>sum+Number(item.count||0),0);
+  }
+  function sameArray(a,b){
+    const aa=Array.isArray(a)?a.map(String):[];
+    const bb=Array.isArray(b)?b.map(String):[];
+    return aa.length===bb.length&&aa.every((value,index)=>value===bb[index]);
+  }
+
+  async function checkDomain(set){
+    const [tm,dm]=await Promise.all([json(set.terms),json(set.details)]);
+    const termPayloads=await Promise.all((tm.files||[]).map(async item=>({item,payload:await json(item.file)})));
+    const detailPayloads=await Promise.all((dm.files||[]).map(async item=>({item,payload:await json(item.file)})));
+    const terms=termPayloads.flatMap(({payload})=>payload.terms||[]);
+    const details=detailPayloads.flatMap(({payload})=>payload.details||[]);
+
+    termPayloads.forEach(({item,payload})=>add(set.label,`${item.file} 件数`,Number(item.count||0)===(payload.terms||[]).length,`${payload.terms?.length||0}件`));
+    detailPayloads.forEach(({item,payload})=>add(set.label,`${item.file} 詳細件数`,Number(item.count||0)===(payload.details||[]).length,`${payload.details?.length||0}件`));
+
+    const termExpected=manifestExpected(tm,'totalTerms');
+    const detailExpected=manifestExpected(dm,'totalDetails');
+    add(set.label,'用語総数',terms.length===termExpected,`${terms.length} / manifest ${termExpected}`);
+    add(set.label,'詳細総数',details.length===detailExpected,`${details.length} / manifest ${detailExpected}`);
+
+    const ids=terms.map(x=>x.id).filter(Boolean);
+    const names=terms.map(x=>x.term).filter(Boolean);
+    add(set.label,'用語ID重複なし',new Set(ids).size===ids.length,`${ids.length} IDs`);
+    add(set.label,'用語名重複なし',new Set(names).size===names.length,`${names.length} terms`);
+
+    const termById=new Map(terms.filter(x=>x.id).map(x=>[x.id,x]));
+    const detailById=new Map(details.filter(x=>x.id).map(x=>[x.id,x]));
+    const missing=[...termById.keys()].filter(id=>!detailById.has(id));
+    const extra=[...detailById.keys()].filter(id=>!termById.has(id));
+    add(set.label,'全用語に詳細あり',missing.length===0,missing.length?missing.slice(0,8).join(', '):`${termById.size}件対応`);
+    add(set.label,'孤立した詳細なし',extra.length===0,extra.length?extra.slice(0,8).join(', '):'OK');
+
+    const mismatches=[];
+    for(const [id,term] of termById){
+      const detail=detailById.get(id);
+      if(!detail) continue;
+      if(detail.term&&detail.term!==term.term) mismatches.push(`${id}: term`);
+      if(detail.category&&detail.category!==term.category) mismatches.push(`${id}: category`);
+    }
+    add(set.label,'term/category対応',mismatches.length===0,mismatches.length?mismatches.slice(0,8).join(', '):'OK');
+  }
+
+  async function checkPast(){
+    const index=await json('security-past-index.json');
+    add('過去問','インデックス件数',Array.isArray(index.files)&&index.files.length>0,`${index.files?.length||0}件`);
+    for(const item of index.files||[]){
+      const [pastPayload,problemPayload]=await Promise.all([json(item.file),json(item.problemFile)]);
+      const past=pastPayload.pastQuestions||[];
+      const problem=problemPayload.problem||{};
+      add('過去問',`${item.id}: 解説件数`,past.length===Number(item.count||0),`${past.length} / index ${item.count}`);
+      add('過去問',`${item.id}: problemFile`,Boolean(problem.id),problem.id||'problem.idなし');
+
+      for(const q of past){
+        const sections=Array.isArray(q.sections)?q.sections:[];
+        const problemQuestions=Array.isArray(problem.questions)?problem.questions:[];
+        add('過去問',`${q.id}: sectionsあり`,sections.length>0,`${sections.length}設問`);
+        for(const section of sections){
+          const hit=problemQuestions.find(question=>String(question.label||'')===String(section.label||''));
+          add('過去問',`${q.id} ${section.label}: 問題側設問あり`,Boolean(hit),hit?'OK':'対応するquestions[]なし');
+          if(hit){
+            add('過去問',`${q.id} ${section.label}: targets一致`,sameArray(section.answerTargets,hit.targets),`解説 [${(section.answerTargets||[]).join(', ')}] / 問題 [${(hit.targets||[]).join(', ')}]`);
+          }
+          const answers=Array.isArray(section.expectedAnswers)?section.expectedAnswers:[];
+          add('過去問',`${q.id} ${section.label}: 答案情報`,answers.length>0||section.status==='要原本確認',answers.length?`${answers.length}件`:`status=${section.status||'未設定'}`);
+        }
+      }
+    }
+  }
+
+  function render(){
+    const failed=results.filter(item=>!item.pass).length;
+    const passed=results.length-failed;
+    summary.innerHTML=`<span class="pill pass">PASS ${passed}</span><span class="pill ${failed?'fail':'pass'}">FAIL ${failed}</span><span class="pill">TOTAL ${results.length}</span>`;
+    const groups=[...new Set(results.map(item=>item.group))];
+    root.innerHTML=groups.map(group=>`<section class="group"><h2>${group}</h2>${results.filter(item=>item.group===group).map(item=>`<div class="case"><span class="status ${item.pass?'pass':'fail'}">${item.pass?'PASS':'FAIL'}</span><div><strong>${item.name}</strong>${item.detail?`<div>${item.detail}</div>`:''}</div></div>`).join('')}</section>`).join('');
+  }
+
+  async function run(){
+    results.length=0;
+    summary.innerHTML='<span class="pill">実行中...</span>';
+    root.innerHTML='';
+    try{
+      for(const set of DOMAIN_SETS) await checkDomain(set);
+      await checkPast();
+    }catch(error){
+      add('実行エラー','テスト処理',false,error.stack||error.message);
+    }
+    render();
+  }
+
+  document.getElementById('rerun').addEventListener('click',run);
+  document.addEventListener('DOMContentLoaded',run);
+})();
+</script>
+</body>
+</html>
