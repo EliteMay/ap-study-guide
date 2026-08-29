@@ -1,0 +1,18 @@
+{
+  "meta":{"schemaVersion":1,"id":"STR-04","title":"ソリューションビジネス・Outsourcing・BPO","unitId":"strategy-planning","officialMiddleCodes":[17],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "intro":"外部Service利用は『自社で作るか買うか』だけではありません。Outsourcing、BPO、Shared Service、SI、Managed Serviceを、責任範囲・Core Competence・Cost・Lock-inで比較します。",
+  "objectives":["Outsourcing/BPO/Shared Serviceを区別できる。","Make or Buy判断の軸を説明できる。","Vendor Lock-inとGovernance Riskを説明できる。","SLA・Contractと運用責任の関係を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 外部化の代表形態","columns":["形態","何を任せる","例"],"rows":[["Outsourcing","IT業務の一部/全部","運用監視を外部委託"],["BPO","Business Process自体","給与計算/Contact Center"],["Managed Service","継続Serviceとして運用","Managed DB/Security Monitoring"],["SI","System企画・構築を統合","要件〜導入"],["Shared Service","Group内で共通業務を集約","会計/人事共通Center"]]},
+    {"type":"comparison","title":"2. Make or Buyの判断軸","columns":["観点","内製寄り","外部利用寄り"],"rows":[["競争優位","独自Know-howがCore","標準業務"],["Speed","Skillが既にある","Vendor/Serviceで早い"],["Cost","長期規模で有利な場合","初期投資を抑えたい"],["Control","細かく制御したい","標準化を受け入れる"],["Risk","機密/規制が強い","専門Vendorへ委ねる価値"]]},
+    {"type":"diagram","title":"3. Outsourcingしても責任は消えない","diagrams":[{"label":"Governanceは利用組織に残る","connector":"→","nodes":[{"title":"Business Owner","value":"目的/責任"},{"title":"Contract/SLA","value":"期待水準"},{"title":"Vendor","value":"Service実行"},{"title":"Monitoring","value":"実績評価"},{"title":"Improvement","value":"是正/更新"}],"note":"委託先が実作業をしても、選定・監督・Risk管理まで外へ消えるわけではありません。"}]},
+    {"type":"comparison","title":"4. Vendor Lock-in","columns":["原因","Risk","対策例"],"rows":[["独自API/Data形式","移行困難","標準Interface/Export確認"],["Skill依存","他社へ移せない","Documentation/Knowledge transfer"],["長期Contract","条件変更しにくい","Exit条件/更新条件"],["Data移行Cost","解約時高Cost","Exit Plan/Test"]]},
+    {"type":"mistakes","title":"5. よくある誤解","items":["Outsourcing=責任移転ではない。利用組織にはVendor管理責任が残る。","最安Vendorが最適とは限らず、品質・継続性・Security・Exit Costも見る。","BPOは単なるServer運用委託ではなくBusiness Process自体を外部化する考え方。","SLAはContract後に放置せず、実績測定とReviewが必要。"]}
+  ],
+  "checks":[
+    {"id":"str04-q1","prompt":"給与計算業務Processそのものを外部へ委託する形に近いのは？","options":["BPO","RAID","PKI","Cache"],"answerIndex":0,"explanation":"Business Process Outsourcingです。"},
+    {"id":"str04-q2","prompt":"Vendor独自APIへ強く依存して移行困難になるRiskは？","options":["Vendor Lock-in","Deadlock","Aliasing","Hash Collision"],"answerIndex":0,"explanation":"特定Vendorへ切替困難になる依存がLock-inです。"},
+    {"id":"str04-q3","prompt":"Outsourcing後も利用組織に残るものは？","options":["Vendor監督とGovernance責任","全責任が0","法令遵守不要","Service評価不要"],"answerIndex":0,"explanation":"委託してもOwner側のGovernanceは残ります。"},
+    {"id":"str04-q4","prompt":"Make or Buy判断で内製寄りになりやすいのは？","options":["競争優位の源泉となる独自Know-how","完全標準化された周辺業務","短期だけ使う一般Tool","外部専門性が必須な業務"],"answerIndex":0,"explanation":"Core Competenceに直結する独自能力は内製を選ぶ理由になり得ます。"}
+  ]
+}
