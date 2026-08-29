@@ -1,0 +1,22 @@
+{
+  "meta":{"schemaVersion":1,"id":"SEC-09","title":"防御機構・ハードニング・アクセス制御","unitId":"security","officialMiddleCodes":[11],"officialAreas":["情報セキュリティ対策","セキュリティ実装技術"],"qualityStatus":"individual-v1","legacySources":["security"],"legacyTermRanges":[{"prefix":"sec-","from":253,"to":258},{"prefix":"sec-","from":264,"to":277},{"prefix":"sec-","from":455,"to":459}],"legacyTermIds":["sec-022","sec-023","sec-448","sec-449","sec-469","sec-470"],"estimatedMinutes":40},
+  "intro":"防御製品名を覚えるのではなく、『どこで』『何を見て』『検知だけか遮断までか』で整理します。さらにPatch/Hardening/Access Reviewのような予防運用を、検知製品より前の層として位置付けます。",
+  "objectives":["FW/IDS/IPS/UTM/WAFの役割を配置で区別できる。","Signature/Behavior/Sandboxの検知特性を比較できる。","NAC/DLP/MDM/MAM/PAMの保護対象を区別できる。","Patch/Vulnerability Management/Hardeningの優先順位を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 境界・通信の防御","columns":["仕組み","見る場所/情報","動作"],"rows":[["Firewall","IP/Port/Connection状態","許可/拒否"],["IDS","Network/Hostの兆候","検知・通知"],["IPS","通過Traffic","検知+遮断"],["UTM","境界で複数Security機能","FW/IPS/AV等を統合"],["WAF","HTTP Request","Web攻撃を検査/遮断"]]},
+    {"type":"comparison","title":"2. NIDSとHIDS","columns":["方式","観測対象","強み"],"rows":[["NIDS","Network Packet/Flow","複数Hostへの通信を横断監視"],["HIDS","Host Log/File/Process","暗号化後のHost内挙動も見やすい"]],"note":"どちらか一つが完全な上位互換ではありません。"},
+    {"type":"comparison","title":"3. Malware検知方式","columns":["方式","強い対象","弱点"],"rows":[["Signature","既知Malware","未知/変種に弱い"],["Behavior","不審な挙動","誤検知調整が必要"],["Sandbox","隔離実行で挙動確認","解析回避/時間・Cost"],["Application Allowlist","許可済み実行だけ","運用設計が必要"]]},
+    {"type":"comparison","title":"4. 何を制御する製品か","columns":["仕組み","主対象","例"],"rows":[["NAC","Network接続する端末","認証/端末状態で接続制御"],["DLP","機密Dataの流出","Mail/Web/USB等の持出し検知"],["MDM","Mobile Device","設定/紛失時Wipe"],["MAM","Mobile App/Data","業務App領域を制御"],["PAM/特権ID管理","Administrator権限","申請/承認/記録" ]]},
+    {"type":"steps","title":"5. Vulnerabilityを閉じる運用","items":[{"label":"① 資産を把握","body":"何が動いているか分からなければPatch対象も分からない。"},{"label":"② Scan/情報収集","body":"CVE等と照合して弱点を発見する。"},{"label":"③ 優先順位付け","body":"CVSSだけでなく公開範囲・悪用状況・資産重要度を見る。"},{"label":"④ Patch/設定変更","body":"検証後に修正する。"},{"label":"⑤ 再Scan/Access Review","body":"対応済みか、不要権限が残っていないか確認する。"}]},
+    {"type":"comparison","title":"6. Hardening","columns":["対策","例","目的"],"rows":[["不要Service停止","使わないPort/Daemon停止","Attack Surface縮小"],["Default Account整理","初期Password変更/無効化","既知Credential悪用防止"],["権限縮小","Service Accountを最小権限","侵害時Impact低減"],["安全設定Baseline","標準Configを統一","設定漏れ防止"]]},
+    {"type":"mistakes","title":"7. 製品を置けば終わりではない","items":["IDS=必ず遮断、ではない。検知中心で、IPSがInline遮断を担う典型構成を区別する。","CVSSが高い順だけでPatch優先度を決めない。外部公開・Exploit有無・Business影響を合わせる。","Black/Allow Listだけでは未知脅威を完全に扱えない。","Patch適用が難しい場合も、Network制限・WAF・機能停止等の暫定緩和策を検討する。"]}
+  ],
+  "checks":[
+    {"id":"sec09-q1","prompt":"不正通信を検知し、その場で遮断まで行う装置に最も近いのは？","options":["IPS","IDS","SIEM","CRL"],"answerIndex":0,"explanation":"IPSはInlineで検知・防止を行います。"},
+    {"id":"sec09-q2","prompt":"既知Malwareの特徴Patternと照合する検知は？","options":["Signature","Behavior","ABAC","PFS"],"answerIndex":0,"explanation":"既知Patternとの照合がSignature検知です。"},
+    {"id":"sec09-q3","prompt":"社外持出し禁止の顧客番号をMail添付から検知して送信を止めたい。適切なのは？","options":["DLP","NTP","DHCP","OCSP"],"answerIndex":0,"explanation":"機密Dataの外部流出を検知・制御するのがDLPです。"},
+    {"id":"sec09-q4","prompt":"管理者IDの利用に申請・承認・操作記録を要求する仕組みは？","options":["PAM","CDN","DNSSEC","CORS"],"answerIndex":0,"explanation":"Privileged Access Managementです。"},
+    {"id":"sec09-q5","prompt":"不要Serviceを停止し、Default設定を安全側へ変更する作業は？","options":["Hardening","Failover","Routing","Hashing"],"answerIndex":0,"explanation":"Attack Surfaceを減らすHardeningです。"}
+  ],
+  "next":[{"lessonId":"SEC-10","label":"監視・インシデント対応・フォレンジック・復旧","status":"公開中"}]
+}
