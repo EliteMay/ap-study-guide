@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "auditVersion": "2026-08-30-a1",
+    "subject": "セキュリティ",
+    "termsAudited": 501,
+    "syllabusVersion": "7.2",
+    "primaryOfficialMiddleCode": 11,
+    "policy": "旧501語を件数として維持せず、主教材の所属をIPA中分類へ戻す。通信そのものはNetwork、法規はLaw、監査はAudit、SLAはService、構成管理はDevelopment、クラウド/仮想化の基礎はComputer Systemsへ移し、Securityには攻撃・防御・暗号・認証・管理上の意味を残す。"
+  },
+  "summary": {
+    "mappedToSecurityLessons": 369,
+    "movedPrimaryUnit": 132,
+    "securityLessons": 12,
+    "movedToNetwork": 104,
+    "movedToComputerSystems": 13,
+    "movedToLawStandards": 10,
+    "movedToSystemDevelopment": 2,
+    "movedToServiceAudit": 3
+  },
+  "assignmentGroups": [
+    {"lessonId":"SEC-01","title":"情報セキュリティの目的・資産・脅威・設計原則","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":1,"to":8},{"prefix":"sec-","from":24,"to":29},{"prefix":"sec-","from":345,"to":347},{"prefix":"sec-","from":351,"to":364}]},
+    {"lessonId":"SEC-02","title":"暗号・ハッシュ・パスワード保護","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":105,"to":123},{"prefix":"sec-","from":392,"to":399}]},
+    {"lessonId":"SEC-03","title":"PKI・証明書・TLS・鍵管理","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":124,"to":142},{"prefix":"sec-","from":400,"to":406}]},
+    {"lessonId":"SEC-04","title":"認証・認可・MFA・SSO・ID管理","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":9,"to":18},{"prefix":"sec-","from":143,"to":166},{"prefix":"sec-","from":174,"to":178},{"prefix":"sec-","from":407,"to":415}],"ids":["sec-349","sec-350","sec-391"]},
+    {"lessonId":"SEC-05","title":"Webアプリ攻撃と安全な実装","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":167,"to":173},{"prefix":"sec-","from":179,"to":197},{"prefix":"sec-","from":244,"to":252},{"prefix":"sec-","from":420,"to":424}],"ids":["sec-416"]},
+    {"lessonId":"SEC-06","title":"メール認証・フィッシング・ソーシャルエンジニアリング","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":66,"to":68},{"prefix":"sec-","from":198,"to":203},{"prefix":"sec-","from":217,"to":223},{"prefix":"sec-","from":428,"to":430},{"prefix":"sec-","from":432,"to":437}],"ids":["sec-447"]},
+    {"lessonId":"SEC-07","title":"マルウェア・標的型攻撃・侵入後行動","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":204,"to":216},{"prefix":"sec-","from":235,"to":243},{"prefix":"sec-","from":438,"to":440}]},
+    {"lessonId":"SEC-08","title":"認証・ネットワーク・実装への攻撃パターン","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":224,"to":234},{"prefix":"sec-","from":441,"to":446}],"ids":["sec-052","sec-069","sec-070","sec-378"]},
+    {"lessonId":"SEC-09","title":"防御機構・ハードニング・アクセス制御","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":253,"to":258},{"prefix":"sec-","from":264,"to":277},{"prefix":"sec-","from":455,"to":459}],"ids":["sec-022","sec-023","sec-448","sec-449","sec-469","sec-470"]},
+    {"lessonId":"SEC-10","title":"監視・インシデント対応・フォレンジック・復旧","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":19,"to":21},{"prefix":"sec-","from":259,"to":263},{"prefix":"sec-","from":278,"to":290},{"prefix":"sec-","from":450,"to":454},{"prefix":"sec-","from":460,"to":468},{"prefix":"sec-","from":471,"to":473}],"ids":["sec-481"]},
+    {"lessonId":"SEC-11","title":"ISMS・リスクアセスメント・脆弱性管理","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":291,"to":307},{"prefix":"sec-","from":310,"to":312},{"prefix":"sec-","from":319,"to":325},{"prefix":"sec-","from":483,"to":486}],"ids":["sec-474","sec-475","sec-479","sec-480"]},
+    {"lessonId":"SEC-12","title":"クラウドセキュリティ・ゼロトラスト","unitId":"security","officialMiddleCode":11,"action":"merge-into-lesson","ranges":[{"prefix":"sec-","from":333,"to":338},{"prefix":"sec-","from":494,"to":497}],"ids":["sec-030","sec-331","sec-343","sec-344","sec-492","sec-501"]},
+
+    {"lessonId":"LAW-01","title":"セキュリティ関連法規・個人情報・知的財産","unitId":"law-standards","officialMiddleCode":23,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":313,"to":318},{"prefix":"sec-","from":476,"to":478}],"ids":["sec-348"]},
+    {"lessonId":"AUD-01","title":"システム監査と内部統制","unitId":"service-audit","officialMiddleCode":16,"action":"move-primary-unit","ids":["sec-308","sec-309"]},
+    {"lessonId":"SVC-01","title":"サービスマネジメントとSLA","unitId":"service-audit","officialMiddleCode":15,"action":"move-primary-unit","ids":["sec-482"]},
+    {"lessonId":"SYS-06","title":"構成管理・CI/CD・DevOps","unitId":"system-development","officialMiddleCode":13,"action":"move-primary-unit","ids":["sec-487","sec-488"]},
+    {"lessonId":"CMP-01","title":"コンテナと仮想化の基本","unitId":"computer-systems","officialMiddleCode":5,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":339,"to":342}],"ids":["sec-498"]},
+    {"lessonId":"CMP-02","title":"クラウドサービスモデルと責任分界","unitId":"computer-systems","officialMiddleCode":4,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":326,"to":330}],"ids":["sec-332","sec-493","sec-500"]},
+
+    {"lessonId":"NET-01","title":"OSI/TCP-IPと通信の全体像","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":365,"to":368}],"ids":["sec-031","sec-034","sec-080"]},
+    {"lessonId":"NET-02","title":"IPv4・CIDR・サブネット計算","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":44,"to":48}],"ids":["sec-041","sec-042"]},
+    {"lessonId":"NET-03","title":"IPv6・SLAAC・NDP","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":386,"to":388}],"ids":["sec-043"]},
+    {"lessonId":"NET-04","title":"Ethernet・VLAN・STP","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ids":["sec-032","sec-040","sec-049","sec-083","sec-384"]},
+    {"lessonId":"NET-06","title":"ルーティング・NAT・WAN・VPN","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":98,"to":100},{"prefix":"sec-","from":381,"to":383}],"ids":["sec-033","sec-072","sec-073","sec-081","sec-082","sec-385"]},
+    {"lessonId":"NET-07","title":"TCP・UDP・ポートと信頼性制御","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":74,"to":79}]},
+    {"lessonId":"NET-08","title":"DNSと名前解決","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":53,"to":65},{"prefix":"sec-","from":371,"to":377}],"ids":["sec-379","sec-380"]},
+    {"lessonId":"NET-09","title":"HTTP・HTTPS・Web通信","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":417,"to":419}],"ids":["sec-086","sec-087","sec-369","sec-370","sec-389"]},
+    {"lessonId":"NET-10","title":"メール・ファイル転送・リモート接続","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":88,"to":95},{"prefix":"sec-","from":425,"to":427}],"ids":["sec-431"]},
+    {"lessonId":"NET-11","title":"ネットワーク機器と構成図","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":35,"to":39},{"prefix":"sec-","from":101,"to":103}],"ids":["sec-084","sec-390"]},
+    {"lessonId":"NET-12","title":"DHCP・ARP・監視・障害切り分け","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ids":["sec-050","sec-051","sec-071","sec-085","sec-096","sec-097"]},
+    {"lessonId":"NET-13","title":"可用性・性能・QoS","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ids":["sec-104"]},
+    {"lessonId":"NET-14","title":"クラウド・仮想ネットワーク","unitId":"network","officialMiddleCode":10,"action":"move-primary-unit","ranges":[{"prefix":"sec-","from":489,"to":491}],"ids":["sec-499"]}
+  ],
+  "missingLearningGoals": [
+    "過去問7問だけでなく、現行シラバス全体のセキュリティ問題へLessonを紐付ける。",
+    "攻撃名の暗記ではなく、成立条件・観測できる痕跡・影響・対策を1セットで問うケース問題を増やす。",
+    "暗号は方式名暗記だけでなく、機密性・完全性・認証・否認防止のどれを満たすかを判断させる。",
+    "認証はOAuthとOIDC、認証と認可、MFA要素の違いを実フローで判断させる。",
+    "インシデント対応は検知・封じ込め・根絶・復旧・事後対応の順序と証拠保全をケースで扱う。",
+    "SecurityとNetworkの重複は主教材を1か所にし、Security側から必要箇所へ横断参照する。"
+  ]
+}
