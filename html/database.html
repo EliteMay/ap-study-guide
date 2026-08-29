@@ -4,60 +4,63 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
-<title>データベース用語まとめ | AP Study Notes</title>
+<title>データベース | AP Study Notes</title>
 <link href="../css/style.css" rel="stylesheet">
 <link href="../css/term-page.css" rel="stylesheet">
 <link href="../css/shell.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav">
-  <div class="container">
-    <span class="unit-nav-label">AP 単元一覧</span>
-    <ul class="unit-nav-list">
-      <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
-      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
-      <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
-      <li><a href="database.html" class="unit-nav-link is-current" aria-current="page">🗄️ データベース</a></li>
-      <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
-      <li><a href="system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
-      <li><a href="management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
-      <li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
-    </ul>
-  </div>
-</nav>
-<header class="site-header">
-  <div class="container">
-    <p class="eyebrow">Database Study Notes</p>
-    <h1>データベース用語まとめ</h1>
-    <p class="lead">E-R図、キー、SQL、正規化、トランザクション、障害回復、NoSQLまでをJSONから読み込みます。</p>
-    <p class="json-note">用語 <strong id="json-term-count">読み込み中</strong> 語 / 詳細解説 <strong id="json-detail-count">読み込み中</strong> 件</p>
-    <div class="search-wrap">
-      <input type="search" id="search-input" class="search-input" placeholder="🔍 単語を検索（/ キーでも検索へ移動）" autocomplete="off">
-      <span id="search-count" class="search-count" hidden></span>
-    </div>
-    <div class="filter-row">
-      <select id="category-filter" class="category-select" aria-label="カテゴリで絞り込み"><option value="">すべてのカテゴリ</option></select>
-      <button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button>
-      <span id="filter-status" class="filter-status">読み込み中...</span>
-    </div>
-    <div class="progress-wrap">
-      <span class="progress-label">習得済み: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span>
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div>
-      <button class="progress-reset" id="progress-reset" type="button">リセット</button>
-    </div>
-  </div>
-</header>
-<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#word-list">単語一覧</a></li></ul></div></nav>
-<section class="section section-alt" id="exam-guide"><div class="container"><h2>学び方</h2><div class="study-guide-grid"><div class="study-guide-card"><h3>E-R図は表へ変換して読む</h3><p>実体は表、属性は列、関係は外部キーや中間表へ対応させて考えます。</p></div><div class="study-guide-card"><h3>☆ 復習リスト</h3><p>正規化・結合・トランザクションなど、まだ怪しい項目を☆で残して絞り込めます。</p></div><div class="study-guide-card"><h3>SQLは句の役割で分ける</h3><p>SELECT、FROM、WHERE、GROUP BY、HAVING、ORDER BYの役割を切り分けます。</p></div><div class="study-guide-card"><h3>運用は障害時で考える</h3><p>トランザクション、ロック、バックアップ、回復は障害や同時実行時に何を守るかで整理します。</p></div></div></div></section>
-<section class="term-index" id="word-list"><div class="container"><h2>単語一覧</h2><p class="term-index-lead">カテゴリ別に自動表示します。検索・カテゴリ・復習リストの絞り込みは一覧と用語カードへ同時に反映されます。</p><div id="term-index-groups"></div></div></section>
-<main id="main-content">
-  <div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">学習データを読み込み中...</p></div></div></div>
-  <div id="term-sections"></div>
-</main>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP 単元一覧</span><ul class="unit-nav-list">
+<li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="security-past.html" class="unit-nav-link">📘 過去問解説</a></li><li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li><li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li><li><a href="database.html" class="unit-nav-link is-current" aria-current="page">🗄️ データベース</a></li><li><a href="algorithm.html" class="unit-nav-link">⚙️ アルゴリズム</a></li><li><a href="system.html" class="unit-nav-link">🖥️ システム開発</a></li><li><a href="management.html" class="unit-nav-link">📋 プロジェクト管理</a></li><li><a href="test.html" class="unit-nav-link">📝 テスト</a></li>
+</ul></div></nav>
+<header class="site-header"><div class="container">
+<p class="eyebrow">Database / 229 TERMS MIGRATED</p><h1>データベース</h1>
+<p class="lead">既存229語は全件監査し、DB-01〜DB-14の14Lessonへ重複なく移行しました。単語暗記ではなく、E-R図、正規化、SQL結果表、トランザクション時系列、障害回復、索引判断まで実際に追える教材を主に使います。</p>
+<p class="json-note"><strong>229 / 229語</strong> を実Lessonへ一意割当済み / 構造化Lesson <strong>14本</strong></p>
+<div class="home-actions"><a class="home-action-btn" href="lesson.html?id=DB-01">DB-01から始める</a><a class="home-action-btn secondary" href="roadmap.html">学習マップ</a><a class="home-action-btn secondary" href="#word-list">旧229語索引</a></div>
+<div class="search-wrap"><input type="search" id="search-input" class="search-input" placeholder="🔍 旧229語を検索（/ キーでも検索へ移動）" autocomplete="off"><span id="search-count" class="search-count" hidden></span></div>
+<div class="filter-row"><select id="category-filter" class="category-select" aria-label="旧カテゴリで絞り込み"><option value="">すべての旧カテゴリ</option></select><button type="button" id="search-clear" class="search-clear-btn">検索をクリア</button><span id="filter-status" class="filter-status">読み込み中...</span></div>
+<div class="progress-wrap"><span class="progress-label">既存の習得チェック: <strong id="progress-num">0</strong> / <strong id="progress-total">0</strong> 語</span><div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar"></div></div><button class="progress-reset" id="progress-reset" type="button">リセット</button></div>
+</div></header>
+<nav class="toc" id="main-toc"><div class="container"><h2>目次</h2><ul id="toc-list"><li><a href="#lesson-hub">14Lesson</a></li><li><a href="#audit-status">監査結果</a></li><li><a href="#word-list">旧229語索引</a></li></ul></div></nav>
+
+<section class="section" id="lesson-hub"><div class="container"><h2>構造化Lesson 14本</h2><p class="term-index-lead">IPA中分類9「データベース」の5小分類を、実際に問題を解きやすい順へ再構成しています。</p>
+<h3>基礎・設計</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>DB-01 DBMS・3層スキーマ・関係モデル</h3><p>DBMS、外部/概念/内部スキーマ、データ独立性、関係・タプル・属性・ドメイン、選択/射影/結合をつなげます。</p><a href="lesson.html?id=DB-01">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-02 E-R図・キー・参照整合性</h3><p>多対多を中間表へ変換し、候補キー・主キー・外部キー・多重度・参照制約を実例で判断します。</p><a href="lesson.html?id=DB-02">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-03 正規化と更新異常</h3><p>関数従属性から第1〜第3正規形へ実際に分解し、更新・挿入・削除異常を解消します。</p><a href="lesson.html?id=DB-03">教材を開く →</a></div>
+</div>
+<h3>SQL</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>DB-04 SQL定義・更新・権限制御</h3><p>DDL/DML/DCL、CREATE TABLE、制約、INSERT/UPDATE/DELETE、GRANT/REVOKEを操作目的で整理します。</p><a href="lesson.html?id=DB-04">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-05 SELECT・条件式・NULL</h3><p>FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BYの評価順と三値論理を行ごとに追います。</p><a href="lesson.html?id=DB-05">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-06 表結合を結果表から読む</h3><p>INNER/LEFT/RIGHT/FULL/CROSS JOINを「どの行を残すか」と結果表で判断します。</p><a href="lesson.html?id=DB-06">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-07 集計・GROUP BY・集合演算</h3><p>COUNT(*)とCOUNT(列)、WHERE/HAVING、UNION系、ROLLUPを処理順で学びます。</p><a href="lesson.html?id=DB-07">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-08 副問合せ・EXISTS・CTE</h3><p>スカラ/相関副問合せ、EXISTS、NOT IN+NULL、ANY/ALL、WITH/CTEを実行過程で読みます。</p><a href="lesson.html?id=DB-08">教材を開く →</a></div>
+</div>
+<h3>トランザクション・性能</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>DB-09 トランザクション・ロック・分離レベル</h3><p>ACID、共有/専有ロック、デッドロック、ダーティ/ノンリピータブル/ファントムを2処理の時系列で判断します。</p><a href="lesson.html?id=DB-09">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-10 ログ・バックアップ・障害回復</h3><p>WAL、UNDO/REDO、チェックポイント、ロールフォワード、フル/差分/増分バックアップを復旧手順で整理します。</p><a href="lesson.html?id=DB-10">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-11 索引・実行計画・性能</h3><p>B-tree/ハッシュ、選択率、複合索引、フルスキャン、実行計画、N+1を「いつ速いか」で判断します。</p><a href="lesson.html?id=DB-11">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-12 ビュー・ストアド処理・安全なSQL実行</h3><p>ビュー、マテリアライズドビュー、プロシージャ、トリガ、カーソル、プレースホルダを役割で比較します。</p><a href="lesson.html?id=DB-12">教材を開く →</a></div>
+</div>
+<h3>分散・分析</h3><div class="study-guide-grid">
+<div class="study-guide-card"><h3>DB-13 分散DB・NoSQL・CAP</h3><p>レプリケーション/シャーディング、CAP、NoSQL各型に加え、2相コミットまで補完します。</p><a href="lesson.html?id=DB-13">教材を開く →</a></div>
+<div class="study-guide-card"><h3>DB-14 DWH・ETL・OLAP・スタースキーマ</h3><p>OLTP→ETL/ELT→DWH→OLAP→BIの流れと、fact/dimension、slice/dice/drill-down/roll-upを整理します。</p><a href="lesson.html?id=DB-14">教材を開く →</a></div>
+</div></div></section>
+
+<section class="section section-alt" id="audit-status"><div class="container"><h2>229語の監査結果</h2><div class="study-guide-grid">
+<div class="study-guide-card"><h3>84語：Lessonの核</h3><p>DBMS、ER、キー、正規化、SELECT、JOIN、トランザクション、索引、CAP、DWHなどを主要概念として残しました。</p></div>
+<div class="study-guide-card"><h3>76語：補助として保持</h3><p>派生構文や応用方式は、主要テーマとの比較・演習の中で必要な位置に置きました。</p></div>
+<div class="study-guide-card"><h3>69語：上位Lessonへ統合</h3><p>SELECT/FROM/WHEREなど細分化されたSQL句や、プリント固有パターンを別々の長文カードにせず統合しました。</p></div>
+<div class="study-guide-card"><h3>0語：他ユニットへ移動</h3><p>今回の229語は主教材としてすべてIPA中分類9「データベース」に収まります。</p></div>
+<div class="study-guide-card"><h3>旧詳細229件は互換用</h3><p>既存詳細JSONは検索・過去データ互換のため残しますが、定型文比率が高いため正式な主教材とは扱いません。</p></div>
+<div class="study-guide-card"><h3>229/229をCIで固定</h3><p>未割当・重複割当・別Lessonへの誤割当があれば自動検証を失敗させます。</p></div>
+</div><p class="term-index-lead">監査: <code>json/curriculum/audits/database-audit.json</code></p></div></section>
+
+<section class="term-index" id="word-list"><div class="container"><h2>旧229語索引</h2><p class="term-index-lead">検索・☆復習・既存の<code>database-terms-checked</code>進捗を維持するため残しています。ここは主教材ではなく索引です。</p><div id="term-index-groups"></div></div></section>
+<main id="main-content"><div id="loading-area" class="section"><div class="container"><div class="card"><p class="definition">旧用語データを読み込み中...</p></div></div></div><div id="term-sections"></div></main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">応用情報技術者試験 学習用ページ</p></div></footer>
 <script>window.TERM_PAGE_CONFIG={subject:'データベース',pageKey:'database',pagePath:'html/database.html',termsManifest:'database-terms-manifest.json',detailsManifest:'database-details-manifest.json',storageKey:'database-terms-checked',fallbackIdPrefix:'db',rootPath:'../'};</script>
-<script src="../js/shell.js" defer></script>
-<script src="../js/term-page.js" defer></script>
+<script src="../js/shell.js" defer></script><script src="../js/term-page.js" defer></script>
 </body>
 </html>
