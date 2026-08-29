@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"SVC-02","title":"サービス運用・構成・変更・リリース・継続性","unitId":"service-audit","officialMiddleCodes":[15],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"Service ManagementはIncidentだけではありません。Serviceを安定提供するために、構成を把握し、変更を制御し、Releaseし、Capacity/Availability/Continuityを計画する流れで理解します。",
+  "objectives":["Incident/Problem/Changeを区別できる。","構成情報が変更・障害対応に必要な理由を説明できる。","Capacity/Availability/Continuityの目的を区別できる。","ReleaseとDeploymentを安全に進める考え方を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 運用Processを区別する","columns":["Process","主目的","例"],"rows":[["Incident Management","Serviceを早く復旧","Webが500 Error→暫定復旧"],["Problem Management","根本原因を管理","同じ500 Errorの原因解析"],["Change Management","変更Riskを制御","DB Version更新を審査"],["Service Configuration Management","構成Itemと関係を把握","Server→App→DB依存"],["Release/Deployment","変更を本番へまとめて届ける","Version 2.3配布"]]},
+    {"type":"diagram","title":"2. 障害から恒久対策まで","diagrams":[{"label":"短期復旧と長期改善を分ける","connector":"→","nodes":[{"title":"Incident","value":"利用影響"},{"title":"Workaround","value":"暫定復旧"},{"title":"Problem","value":"根本原因"},{"title":"Change","value":"恒久修正"},{"title":"Release","value":"安全に反映"}],"note":"Incidentを早く閉じることと、根本原因を消すことは別Processとして考えます。"}]},
+    {"type":"comparison","title":"3. Capacity・Availability・Continuity","columns":["管理","質問","例"],"rows":[["Capacity","必要性能を満たせるか","Peak時CPU/帯域/Storage"],["Availability","使える割合・停止を減らせるか","冗長化/MTTR短縮"],["Continuity","大規模障害後も継続/復旧できるか","DR Site/RTO/RPO"],["Service Level","合意した品質を満たすか","SLAのResponse/Availability"]]},
+    {"type":"steps","title":"4. 変更を安全に反映する","items":[{"label":"① 変更内容と影響を明確化","body":"対象Service・依存構成・Riskを確認する。"},{"label":"② Test/承認","body":"通常変更は適切なReviewとTestを通す。"},{"label":"③ Rollback準備","body":"失敗時に戻せるVersion/手順/Dataを用意する。"},{"label":"④ Deployment","body":"監視しながら反映する。"},{"label":"⑤ Post Review","body":"結果・障害・改善点を記録する。"}]},
+    {"type":"comparison","title":"5. Standard / Normal / Emergency Change","columns":["種類","特徴","例"],"rows":[["Standard","低Riskで事前承認された定型","定例証明書更新手順等"],["Normal","評価・承認を通常Flowで実施","機能Release"],["Emergency","重大Incident等で迅速に実施","Critical脆弱性緊急対応"]],"note":"Emergencyだから記録や事後Reviewが不要になるわけではありません。"},
+    {"type":"mistakes","title":"6. よくある誤解","items":["Incidentを閉じた=根本原因が解消した、ではない。","構成管理は機器台帳だけでなくService/Software/依存関係も対象になる。","Change Managementは変更を禁止する仕組みではなく、価値とRiskを制御して変更する仕組み。","BCP/DRはBackup取得だけでは完成しない。復旧順序・人・場所・通信・Testも必要。"]}
+  ],
+  "checks":[
+    {"id":"svc02-q1","prompt":"同じ障害が繰り返される根本原因を調べるProcessは？","options":["Problem Management","Incident Managementだけ","Payroll","Marketing"],"answerIndex":0,"explanation":"根本原因と恒久対策を扱うのがProblem Managementです。"},
+    {"id":"svc02-q2","prompt":"Peak時に処理能力不足にならないかを管理するのは？","options":["Capacity Management","Copyright","PKI","UX"],"answerIndex":0,"explanation":"将来需要を含め必要Capacityを確保する管理です。"},
+    {"id":"svc02-q3","prompt":"緊急Changeであっても残すべきものは？","options":["変更記録と事後Review","何も残さない","SLA削除","Backup削除"],"answerIndex":0,"explanation":"緊急性が高くても追跡可能性と事後評価が必要です。"},
+    {"id":"svc02-q4","prompt":"Service構成要素と依存関係を把握する目的として適切なのは？","options":["変更影響や障害範囲を判断しやすくする","必ずCPU速度を2倍にする","法律を無効化する","UI Colorを決める"],"answerIndex":0,"explanation":"構成Itemの関係が分かれば変更・Incidentの影響を追いやすくなります。"}
+  ]
+}
