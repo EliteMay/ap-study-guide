@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"PM-03","title":"EVMを式と状態で読む","unitId":"project-management","officialMiddleCodes":[14],"officialAreas":["プロジェクトのコスト","プロジェクトの時間"],"qualityStatus":"individual-v1","legacySource":"management","legacyTermIds":["term-pm-023","term-pm-024","term-pm-025","term-pm-026","term-pm-027","term-pm-028","term-pm-029","term-pm-030","term-pm-031","term-pm-032"],"estimatedMinutes":35},
+  "intro":"EVMは記号を暗記すると混乱します。まずPV=計画、EV=出来高、AC=実コストの3値を固定し、差異は引き算、指数は割り算という順で読みます。",
+  "objectives":["PV・EV・ACを説明できる。","CV・SV・CPI・SPIを計算し状態を判定できる。","BACとEACの違いを説明できる。","EACの式が前提条件に依存することを理解する。"],
+  "sections":[
+    {"type":"comparison","title":"1. 最初に3値だけ固定する","columns":["記号","意味","質問"],"rows":[["PV","Planned Value / 計画価値","今までにいくら分終わる予定だったか"],["EV","Earned Value / 出来高","実際に終わった作業を予算額でいくら分と評価するか"],["AC","Actual Cost / 実コスト","実際にいくら使ったか"]],"note":"EVは売上でも入金額でもなく、完了した作業を予算ベースで評価した価値です。"},
+    {"type":"code-trace","title":"2. 例題を最後まで計算する","question":"ある時点で PV=100万円、EV=80万円、AC=90万円。","code":["CV = EV - AC","SV = EV - PV","CPI = EV / AC","SPI = EV / PV"],"traceColumns":["指標","計算","結果","判定"],"traceRows":[["CV","80 - 90","-10万円","予算超過側"],["SV","80 - 100","-20万円","予定より遅れ"],["CPI","80 / 90","約0.89","1未満→コスト効率悪化"],["SPI","80 / 100","0.80","1未満→進捗遅れ"]],"answer":"この時点では予算超過かつ進捗遅れ。","explanation":"差異は正なら有利、指数は1より大きければ有利、という読み方を基本にします。"},
+    {"type":"comparison","title":"3. 差異と指数をまとめる","columns":["指標","式","良い方向"],"rows":[["CV","EV-AC","正"],["SV","EV-PV","正"],["CPI","EV/AC","1より大"],["SPI","EV/PV","1より大"]],"note":"CV/CPIはコスト、SV/SPIはスケジュールを見る、と二組に分けます。"},
+    {"type":"text","title":"4. BACとEAC","paragraphs":["BACはBudget at Completionで、当初計画上の完了時総予算です。","EACはEstimate at Completionで、現時点の実績から見積もる完了時総コストです。","例えば『今後も現在のCPIが続く』という前提なら EAC = BAC / CPI を使うことがあります。ただしEACには複数の式があり、問題文の前提を確認します。"]},
+    {"type":"code-trace","title":"5. EACの簡単な例","question":"BAC=200万円、CPI=0.80。今後も同じコスト効率が続くと仮定する。","code":["EAC = BAC / CPI"],"traceColumns":["項目","値"],"traceRows":[["BAC","200万円"],["CPI","0.80"],["EAC","200 / 0.80 = 250万円"]],"answer":"EACは250万円。","explanation":"当初200万円に対し、現在の低いコスト効率が続くなら完了見込みは増えます。"},
+    {"type":"mistakes","title":"6. よくあるミス","items":["PVとEVを逆にしない。PV=予定、EV=実際に完了した出来高。","CVとSVの式で引く相手を混同しない。","CPI/SPIは1が基準。0より大きいだけでは良好とは言えない。","EACの式を1つだけ固定暗記せず、前提条件を見る。"]}
+  ],
+  "checks":[
+    {"id":"pm03-q1","prompt":"PV=120、EV=100のときSVは？","options":["20","-20","1.2","0.83"],"answerIndex":1,"explanation":"SV=EV-PV=100-120=-20です。"},
+    {"id":"pm03-q2","prompt":"EV=90、AC=75のときCPIは？","options":["0.83","1.2","15","-15"],"answerIndex":1,"explanation":"CPI=EV/AC=90/75=1.2で、コスト効率は良好側です。"},
+    {"id":"pm03-q3","prompt":"SPI=0.75が示す状態として最も近いのは？","options":["計画より進んでいる","計画どおり","計画より遅れている","コストが必ず75%超過"],"answerIndex":2,"explanation":"SPIは進捗効率で、1未満なら計画より遅れ側です。"},
+    {"id":"pm03-q4","prompt":"当初の完了時総予算を表すのは？","options":["BAC","EAC","CV","SPI"],"answerIndex":0,"explanation":"BACはBudget at Completion、当初の総予算です。"}
+  ]
+}
