@@ -1,0 +1,19 @@
+{
+  "meta":{"schemaVersion":1,"id":"BUS-08","title":"財務諸表・損益計算・Balance Sheet","unitId":"business-accounting","officialMiddleCodes":[22],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "intro":"会計は勘定科目暗記ではなく、『ある期間の利益』と『ある時点の財政状態』を分けて読むことから始めます。P/L、B/S、Cash Flowをつなげます。",
+  "objectives":["P/LとB/Sの役割を区別できる。","売上総利益・営業利益・経常利益の流れを計算できる。","資産=負債+純資産の関係を説明できる。","利益とCashが一致しない理由を説明できる。"],
+  "sections":[
+    {"type":"comparison","title":"1. 3つの財務諸表","columns":["Statement","見るもの","時間"],"rows":[["P/L","収益・費用・利益","一定期間"],["B/S","資産・負債・純資産","ある時点"],["Cash Flow Statement","Cashの増減","一定期間"]],"note":"利益が出ていても売掛金が回収されていなければCash不足になることがあります。"},
+    {"type":"code-trace","title":"2. 利益を段階的に計算","question":"売上1000、売上原価600、販売管理費250、営業外収益20、営業外費用10。各利益を求める。","code":["売上総利益 = 1000 - 600 = 400","営業利益 = 400 - 250 = 150","経常利益 = 150 + 20 - 10 = 160"],"traceColumns":["利益","値"],"traceRows":[["売上総利益","400"],["営業利益","150"],["経常利益","160"]],"answer":"400 / 150 / 160","explanation":"何を差し引いた段階の利益かを順に追います。"},
+    {"type":"diagram","title":"3. Balance Sheetの式","diagrams":[{"label":"資金の調達と運用","connector":"=","nodes":[{"title":"資産","value":"現金/売掛/在庫/設備"},{"title":"負債+純資産","value":"借入等+Owner資本"}],"note":"左側は資金の使い道、右側は資金の調達源と考えると理解しやすいです。"}]},
+    {"type":"comparison","title":"4. 流動/固定を分ける","columns":["区分","例","意味"],"rows":[["流動資産","現金/売掛金/棚卸資産","比較的短期に現金化/消費"],["固定資産","建物/機械/Software等","長期利用"],["流動負債","買掛金/短期借入","短期支払"],["固定負債","長期借入等","長期支払"]]},
+    {"type":"text","title":"5. 利益とCashは違う","paragraphs":["売上を計上しても代金未回収なら売掛金が増え、利益は出てもCashは増えていません。設備購入ではCashが一度に出ても、会計上は減価償却で複数期間に費用配分する場合があります。","資金繰りを見るには利益だけでなくCash Flowや運転資金も確認します。"]},
+    {"type":"mistakes","title":"6. よくある誤解","items":["売上=利益ではない。原価・販売管理費等を差し引く。","B/Sは一定期間の売上推移ではなく時点情報。","黒字企業でもCash不足で支払不能になる可能性がある。","減価償却費はその期に同額Cashが出ているとは限らない。"]}
+  ],
+  "checks":[
+    {"id":"bus08-q1","prompt":"売上800、売上原価500なら売上総利益は？","options":["300","500","800","1300"],"answerIndex":0,"explanation":"800-500=300です。"},
+    {"id":"bus08-q2","prompt":"ある時点の資産・負債・純資産を示すのは？","options":["B/S","P/L","PERT","DNS"],"answerIndex":0,"explanation":"Balance Sheetです。"},
+    {"id":"bus08-q3","prompt":"基本式として正しいのは？","options":["資産=負債+純資産","売上=資産+負債","利益=資産+現金","負債=売上+費用"],"answerIndex":0,"explanation":"貸借対照表の基本等式です。"},
+    {"id":"bus08-q4","prompt":"利益とCashが一致しない理由の例は？","options":["売掛金で売上計上して未回収","必ず一致する","CPU Clock差","DNS TTL"],"answerIndex":0,"explanation":"売上計上とCash回収のTimingがずれることがあります。"}
+  ]
+}
