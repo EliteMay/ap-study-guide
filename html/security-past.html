@@ -1,64 +1,20 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>セキュリティ過去問解説 | AP Study Notes</title>
-<link href="../css/style.css" rel="stylesheet"/>
-<style>
-  .past-hero-note { margin-top:18px; padding:14px 16px; border-radius:14px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); line-height:1.8; }
-  .past-control-panel { background:#fff; border:1px solid #dbe5ee; border-radius:18px; padding:20px; box-shadow:0 8px 20px rgba(15,23,42,.06); margin-bottom:22px; }
-  .past-controls { display:grid; grid-template-columns: minmax(220px, 1fr) minmax(180px, 260px); gap:14px; align-items:end; }
-  .past-controls label { display:flex; flex-direction:column; gap:6px; font-weight:800; color:#334155; }
-  .past-controls input, .past-controls select { padding:12px 14px; border:1px solid #cbd5e1; border-radius:12px; font:inherit; background:#fff; }
-  .past-summary { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:14px; color:#475569; font-weight:700; }
-  .past-pill { display:inline-block; padding:4px 10px; border-radius:999px; background:#e0f2fe; color:#075985; font-size:.82rem; font-weight:900; }
-  .past-list { display:grid; gap:16px; }
-  .past-card { background:#fff; border:1px solid #dbe5ee; border-radius:18px; padding:0; box-shadow:0 8px 20px rgba(15,23,42,.06); overflow:hidden; }
-  .past-card-header { width:100%; padding:20px; background:#fff; border:0; text-align:left; cursor:pointer; display:flex; justify-content:space-between; gap:18px; align-items:flex-start; }
-  .past-card-header:hover { background:#f8fafc; }
-  .past-meta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
-  .past-title { margin:0; color:#0f172a; font-size:1.18rem; line-height:1.65; }
-  .past-theme { color:#475569; line-height:1.75; margin:8px 0 0; font-weight:700; }
-  .past-toggle { flex:0 0 auto; border:none; border-radius:999px; padding:8px 14px; background:#0f766e; color:white; font-weight:900; cursor:pointer; }
-  .past-panel { padding:0 20px 22px; border-top:1px solid #e2e8f0; background:#fcfffe; }
-  .past-panel[hidden] { display:none !important; }
-  .answer-guide { display:grid; gap:12px; margin:18px 0; }
-  .answer-item { border:1px solid #bbf7d0; background:#f0fdf4; border-radius:14px; padding:14px; }
-  .answer-item h4 { margin:0 0 8px; color:#166534; }
-  .answer-item p { margin:8px 0; line-height:1.85; }
-  .explain-block { margin:18px 0; padding:16px; border:1px solid #e2e8f0; border-radius:14px; background:#fff; }
-  .explain-block h4 { margin:0 0 10px; color:#0f172a; }
-  .explain-block p { line-height:1.95; margin:10px 0; }
-  .term-link { color:#0f766e; font-weight:900; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:3px; }
-  .related-list { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
-  .related-list a { display:inline-block; padding:5px 10px; border-radius:999px; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; text-decoration:none; font-weight:800; font-size:.86rem; }
-  .related-list .missing-term-link { display:inline-block; padding:5px 10px; border-radius:999px; background:#f8fafc; color:#64748b; border:1px solid #cbd5e1; font-weight:800; font-size:.86rem; }
-  .checklist { background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:14px 18px; }
-  .checklist li { margin:6px 0; }
-  .coverage-table { width:100%; border-collapse:collapse; margin:18px 0; background:#fff; border-radius:14px; overflow:hidden; }
-  .coverage-table th,.coverage-table td { border:1px solid #dbe5ee; padding:10px; text-align:left; vertical-align:top; }
-  .coverage-table th { background:#f1f5f9; color:#334155; }
-  .status-ok { color:#047857; font-weight:900; }
-  .status-warn { color:#b45309; font-weight:900; }
-  .problem-source { margin:18px 0; padding:16px; border:1px solid #bae6fd; border-radius:14px; background:#f0f9ff; }
-  .problem-source details { margin:10px 0; }
-  .problem-source summary { cursor:pointer; font-weight:900; color:#075985; }
-  .problem-source p,.problem-source li { line-height:1.9; }
-  .source-pdf-link { display:inline-block; margin:8px 0; padding:6px 12px; border-radius:999px; background:#e0f2fe; color:#075985; font-weight:900; text-decoration:none; }
-  .load-error { background:#fff1f2; color:#9f1239; border:1px solid #fecdd3; border-radius:14px; padding:16px; font-weight:800; }
-  @media (max-width: 720px) { .past-controls { grid-template-columns: 1fr; } .past-card-header { flex-direction:column; } }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>情報セキュリティ過去問解説 | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/past.css" rel="stylesheet">
 </head>
 <body>
-
 <nav class="unit-nav">
   <div class="container">
     <span class="unit-nav-label">AP 単元一覧</span>
     <ul class="unit-nav-list">
       <li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li>
-      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
       <li><a href="security-past.html" class="unit-nav-link is-current" aria-current="page">📘 過去問解説</a></li>
+      <li><a href="security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
       <li><a href="network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
       <li><a href="database.html" class="unit-nav-link">🗄️ データベース</a></li>
       <li><a href="algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
@@ -68,349 +24,34 @@
     </ul>
   </div>
 </nav>
-
 <header class="site-header">
   <div class="container">
-    <p class="eyebrow">AP Security Past Questions</p>
-    <h1>セキュリティ過去問ガチ解説</h1>
-    <p class="lead">問題文・設問・解説をつなげて確認できる過去問ページです。問題文は専用JSONとPDFリンクに保存し、設問ごとの解説漏れをチェックできます。</p>
-    <div class="past-hero-note">
-      問題文は json/past-problems/ に保存し、解説は json/past/ に保存します。設問ごとに answerTargets を持たせ、a/e のような複数空欄の解説漏れを防ぎます。
-    </div>
+    <p class="eyebrow">Security Past Questions</p>
+    <h1>情報セキュリティ 過去問解説</h1>
+    <p class="lead">問題文JSON・PDF原本・設問別解説・関連用語をつなげて、午後問題の読み方を確認します。</p>
+    <div class="past-hero-note">解説だけを読むのではなく、「設問が何を聞くか → 問題文のどこを見るか → なぜその答案になるか」の順で確認します。関連用語は辞書カードへ直接移動できます。</div>
   </div>
 </header>
-
 <main id="main-content">
   <section class="section">
     <div class="container">
       <h2>過去問一覧</h2>
       <div class="past-control-panel">
         <div class="past-controls">
-          <label>
-            解説検索
-            <input id="past-search" type="search" placeholder="例: DMZ, S/MIME, 標的型攻撃" autocomplete="off"/>
+          <label>検索
+            <input id="past-search" type="search" placeholder="年度・テーマ・関連用語で検索" autocomplete="off">
           </label>
-          <label>
-            試験回
+          <label>年度・期
             <select id="round-filter"><option value="all">すべて</option></select>
           </label>
         </div>
-        <div class="past-summary">
-          <span id="past-count" class="past-pill">読み込み中</span>
-          <span class="past-pill">用語リンクは解説を開いた時だけ生成</span>
-        </div>
+        <div class="past-summary"><span>表示中</span><span id="past-count" class="past-pill">読み込み中...</span></div>
       </div>
-      <div id="past-list" class="past-list"></div>
+      <div id="past-list" class="past-list"><div class="empty-note">過去問データを読み込み中...</div></div>
     </div>
   </section>
 </main>
-
-<footer class="site-footer">
-  <div class="container">
-    <p>AP Study Notes</p>
-    <p class="small">応用情報技術者試験 学習用ページ</p>
-  </div>
-</footer>
-
-<script>
-const els = {
-  list: document.getElementById('past-list'),
-  search: document.getElementById('past-search'),
-  roundFilter: document.getElementById('round-filter'),
-  count: document.getElementById('past-count')
-};
-
-let TERMS = [];
-let TERM_BY_NAME = new Map();
-let TERM_BY_NORMALIZED_NAME = new Map();
-let TERM_REGEX = null;
-let PAST = [];
-let PROBLEMS = new Map();
-
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-function escapeRegExp(value) {
-  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-async function fetchJson(path) {
-  const resolvedPath = path.startsWith('../') ? path : `../${path}`;
-  const res = await fetch(resolvedPath, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`${path} の読み込みに失敗しました: ${res.status}`);
-  return res.json();
-}
-
-async function fetchTermFiles() {
-  const manifest = await fetchJson('security-terms-manifest.json');
-  const files = Array.isArray(manifest.files) ? manifest.files : [];
-  const payloads = await Promise.all(files.map(item => fetchJson(item.file)));
-  return { terms: payloads.flatMap(payload => payload.terms || []) };
-}
-
-function normalizeTerms(payload) {
-  if (Array.isArray(payload)) return payload;
-  if (payload && Array.isArray(payload.terms)) return payload.terms;
-  return [];
-}
-
-function buildTermMap(terms) {
-  TERMS = terms;
-  TERM_BY_NAME = new Map();
-  const names = [];
-
-  for (const t of terms) {
-    if (!t || !t.id || !t.term) continue;
-    const candidates = [t.term, ...(Array.isArray(t.aliases) ? t.aliases : [])]
-      .filter(Boolean)
-      .map(v => String(v).trim())
-      .filter(v => v.length >= 2);
-    for (const name of candidates) {
-      if (!TERM_BY_NAME.has(name)) {
-        const hit = { id: t.id, term: t.term };
-        TERM_BY_NAME.set(name, hit);
-        const normalizedName = name.toLowerCase();
-        if (!TERM_BY_NORMALIZED_NAME.has(normalizedName)) TERM_BY_NORMALIZED_NAME.set(normalizedName, hit);
-        names.push(name);
-      }
-    }
-  }
-
-  names.sort((a,b) => b.length - a.length);
-  TERM_REGEX = names.length ? new RegExp(names.map(escapeRegExp).join('|'), 'g') : null;
-}
-
-function linkifyText(text) {
-  const escaped = escapeHtml(text);
-  if (!TERM_REGEX) return escaped;
-  return escaped.replace(TERM_REGEX, (match) => {
-    const hit = TERM_BY_NAME.get(match);
-    if (!hit) return match;
-    return `<a class="term-link" href="security.html#${escapeHtml(hit.id)}" title="${escapeHtml(hit.term)} の辞書カードへ">${match}</a>`;
-  });
-}
-
-function validatePast(data) {
-  const ids = new Set();
-  for (const q of data) {
-    if (!q.id) console.warn('[past] missing id', q);
-    if (ids.has(q.id)) console.warn('[past] duplicate id', q.id, q);
-    ids.add(q.id);
-    if ('question' in q || 'choices' in q) console.warn('[past] legacy question/choices found; prefer json/past-problems:', q.id);
-    if (Array.isArray(q.sections)) {
-      for (const s of q.sections) {
-        const targets = Array.isArray(s.answerTargets) ? s.answerTargets : [];
-        const answers = Array.isArray(s.expectedAnswers) ? s.expectedAnswers : [];
-        if (!targets.length) console.warn('[past] section has no answerTargets', q.id, s.label);
-        if (!answers.length && s.status !== '要原本確認') console.warn('[past] section has no expectedAnswers', q.id, s.label);
-      }
-    }
-  }
-}
-
-function renderRoundFilter() {
-  const rounds = [...new Set(PAST.map(q => q.examRound).filter(Boolean))];
-  els.roundFilter.innerHTML = '<option value="all">すべて</option>' + rounds.map(r => `<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join('');
-}
-
-function makeSearchText(q) {
-  return [q.examRound, q.questionNumber, q.title, q.themeSummary, ...(q.relatedTerms || [])].join(' ').toLowerCase();
-}
-
-function filterPast() {
-  const keyword = els.search.value.trim().toLowerCase();
-  const round = els.roundFilter.value;
-  return PAST.filter(q => {
-    const matchRound = round === 'all' || q.examRound === round;
-    const matchKeyword = !keyword || makeSearchText(q).includes(keyword);
-    return matchRound && matchKeyword;
-  });
-}
-
-function renderList() {
-  const filtered = filterPast();
-  els.count.textContent = `${filtered.length} / ${PAST.length} 件`;
-  if (!filtered.length) {
-    els.list.innerHTML = '<div class="card"><p class="definition">条件に合う過去問解説がありません。</p></div>';
-    return;
-  }
-  els.list.innerHTML = filtered.map(q => `
-    <article class="past-card" id="${escapeHtml(q.id)}">
-      <button class="past-card-header" type="button" data-action="toggle" data-id="${escapeHtml(q.id)}">
-        <span>
-          <span class="past-meta">
-            <span class="past-pill">${escapeHtml(q.examRound)}</span>
-            <span class="past-pill">${escapeHtml(q.questionNumber)}</span>
-            <span class="past-pill">${escapeHtml(q.sourceFileName || '')}</span>
-          </span>
-          <h3 class="past-title">${escapeHtml(q.title)}</h3>
-          <p class="past-theme">${escapeHtml(q.themeSummary || '')}</p>
-        </span>
-        <span class="past-toggle">解説を開く</span>
-      </button>
-      <div class="past-panel" id="panel-${escapeHtml(q.id)}" hidden data-rendered="false"></div>
-    </article>
-  `).join('');
-}
-
-function findTermHit(term) {
-  const raw = String(term || '').trim();
-  if (!raw) return null;
-  return TERM_BY_NAME.get(raw) || TERM_BY_NORMALIZED_NAME.get(raw.toLowerCase()) || null;
-}
-
-function relatedLinks(terms) {
-  if (!Array.isArray(terms) || !terms.length) return '';
-  return `<div class="related-list">${terms.map(term => {
-    const hit = findTermHit(term);
-    if (!hit) return `<span class="missing-term-link" title="対応する辞書カードが未登録です">${escapeHtml(term)}</span>`;
-    return `<a href="security.html#${escapeHtml(hit.id)}" title="${escapeHtml(hit.term)} の辞書カードへ">${escapeHtml(term)}</a>`;
-  }).join('')}</div>`;
-}
-
-
-function renderCoverage(q) {
-  if (!Array.isArray(q.sections) || !q.sections.length) return '';
-  return `<h4>解説済みチェック表</h4>
-    <table class="coverage-table">
-      <thead><tr><th>設問</th><th>対象</th><th>状態</th><th>答案・確認点</th></tr></thead>
-      <tbody>${q.sections.map(s => {
-        const ok = s.status === '解説済み';
-        return `<tr>
-          <td>${escapeHtml(s.label || '')}</td>
-          <td>${escapeHtml((s.answerTargets || []).join(' / '))}</td>
-          <td class="${ok ? 'status-ok' : 'status-warn'}">${escapeHtml(s.status || '未設定')}</td>
-          <td>${escapeHtml((s.expectedAnswers || []).join('、'))}${s.qualityNote ? `<br><small>${escapeHtml(s.qualityNote)}</small>` : ''}</td>
-        </tr>`;
-      }).join('')}</tbody>
-    </table>`;
-}
-
-function renderProblemSource(q) {
-  const problem = PROBLEMS.get(q.id);
-  const pdf = q.sourcePdf || '';
-  if (!problem && !pdf) return '';
-  const p = problem ? problem.problem : null;
-  const opening = p && Array.isArray(p.opening) ? p.opening.map(x => `<p>${escapeHtml(x)}</p>`).join('') : '';
-  const body = p && Array.isArray(p.body) ? p.body.map(x => `<p>${escapeHtml(x)}</p>`).join('') : '';
-  const tables = p && Array.isArray(p.tables) ? p.tables.map(t => `<details><summary>${escapeHtml(t.title || '表')}</summary><ul>${(t.rows || []).map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul></details>`).join('') : '';
-  const questions = p && Array.isArray(p.questions) ? `<details open><summary>設問・解答対象</summary><div class="answer-guide">${p.questions.map(s => `<div class="answer-item"><h4>${escapeHtml(s.label)}</h4><p>${escapeHtml(s.prompt || '')}</p><p><strong>答える対象：</strong>${escapeHtml((s.targets || []).join(' / '))}</p>${Array.isArray(s.choices) ? `<p><strong>選択肢：</strong>${escapeHtml(s.choices.join('、'))}</p>` : ''}${s.note ? `<p><strong>注意：</strong>${escapeHtml(s.note)}</p>` : ''}</div>`).join('')}</div></details>` : '';
-  return `<div class="problem-source">
-    <h4>問題文・設問の保存場所</h4>
-    ${pdf ? `<a class="source-pdf-link" href="../${escapeHtml(pdf)}" target="_blank" rel="noopener">PDF原本を開く</a>` : ''}
-    <details><summary>問題文の起こしを開く</summary>${opening}${tables}${body}</details>
-    ${questions}
-  </div>`;
-}
-
-function renderPanel(q, panel) {
-  const answers = (q.answerGuide || []).map(a => `
-    <div class="answer-item">
-      <h4>${escapeHtml(a.label || '設問')}</h4>
-      <p><strong>答案の方向：</strong>${linkifyText(a.answer || '')}</p>
-      <p><strong>理由：</strong>${linkifyText(a.why || '')}</p>
-    </div>
-  `).join('');
-
-  const walkthrough = (q.fullWalkthrough || []).map(block => `
-    <div class="explain-block">
-      <h4>${escapeHtml(block.heading || '読み方')}</h4>
-      ${(block.body || []).map(p => `<p>${linkifyText(p)}</p>`).join('')}
-    </div>
-  `).join('');
-
-  const explanations = (q.ultraExplanation || []).map(block => `
-    <div class="explain-block">
-      <h4>${escapeHtml(block.heading || '解説')}</h4>
-      ${(block.body || []).map(p => `<p>${linkifyText(p)}</p>`).join('')}
-    </div>
-  `).join('');
-
-  const checklist = (q.studyChecklist || []).length ? `
-    <div class="checklist">
-      <strong>復習チェック</strong>
-      <ul>${q.studyChecklist.map(item => `<li>${linkifyText(item)}</li>`).join('')}</ul>
-    </div>
-  ` : '';
-
-  const coverage = renderCoverage(q);
-  const problemSource = renderProblemSource(q);
-
-  panel.innerHTML = `
-    ${coverage}
-    ${problemSource}
-    <p class="past-theme"><strong>問題文：</strong>${escapeHtml(q.problemTextPolicy || '問題文JSONとPDF原本を参照してください。')}</p>
-    <p class="past-theme"><strong>参照ページ：</strong>${escapeHtml((q.sourcePages || []).join(' / '))}</p>
-    ${q.sourceNoteForYear ? `<p class="past-theme"><strong>年度メモ：</strong>${escapeHtml(q.sourceNoteForYear)}</p>` : ''}
-    <h4>関連用語</h4>
-    ${relatedLinks(q.relatedTerms || [])}
-    <h4>答案ガイド</h4>
-    <div class="answer-guide">${answers}</div>
-    <h4>最初に読むポイント</h4>
-    ${walkthrough}
-    <h4>午後問題のガチ解説</h4>
-    ${explanations}
-    ${checklist}
-  `;
-  panel.dataset.rendered = 'true';
-}
-
-async function init() {
-  try {
-    const [termsPayload, indexPayload] = await Promise.all([
-      fetchTermFiles(),
-      fetchJson('security-past-index.json')
-    ]);
-    buildTermMap(normalizeTerms(termsPayload));
-
-    const fileItems = Array.isArray(indexPayload.files) ? indexPayload.files : [];
-    const [yearPayloads, problemPayloads] = await Promise.all([
-      Promise.all(fileItems.map(item => fetchJson(item.file))),
-      Promise.all(fileItems.map(item => item.problemFile ? fetchJson(item.problemFile).catch(err => ({ error: err.message, file: item.problemFile })) : null))
-    ]);
-    PAST = yearPayloads.flatMap(payload => Array.isArray(payload.pastQuestions) ? payload.pastQuestions : []);
-    PROBLEMS = new Map();
-    for (const payload of problemPayloads.filter(Boolean)) {
-      if (payload.problem && payload.problem.id) {
-        const pastId = payload.problem.id.replace('-problem','');
-        PROBLEMS.set(pastId, payload);
-      } else if (payload.error) {
-        console.warn('[past-problem] load failed', payload.file, payload.error);
-      }
-    }
-    validatePast(PAST);
-    renderRoundFilter();
-    renderList();
-  } catch (err) {
-    console.error(err);
-    els.list.innerHTML = `<div class="load-error">読み込みに失敗しました。VSCodeのLive Serverで開いているか確認してください。<br>${escapeHtml(err.message)}</div>`;
-    els.count.textContent = '読み込み失敗';
-  }
-}
-
-els.search.addEventListener('input', renderList);
-els.roundFilter.addEventListener('change', renderList);
-els.list.addEventListener('click', (event) => {
-  const header = event.target.closest('[data-action="toggle"]');
-  if (!header) return;
-  const id = header.dataset.id;
-  const panel = document.getElementById(`panel-${id}`);
-  const q = PAST.find(item => item.id === id);
-  if (!panel || !q) return;
-  const opened = !panel.hidden;
-  panel.hidden = opened;
-  const toggle = header.querySelector('.past-toggle');
-  if (toggle) toggle.textContent = opened ? '解説を開く' : '閉じる';
-  if (!opened && panel.dataset.rendered !== 'true') renderPanel(q, panel);
-});
-
-document.addEventListener('DOMContentLoaded', init);
-</script>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">情報セキュリティ 午後過去問解説</p></div></footer>
+<script src="../js/past.js" defer></script>
 </body>
 </html>
