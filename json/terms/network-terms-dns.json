@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "category": "DNS・名前解決",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-dns-001",
+      "term": "DNS",
+      "aliases": [
+        "Domain Name System"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ドメイン名をIPアドレスなどへ変換する分散型の名前解決システム。"
+    },
+    {
+      "id": "net-dns-002",
+      "term": "FQDN",
+      "aliases": [
+        "Fully Qualified Domain Name"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ホスト名から最上位ドメインまでを省略せずに表した完全なドメイン名。"
+    },
+    {
+      "id": "net-dns-003",
+      "term": "ドメイン名",
+      "aliases": [
+        "domain name"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "example.comのように、人間が覚えやすい名前でネットワーク上の対象を示す名前。"
+    },
+    {
+      "id": "net-dns-004",
+      "term": "ルートDNSサーバ",
+      "aliases": [
+        "root DNS server"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNS階層の最上位で、TLDを管理するDNSサーバの情報を返すサーバ。"
+    },
+    {
+      "id": "net-dns-005",
+      "term": "TLD",
+      "aliases": [
+        "Top Level Domain",
+        "トップレベルドメイン"
+      ],
+      "category": "DNS・名前解決",
+      "definition": ".jpや.comなど、ドメイン名の最上位部分。"
+    },
+    {
+      "id": "net-dns-006",
+      "term": "権威DNSサーバ",
+      "aliases": [
+        "authoritative DNS server"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "特定ゾーンの正式なDNSレコードを管理し回答するDNSサーバ。"
+    },
+    {
+      "id": "net-dns-007",
+      "term": "キャッシュDNSサーバ",
+      "aliases": [
+        "recursive resolver",
+        "フルサービスリゾルバ"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "利用者からの問い合わせを受け、必要なDNS問い合わせを代行して結果をキャッシュするサーバ。"
+    },
+    {
+      "id": "net-dns-008",
+      "term": "リゾルバ",
+      "aliases": [
+        "resolver"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "端末やサーバがDNS問い合わせを行うための仕組み。"
+    },
+    {
+      "id": "net-dns-009",
+      "term": "再帰問い合わせ",
+      "aliases": [
+        "recursive query"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "問い合わせ先DNSサーバに、最終結果まで調べてもらう問い合わせ。"
+    },
+    {
+      "id": "net-dns-010",
+      "term": "反復問い合わせ",
+      "aliases": [
+        "iterative query"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "問い合わせ先DNSサーバが、次に聞くべきDNSサーバの情報を返す問い合わせ。"
+    },
+    {
+      "id": "net-dns-011",
+      "term": "Aレコード",
+      "aliases": [
+        "A record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ホスト名に対応するIPv4アドレスを示すDNSレコード。"
+    },
+    {
+      "id": "net-dns-012",
+      "term": "AAAAレコード",
+      "aliases": [
+        "AAAA record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ホスト名に対応するIPv6アドレスを示すDNSレコード。"
+    },
+    {
+      "id": "net-dns-013",
+      "term": "CNAME",
+      "aliases": [
+        "Canonical Name record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ある名前を別の正式名へ向けるDNSレコード。"
+    },
+    {
+      "id": "net-dns-014",
+      "term": "MXレコード",
+      "aliases": [
+        "Mail Exchanger record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "そのドメイン宛メールを受け取るメールサーバを示すDNSレコード。"
+    },
+    {
+      "id": "net-dns-015",
+      "term": "NSレコード",
+      "aliases": [
+        "Name Server record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "そのゾーンを管理するDNSサーバを示すDNSレコード。"
+    },
+    {
+      "id": "net-dns-016",
+      "term": "PTRレコード",
+      "aliases": [
+        "Pointer record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "IPアドレスから名前を引く逆引きで使われるDNSレコード。"
+    },
+    {
+      "id": "net-dns-017",
+      "term": "TXTレコード",
+      "aliases": [
+        "Text record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "SPFやDKIM関連情報など、任意の文字列情報を公開するDNSレコード。"
+    },
+    {
+      "id": "net-dns-018",
+      "term": "DNSのTTL",
+      "aliases": [
+        "DNS TTL",
+        "TTL（DNS）"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSレコードをキャッシュしてよい時間を示す値。"
+    },
+    {
+      "id": "net-dns-019",
+      "term": "ゾーン",
+      "aliases": [
+        "DNS zone"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "権威DNSサーバが管理するDNS名前空間の範囲。"
+    },
+    {
+      "id": "net-dns-020",
+      "term": "ゾーン転送",
+      "aliases": [
+        "zone transfer",
+        "AXFR"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSゾーン情報を別のDNSサーバへ複製する仕組み。"
+    },
+    {
+      "id": "net-dns-021",
+      "term": "SOAレコード",
+      "aliases": [
+        "Start of Authority"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSゾーンの管理情報を示すレコード。ゾーンの基点、管理者、更新番号などを持つ。"
+    },
+    {
+      "id": "net-dns-022",
+      "term": "SRVレコード",
+      "aliases": [
+        "Service record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "サービス名、プロトコル、ポート、提供ホストを示すDNSレコード。"
+    },
+    {
+      "id": "net-dns-023",
+      "term": "CAAレコード",
+      "aliases": [
+        "Certification Authority Authorization"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "そのドメインの証明書を発行できる認証局を制限するDNSレコード。"
+    },
+    {
+      "id": "net-dns-024",
+      "term": "DNSSEC",
+      "aliases": [
+        "Domain Name System Security Extensions"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNS応答に電子署名を付け、改ざん検出を可能にする仕組み。"
+    },
+    {
+      "id": "net-dns-025",
+      "term": "DSレコード",
+      "aliases": [
+        "Delegation Signer"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "親ゾーンから子ゾーンのDNSSEC署名情報をつなぐためのレコード。"
+    },
+    {
+      "id": "net-dns-026",
+      "term": "DNSKEYレコード",
+      "aliases": [
+        "DNSKEY"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSSECで署名検証に使う公開鍵を格納するDNSレコード。"
+    },
+    {
+      "id": "net-dns-027",
+      "term": "RRSIGレコード",
+      "aliases": [
+        "Resource Record Signature"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSSECでリソースレコード集合に付けられる署名レコード。"
+    },
+    {
+      "id": "net-dns-028",
+      "term": "NSECレコード",
+      "aliases": [
+        "Next Secure record"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNSSECで、存在しない名前を証明するために使われるレコード。"
+    },
+    {
+      "id": "net-dns-029",
+      "term": "ワイルドカードDNS",
+      "aliases": [
+        "wildcard DNS"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "未定義の名前にも特定の応答を返すDNS設定。"
+    },
+    {
+      "id": "net-dns-030",
+      "term": "スプリットホライズンDNS",
+      "aliases": [
+        "split-horizon DNS",
+        "split DNS"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "問い合わせ元の場所に応じて、同じ名前に別の応答を返すDNS構成。"
+    },
+    {
+      "id": "net-dns-031",
+      "term": "内部DNS",
+      "aliases": [
+        "internal DNS"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "社内やクラウド内など、限定された範囲で使う名前解決基盤。"
+    },
+    {
+      "id": "net-dns-032",
+      "term": "外部DNS",
+      "aliases": [
+        "external DNS"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "インターネットから参照される公開用の名前解決基盤。"
+    },
+    {
+      "id": "net-dns-033",
+      "term": "DNSフォワーダ",
+      "aliases": [
+        "DNS forwarder"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "受けた問い合わせを別のDNSサーバへ転送するDNSサーバ設定。"
+    },
+    {
+      "id": "net-dns-034",
+      "term": "DNSラウンドロビン",
+      "aliases": [
+        "DNS round robin"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "同じ名前に複数のIPアドレスを登録し、応答順などで簡易的に分散する方法。"
+    },
+    {
+      "id": "net-dns-035",
+      "term": "逆引き",
+      "aliases": [
+        "reverse lookup"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "IPアドレスからホスト名を調べる名前解決。PTRレコードを使う。"
+    },
+    {
+      "id": "net-dns-036",
+      "term": "正引き",
+      "aliases": [
+        "forward lookup"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "ホスト名からIPアドレスを調べる名前解決。AやAAAAレコードを使う。"
+    },
+    {
+      "id": "net-dns-037",
+      "term": "DNSキャッシュポイズニング",
+      "aliases": [
+        "DNS cache poisoning"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "キャッシュDNSに偽の情報を覚えさせ、利用者を誤った宛先へ誘導する攻撃。"
+    },
+    {
+      "id": "net-dns-038",
+      "term": "オープンリゾルバ",
+      "aliases": [
+        "open resolver"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "誰からの再帰問い合わせにも応答するDNSサーバ。悪用されると反射攻撃の踏み台になる。"
+    },
+    {
+      "id": "net-dns-039",
+      "term": "DNS over HTTPS",
+      "aliases": [
+        "DoH"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNS問い合わせをHTTPSで送る方式。通信内容の盗聴や改ざんを受けにくくする。"
+    },
+    {
+      "id": "net-dns-040",
+      "term": "DNS over TLS",
+      "aliases": [
+        "DoT"
+      ],
+      "category": "DNS・名前解決",
+      "definition": "DNS問い合わせをTLSで暗号化して送る方式。"
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "meta": {
+    "category": "暗号・証明書・PKI",
+    "version": "v6-genre-json",
+    "count": 53
+  },
+  "terms": [
+    {
+      "id": "sec-105",
+      "term": "暗号化",
+      "aliases": [
+        "encryption"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "第三者に内容を読まれにくい形へ変換すること。"
+    },
+    {
+      "id": "sec-106",
+      "term": "復号",
+      "aliases": [
+        "decryption"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化されたデータを元の読める形へ戻すこと。"
+    },
+    {
+      "id": "sec-107",
+      "term": "平文",
+      "aliases": [
+        "plaintext"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化されていない、普通に読めるデータ。"
+    },
+    {
+      "id": "sec-108",
+      "term": "暗号文",
+      "aliases": [
+        "ciphertext"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化され、鍵なしでは読みにくくなったデータ。"
+    },
+    {
+      "id": "sec-109",
+      "term": "鍵",
+      "aliases": [
+        "暗号鍵"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化・復号・署名などに使う秘密情報や公開情報。"
+    },
+    {
+      "id": "sec-110",
+      "term": "共通鍵暗号方式",
+      "aliases": [
+        "秘密鍵暗号方式"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化と復号に同じ鍵を使う方式。高速だが鍵共有が課題。"
+    },
+    {
+      "id": "sec-111",
+      "term": "公開鍵暗号方式",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "公開鍵と秘密鍵のペアを使う方式。鍵共有や電子署名に使われる。"
+    },
+    {
+      "id": "sec-112",
+      "term": "AES",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "代表的な共通鍵暗号方式。高速で広く使われる。"
+    },
+    {
+      "id": "sec-113",
+      "term": "RSA",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "代表的な公開鍵暗号方式。暗号化や署名で使われる。"
+    },
+    {
+      "id": "sec-114",
+      "term": "楕円曲線暗号",
+      "aliases": [
+        "ECC"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "短い鍵長でも安全性を確保しやすい公開鍵暗号方式。"
+    },
+    {
+      "id": "sec-115",
+      "term": "ハッシュ関数",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "任意のデータから固定長の値を作る一方向の関数。"
+    },
+    {
+      "id": "sec-116",
+      "term": "ハッシュ値",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ハッシュ関数で作られる固定長の値。データの指紋のように使う。"
+    },
+    {
+      "id": "sec-117",
+      "term": "メッセージダイジェスト",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ハッシュ値のこと。データの改ざん検出に使う。"
+    },
+    {
+      "id": "sec-118",
+      "term": "SHA-256",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "256ビットのハッシュ値を作るSHA-2系のハッシュ関数。"
+    },
+    {
+      "id": "sec-119",
+      "term": "ソルト",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワードをハッシュ化するときに加えるランダムな値。"
+    },
+    {
+      "id": "sec-120",
+      "term": "ストレッチング",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワードハッシュ計算を何度も繰り返し、総当たりを遅くする方法。"
+    },
+    {
+      "id": "sec-121",
+      "term": "MAC",
+      "aliases": [
+        "Message Authentication Code"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "メッセージ認証コード。データの改ざんと送信者の正当性を確認する値。"
+    },
+    {
+      "id": "sec-122",
+      "term": "HMAC",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ハッシュ関数と秘密鍵を使うメッセージ認証コード。"
+    },
+    {
+      "id": "sec-123",
+      "term": "ディジタル署名",
+      "aliases": [
+        "電子署名"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "本人が作成したことと改ざんされていないことを確認する仕組み。"
+    },
+    {
+      "id": "sec-124",
+      "term": "PKI",
+      "aliases": [
+        "公開鍵基盤"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "公開鍵、証明書、認証局などを使い、公開鍵の信頼性を支える基盤。"
+    },
+    {
+      "id": "sec-125",
+      "term": "認証局",
+      "aliases": [
+        "CA",
+        "Certificate Authority"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "ディジタル証明書を発行・失効する信頼された第三者機関。"
+    },
+    {
+      "id": "sec-126",
+      "term": "登録局",
+      "aliases": [
+        "RA"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "証明書発行前に申請者の本人確認などを行う機関。"
+    },
+    {
+      "id": "sec-127",
+      "term": "CSR",
+      "aliases": [
+        "Certificate Signing Request"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "証明書発行を依頼するために作成する証明書署名要求。"
+    },
+    {
+      "id": "sec-128",
+      "term": "ディジタル証明書",
+      "aliases": [
+        "電子証明書"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "公開鍵が本当にその主体のものだと証明する電子文書。"
+    },
+    {
+      "id": "sec-129",
+      "term": "サーバ証明書",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "Webサーバなどの身元と公開鍵を証明する証明書。"
+    },
+    {
+      "id": "sec-130",
+      "term": "ルート証明書",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "信頼の起点となる認証局の証明書。OSやブラウザに組み込まれる。"
+    },
+    {
+      "id": "sec-131",
+      "term": "中間証明書",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ルート認証局とサーバ証明書の間に入る認証局証明書。"
+    },
+    {
+      "id": "sec-132",
+      "term": "証明書チェーン",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "サーバ証明書からルート証明書までの信頼のつながり。"
+    },
+    {
+      "id": "sec-133",
+      "term": "CRL",
+      "aliases": [
+        "Certificate Revocation List"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "失効した証明書の一覧。"
+    },
+    {
+      "id": "sec-134",
+      "term": "OCSP",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "証明書が失効していないかをオンラインで1件ずつ確認するプロトコル。"
+    },
+    {
+      "id": "sec-135",
+      "term": "SSL/TLS",
+      "aliases": [
+        "TLS",
+        "SSL"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "通信を暗号化し、盗聴・改ざん・なりすましを防ぎやすくするプロトコル。"
+    },
+    {
+      "id": "sec-136",
+      "term": "TLSハンドシェイク",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "TLS通信開始時に暗号方式や鍵を決め、証明書確認を行う手順。"
+    },
+    {
+      "id": "sec-137",
+      "term": "セッション鍵",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "1回の通信セッションで使う共通鍵。TLSでは安全に共有して高速通信に使う。"
+    },
+    {
+      "id": "sec-138",
+      "term": "PFS",
+      "aliases": [
+        "Perfect Forward Secrecy"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "長期秘密鍵が漏れても過去通信を復号されにくくする性質。"
+    },
+    {
+      "id": "sec-139",
+      "term": "鍵管理",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号鍵の生成、保管、配布、更新、破棄を安全に行うこと。"
+    },
+    {
+      "id": "sec-140",
+      "term": "鍵ローテーション",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号鍵を定期的または必要時に更新すること。"
+    },
+    {
+      "id": "sec-141",
+      "term": "暗号化アルゴリズムの危殆化",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "以前は安全だった暗号方式が、弱点発見や計算能力向上で安全でなくなること。"
+    },
+    {
+      "id": "sec-142",
+      "term": "タイムスタンプ",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ある時刻にデータが存在し、その後改ざんされていないことを示す仕組み。"
+    },
+    {
+      "id": "sec-392",
+      "term": "鍵長",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号鍵の長さ。一般に長いほど総当たりに強いが処理負荷も関係する。"
+    },
+    {
+      "id": "sec-393",
+      "term": "ペッパー",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワードハッシュに加えるサーバ側の秘密値。"
+    },
+    {
+      "id": "sec-394",
+      "term": "鍵導出関数",
+      "aliases": [
+        "KDF"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワードなどから暗号鍵や安全なハッシュ値を作る関数。"
+    },
+    {
+      "id": "sec-395",
+      "term": "PBKDF2",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワードを何度も処理して総当たり攻撃を遅くする鍵導出関数。"
+    },
+    {
+      "id": "sec-396",
+      "term": "bcrypt",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "パスワード保存に使われることが多いハッシュ化方式。"
+    },
+    {
+      "id": "sec-397",
+      "term": "Argon2",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "メモリを多く使わせて攻撃を難しくするパスワードハッシュ方式。"
+    },
+    {
+      "id": "sec-398",
+      "term": "IV",
+      "aliases": [
+        "初期化ベクトル"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号化で同じ平文が同じ暗号文になりにくくするための初期値。"
+    },
+    {
+      "id": "sec-399",
+      "term": "nonce",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "一度だけ使うランダム値や番号。リプレイ攻撃対策などに使う。"
+    },
+    {
+      "id": "sec-400",
+      "term": "鍵交換",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "通信相手と安全に暗号鍵を共有する手順。"
+    },
+    {
+      "id": "sec-401",
+      "term": "Diffie-Hellman鍵交換",
+      "aliases": [
+        "DH鍵交換"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "盗聴される通信路上でも共有鍵を作れる鍵交換方式。"
+    },
+    {
+      "id": "sec-402",
+      "term": "前方秘匿性",
+      "aliases": [
+        "PFS"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "長期鍵が後で漏れても、過去の通信内容が復号されにくい性質。"
+    },
+    {
+      "id": "sec-403",
+      "term": "証明書ピンニング",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "特定の証明書や公開鍵だけを信頼するようアプリ側で固定する対策。"
+    },
+    {
+      "id": "sec-404",
+      "term": "Certificate Transparency",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "発行された証明書を公開ログに記録し、不正発行を見つけやすくする仕組み。"
+    },
+    {
+      "id": "sec-405",
+      "term": "コード署名",
+      "aliases": [],
+      "category": "暗号・証明書・PKI",
+      "definition": "ソフトウェアの作成者と改ざんされていないことを確認するための電子署名。"
+    },
+    {
+      "id": "sec-406",
+      "term": "ハードウェアセキュリティモジュール",
+      "aliases": [
+        "HSM"
+      ],
+      "category": "暗号・証明書・PKI",
+      "definition": "暗号鍵を安全に保管・利用する専用装置。"
+    }
+  ]
+}

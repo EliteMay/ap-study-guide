@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AP Study Notes | 応用情報技術者試験 学習サイト</title>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+  /* ホームページ専用スタイル */
+  .home-hero {
+    padding: 80px 0 64px;
+    color: white;
+    background:
+      linear-gradient(135deg, rgba(5, 76, 99, 0.97), rgba(16, 163, 127, 0.93)),
+      radial-gradient(circle at top left, rgba(255,255,255,0.15), transparent 50%);
+    text-align: center;
+  }
+
+  .home-hero .eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin: 0 0 16px;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    margin: 0 0 20px;
+    line-height: 1.15;
+  }
+
+  .home-hero .lead {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+
+
+  .home-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+
+  .home-action-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    background: white;
+    color: #0f766e;
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+
+  .home-action-btn.secondary {
+    background: rgba(255,255,255,0.12);
+    color: white;
+  }
+
+  /* 進捗サマリー */
+  .home-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+
+  .home-stat {
+    text-align: center;
+  }
+
+  .home-stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .home-stat-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  /* 単元グリッド */
+  .units-section {
+    padding: 64px 0;
+  }
+
+  .units-section h2 {
+    margin: 0 0 32px;
+    padding-left: 14px;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    border-left: 6px solid #10a37f;
+  }
+
+  .units-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .unit-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border: 1px solid #dbe5ee;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .unit-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(15,23,42,0.10);
+    border-color: #a7f3d0;
+  }
+
+  .unit-card.is-ready {
+    cursor: pointer;
+  }
+
+  .unit-card.is-coming {
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .unit-card-emoji {
+    font-size: 2.4rem;
+    margin-bottom: 14px;
+    line-height: 1;
+  }
+
+  .unit-card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 8px;
+  }
+
+  .unit-card-desc {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+
+  .unit-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+  }
+
+  .unit-badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .unit-badge.ready {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .unit-badge.coming {
+    background: #f1f5f9;
+    color: #94a3b8;
+  }
+
+  .unit-card-terms {
+    color: #94a3b8;
+  }
+
+  /* 単元カード進捗バー */
+  .unit-card-progress {
+    margin-top: 14px;
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .unit-card-progress-bar {
+    height: 100%;
+    background: #10a37f;
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.5s ease;
+  }
+
+  /* 使い方セクション */
+  .howto-section {
+    padding: 48px 0 64px;
+    background: #eaf2f8;
+  }
+
+  .howto-section h2 {
+    margin: 0 0 28px;
+    padding-left: 14px;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    border-left: 6px solid #0ea5e9;
+  }
+
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .howto-item {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid #dbe5ee;
+  }
+
+  .howto-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #10a37f;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .howto-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #0f172a;
+  }
+
+  .howto-desc {
+    font-size: 0.88rem;
+    color: #64748b;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .home-hero {
+      padding: 56px 0 48px;
+    }
+    .units-grid {
+      grid-template-columns: 1fr;
+    }
+    .home-stats {
+      gap: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ホームのナビはシンプルに ===== -->
+<nav class="unit-nav">
+  <div class="container">
+    <span class="unit-nav-label">AP 単元一覧</span>
+    <ul class="unit-nav-list">
+      <li><a href="index.html" class="unit-nav-link is-current" aria-current="page">🏠 ホーム</a></li>
+      <li><a href="html/security-past.html" class="unit-nav-link">📘 過去問解説</a></li>
+      <li><a href="html/security.html" class="unit-nav-link">🔐 情報セキュリティ</a></li>
+      <li><a href="html/network.html" class="unit-nav-link">🌐 ネットワーク</a></li>
+      <li><a href="html/database.html" class="unit-nav-link">🗄️ データベース</a></li>
+      <li><a href="html/algorithm.html" class="unit-nav-link is-coming" aria-disabled="true">⚙️ アルゴリズム</a></li>
+      <li><a href="html/system.html" class="unit-nav-link is-coming" aria-disabled="true">🖥️ システム開発</a></li>
+      <li><a href="html/management.html" class="unit-nav-link is-coming" aria-disabled="true">📋 プロジェクト管理</a></li>
+      <li><a href="html/test.html" class="unit-nav-link">📝 テスト</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== ヒーロー ===== -->
+<header class="home-hero">
+  <div class="container">
+    <p class="eyebrow">Applied Information Technology Engineer Exam</p>
+    <h1>AP Study Notes</h1>
+    <p class="lead">
+      応用情報技術者試験（AP）の用語を単元ごとに整理した学習サイトです。<br>
+      隠して確認・習得チェック・単語検索で効率よく覚えましょう。
+    </p>
+    <div class="home-actions">
+      <a href="html/security.html" class="home-action-btn">情報セキュリティを学ぶ</a>
+      <a href="html/network.html" class="home-action-btn">ネットワークを学ぶ</a>
+      <a href="html/database.html" class="home-action-btn">データベースを学ぶ</a>
+      <a href="html/security-past.html" class="home-action-btn secondary">過去問解説を見る</a>
+      <a href="html/test.html" class="home-action-btn secondary">テストモードを開く</a>
+    </div>
+    <div class="home-stats">
+      <div class="home-stat">
+        <div class="home-stat-num" id="total-units">6</div>
+        <div class="home-stat-label">単元</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-num" id="ready-units">2</div>
+        <div class="home-stat-label">公開中</div>
+      </div>
+      <div class="home-stat">
+        <div class="home-stat-num" id="total-checked">0</div>
+        <div class="home-stat-label">習得済み語数</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 単元一覧 ===== -->
+<section class="units-section">
+  <div class="container">
+    <h2>単元一覧</h2>
+    <div class="units-grid">
+
+      <!-- 情報セキュリティ（公開中） -->
+      <a href="html/security.html" class="unit-card is-ready">
+        <div class="unit-card-emoji">🔐</div>
+        <div class="unit-card-title">情報セキュリティ</div>
+        <p class="unit-card-desc">
+          暗号・証明書・攻撃手法・防御・認証・リスク管理まで。
+          AP頻出の用語を網羅。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge ready">✓ 公開中</span>
+          <span class="unit-card-terms" id="security-terms">0 / 501 語</span>
+        </div>
+        <div class="unit-card-progress">
+          <div class="unit-card-progress-bar" id="security-bar"></div>
+        </div>
+      </a>
+
+      <!-- セキュリティ過去問解説（公開中） -->
+      <a href="html/security-past.html" class="unit-card is-ready">
+        <div class="unit-card-emoji">📘</div>
+        <div class="unit-card-title">セキュリティ過去問解説</div>
+        <p class="unit-card-desc">
+          問題文は手元PDFを見ながら、午後問題の読み方・答案の方向・関連用語を確認します。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge ready">公開中</span>
+          <span class="unit-card-terms" id="security-past-count">7 問</span>
+        </div>
+      </a>
+
+      <!-- ネットワーク（公開中） -->
+      <a href="html/network.html" class="unit-card is-ready">
+        <div class="unit-card-emoji">🌐</div>
+        <div class="unit-card-title">ネットワーク</div>
+        <p class="unit-card-desc">
+          TCP/IP、サブネット、LAN、ルーティング、DNS、HTTP、運用監視までを体系的に整理します。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge ready">公開中</span>
+          <span class="unit-card-terms" id="network-terms">0 / 480 語</span>
+        </div>
+        <div class="unit-card-progress">
+          <div class="unit-card-progress-bar" id="network-bar"></div>
+        </div>
+      </a>
+
+      <!-- データベース（公開中） -->
+      <a href="html/database.html" class="unit-card is-ready">
+        <div class="unit-card-emoji">🗄️</div>
+        <div class="unit-card-title">データベース</div>
+        <p class="unit-card-desc">
+          E-R図・主キー・外部キー・参照制約・SQL穴埋め・
+          GROUP BYまで。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge ready">✓ 公開中</span>
+          <span class="unit-card-terms" id="database-terms">0 / 229 語</span>
+        </div>
+        <div class="unit-card-progress">
+          <div class="unit-card-progress-bar" id="database-bar"></div>
+        </div>
+      </a>
+
+      <!-- アルゴリズム（準備中） -->
+      <a href="html/algorithm.html" class="unit-card is-coming">
+        <div class="unit-card-emoji">⚙️</div>
+        <div class="unit-card-title">アルゴリズム</div>
+        <p class="unit-card-desc">
+          ソート・探索・計算量（O記法）・データ構造
+          （スタック・キュー・木）など。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge coming">準備中</span>
+        </div>
+      </a>
+
+      <!-- システム開発（準備中） -->
+      <a href="html/system.html" class="unit-card is-coming">
+        <div class="unit-card-emoji">🖥️</div>
+        <div class="unit-card-title">システム開発</div>
+        <p class="unit-card-desc">
+          開発プロセス・テスト手法・UML・
+          オブジェクト指向など。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge coming">準備中</span>
+        </div>
+      </a>
+
+      <!-- プロジェクト管理（準備中） -->
+      <a href="html/management.html" class="unit-card is-coming">
+        <div class="unit-card-emoji">📋</div>
+        <div class="unit-card-title">プロジェクト管理</div>
+        <p class="unit-card-desc">
+          WBS・ガントチャート・PMBOK・
+          アジャイル・コスト管理など。
+        </p>
+        <div class="unit-card-meta">
+          <span class="unit-badge coming">準備中</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 使い方 ===== -->
+<section class="howto-section">
+  <div class="container">
+    <h2>使い方</h2>
+    <div class="howto-grid">
+      <div class="howto-item">
+        <div class="howto-num">01</div>
+        <div class="howto-title">単元を選ぶ</div>
+        <p class="howto-desc">上の単元一覧から学びたい分野のページを開く。</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">02</div>
+        <div class="howto-title">隠して確認</div>
+        <p class="howto-desc">「隠して確認」ボタンで解説を隠し、自分で答えてから確認する。</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">03</div>
+        <div class="howto-title">習得済みチェック</div>
+        <p class="howto-desc">覚えた用語に「✓ 習得済み」を付けると進捗バーが進む。</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">04</div>
+        <div class="howto-title">単語検索</div>
+        <p class="howto-desc">気になる用語をヘッダーの検索ボックスで素早く探せる。</p>
+      </div>
+      <div class="howto-item">
+        <div class="howto-num">05</div>
+        <div class="howto-title">テストモード</div>
+        <p class="howto-desc">問題数を指定して、ランダム選択式テストで覚えたか確認できる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== フッター ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <p>AP Study Notes</p>
+    <p class="small">応用情報技術者試験 学習用ページ。試験対策用の整理です。</p>
+  </div>
+</footer>
+
+<script>
+// ホームページでのlocalStorage集計（各単元のチェック数を合計）
+const STORAGE_KEYS = {
+  security:   'security-terms-checked',
+  network:    'network-terms-checked',
+  database:   'database-terms-checked',
+  algorithm:  'algorithm-terms-checked',
+  system:     'system-terms-checked',
+  management: 'management-terms-checked',
+};
+
+const TERM_COUNTS = {
+  security: 501, // fetch失敗時のフォールバック値
+  network: 480,
+  database: 229,
+  algorithm: 0,
+  system: 0,
+  management: 0,
+};
+
+function countChecked(key) {
+  try { return (JSON.parse(localStorage.getItem(key)) || []).length; }
+  catch { return 0; }
+}
+
+async function syncSecurityCountFromJson() {
+  try {
+    const res = await fetch('security-terms-manifest.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    if (data.meta && Number.isFinite(Number(data.meta.totalTerms))) {
+      TERM_COUNTS.security = Number(data.meta.totalTerms);
+    } else if (Array.isArray(data.files)) {
+      TERM_COUNTS.security = data.files.reduce((sum, item) => sum + Number(item.count || 0), 0);
+    }
+  } catch (e) {
+    // file:// で開いた場合などはフォールバック値を使う。
+  }
+}
+
+async function syncNetworkCountFromJson() {
+  try {
+    const res = await fetch('network-terms-manifest.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    if (data.meta && Number.isFinite(Number(data.meta.totalTerms))) {
+      TERM_COUNTS.network = Number(data.meta.totalTerms);
+    } else if (Array.isArray(data.files)) {
+      TERM_COUNTS.network = data.files.reduce((sum, item) => sum + Number(item.count || 0), 0);
+    }
+  } catch (e) {
+    // file:// で開いた場合などはフォールバック値を使う。
+  }
+}
+
+async function syncDatabaseCountFromJson() {
+  try {
+    const res = await fetch('database-terms-manifest.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    if (data.meta && Number.isFinite(Number(data.meta.totalTerms))) {
+      TERM_COUNTS.database = Number(data.meta.totalTerms);
+    } else if (Array.isArray(data.files)) {
+      TERM_COUNTS.database = data.files.reduce((sum, item) => sum + Number(item.count || 0), 0);
+    }
+  } catch (e) {
+    // file:// で開いた場合などはフォールバック値を使う。
+  }
+}
+
+
+async function syncPastCountFromJson() {
+  try {
+    const res = await fetch('security-past-index.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    const count = Array.isArray(data.files)
+      ? data.files.reduce((sum, item) => sum + Number(item.count || 0), 0)
+      : 0;
+    const label = document.getElementById('security-past-count');
+    if (label && count > 0) label.textContent = `${count} 問`;
+  } catch (e) {
+    // file:// で開いた場合などは静的表示を使う。
+  }
+}
+
+function updateHome() {
+  let total = 0;
+  Object.values(STORAGE_KEYS).forEach(key => { total += countChecked(key); });
+  document.getElementById('total-checked').textContent = total;
+
+  const readyUnits = ['security', 'network', 'database'];
+  readyUnits.forEach(unit => {
+    const checked = countChecked(STORAGE_KEYS[unit]);
+    const totalCount = TERM_COUNTS[unit];
+    const pct = totalCount > 0 ? Math.round(checked / totalCount * 100) : 0;
+    const bar = document.getElementById(`${unit}-bar`);
+    if (bar) bar.style.width = pct + '%';
+    const termEl = document.getElementById(`${unit}-terms`);
+    if (termEl) termEl.textContent = `${checked} / ${totalCount} 語`;
+  });
+}
+
+async function initHome() {
+  await Promise.all([syncSecurityCountFromJson(), syncNetworkCountFromJson(), syncDatabaseCountFromJson(), syncPastCountFromJson()]);
+  updateHome();
+}
+
+initHome();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "category": "副問合せ・EXISTS",
+    "version": "v1-database-json-expanded",
+    "count": 16
+  },
+  "terms": [
+    {
+      "id": "term-db-043",
+      "term": "副問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "SQL文の中に入っている別のSELECT文。"
+    },
+    {
+      "id": "term-db-044",
+      "term": "EXISTS",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せの結果が1件でも存在するかを調べる条件。"
+    },
+    {
+      "id": "term-db-045",
+      "term": "相関副問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "内側のSELECTが、外側の表の値を参照している副問合せ。"
+    },
+    {
+      "id": "term-db-046",
+      "term": "NOT EXISTS",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せの結果が1件も存在しないかを調べる条件。"
+    },
+    {
+      "id": "term-db-140",
+      "term": "スカラ副問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "1行1列の値を返し、式の中で値として使える副問合せ。"
+    },
+    {
+      "id": "term-db-141",
+      "term": "表副問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "複数行・複数列の表として扱える副問合せ。"
+    },
+    {
+      "id": "term-db-142",
+      "term": "IN副問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せが返した値の集合に含まれるかを調べる条件。"
+    },
+    {
+      "id": "term-db-143",
+      "term": "ANY",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せ結果のいずれか1つと条件を満たすかを調べる指定。"
+    },
+    {
+      "id": "term-db-144",
+      "term": "ALL",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せ結果のすべてと条件を満たすかを調べる指定。"
+    },
+    {
+      "id": "term-db-145",
+      "term": "NOT INとNULL",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "NOT INの集合にNULLが含まれると、期待どおりに真にならない場合がある。"
+    },
+    {
+      "id": "term-db-146",
+      "term": "導出表",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "FROM句の中で副問合せを表のように使うもの。"
+    },
+    {
+      "id": "term-db-147",
+      "term": "WITH句",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "複雑なSQLの一部に名前を付けて再利用しやすくする句。"
+    },
+    {
+      "id": "term-db-148",
+      "term": "共通表式",
+      "aliases": [
+        "CTE",
+        "Common Table Expression"
+      ],
+      "category": "副問合せ・EXISTS",
+      "definition": "WITH句で定義する一時的な結果表。"
+    },
+    {
+      "id": "term-db-149",
+      "term": "再帰問合せ",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "自分自身を参照する共通表式を使い、階層構造などをたどる問合せ。"
+    },
+    {
+      "id": "term-db-150",
+      "term": "相関名",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "表や列に付ける別名。結合や相関副問合せで対象を区別する。"
+    },
+    {
+      "id": "term-db-151",
+      "term": "EXISTSの読み方",
+      "aliases": [],
+      "category": "副問合せ・EXISTS",
+      "definition": "副問合せの結果内容ではなく、行が存在するかどうかで判定する読み方。"
+    }
+  ]
+}

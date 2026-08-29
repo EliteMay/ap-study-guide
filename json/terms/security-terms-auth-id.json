@@ -1,0 +1,355 @@
+{
+  "meta": {
+    "category": "認証・認可・ID管理",
+    "version": "v6-genre-json",
+    "count": 46
+  },
+  "terms": [
+    {
+      "id": "sec-143",
+      "term": "認証",
+      "aliases": [
+        "authentication"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "利用者や機器が本人・本物かを確認すること。"
+    },
+    {
+      "id": "sec-144",
+      "term": "認可",
+      "aliases": [
+        "authorization"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "認証済みの利用者に、どの操作を許すか判断すること。"
+    },
+    {
+      "id": "sec-145",
+      "term": "多要素認証",
+      "aliases": [
+        "MFA"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "知識・所持・生体など複数種類の要素を組み合わせる認証。"
+    },
+    {
+      "id": "sec-146",
+      "term": "二要素認証",
+      "aliases": [
+        "2FA"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "2種類の認証要素を使う認証。"
+    },
+    {
+      "id": "sec-147",
+      "term": "知識認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "本人だけが知っている情報で確認する認証。パスワードなど。"
+    },
+    {
+      "id": "sec-148",
+      "term": "所持認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "本人だけが持っている物で確認する認証。スマホやトークンなど。"
+    },
+    {
+      "id": "sec-149",
+      "term": "生体認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "身体的特徴で本人確認する認証。指紋、顔、静脈など。"
+    },
+    {
+      "id": "sec-150",
+      "term": "ワンタイムパスワード",
+      "aliases": [
+        "OTP"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "一度だけ使える、または短時間だけ有効なパスワード。"
+    },
+    {
+      "id": "sec-151",
+      "term": "TOTP",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "時刻をもとに一定時間ごとに変わるワンタイムパスワード。"
+    },
+    {
+      "id": "sec-152",
+      "term": "SMS認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "SMSで送られるコードを使う認証。"
+    },
+    {
+      "id": "sec-153",
+      "term": "シングルサインオン",
+      "aliases": [
+        "SSO"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "一度の認証で複数システムを利用できる仕組み。"
+    },
+    {
+      "id": "sec-154",
+      "term": "LDAP",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "ディレクトリサービスへ問い合わせるためのプロトコル。ユーザー情報検索に使う。"
+    },
+    {
+      "id": "sec-155",
+      "term": "Active Directory",
+      "aliases": [
+        "AD"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "Windows環境でユーザー、端末、権限を集中管理する仕組み。"
+    },
+    {
+      "id": "sec-156",
+      "term": "Kerberos",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "チケットを使って安全に認証する仕組み。ADなどで使われる。"
+    },
+    {
+      "id": "sec-157",
+      "term": "SAML",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "認証情報をサービス間でやり取りするための標準。SSOで使われる。"
+    },
+    {
+      "id": "sec-158",
+      "term": "OAuth",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "利用者のパスワードを渡さずに、別サービスへ権限委譲する仕組み。"
+    },
+    {
+      "id": "sec-159",
+      "term": "OpenID Connect",
+      "aliases": [
+        "OIDC"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "OAuth 2.0を拡張し、認証情報も扱えるようにした仕組み。"
+    },
+    {
+      "id": "sec-160",
+      "term": "CHAP",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "チャレンジレスポンス方式で認証するプロトコル。"
+    },
+    {
+      "id": "sec-161",
+      "term": "チャレンジレスポンス認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "毎回変わる値への応答で本人確認し、秘密を直接送らない認証方式。"
+    },
+    {
+      "id": "sec-162",
+      "term": "Basic認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "IDとパスワードを基本的な形式で送るHTTP認証方式。TLS併用が重要。"
+    },
+    {
+      "id": "sec-163",
+      "term": "Digest認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "パスワードそのものではなくダイジェストを使うHTTP認証方式。"
+    },
+    {
+      "id": "sec-164",
+      "term": "パスワードレス認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "パスワードを使わず、端末や生体、公開鍵などで認証する方式。"
+    },
+    {
+      "id": "sec-165",
+      "term": "FIDO2",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "公開鍵暗号を使った強固なパスワードレス認証の標準。"
+    },
+    {
+      "id": "sec-166",
+      "term": "パスキー",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "FIDO2などを利用し、パスワードなしでログインできる認証情報。"
+    },
+    {
+      "id": "sec-167",
+      "term": "セッション",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "ログイン状態や一連の通信状態を管理する単位。"
+    },
+    {
+      "id": "sec-168",
+      "term": "Cookie",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "Webサイトがブラウザに保存させる小さな情報。セッション管理などに使う。"
+    },
+    {
+      "id": "sec-169",
+      "term": "セッションID",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "利用者のセッションを識別するID。盗まれると乗っ取りにつながる。"
+    },
+    {
+      "id": "sec-170",
+      "term": "HttpOnly属性",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "JavaScriptからCookieを読めなくする属性。XSS被害軽減に役立つ。"
+    },
+    {
+      "id": "sec-171",
+      "term": "Secure属性",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "HTTPS通信時だけCookieを送るようにする属性。"
+    },
+    {
+      "id": "sec-172",
+      "term": "SameSite属性",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "別サイトからのリクエスト時にCookie送信を制御する属性。CSRF対策に使う。"
+    },
+    {
+      "id": "sec-173",
+      "term": "CSRFトークン",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "正規画面から送られたリクエストかを確認するためのランダム値。"
+    },
+    {
+      "id": "sec-174",
+      "term": "CAPTCHA",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "人間と自動プログラムを区別するためのテスト。"
+    },
+    {
+      "id": "sec-175",
+      "term": "アカウントロックアウト",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "認証失敗が続いたアカウントを一時停止する仕組み。"
+    },
+    {
+      "id": "sec-176",
+      "term": "RBAC",
+      "aliases": [
+        "Role Based Access Control"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "役割に応じて権限を付与するアクセス制御方式。"
+    },
+    {
+      "id": "sec-177",
+      "term": "ABAC",
+      "aliases": [
+        "Attribute Based Access Control"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "属性をもとにアクセス可否を判断する方式。"
+    },
+    {
+      "id": "sec-178",
+      "term": "PAM",
+      "aliases": [
+        "Privileged Access Management"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "特権IDを管理し、利用記録や承認を行う仕組み。"
+    },
+    {
+      "id": "sec-391",
+      "term": "プロキシ認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "プロキシサーバを使う前に利用者を認証する仕組み。"
+    },
+    {
+      "id": "sec-407",
+      "term": "パスワードマネージャ",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "複数の強いパスワードを安全に管理するツール。"
+    },
+    {
+      "id": "sec-408",
+      "term": "HOTP",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "カウンタ値を使って生成するワンタイムパスワード方式。"
+    },
+    {
+      "id": "sec-409",
+      "term": "WebAuthn",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "ブラウザでFIDO2認証を使うためのWeb標準。"
+    },
+    {
+      "id": "sec-410",
+      "term": "リスクベース認証",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "ログイン状況の危険度に応じて追加認証を求める方式。"
+    },
+    {
+      "id": "sec-411",
+      "term": "アクセス制御リスト",
+      "aliases": [
+        "ACL"
+      ],
+      "category": "認証・認可・ID管理",
+      "definition": "誰に何を許可するかを並べたリスト。"
+    },
+    {
+      "id": "sec-412",
+      "term": "アクセストークン",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "APIやサービスを利用する権限を示す一時的なトークン。"
+    },
+    {
+      "id": "sec-413",
+      "term": "リフレッシュトークン",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "アクセストークンを再発行するためのトークン。"
+    },
+    {
+      "id": "sec-414",
+      "term": "JWT",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "JSON形式の情報を署名付きで表すトークン形式。"
+    },
+    {
+      "id": "sec-415",
+      "term": "IDトークン",
+      "aliases": [],
+      "category": "認証・認可・ID管理",
+      "definition": "ログインした利用者の情報を表すトークン。OpenID Connectで使われる。"
+    }
+  ]
+}

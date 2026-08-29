@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "データベース詳細解説マニフェスト",
+    "version": "v1-database-json-expanded",
+    "totalDetails": 229,
+    "policy": "データベース用語の詳細解説。用語JSONとIDを一致させる。"
+  },
+  "files": [
+    {
+      "title": "データベース基礎",
+      "file": "json/details/database-details-db-basic.json",
+      "count": 21
+    },
+    {
+      "title": "E-R図・キー・制約",
+      "file": "json/details/database-details-er-keys-constraints.json",
+      "count": 28
+    },
+    {
+      "title": "SQL定義・制約",
+      "file": "json/details/database-details-sql-ddl-dml.json",
+      "count": 22
+    },
+    {
+      "title": "SELECT・条件指定",
+      "file": "json/details/database-details-sql-select-conditions.json",
+      "count": 26
+    },
+    {
+      "title": "結合・集計",
+      "file": "json/details/database-details-join-aggregate-set.json",
+      "count": 28
+    },
+    {
+      "title": "副問合せ・EXISTS",
+      "file": "json/details/database-details-subquery-exists.json",
+      "count": 16
+    },
+    {
+      "title": "プリント対応パターン",
+      "file": "json/details/database-details-print-patterns.json",
+      "count": 6
+    },
+    {
+      "title": "正規化・トランザクション",
+      "file": "json/details/database-details-normalization-transaction.json",
+      "count": 22
+    },
+    {
+      "title": "索引・ビュー・性能",
+      "file": "json/details/database-details-index-view-performance.json",
+      "count": 20
+    },
+    {
+      "title": "障害回復・運用",
+      "file": "json/details/database-details-recovery-operations.json",
+      "count": 20
+    },
+    {
+      "title": "分散DB・NoSQL・データ活用",
+      "file": "json/details/database-details-distributed-nosql-analytics.json",
+      "count": 20
+    }
+  ]
+}

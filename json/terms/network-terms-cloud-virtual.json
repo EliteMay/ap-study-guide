@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "category": "クラウド・仮想ネットワーク",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-cloud-virtual-001",
+      "term": "VPC",
+      "aliases": [
+        "Virtual Private Cloud"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド上に作る利用者専用の論理ネットワーク。"
+    },
+    {
+      "id": "net-cloud-virtual-002",
+      "term": "クラウドサブネット",
+      "aliases": [
+        "cloud subnet",
+        "サブネット（クラウド）"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "VPCなどの中でIPアドレス範囲や配置先を分ける単位。"
+    },
+    {
+      "id": "net-cloud-virtual-003",
+      "term": "セキュリティグループ",
+      "aliases": [
+        "security group"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド上の仮想サーバなどに適用するステートフルな通信制御。"
+    },
+    {
+      "id": "net-cloud-virtual-004",
+      "term": "ネットワークACL",
+      "aliases": [
+        "network ACL",
+        "NACL"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドのサブネット境界などに適用するステートレスな通信制御。"
+    },
+    {
+      "id": "net-cloud-virtual-005",
+      "term": "インターネットゲートウェイ",
+      "aliases": [
+        "internet gateway"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "VPCなどをインターネットへ接続するためのゲートウェイ。"
+    },
+    {
+      "id": "net-cloud-virtual-006",
+      "term": "NATゲートウェイ",
+      "aliases": [
+        "NAT Gateway"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "プライベートサブネット内のサーバが外部へ出る通信を中継するNAT機能。"
+    },
+    {
+      "id": "net-cloud-virtual-007",
+      "term": "クラウドルートテーブル",
+      "aliases": [
+        "route table",
+        "ルートテーブル（クラウド）"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド内サブネットの通信をどのゲートウェイや接続へ向けるか定める表。"
+    },
+    {
+      "id": "net-cloud-virtual-008",
+      "term": "VNet",
+      "aliases": [
+        "Virtual Network"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "一部クラウドで使われる仮想ネットワークの名称。"
+    },
+    {
+      "id": "net-cloud-virtual-009",
+      "term": "VPN接続",
+      "aliases": [
+        "site-to-site VPN"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "オンプレミス拠点とクラウドVPCなどを暗号化トンネルで接続する方式。"
+    },
+    {
+      "id": "net-cloud-virtual-010",
+      "term": "Direct Connect",
+      "aliases": [
+        "専用線接続"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "オンプレミスとクラウドを専用線や閉域網で接続するサービス形態。"
+    },
+    {
+      "id": "net-cloud-virtual-011",
+      "term": "PrivateLink",
+      "aliases": [
+        "private endpoint"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドサービスへインターネットを経由せずプライベートに接続する仕組み。"
+    },
+    {
+      "id": "net-cloud-virtual-012",
+      "term": "クラウドロードバランサ",
+      "aliases": [
+        "cloud load balancer"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド上で複数インスタンスへ通信を振り分ける負荷分散サービス。"
+    },
+    {
+      "id": "net-cloud-virtual-013",
+      "term": "パブリックサブネット",
+      "aliases": [
+        "public subnet"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "インターネットゲートウェイへの経路を持ち、外部公開に使えるサブネット。"
+    },
+    {
+      "id": "net-cloud-virtual-014",
+      "term": "プライベートサブネット",
+      "aliases": [
+        "private subnet"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "インターネットから直接到達させない前提で使うサブネット。"
+    },
+    {
+      "id": "net-cloud-virtual-015",
+      "term": "コンテナネットワーク",
+      "aliases": [
+        "container network"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "コンテナ同士や外部との通信を扱う仮想的なネットワーク。"
+    },
+    {
+      "id": "net-cloud-virtual-016",
+      "term": "サービスメッシュ",
+      "aliases": [
+        "service mesh"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "マイクロサービス間通信の制御、観測、暗号化などをアプリ外部の層で扱う仕組み。"
+    },
+    {
+      "id": "net-cloud-virtual-017",
+      "term": "SDN",
+      "aliases": [
+        "Software Defined Networking"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "ネットワーク制御をソフトウェアで集中管理しやすくする考え方。"
+    },
+    {
+      "id": "net-cloud-virtual-018",
+      "term": "NFV",
+      "aliases": [
+        "Network Functions Virtualization"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "FWやLBなどのネットワーク機能を専用機器ではなく仮想化基盤上で動かす考え方。"
+    },
+    {
+      "id": "net-cloud-virtual-019",
+      "term": "VXLAN",
+      "aliases": [
+        "Virtual Extensible LAN"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "L3ネットワーク上にL2ネットワークを拡張するためのトンネリング技術。"
+    },
+    {
+      "id": "net-cloud-virtual-020",
+      "term": "ZTNA",
+      "aliases": [
+        "Zero Trust Network Access"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "利用者や端末の状態を確認しながら、必要なアプリだけへ接続させるゼロトラスト型のアクセス方式。"
+    },
+    {
+      "id": "net-cloud-virtual-021",
+      "term": "クラウドファイアウォール",
+      "aliases": [
+        "cloud firewall"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド上の通信を許可・拒否するためのファイアウォール機能。"
+    },
+    {
+      "id": "net-cloud-virtual-022",
+      "term": "NATインスタンス",
+      "aliases": [
+        "NAT instance"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "仮想マシンを使ってプライベートサブネットから外部へのNAT通信を行う構成。"
+    },
+    {
+      "id": "net-cloud-virtual-023",
+      "term": "ピアリング接続",
+      "aliases": [
+        "VPC peering",
+        "VNet peering"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "2つの仮想ネットワークをプライベートに接続する仕組み。"
+    },
+    {
+      "id": "net-cloud-virtual-024",
+      "term": "トランジットゲートウェイ",
+      "aliases": [
+        "Transit Gateway"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "複数のVPCやVPNを集約して接続する中継ハブ。"
+    },
+    {
+      "id": "net-cloud-virtual-025",
+      "term": "クラウドDNS",
+      "aliases": [
+        "managed DNS"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドサービスとして提供されるDNS管理機能。"
+    },
+    {
+      "id": "net-cloud-virtual-026",
+      "term": "プライベートDNS",
+      "aliases": [
+        "private DNS"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "VPCや社内ネットワークなど限定範囲で使う名前解決機能。"
+    },
+    {
+      "id": "net-cloud-virtual-027",
+      "term": "エンドポイントサービス",
+      "aliases": [
+        "endpoint service"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド内のサービスへインターネットを経由せず接続するための機能。"
+    },
+    {
+      "id": "net-cloud-virtual-028",
+      "term": "インターフェースエンドポイント",
+      "aliases": [
+        "interface endpoint"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "仮想ネットワーク内のプライベートIPを通じてクラウドサービスへ接続する方式。"
+    },
+    {
+      "id": "net-cloud-virtual-029",
+      "term": "ゲートウェイエンドポイント",
+      "aliases": [
+        "gateway endpoint"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "特定クラウドサービス向けの経路をルートテーブルに追加して接続する方式。"
+    },
+    {
+      "id": "net-cloud-virtual-030",
+      "term": "クラウドNAT",
+      "aliases": [
+        "cloud NAT"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド上でプライベートIPから外部通信を行うためのNAT機能。"
+    },
+    {
+      "id": "net-cloud-virtual-031",
+      "term": "ロードバランサの種類",
+      "aliases": [
+        "ALB NLB CLB"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドで提供されるL7、L4、従来型などのロードバランサの分類。"
+    },
+    {
+      "id": "net-cloud-virtual-032",
+      "term": "ヘルスプローブ",
+      "aliases": [
+        "health probe"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドロードバランサが転送先の正常性を確認するための監視。"
+    },
+    {
+      "id": "net-cloud-virtual-033",
+      "term": "アベイラビリティゾーン",
+      "aliases": [
+        "Availability Zone",
+        "AZ"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウド内で独立した電源・ネットワークを持つデータセンタ単位。"
+    },
+    {
+      "id": "net-cloud-virtual-034",
+      "term": "リージョン",
+      "aliases": [
+        "region"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドサービスを提供する地理的な大きな単位。複数のゾーンを含む。"
+    },
+    {
+      "id": "net-cloud-virtual-035",
+      "term": "マルチAZ構成",
+      "aliases": [
+        "multi-AZ"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "複数のアベイラビリティゾーンにリソースを配置し、障害耐性を高める構成。"
+    },
+    {
+      "id": "net-cloud-virtual-036",
+      "term": "マルチリージョン構成",
+      "aliases": [
+        "multi-region"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "複数リージョンにシステムを配置し、大規模障害や災害に備える構成。"
+    },
+    {
+      "id": "net-cloud-virtual-037",
+      "term": "Kubernetes Service",
+      "aliases": [
+        "K8s Service"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "Kubernetes内でPod群へ安定した仮想IPや名前を提供する抽象化。"
+    },
+    {
+      "id": "net-cloud-virtual-038",
+      "term": "Ingress",
+      "aliases": [
+        "Kubernetes Ingress"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "Kubernetesクラスタ外から内部サービスへHTTP/HTTPS通信を振り分ける入口。"
+    },
+    {
+      "id": "net-cloud-virtual-039",
+      "term": "CNI",
+      "aliases": [
+        "Container Network Interface"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "コンテナ実行基盤にネットワーク機能を接続するための仕様。"
+    },
+    {
+      "id": "net-cloud-virtual-040",
+      "term": "クラウドVPNゲートウェイ",
+      "aliases": [
+        "cloud VPN gateway"
+      ],
+      "category": "クラウド・仮想ネットワーク",
+      "definition": "クラウドVPCと拠点ネットワークをVPNで接続するためのゲートウェイ。"
+    }
+  ]
+}

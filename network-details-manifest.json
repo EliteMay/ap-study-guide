@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "title": "ネットワーク詳細解説マニフェスト",
+    "version": "v16-network-expanded-480",
+    "description": "ネットワーク単元のカテゴリ別詳細解説JSONを読み込むための索引。",
+    "totalDetails": 480
+  },
+  "files": [
+    {
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "file": "json/details/network-details-tcpip-osi.json",
+      "count": 40
+    },
+    {
+      "category": "IPアドレス・サブネット",
+      "file": "json/details/network-details-ip-subnet.json",
+      "count": 40
+    },
+    {
+      "category": "LAN・イーサネット・無線LAN",
+      "file": "json/details/network-details-lan-wireless.json",
+      "count": 40
+    },
+    {
+      "category": "ルーティング・WAN・NAT",
+      "file": "json/details/network-details-routing-wan.json",
+      "count": 40
+    },
+    {
+      "category": "TCP・UDP・ポート番号",
+      "file": "json/details/network-details-tcp-udp-port.json",
+      "count": 40
+    },
+    {
+      "category": "DNS・名前解決",
+      "file": "json/details/network-details-dns.json",
+      "count": 40
+    },
+    {
+      "category": "HTTP・Web通信",
+      "file": "json/details/network-details-http-web.json",
+      "count": 40
+    },
+    {
+      "category": "メール・ファイル転送・リモート接続",
+      "file": "json/details/network-details-mail-file-remote.json",
+      "count": 40
+    },
+    {
+      "category": "ネットワーク機器・構成図",
+      "file": "json/details/network-details-devices-design.json",
+      "count": 40
+    },
+    {
+      "category": "運用・監視・トラブルシュート",
+      "file": "json/details/network-details-ops-troubleshoot.json",
+      "count": 40
+    },
+    {
+      "category": "可用性・性能・QoS",
+      "file": "json/details/network-details-availability-performance.json",
+      "count": 40
+    },
+    {
+      "category": "クラウド・仮想ネットワーク",
+      "file": "json/details/network-details-cloud-virtual.json",
+      "count": 40
+    }
+  ]
+}

@@ -1,0 +1,375 @@
+{
+  "meta": {
+    "category": "ネットワーク機器・構成図",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-devices-design-001",
+      "term": "ファイアウォール",
+      "aliases": [
+        "FW",
+        "Firewall"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通信の送信元、宛先、ポートなどを見て許可・遮断を行う境界防御機器。"
+    },
+    {
+      "id": "net-devices-design-002",
+      "term": "L2スイッチ",
+      "aliases": [
+        "レイヤ2スイッチ"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "MACアドレスを見てフレームを転送するスイッチ。"
+    },
+    {
+      "id": "net-devices-design-003",
+      "term": "L3スイッチ",
+      "aliases": [
+        "レイヤ3スイッチ"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "スイッチ機能に加えて、IPルーティングも行える機器。"
+    },
+    {
+      "id": "net-devices-design-004",
+      "term": "ロードバランサ",
+      "aliases": [
+        "load balancer",
+        "負荷分散装置"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "複数サーバへリクエストを振り分け、負荷分散や可用性向上を行う機器。"
+    },
+    {
+      "id": "net-devices-design-005",
+      "term": "ゲートウェイ",
+      "aliases": [
+        "gateway"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "異なるネットワークやプロトコル間の出入口になる機器や機能。"
+    },
+    {
+      "id": "net-devices-design-006",
+      "term": "アクセスポイント",
+      "aliases": [
+        "AP",
+        "wireless access point"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "無線端末を有線LAN側へ接続するための無線LAN機器。"
+    },
+    {
+      "id": "net-devices-design-007",
+      "term": "DHCPサーバ",
+      "aliases": [
+        "DHCP server"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "端末へIPアドレス、サブネットマスク、デフォルトゲートウェイ、DNSサーバなどを配るサーバ。"
+    },
+    {
+      "id": "net-devices-design-008",
+      "term": "DNSサーバ",
+      "aliases": [
+        "DNS server"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "DNS問い合わせに回答するサーバ。キャッシュDNSと権威DNSで役割が違う。"
+    },
+    {
+      "id": "net-devices-design-009",
+      "term": "プロキシサーバ",
+      "aliases": [
+        "proxy server"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "利用者端末の代理として外部アクセスを行うサーバ。ログ取得やアクセス制御にも使う。"
+    },
+    {
+      "id": "net-devices-design-010",
+      "term": "ルーティング機器",
+      "aliases": [
+        "routing device"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "ネットワーク間の経路制御を行うルータやL3スイッチなどの機器。"
+    },
+    {
+      "id": "net-devices-design-011",
+      "term": "物理構成図",
+      "aliases": [
+        "physical network diagram"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "ケーブル、機器、ポート、設置場所など物理的な接続を示す図。"
+    },
+    {
+      "id": "net-devices-design-012",
+      "term": "論理構成図",
+      "aliases": [
+        "logical network diagram"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "サブネット、VLAN、経路、セグメントなど論理的な関係を示す図。"
+    },
+    {
+      "id": "net-devices-design-013",
+      "term": "セグメント",
+      "aliases": [
+        "network segment"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "ネットワークを区切った単位。構成図では通信範囲や制御境界を読む手掛かりになる。"
+    },
+    {
+      "id": "net-devices-design-014",
+      "term": "サブネット",
+      "aliases": [
+        "subnet"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "IPアドレス範囲で区切られたネットワークの単位。"
+    },
+    {
+      "id": "net-devices-design-015",
+      "term": "DMZセグメント",
+      "aliases": [
+        "DMZ network"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "外部公開サーバを置くため、内部LANから分離したセグメント。"
+    },
+    {
+      "id": "net-devices-design-016",
+      "term": "内部LAN",
+      "aliases": [
+        "internal LAN"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "組織内部の端末や業務サーバが接続されるネットワーク。"
+    },
+    {
+      "id": "net-devices-design-017",
+      "term": "外部ネットワーク",
+      "aliases": [
+        "external network"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "インターネットや取引先網など、組織外側のネットワーク。"
+    },
+    {
+      "id": "net-devices-design-018",
+      "term": "アップリンク",
+      "aliases": [
+        "uplink"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "下位スイッチや端末側から、上位スイッチやルータ側へ向かう接続。"
+    },
+    {
+      "id": "net-devices-design-019",
+      "term": "ポートミラーリング",
+      "aliases": [
+        "SPAN",
+        "port mirroring"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "特定ポートの通信を監視装置へコピーするスイッチ機能。"
+    },
+    {
+      "id": "net-devices-design-020",
+      "term": "ネットワークアプライアンス",
+      "aliases": [
+        "network appliance"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "FW、LB、プロキシなど特定機能に特化したネットワーク機器。"
+    },
+    {
+      "id": "net-devices-design-021",
+      "term": "UTM",
+      "aliases": [
+        "Unified Threat Management"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "ファイアウォール、VPN、マルウェア対策、URLフィルタなどを統合したネットワーク機器。"
+    },
+    {
+      "id": "net-devices-design-022",
+      "term": "IDS",
+      "aliases": [
+        "Intrusion Detection System"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通信やログを監視し、不審な挙動を検知して通知する仕組み。"
+    },
+    {
+      "id": "net-devices-design-023",
+      "term": "IPS",
+      "aliases": [
+        "Intrusion Prevention System"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "不審な通信を検知し、必要に応じて遮断する仕組み。"
+    },
+    {
+      "id": "net-devices-design-024",
+      "term": "WAF",
+      "aliases": [
+        "Web Application Firewall"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "Webアプリケーションへの不正なリクエストを検査・遮断する仕組み。"
+    },
+    {
+      "id": "net-devices-design-025",
+      "term": "L4ロードバランサ",
+      "aliases": [
+        "Layer 4 load balancer"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "IPアドレスやポート番号など、主にトランスポート層の情報で振り分ける負荷分散装置。"
+    },
+    {
+      "id": "net-devices-design-026",
+      "term": "L7ロードバランサ",
+      "aliases": [
+        "Layer 7 load balancer"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "URL、HTTPヘッダ、Cookieなど、アプリケーション層の情報で振り分ける負荷分散装置。"
+    },
+    {
+      "id": "net-devices-design-027",
+      "term": "SSLアクセラレータ",
+      "aliases": [
+        "TLS termination",
+        "SSL offload"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "TLS処理を専用機器やロードバランサで終端し、Webサーバの負荷を下げる構成。"
+    },
+    {
+      "id": "net-devices-design-028",
+      "term": "透過型プロキシ",
+      "aliases": [
+        "transparent proxy"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "利用者側で明示設定しなくても通信経路上でプロキシ処理を行う構成。"
+    },
+    {
+      "id": "net-devices-design-029",
+      "term": "フォワードプロキシ",
+      "aliases": [
+        "forward proxy"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "クライアントの代理として外部サーバへアクセスするプロキシ。"
+    },
+    {
+      "id": "net-devices-design-030",
+      "term": "踏み台サーバ",
+      "aliases": [
+        "bastion host"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "管理対象サーバへ直接入らず、管理用の中継点として使うサーバ。"
+    },
+    {
+      "id": "net-devices-design-031",
+      "term": "ジャンプサーバ",
+      "aliases": [
+        "jump server"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "内部サーバへ接続する前に経由する管理用サーバ。踏み台サーバに近い。"
+    },
+    {
+      "id": "net-devices-design-032",
+      "term": "管理用ネットワーク",
+      "aliases": [
+        "management network"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "機器管理や監視のために、利用者通信とは分離して用意するネットワーク。"
+    },
+    {
+      "id": "net-devices-design-033",
+      "term": "OOB管理",
+      "aliases": [
+        "Out-of-Band management"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通常の業務通信経路とは別の経路で機器を管理する方式。"
+    },
+    {
+      "id": "net-devices-design-034",
+      "term": "インライン構成",
+      "aliases": [
+        "inline deployment"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通信経路上に機器を直列に配置し、通過通信を処理させる構成。"
+    },
+    {
+      "id": "net-devices-design-035",
+      "term": "ミラー構成",
+      "aliases": [
+        "mirror deployment"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通過通信のコピーを監視機器へ渡し、通信本体は遮断せずに監視する構成。"
+    },
+    {
+      "id": "net-devices-design-036",
+      "term": "単一障害点",
+      "aliases": [
+        "Single Point of Failure",
+        "SPOF"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "そこが停止すると全体のサービス停止につながる箇所。"
+    },
+    {
+      "id": "net-devices-design-037",
+      "term": "二重化構成",
+      "aliases": [
+        "redundant configuration"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "同じ役割の機器や回線を複数用意し、障害時の影響を減らす構成。"
+    },
+    {
+      "id": "net-devices-design-038",
+      "term": "アクティブスタンバイ構成",
+      "aliases": [
+        "active-standby"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "通常は片方だけを使い、障害時に待機系へ切り替える冗長構成。"
+    },
+    {
+      "id": "net-devices-design-039",
+      "term": "アクティブアクティブ構成",
+      "aliases": [
+        "active-active"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "複数の機器を同時に稼働させ、負荷分散や冗長化を行う構成。"
+    },
+    {
+      "id": "net-devices-design-040",
+      "term": "ハートビート",
+      "aliases": [
+        "heartbeat"
+      ],
+      "category": "ネットワーク機器・構成図",
+      "definition": "冗長化された機器同士が生存確認のために定期的に送る信号。"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "category": "索引・ビュー・性能",
+    "version": "v1-database-json-expanded",
+    "count": 20
+  },
+  "terms": [
+    {
+      "id": "term-db-152",
+      "term": "インデックス",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "検索を速くするために、列の値と行の場所を対応付ける仕組み。"
+    },
+    {
+      "id": "term-db-153",
+      "term": "主キー索引",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "主キー制約に伴って作られることが多い索引。"
+    },
+    {
+      "id": "term-db-154",
+      "term": "複合インデックス",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "複数の列を組み合わせて作る索引。"
+    },
+    {
+      "id": "term-db-155",
+      "term": "B-tree",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "範囲検索や並べ替えに使いやすい、木構造の索引方式。"
+    },
+    {
+      "id": "term-db-156",
+      "term": "ハッシュ索引",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "ハッシュ値を使って等価検索を高速化する索引方式。"
+    },
+    {
+      "id": "term-db-157",
+      "term": "クラスタ化索引",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "表データの物理的な並びと対応しやすい索引。"
+    },
+    {
+      "id": "term-db-158",
+      "term": "非クラスタ化索引",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "表データ本体とは別に管理される索引。"
+    },
+    {
+      "id": "term-db-159",
+      "term": "索引のカーディナリティ",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "索引対象列にどれくらい多様な値があるかを表す性質。"
+    },
+    {
+      "id": "term-db-160",
+      "term": "選択率",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "条件で抽出される行の割合。低いほど絞り込み効果が大きい。"
+    },
+    {
+      "id": "term-db-161",
+      "term": "実行計画",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "DBMSがSQLをどの順序・方法で処理するかを示した計画。"
+    },
+    {
+      "id": "term-db-162",
+      "term": "フルテーブルスキャン",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "索引を使わず、表の全行を調べる処理。"
+    },
+    {
+      "id": "term-db-163",
+      "term": "ビュー",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "SELECT文に名前を付け、仮想的な表のように扱う仕組み。"
+    },
+    {
+      "id": "term-db-164",
+      "term": "更新可能ビュー",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "条件を満たす場合に、ビュー経由で元表を更新できるビュー。"
+    },
+    {
+      "id": "term-db-165",
+      "term": "マテリアライズドビュー",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "問合せ結果を実体として保存しておくビュー。"
+    },
+    {
+      "id": "term-db-166",
+      "term": "ストアドプロシージャ",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "DBMS側に保存して実行できる一連のSQL処理。"
+    },
+    {
+      "id": "term-db-167",
+      "term": "トリガ",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "INSERTやUPDATEなどをきっかけに自動実行される処理。"
+    },
+    {
+      "id": "term-db-168",
+      "term": "カーソル",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "検索結果を1行ずつ取り出して処理する仕組み。"
+    },
+    {
+      "id": "term-db-169",
+      "term": "N+1問題",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "一覧取得後に各行ごと追加問合せを繰り返し、SQL回数が増える問題。"
+    },
+    {
+      "id": "term-db-170",
+      "term": "プレースホルダ",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "SQL文の値部分を後から安全に埋め込むための目印。"
+    },
+    {
+      "id": "term-db-171",
+      "term": "バインド変数",
+      "aliases": [],
+      "category": "索引・ビュー・性能",
+      "definition": "SQL実行時に値を別枠で渡し、再利用や安全性を高める変数。"
+    }
+  ]
+}

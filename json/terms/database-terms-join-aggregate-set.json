@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "category": "結合・集計",
+    "version": "v1-database-json-expanded",
+    "count": 28
+  },
+  "terms": [
+    {
+      "id": "term-db-035",
+      "term": "表の結合",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "複数の表を、共通するキーでつないで読むこと。"
+    },
+    {
+      "id": "term-db-036",
+      "term": "同名列の区別",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "複数の表に同じ列名があるとき、表名.列名でどちらの列かを明示する。"
+    },
+    {
+      "id": "term-db-037",
+      "term": "COUNT / SUM / AVG",
+      "aliases": [
+        "COUNT",
+        "SUM",
+        "AVG"
+      ],
+      "category": "結合・集計",
+      "definition": "件数・合計・平均を求める集計関数。"
+    },
+    {
+      "id": "term-db-038",
+      "term": "AS",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "抽出結果の列に別名を付ける指定。"
+    },
+    {
+      "id": "term-db-039",
+      "term": "GROUP BY",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "同じ値を持つ行をグループにまとめて、集計する句。"
+    },
+    {
+      "id": "term-db-040",
+      "term": "HAVING",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "GROUP BYで集計した後のグループに条件を付ける句。"
+    },
+    {
+      "id": "term-db-041",
+      "term": "学生ごとの合計点",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "プリントの「学生ごとの合計点」は、学生コード・氏名でグループ化してSUMを使う。"
+    },
+    {
+      "id": "term-db-042",
+      "term": "学生ごとの平均経験年数",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "プリントの「学生ごとのスキル平均経験年数」は、学生ごとにAVGを使う。"
+    },
+    {
+      "id": "term-db-120",
+      "term": "INNER JOIN",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "両方の表で結合条件に一致する行だけを取り出す結合。"
+    },
+    {
+      "id": "term-db-121",
+      "term": "LEFT OUTER JOIN",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "左側の表の行を残し、右側に一致がない場合はNULLで補う外部結合。"
+    },
+    {
+      "id": "term-db-122",
+      "term": "RIGHT OUTER JOIN",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "右側の表の行を残し、左側に一致がない場合はNULLで補う外部結合。"
+    },
+    {
+      "id": "term-db-123",
+      "term": "FULL OUTER JOIN",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "左右どちらかに存在する行を残し、一致しない側をNULLで補う外部結合。"
+    },
+    {
+      "id": "term-db-124",
+      "term": "CROSS JOIN",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "2つの表のすべての組合せを作る結合。"
+    },
+    {
+      "id": "term-db-125",
+      "term": "自己結合",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "同じ表を別名で2回使って結合すること。"
+    },
+    {
+      "id": "term-db-126",
+      "term": "等結合",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "結合条件に=を使って、同じ値を持つ行をつなぐ結合。"
+    },
+    {
+      "id": "term-db-127",
+      "term": "非等結合",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "結合条件に=以外の比較を使う結合。"
+    },
+    {
+      "id": "term-db-128",
+      "term": "JOIN ON",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "結合条件をONの後に書く指定。"
+    },
+    {
+      "id": "term-db-129",
+      "term": "USING",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "同じ名前の列を使って結合条件を簡潔に書く指定。"
+    },
+    {
+      "id": "term-db-130",
+      "term": "COUNT(*)",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "条件に合う行数を数える集計関数。NULLの有無に関係なく行を数える。"
+    },
+    {
+      "id": "term-db-131",
+      "term": "COUNT(列名)",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "指定列がNULLではない行数を数える集計関数。"
+    },
+    {
+      "id": "term-db-132",
+      "term": "MIN / MAX",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "最小値または最大値を求める集計関数。"
+    },
+    {
+      "id": "term-db-133",
+      "term": "GROUP BYの列",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "集計時に、どの列の値ごとにグループ化するかを指定する列。"
+    },
+    {
+      "id": "term-db-134",
+      "term": "HAVINGとWHERE",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "WHEREは集計前の行に条件を付け、HAVINGは集計後のグループに条件を付ける。"
+    },
+    {
+      "id": "term-db-135",
+      "term": "UNION",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "2つのSELECT結果を結合し、重複行を取り除く集合演算。"
+    },
+    {
+      "id": "term-db-136",
+      "term": "UNION ALL",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "2つのSELECT結果を結合し、重複行も残す集合演算。"
+    },
+    {
+      "id": "term-db-137",
+      "term": "INTERSECT",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "2つのSELECT結果に共通する行だけを取り出す集合演算。"
+    },
+    {
+      "id": "term-db-138",
+      "term": "EXCEPT",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "一方のSELECT結果から、もう一方に含まれる行を除く集合演算。"
+    },
+    {
+      "id": "term-db-139",
+      "term": "ROLLUP",
+      "aliases": [],
+      "category": "結合・集計",
+      "definition": "GROUP BYの集計結果に小計や総計を追加する指定。"
+    }
+  ]
+}

@@ -1,0 +1,375 @@
+{
+  "meta": {
+    "category": "管理・制度・リスク",
+    "version": "v6-genre-json",
+    "count": 50
+  },
+  "terms": [
+    {
+      "id": "sec-291",
+      "term": "ISMS",
+      "aliases": [
+        "Information Security Management System"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "情報セキュリティを継続的に管理・改善する仕組み。"
+    },
+    {
+      "id": "sec-292",
+      "term": "ISO/IEC 27001",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "ISMSの要求事項を定めた国際規格。"
+    },
+    {
+      "id": "sec-293",
+      "term": "JIS Q 27001",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "ISO/IEC 27001に対応する日本産業規格。"
+    },
+    {
+      "id": "sec-294",
+      "term": "ISO/IEC 27002",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "情報セキュリティ管理策の実践規範を示す規格。"
+    },
+    {
+      "id": "sec-295",
+      "term": "JIS Q 27002",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "ISO/IEC 27002に対応する日本産業規格。"
+    },
+    {
+      "id": "sec-296",
+      "term": "ISMS適合性評価制度",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "組織のISMSが規格に適合しているかを第三者が評価する制度。"
+    },
+    {
+      "id": "sec-297",
+      "term": "リスクアセスメント",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "情報資産、脅威、脆弱性を整理し、リスクを評価すること。"
+    },
+    {
+      "id": "sec-298",
+      "term": "リスク特定",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "どのようなリスクがあるかを洗い出すこと。"
+    },
+    {
+      "id": "sec-299",
+      "term": "リスク分析",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "リスクの発生可能性や影響度を分析すること。"
+    },
+    {
+      "id": "sec-300",
+      "term": "リスク評価",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "分析したリスクが許容できるか判断すること。"
+    },
+    {
+      "id": "sec-301",
+      "term": "リスク対応",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "リスクに対して回避、低減、移転、受容などを選ぶこと。"
+    },
+    {
+      "id": "sec-302",
+      "term": "リスク回避",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "危険な活動自体をやめてリスクをなくす対応。"
+    },
+    {
+      "id": "sec-303",
+      "term": "リスク低減",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "対策を行い、発生可能性や影響を下げる対応。"
+    },
+    {
+      "id": "sec-304",
+      "term": "リスク移転",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "保険や外部委託などで損失や責任を移す対応。"
+    },
+    {
+      "id": "sec-305",
+      "term": "リスク受容",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "リスクを理解した上で、許容して受け入れる対応。"
+    },
+    {
+      "id": "sec-306",
+      "term": "残存リスク",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "対策後にも残るリスク。"
+    },
+    {
+      "id": "sec-307",
+      "term": "リスク所有者",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "リスクへの対応責任を持つ人や部門。"
+    },
+    {
+      "id": "sec-308",
+      "term": "セキュリティ監査",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "セキュリティ対策や運用が適切かを評価する活動。"
+    },
+    {
+      "id": "sec-309",
+      "term": "内部統制",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "業務を正しく効率的に行い、不正やミスを防ぐための仕組み。"
+    },
+    {
+      "id": "sec-310",
+      "term": "コンプライアンス",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "法令や規則、社内ルールを守ること。"
+    },
+    {
+      "id": "sec-311",
+      "term": "教育・訓練",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "利用者にルールや危険を理解させ、適切な行動を取れるようにする活動。"
+    },
+    {
+      "id": "sec-312",
+      "term": "標的型攻撃メール訓練",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "偽の訓練メールで、利用者の対応力を高める訓練。"
+    },
+    {
+      "id": "sec-313",
+      "term": "秘密保持契約",
+      "aliases": [
+        "NDA"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "秘密情報を外部に漏らさない約束を定めた契約。"
+    },
+    {
+      "id": "sec-314",
+      "term": "個人情報",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "生存する個人を識別できる情報。氏名、住所、メールアドレスなど。"
+    },
+    {
+      "id": "sec-315",
+      "term": "個人情報保護法",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "個人情報の適切な取扱いを定める日本の法律。"
+    },
+    {
+      "id": "sec-316",
+      "term": "不正アクセス禁止法",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "不正ログインやアクセス制御を侵害する行為などを禁止する法律。"
+    },
+    {
+      "id": "sec-317",
+      "term": "サイバーセキュリティ基本法",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "サイバーセキュリティ施策の基本理念や国の責務などを定める法律。"
+    },
+    {
+      "id": "sec-318",
+      "term": "著作権",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "著作物を作った人に認められる権利。ソフトウェアや資料も対象になりうる。"
+    },
+    {
+      "id": "sec-319",
+      "term": "JPCERT/CC",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "日本でコンピュータセキュリティインシデント対応の調整などを行う組織。"
+    },
+    {
+      "id": "sec-320",
+      "term": "NISC",
+      "aliases": [
+        "内閣サイバーセキュリティセンター"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "日本政府のサイバーセキュリティ政策を推進する組織。"
+    },
+    {
+      "id": "sec-321",
+      "term": "IPA",
+      "aliases": [
+        "情報処理推進機構"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "情報処理技術者試験やセキュリティ情報提供などを行う日本の組織。"
+    },
+    {
+      "id": "sec-322",
+      "term": "CVE",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "公開された脆弱性に付けられる識別番号。"
+    },
+    {
+      "id": "sec-323",
+      "term": "CVSS",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "脆弱性の深刻度を数値化する評価方法。"
+    },
+    {
+      "id": "sec-324",
+      "term": "BYOD",
+      "aliases": [
+        "Bring Your Own Device"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "個人所有端末を業務に利用すること。"
+    },
+    {
+      "id": "sec-325",
+      "term": "シャドーIT",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "組織が把握・承認していないIT利用。"
+    },
+    {
+      "id": "sec-474",
+      "term": "ISO/IEC 27017",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "クラウドサービスの情報セキュリティ管理策に関する規格。"
+    },
+    {
+      "id": "sec-475",
+      "term": "ISO/IEC 27018",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "クラウド上の個人情報保護に関する規格。"
+    },
+    {
+      "id": "sec-476",
+      "term": "プライバシーマーク",
+      "aliases": [
+        "Pマーク"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "個人情報の取扱いが適切な事業者に付与される日本の制度。"
+    },
+    {
+      "id": "sec-477",
+      "term": "電子署名法",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "電子署名の法的効力などを定める法律。"
+    },
+    {
+      "id": "sec-478",
+      "term": "GDPR",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "EUの個人データ保護規則。"
+    },
+    {
+      "id": "sec-479",
+      "term": "残留リスク",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "対策を実施しても残るリスク。"
+    },
+    {
+      "id": "sec-480",
+      "term": "リスク受容基準",
+      "aliases": [
+        "リスク許容度"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "どの程度のリスクまで許容するかの基準。"
+    },
+    {
+      "id": "sec-481",
+      "term": "事業継続計画",
+      "aliases": [
+        "BCP"
+      ],
+      "category": "管理・制度・リスク",
+      "definition": "災害や事故時でも重要業務を継続・復旧するための計画。"
+    },
+    {
+      "id": "sec-482",
+      "term": "SLA",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "サービス提供者と利用者の間で合意するサービス水準。"
+    },
+    {
+      "id": "sec-483",
+      "term": "セキュリティ教育",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "利用者が安全に行動できるようにする教育。"
+    },
+    {
+      "id": "sec-484",
+      "term": "標的型メール訓練",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "疑似的な攻撃メールで利用者の対応を訓練すること。"
+    },
+    {
+      "id": "sec-485",
+      "term": "内部不正対策",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "従業員や関係者による不正を防ぐための対策。"
+    },
+    {
+      "id": "sec-486",
+      "term": "委託先管理",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "外部委託先のセキュリティ水準や契約内容を管理すること。"
+    },
+    {
+      "id": "sec-487",
+      "term": "変更管理",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "システム変更を申請・承認・記録して安全に行う管理。"
+    },
+    {
+      "id": "sec-488",
+      "term": "構成管理",
+      "aliases": [],
+      "category": "管理・制度・リスク",
+      "definition": "サーバ、ソフトウェア、設定などの構成を把握・管理すること。"
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "meta": {
+    "category": "HTTP・Web通信",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-http-web-001",
+      "term": "HTTP",
+      "aliases": [
+        "Hypertext Transfer Protocol"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "WebブラウザとWebサーバがリクエストとレスポンスでデータをやり取りするプロトコル。"
+    },
+    {
+      "id": "net-http-web-002",
+      "term": "HTTPS",
+      "aliases": [
+        "HTTP over TLS"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPをTLSで保護し、盗聴や改ざんを防ぎやすくした通信方式。"
+    },
+    {
+      "id": "net-http-web-003",
+      "term": "URL",
+      "aliases": [
+        "Uniform Resource Locator"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "Web上の資源の場所と取得方法を表す文字列。"
+    },
+    {
+      "id": "net-http-web-004",
+      "term": "URI",
+      "aliases": [
+        "Uniform Resource Identifier"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "資源を識別するための文字列。URLはURIの一種として扱われる。"
+    },
+    {
+      "id": "net-http-web-005",
+      "term": "HTTPリクエスト",
+      "aliases": [
+        "request"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "クライアントからサーバへ送る要求。メソッド、パス、ヘッダ、ボディなどを含む。"
+    },
+    {
+      "id": "net-http-web-006",
+      "term": "HTTPレスポンス",
+      "aliases": [
+        "response"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "サーバからクライアントへ返す応答。ステータスコード、ヘッダ、ボディなどを含む。"
+    },
+    {
+      "id": "net-http-web-007",
+      "term": "HTTPメソッド",
+      "aliases": [
+        "method"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "GETやPOSTなど、リクエストで何をしたいかを示す種類。"
+    },
+    {
+      "id": "net-http-web-008",
+      "term": "GET",
+      "aliases": [
+        "GET method"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "主にデータ取得に使うHTTPメソッド。パラメータがURLに含まれることがある。"
+    },
+    {
+      "id": "net-http-web-009",
+      "term": "POST",
+      "aliases": [
+        "POST method"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "主にフォーム送信や登録など、リクエストボディにデータを入れて送るHTTPメソッド。"
+    },
+    {
+      "id": "net-http-web-010",
+      "term": "PUT",
+      "aliases": [
+        "PUT method"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "指定した資源を作成または置換する用途で使われるHTTPメソッド。"
+    },
+    {
+      "id": "net-http-web-011",
+      "term": "DELETE",
+      "aliases": [
+        "DELETE method"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "指定した資源の削除を求めるHTTPメソッド。"
+    },
+    {
+      "id": "net-http-web-012",
+      "term": "ステータスコード",
+      "aliases": [
+        "HTTP status code"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPレスポンスの結果を3桁の数字で示す値。200、301、404、500など。"
+    },
+    {
+      "id": "net-http-web-013",
+      "term": "リダイレクト",
+      "aliases": [
+        "redirect"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "クライアントを別URLへ移動させる応答。301や302などで表す。"
+    },
+    {
+      "id": "net-http-web-014",
+      "term": "Cookie",
+      "aliases": [
+        "クッキー"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "Webサーバがブラウザに保存させ、次回以降のリクエストで送らせる小さなデータ。"
+    },
+    {
+      "id": "net-http-web-015",
+      "term": "セッション",
+      "aliases": [
+        "session"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "複数のHTTPリクエストを同じ利用者の一連の操作として扱う仕組み。"
+    },
+    {
+      "id": "net-http-web-016",
+      "term": "キャッシュ制御",
+      "aliases": [
+        "Cache-Control"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "ブラウザや中間キャッシュに保存してよいか、どれくらい使えるかを制御するHTTPヘッダ。"
+    },
+    {
+      "id": "net-http-web-017",
+      "term": "プロキシ",
+      "aliases": [
+        "proxy"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "クライアントの代理として外部サーバへアクセスする中継サーバ。"
+    },
+    {
+      "id": "net-http-web-018",
+      "term": "リバースプロキシ",
+      "aliases": [
+        "reverse proxy"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "外部クライアントからの要求を受け、背後のWebサーバへ振り分ける中継サーバ。"
+    },
+    {
+      "id": "net-http-web-019",
+      "term": "CDN",
+      "aliases": [
+        "Content Delivery Network"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "利用者に近い配信拠点からコンテンツを配るネットワーク。"
+    },
+    {
+      "id": "net-http-web-020",
+      "term": "WebSocket",
+      "aliases": [
+        "WebSocket protocol"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPで接続開始後、双方向通信を継続するためのプロトコル。"
+    },
+    {
+      "id": "net-http-web-021",
+      "term": "HTTP/1.1",
+      "aliases": [
+        "HTTP version 1.1"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "持続的接続やHostヘッダなどを前提にしたHTTPの広く使われる版。"
+    },
+    {
+      "id": "net-http-web-022",
+      "term": "HTTP/2",
+      "aliases": [
+        "HTTP2"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "多重化やヘッダ圧縮などにより、Web通信の効率を高めたHTTPの版。"
+    },
+    {
+      "id": "net-http-web-023",
+      "term": "HTTP/3",
+      "aliases": [
+        "HTTP3"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "QUICを基盤にして、遅延や接続再確立の効率を改善したHTTPの版。"
+    },
+    {
+      "id": "net-http-web-024",
+      "term": "QUIC",
+      "aliases": [
+        "Quick UDP Internet Connections"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "UDP上で動作し、TLS相当の保護や多重化を備える通信プロトコル。"
+    },
+    {
+      "id": "net-http-web-025",
+      "term": "TLS",
+      "aliases": [
+        "Transport Layer Security"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "通信相手の認証、暗号化、改ざん検出を行うプロトコル。HTTPSの基盤になる。"
+    },
+    {
+      "id": "net-http-web-026",
+      "term": "TLSハンドシェイク",
+      "aliases": [
+        "TLS handshake"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "暗号化通信を始める前に、証明書確認や鍵共有を行う手順。"
+    },
+    {
+      "id": "net-http-web-027",
+      "term": "SNI",
+      "aliases": [
+        "Server Name Indication"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "TLS接続開始時に接続したいホスト名を示し、同一IPで複数証明書を使えるようにする仕組み。"
+    },
+    {
+      "id": "net-http-web-028",
+      "term": "ALPN",
+      "aliases": [
+        "Application-Layer Protocol Negotiation"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "TLS上でHTTP/2など、どのアプリケーションプロトコルを使うかを合意する仕組み。"
+    },
+    {
+      "id": "net-http-web-029",
+      "term": "Hostヘッダ",
+      "aliases": [
+        "Host header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPリクエストでアクセス先ホスト名を示すヘッダ。バーチャルホストで重要。"
+    },
+    {
+      "id": "net-http-web-030",
+      "term": "User-Agent",
+      "aliases": [
+        "User-Agent header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "ブラウザやクライアントソフトの種類を示すHTTPヘッダ。"
+    },
+    {
+      "id": "net-http-web-031",
+      "term": "Referer",
+      "aliases": [
+        "Referer header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "遷移元URLを示すHTTPヘッダ。アクセス解析や制御に使われることがある。"
+    },
+    {
+      "id": "net-http-web-032",
+      "term": "Content-Type",
+      "aliases": [
+        "Content-Type header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "送受信するデータの種類を示すHTTPヘッダ。"
+    },
+    {
+      "id": "net-http-web-033",
+      "term": "Content-Length",
+      "aliases": [
+        "Content-Length header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPメッセージボディの長さを示すヘッダ。"
+    },
+    {
+      "id": "net-http-web-034",
+      "term": "Transfer-Encoding",
+      "aliases": [
+        "Transfer-Encoding header"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "HTTPメッセージの転送方式を示すヘッダ。チャンク分割などがある。"
+    },
+    {
+      "id": "net-http-web-035",
+      "term": "チャンク転送",
+      "aliases": [
+        "chunked transfer"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "データ全体の長さが先に分からない場合に、分割しながら送るHTTP転送方式。"
+    },
+    {
+      "id": "net-http-web-036",
+      "term": "Keep-Alive",
+      "aliases": [
+        "HTTP persistent connection"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "複数のHTTP要求を同じTCP接続で処理し、接続確立の負荷を減らす仕組み。"
+    },
+    {
+      "id": "net-http-web-037",
+      "term": "CORS",
+      "aliases": [
+        "Cross-Origin Resource Sharing"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "異なるオリジンへのブラウザ通信を、サーバ側ヘッダで許可する仕組み。"
+    },
+    {
+      "id": "net-http-web-038",
+      "term": "プリフライトリクエスト",
+      "aliases": [
+        "preflight request"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "CORSで本通信の前に許可可否を確認するOPTIONSリクエスト。"
+    },
+    {
+      "id": "net-http-web-039",
+      "term": "SameSite属性",
+      "aliases": [
+        "SameSite cookie attribute"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "Cookieを外部サイトからの遷移や埋め込み時に送るか制御する属性。"
+    },
+    {
+      "id": "net-http-web-040",
+      "term": "HSTS",
+      "aliases": [
+        "HTTP Strict Transport Security"
+      ],
+      "category": "HTTP・Web通信",
+      "definition": "ブラウザにHTTPS接続を強制させるHTTP応答ヘッダ。"
+    }
+  ]
+}

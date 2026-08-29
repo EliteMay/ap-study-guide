@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "category": "運用・監視・トラブルシュート",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-ops-troubleshoot-001",
+      "term": "DHCP",
+      "aliases": [
+        "Dynamic Host Configuration Protocol"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "端末にIPアドレスなどのネットワーク設定を自動配布するプロトコル。"
+    },
+    {
+      "id": "net-ops-troubleshoot-002",
+      "term": "DHCP Discover",
+      "aliases": [
+        "Discover"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "端末がDHCPサーバを探すために送る最初のメッセージ。"
+    },
+    {
+      "id": "net-ops-troubleshoot-003",
+      "term": "DHCP Offer",
+      "aliases": [
+        "Offer"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "DHCPサーバが端末へ割り当て候補のアドレスを提示するメッセージ。"
+    },
+    {
+      "id": "net-ops-troubleshoot-004",
+      "term": "DHCP Request",
+      "aliases": [
+        "Request"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "端末が提示されたアドレスを使いたいと要求するメッセージ。"
+    },
+    {
+      "id": "net-ops-troubleshoot-005",
+      "term": "DHCP ACK",
+      "aliases": [
+        "Acknowledgement"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "DHCPサーバが割り当てを正式に承認するメッセージ。"
+    },
+    {
+      "id": "net-ops-troubleshoot-006",
+      "term": "リース",
+      "aliases": [
+        "lease"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "DHCPで割り当てられたIPアドレスを使える有効期間。"
+    },
+    {
+      "id": "net-ops-troubleshoot-007",
+      "term": "ARP",
+      "aliases": [
+        "Address Resolution Protocol"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "同じLAN内で、IPアドレスからMACアドレスを調べるプロトコル。"
+    },
+    {
+      "id": "net-ops-troubleshoot-008",
+      "term": "ARPテーブル",
+      "aliases": [
+        "ARP cache"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "IPアドレスとMACアドレスの対応を一時的に保存した表。"
+    },
+    {
+      "id": "net-ops-troubleshoot-009",
+      "term": "traceroute",
+      "aliases": [
+        "tracert"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "宛先までに通過するルータを調べるコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-010",
+      "term": "nslookup",
+      "aliases": [
+        "name server lookup"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "DNSの名前解決結果を確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-011",
+      "term": "dig",
+      "aliases": [
+        "Domain Information Groper"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "DNS問い合わせの詳細を確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-012",
+      "term": "netstat",
+      "aliases": [
+        "network statistics"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "接続状態、待受ポート、ルーティング情報などを確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-013",
+      "term": "tcpdump",
+      "aliases": [
+        "packet capture"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ネットワーク上のパケットを取得して確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-014",
+      "term": "Wireshark",
+      "aliases": [
+        "ワイヤシャーク"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "パケットを視覚的に解析する代表的なツール。"
+    },
+    {
+      "id": "net-ops-troubleshoot-015",
+      "term": "syslog",
+      "aliases": [
+        "シスログ"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ネットワーク機器やサーバのログを転送・集約する仕組み。"
+    },
+    {
+      "id": "net-ops-troubleshoot-016",
+      "term": "死活監視",
+      "aliases": [
+        "availability monitoring"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "機器やサービスが稼働しているかを定期的に確認する監視。"
+    },
+    {
+      "id": "net-ops-troubleshoot-017",
+      "term": "レイテンシ",
+      "aliases": [
+        "latency",
+        "遅延"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "通信が相手に届いて応答が返るまでなどにかかる時間。"
+    },
+    {
+      "id": "net-ops-troubleshoot-018",
+      "term": "ジッタ",
+      "aliases": [
+        "jitter"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "パケット到着間隔の揺らぎ。音声や映像通信で問題になりやすい。"
+    },
+    {
+      "id": "net-ops-troubleshoot-019",
+      "term": "パケットロス",
+      "aliases": [
+        "packet loss"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "送信したパケットが途中で失われ、宛先に届かないこと。"
+    },
+    {
+      "id": "net-ops-troubleshoot-020",
+      "term": "スループット",
+      "aliases": [
+        "throughput"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "一定時間に実際に転送できたデータ量。"
+    },
+    {
+      "id": "net-ops-troubleshoot-021",
+      "term": "ipconfig",
+      "aliases": [
+        "Windows ipconfig"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "WindowsでIPアドレス、サブネットマスク、ゲートウェイなどを確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-022",
+      "term": "ifconfig",
+      "aliases": [
+        "ifconfig command"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "Unix系でネットワークインタフェース設定を確認・変更するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-023",
+      "term": "ipコマンド",
+      "aliases": [
+        "ip command"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "Linuxでアドレス、経路、リンク状態などを確認・設定するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-024",
+      "term": "routeコマンド",
+      "aliases": [
+        "route command"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "経路表を確認・設定するためのコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-025",
+      "term": "arpコマンド",
+      "aliases": [
+        "arp command"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ARPテーブルを確認・操作するためのコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-026",
+      "term": "ssコマンド",
+      "aliases": [
+        "ss command"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "Linuxでソケットや待受ポート、接続状態を確認するコマンド。"
+    },
+    {
+      "id": "net-ops-troubleshoot-027",
+      "term": "ポート疎通確認",
+      "aliases": [
+        "port connectivity test"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "特定のIPアドレスとポート番号へ接続できるかを確認する作業。"
+    },
+    {
+      "id": "net-ops-troubleshoot-028",
+      "term": "名前解決確認",
+      "aliases": [
+        "DNS resolution check"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ホスト名が期待するIPアドレスへ解決されるかを確認する作業。"
+    },
+    {
+      "id": "net-ops-troubleshoot-029",
+      "term": "経路確認",
+      "aliases": [
+        "route check"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "宛先までどの経路を通るか、経路表やtracerouteで確認する作業。"
+    },
+    {
+      "id": "net-ops-troubleshoot-030",
+      "term": "パケットキャプチャ",
+      "aliases": [
+        "packet capture"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "通信パケットを取得し、ヘッダや内容を確認する調査方法。"
+    },
+    {
+      "id": "net-ops-troubleshoot-031",
+      "term": "フィルタ式",
+      "aliases": [
+        "capture filter",
+        "display filter"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "パケットキャプチャで特定通信だけを抽出する条件式。"
+    },
+    {
+      "id": "net-ops-troubleshoot-032",
+      "term": "SNMPトラップ",
+      "aliases": [
+        "SNMP trap"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "監視対象機器が異常などを監視サーバへ能動的に通知するSNMPメッセージ。"
+    },
+    {
+      "id": "net-ops-troubleshoot-033",
+      "term": "MIB",
+      "aliases": [
+        "Management Information Base"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "SNMPで監視できる機器情報の定義集合。"
+    },
+    {
+      "id": "net-ops-troubleshoot-034",
+      "term": "OID",
+      "aliases": [
+        "Object Identifier"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "MIB内の監視項目を一意に示す識別子。"
+    },
+    {
+      "id": "net-ops-troubleshoot-035",
+      "term": "ログローテーション",
+      "aliases": [
+        "log rotation"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ログファイルが増え続けないよう、一定条件で分割・圧縮・削除する運用。"
+    },
+    {
+      "id": "net-ops-troubleshoot-036",
+      "term": "時刻同期",
+      "aliases": [
+        "time synchronization"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "ログの時刻や認証処理を正しく扱うため、機器間の時刻を合わせること。"
+    },
+    {
+      "id": "net-ops-troubleshoot-037",
+      "term": "監視しきい値",
+      "aliases": [
+        "monitoring threshold"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "アラートを出す基準となるCPU使用率、応答時間、パケットロス率などの値。"
+    },
+    {
+      "id": "net-ops-troubleshoot-038",
+      "term": "アラート",
+      "aliases": [
+        "alert"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "監視条件を満たしたときに運用者へ通知される警告。"
+    },
+    {
+      "id": "net-ops-troubleshoot-039",
+      "term": "インシデント管理",
+      "aliases": [
+        "incident management"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "障害や異常を記録し、優先度、担当、対応状況を管理する運用プロセス。"
+    },
+    {
+      "id": "net-ops-troubleshoot-040",
+      "term": "切り分け",
+      "aliases": [
+        "troubleshooting isolation"
+      ],
+      "category": "運用・監視・トラブルシュート",
+      "definition": "障害原因を物理層、IP設定、名前解決、ポート、アプリなどに分けて確認すること。"
+    }
+  ]
+}

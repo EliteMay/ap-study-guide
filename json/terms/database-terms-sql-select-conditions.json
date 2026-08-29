@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "category": "SELECT・条件指定",
+    "version": "v1-database-json-expanded",
+    "count": 26
+  },
+  "terms": [
+    {
+      "id": "term-db-026",
+      "term": "SELECT",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "どの列を取り出すかを指定するSQL。"
+    },
+    {
+      "id": "term-db-027",
+      "term": "FROM",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "どの表からデータを取り出すかを指定する句。"
+    },
+    {
+      "id": "term-db-028",
+      "term": "WHERE",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "条件に合う行だけを取り出す句。"
+    },
+    {
+      "id": "term-db-029",
+      "term": "比較演算子",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "WHERE句で、値を比較するための記号。"
+    },
+    {
+      "id": "term-db-030",
+      "term": "LIKE",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "文字列の一部が一致するデータを探す条件。"
+    },
+    {
+      "id": "term-db-031",
+      "term": "BETWEEN",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "値が指定した範囲内にあるかを調べる条件。"
+    },
+    {
+      "id": "term-db-032",
+      "term": "AND / OR",
+      "aliases": [
+        "AND",
+        "OR"
+      ],
+      "category": "SELECT・条件指定",
+      "definition": "複数の条件を組み合わせるための演算子。"
+    },
+    {
+      "id": "term-db-033",
+      "term": "IN / NOT IN",
+      "aliases": [
+        "IN",
+        "NOT IN"
+      ],
+      "category": "SELECT・条件指定",
+      "definition": "指定した集合に含まれるか、含まれないかを調べる条件。"
+    },
+    {
+      "id": "term-db-034",
+      "term": "DISTINCT",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "重複した行を1つにまとめて表示する指定。"
+    },
+    {
+      "id": "term-db-103",
+      "term": "ORDER BY",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "検索結果を指定した列の値で並べ替える句。"
+    },
+    {
+      "id": "term-db-104",
+      "term": "ASC / DESC",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "昇順または降順で並べ替える指定。"
+    },
+    {
+      "id": "term-db-105",
+      "term": "LIMIT / OFFSET",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "取り出す件数や開始位置を制限する指定。"
+    },
+    {
+      "id": "term-db-106",
+      "term": "IS NULL",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "値がNULLである行を調べる条件。"
+    },
+    {
+      "id": "term-db-107",
+      "term": "IS NOT NULL",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "値がNULLではない行を調べる条件。"
+    },
+    {
+      "id": "term-db-108",
+      "term": "NULL値の比較",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "NULLは未知の値なので、= NULLではなくIS NULLで判定する。"
+    },
+    {
+      "id": "term-db-109",
+      "term": "ワイルドカード %",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "LIKEで0文字以上の任意の文字列を表す記号。"
+    },
+    {
+      "id": "term-db-110",
+      "term": "ワイルドカード _",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "LIKEで任意の1文字を表す記号。"
+    },
+    {
+      "id": "term-db-111",
+      "term": "ESCAPE",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "LIKEで%や_を普通の文字として扱うための指定。"
+    },
+    {
+      "id": "term-db-112",
+      "term": "CASE式",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "条件によって返す値を切り替えるSQLの式。"
+    },
+    {
+      "id": "term-db-113",
+      "term": "COALESCE",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "引数の中から最初にNULLでない値を返す関数。"
+    },
+    {
+      "id": "term-db-114",
+      "term": "文字列関数",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "文字列の結合、切り出し、長さ取得などを行う関数群。"
+    },
+    {
+      "id": "term-db-115",
+      "term": "日付関数",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "日付の差、加算、現在日付の取得などを行う関数群。"
+    },
+    {
+      "id": "term-db-116",
+      "term": "算術演算",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "SQL内で足し算、引き算、掛け算、割り算などを行う式。"
+    },
+    {
+      "id": "term-db-117",
+      "term": "論理演算の優先順位",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "ANDがORより先に評価されるなど、条件式の評価順。"
+    },
+    {
+      "id": "term-db-118",
+      "term": "BETWEENの境界",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "BETWEENは指定した下限と上限の値を含む。"
+    },
+    {
+      "id": "term-db-119",
+      "term": "三値論理",
+      "aliases": [],
+      "category": "SELECT・条件指定",
+      "definition": "SQLの条件評価がTRUE、FALSE、UNKNOWNの3つになる考え方。"
+    }
+  ]
+}

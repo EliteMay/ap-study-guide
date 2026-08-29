@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "category": "E-R図・キー・制約",
+    "version": "v1-database-json-expanded",
+    "count": 28
+  },
+  "terms": [
+    {
+      "id": "term-db-007",
+      "term": "E-R図",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "データベースを作る前に、管理するものと、その関係を図で整理した設計図。"
+    },
+    {
+      "id": "term-db-008",
+      "term": "エンティティ",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "データとして管理したい対象。E-R図では四角で表すことが多い。"
+    },
+    {
+      "id": "term-db-009",
+      "term": "属性",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "エンティティが持っている情報。SQLではカラムになる。"
+    },
+    {
+      "id": "term-db-010",
+      "term": "リレーションシップ",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "エンティティ同士のつながり。"
+    },
+    {
+      "id": "term-db-011",
+      "term": "主キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "テーブル内の各行を一意に区別するための項目。"
+    },
+    {
+      "id": "term-db-012",
+      "term": "複合主キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "2つ以上の列を組み合わせて、1行を一意に区別する主キー。"
+    },
+    {
+      "id": "term-db-013",
+      "term": "外部キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "別の表の主キーを参照する列。"
+    },
+    {
+      "id": "term-db-014",
+      "term": "参照制約",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "外部キーに、参照先の表に存在しない値を入れられないようにする制約。"
+    },
+    {
+      "id": "term-db-015",
+      "term": "多重度",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "エンティティ同士が、1対1・1対多・多対多のどの関係かを表す情報。"
+    },
+    {
+      "id": "term-db-016",
+      "term": "1対多",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "片方の1件に対して、もう片方が複数件対応する関係。"
+    },
+    {
+      "id": "term-db-017",
+      "term": "多対多",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "どちらの側から見ても、複数件対応する関係。"
+    },
+    {
+      "id": "term-db-018",
+      "term": "中間表",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "多対多の関係を、2つの1対多に分けるための表。"
+    },
+    {
+      "id": "term-db-072",
+      "term": "候補キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "行を一意に識別できる列または列の組のうち、最小のもの。"
+    },
+    {
+      "id": "term-db-073",
+      "term": "スーパーキー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "行を一意に識別できる列または列の組。候補キーより余分な列を含む場合がある。"
+    },
+    {
+      "id": "term-db-074",
+      "term": "代理キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "業務上の意味を持たない、識別のために人工的に付けるキー。"
+    },
+    {
+      "id": "term-db-075",
+      "term": "自然キー",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "社員番号や商品コードのように、業務上の意味を持つキー。"
+    },
+    {
+      "id": "term-db-076",
+      "term": "一意制約",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "列または列の組に同じ値を重複して入れられないようにする制約。"
+    },
+    {
+      "id": "term-db-077",
+      "term": "CHECK制約",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "列に入る値が条件を満たすかを確認する制約。"
+    },
+    {
+      "id": "term-db-078",
+      "term": "デフォルト値",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "INSERT時に値を省略した場合、自動的に入る初期値。"
+    },
+    {
+      "id": "term-db-079",
+      "term": "1対1",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "片方の1件に対して、もう片方も1件だけ対応する関係。"
+    },
+    {
+      "id": "term-db-080",
+      "term": "親表",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "外部キーから参照される側の表。"
+    },
+    {
+      "id": "term-db-081",
+      "term": "子表",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "外部キーを持ち、親表を参照する側の表。"
+    },
+    {
+      "id": "term-db-082",
+      "term": "弱実体",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "ほかの実体に依存しないと識別できない実体。"
+    },
+    {
+      "id": "term-db-083",
+      "term": "識別関係",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "親の主キーが子の主キーの一部になる関係。"
+    },
+    {
+      "id": "term-db-084",
+      "term": "非識別関係",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "親の主キーが子の外部キーにはなるが、子の主キーには含まれない関係。"
+    },
+    {
+      "id": "term-db-085",
+      "term": "関数従属性",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "ある属性の値が決まると、別の属性の値も一意に決まる関係。"
+    },
+    {
+      "id": "term-db-086",
+      "term": "カーディナリティ",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "エンティティ間で対応する件数の範囲。多重度とほぼ同じ意味で使われる。"
+    },
+    {
+      "id": "term-db-087",
+      "term": "オプショナリティ",
+      "aliases": [],
+      "category": "E-R図・キー・制約",
+      "definition": "関係への参加が必須か任意かを表す情報。"
+    }
+  ]
+}

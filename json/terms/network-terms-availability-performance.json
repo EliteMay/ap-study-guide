@@ -1,0 +1,370 @@
+{
+  "meta": {
+    "category": "可用性・性能・QoS",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-availability-performance-001",
+      "term": "QoS",
+      "aliases": [
+        "Quality of Service"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "通信の種類に応じて優先度や帯域を制御し、品質を確保する仕組み。"
+    },
+    {
+      "id": "net-availability-performance-002",
+      "term": "帯域",
+      "aliases": [
+        "bandwidth"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "通信路が理論上どれだけのデータを送れるかを表す幅。"
+    },
+    {
+      "id": "net-availability-performance-003",
+      "term": "帯域制御",
+      "aliases": [
+        "bandwidth control"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "通信ごとに使える帯域を制限または調整すること。"
+    },
+    {
+      "id": "net-availability-performance-004",
+      "term": "優先制御",
+      "aliases": [
+        "priority control"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "音声や業務通信などを他の通信より優先して処理する制御。"
+    },
+    {
+      "id": "net-availability-performance-005",
+      "term": "負荷分散",
+      "aliases": [
+        "load balancing"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "複数のサーバや経路へ処理を振り分け、集中を避けること。"
+    },
+    {
+      "id": "net-availability-performance-006",
+      "term": "ラウンドロビン",
+      "aliases": [
+        "round robin"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "順番に振り分ける単純な負荷分散方式。"
+    },
+    {
+      "id": "net-availability-performance-007",
+      "term": "ヘルスチェック",
+      "aliases": [
+        "health check"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "サーバやサービスが利用可能かを定期的に確認する機能。"
+    },
+    {
+      "id": "net-availability-performance-008",
+      "term": "フェイルオーバー",
+      "aliases": [
+        "failover"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "障害時に待機系や別経路へ自動的に切り替えること。"
+    },
+    {
+      "id": "net-availability-performance-009",
+      "term": "冗長化",
+      "aliases": [
+        "redundancy"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "機器、回線、電源などを複数用意し、故障時にも継続できるようにすること。"
+    },
+    {
+      "id": "net-availability-performance-010",
+      "term": "VRRP",
+      "aliases": [
+        "Virtual Router Redundancy Protocol"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "複数ルータで仮想的なデフォルトゲートウェイを提供する冗長化プロトコル。"
+    },
+    {
+      "id": "net-availability-performance-011",
+      "term": "HSRP",
+      "aliases": [
+        "Hot Standby Router Protocol"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "Cisco機器などで使われるデフォルトゲートウェイ冗長化プロトコル。"
+    },
+    {
+      "id": "net-availability-performance-012",
+      "term": "リンクアグリゲーション",
+      "aliases": [
+        "link aggregation"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "複数の物理リンクを束ねて、帯域や冗長性を高める技術。"
+    },
+    {
+      "id": "net-availability-performance-013",
+      "term": "LACP",
+      "aliases": [
+        "Link Aggregation Control Protocol"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "リンクアグリゲーションを自動調整するためのプロトコル。"
+    },
+    {
+      "id": "net-availability-performance-014",
+      "term": "STP再計算",
+      "aliases": [
+        "STP reconvergence"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "L2障害時にSTPが新しいツリーを計算し直す動き。"
+    },
+    {
+      "id": "net-availability-performance-015",
+      "term": "SLA",
+      "aliases": [
+        "Service Level Agreement"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "サービス提供者と利用者の間で、稼働率や応答時間などを定める合意。"
+    },
+    {
+      "id": "net-availability-performance-016",
+      "term": "ベストエフォート",
+      "aliases": [
+        "best effort"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "品質や速度を保証せず、可能な範囲で提供する方式。"
+    },
+    {
+      "id": "net-availability-performance-017",
+      "term": "レートリミット",
+      "aliases": [
+        "rate limit"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "一定時間あたりの通信量やリクエスト数を制限すること。"
+    },
+    {
+      "id": "net-availability-performance-018",
+      "term": "キューイング",
+      "aliases": [
+        "queueing"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "混雑時にパケットを待ち行列へ入れて順番に処理すること。"
+    },
+    {
+      "id": "net-availability-performance-019",
+      "term": "CDNキャッシュ",
+      "aliases": [
+        "CDN cache"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "CDN拠点にコンテンツを保存し、元サーバへの負荷と遅延を減らす仕組み。"
+    },
+    {
+      "id": "net-availability-performance-020",
+      "term": "ボトルネック",
+      "aliases": [
+        "bottleneck"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "全体性能を制限している最も詰まっている箇所。"
+    },
+    {
+      "id": "net-availability-performance-021",
+      "term": "可用性",
+      "aliases": [
+        "availability"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "利用者が必要なときにシステムやネットワークを使える度合い。"
+    },
+    {
+      "id": "net-availability-performance-022",
+      "term": "稼働率",
+      "aliases": [
+        "uptime ratio"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "一定期間のうちサービスが利用可能だった割合。"
+    },
+    {
+      "id": "net-availability-performance-023",
+      "term": "MTBF",
+      "aliases": [
+        "Mean Time Between Failures"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "故障と故障の間の平均時間。長いほど壊れにくい。"
+    },
+    {
+      "id": "net-availability-performance-024",
+      "term": "MTTR",
+      "aliases": [
+        "Mean Time To Repair"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "障害発生から復旧までの平均時間。短いほど復旧が早い。"
+    },
+    {
+      "id": "net-availability-performance-025",
+      "term": "RTO",
+      "aliases": [
+        "Recovery Time Objective"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "障害発生後、どれくらいの時間以内に復旧すべきかを示す目標。"
+    },
+    {
+      "id": "net-availability-performance-026",
+      "term": "RPO",
+      "aliases": [
+        "Recovery Point Objective"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "障害時にどの時点までのデータ損失なら許容するかを示す目標。"
+    },
+    {
+      "id": "net-availability-performance-027",
+      "term": "SPOF",
+      "aliases": [
+        "Single Point of Failure"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "停止すると全体が止まる単一障害点。"
+    },
+    {
+      "id": "net-availability-performance-028",
+      "term": "ロードシェア",
+      "aliases": [
+        "load sharing"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "複数の機器や回線で処理を分担する構成。"
+    },
+    {
+      "id": "net-availability-performance-029",
+      "term": "セッション維持",
+      "aliases": [
+        "session persistence",
+        "sticky session"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "同じ利用者の通信を同じサーバへ振り分け続ける負荷分散の設定。"
+    },
+    {
+      "id": "net-availability-performance-030",
+      "term": "コネクション数",
+      "aliases": [
+        "connection count"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "同時に確立している通信接続の数。性能や上限の判断材料になる。"
+    },
+    {
+      "id": "net-availability-performance-031",
+      "term": "同時接続数",
+      "aliases": [
+        "concurrent connections"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "同時にサービスへ接続している利用者や通信の数。"
+    },
+    {
+      "id": "net-availability-performance-032",
+      "term": "レスポンスタイム",
+      "aliases": [
+        "response time"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "要求を送ってから応答が返るまでの時間。"
+    },
+    {
+      "id": "net-availability-performance-033",
+      "term": "ターンアラウンドタイム",
+      "aliases": [
+        "turnaround time"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "処理依頼から結果を受け取るまでの総時間。"
+    },
+    {
+      "id": "net-availability-performance-034",
+      "term": "キャパシティプランニング",
+      "aliases": [
+        "capacity planning"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "将来の利用量を見込み、回線、サーバ、機器性能を計画すること。"
+    },
+    {
+      "id": "net-availability-performance-035",
+      "term": "スケールアップ",
+      "aliases": [
+        "scale up"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "単体の機器やサーバの性能を上げて処理能力を増やす方法。"
+    },
+    {
+      "id": "net-availability-performance-036",
+      "term": "スケールアウト",
+      "aliases": [
+        "scale out"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "機器やサーバの台数を増やして処理能力を増やす方法。"
+    },
+    {
+      "id": "net-availability-performance-037",
+      "term": "オートスケール",
+      "aliases": [
+        "auto scaling"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "負荷に応じてサーバやリソース数を自動的に増減させる仕組み。"
+    },
+    {
+      "id": "net-availability-performance-038",
+      "term": "輻輳",
+      "aliases": [
+        "congestion"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "通信量が処理能力を超え、遅延やパケットロスが増える状態。"
+    },
+    {
+      "id": "net-availability-performance-039",
+      "term": "バックプレッシャ",
+      "aliases": [
+        "back pressure"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "受信側や下流側の処理が追いつかないとき、上流へ送信抑制を伝える考え方。"
+    },
+    {
+      "id": "net-availability-performance-040",
+      "term": "帯域保証",
+      "aliases": [
+        "guaranteed bandwidth"
+      ],
+      "category": "可用性・性能・QoS",
+      "definition": "特定通信に最低限の帯域を確保する制御。"
+    }
+  ]
+}

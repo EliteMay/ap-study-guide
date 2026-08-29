@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "category": "TCP・UDP・ポート番号",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-tcp-udp-port-001",
+      "term": "TCP",
+      "aliases": [
+        "Transmission Control Protocol"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "到達確認、順序制御、再送などを行うコネクション型のトランスポート層プロトコル。"
+    },
+    {
+      "id": "net-tcp-udp-port-002",
+      "term": "UDP",
+      "aliases": [
+        "User Datagram Protocol"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "到達確認や再送を基本的に行わない、軽量なコネクションレス型プロトコル。"
+    },
+    {
+      "id": "net-tcp-udp-port-003",
+      "term": "ポート番号",
+      "aliases": [
+        "port number"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "同じ端末内のどのアプリケーションに通信を渡すかを識別する番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-004",
+      "term": "ウェルノウンポート",
+      "aliases": [
+        "well-known port"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "0〜1023番の、主要プロトコル用に予約された代表的なポート番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-005",
+      "term": "3ウェイハンドシェイク",
+      "aliases": [
+        "three-way handshake"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCP接続開始時にSYN、SYN/ACK、ACKの3段階で接続を確立する手順。"
+    },
+    {
+      "id": "net-tcp-udp-port-006",
+      "term": "SYN",
+      "aliases": [
+        "synchronize flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCP接続開始要求を示すフラグ。"
+    },
+    {
+      "id": "net-tcp-udp-port-007",
+      "term": "ACK",
+      "aliases": [
+        "acknowledgement flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPで受信確認を示すフラグ。"
+    },
+    {
+      "id": "net-tcp-udp-port-008",
+      "term": "FIN",
+      "aliases": [
+        "finish flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCP接続を正常に終了したいことを示すフラグ。"
+    },
+    {
+      "id": "net-tcp-udp-port-009",
+      "term": "RST",
+      "aliases": [
+        "reset flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCP接続を強制的にリセットすることを示すフラグ。"
+    },
+    {
+      "id": "net-tcp-udp-port-010",
+      "term": "再送制御",
+      "aliases": [
+        "retransmission control"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "届かなかったデータや確認応答がないデータを再び送る制御。"
+    },
+    {
+      "id": "net-tcp-udp-port-011",
+      "term": "フロー制御",
+      "aliases": [
+        "flow control"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "受信側が処理できる量に合わせて送信量を調整する制御。"
+    },
+    {
+      "id": "net-tcp-udp-port-012",
+      "term": "輻輳制御",
+      "aliases": [
+        "congestion control"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "ネットワーク混雑を悪化させないよう送信量を調整する制御。"
+    },
+    {
+      "id": "net-tcp-udp-port-013",
+      "term": "ウィンドウサイズ",
+      "aliases": [
+        "window size"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPで確認応答を待たずに送れるデータ量を表す値。"
+    },
+    {
+      "id": "net-tcp-udp-port-014",
+      "term": "シーケンス番号",
+      "aliases": [
+        "sequence number"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPでデータの順序を管理するための番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-015",
+      "term": "コネクション",
+      "aliases": [
+        "connection"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPなどで通信前に状態を確立し、その状態を使ってデータをやり取りする関係。"
+    },
+    {
+      "id": "net-tcp-udp-port-016",
+      "term": "コネクションレス",
+      "aliases": [
+        "connectionless"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "UDPなどで事前の接続確立をせず、データ単位で送る方式。"
+    },
+    {
+      "id": "net-tcp-udp-port-017",
+      "term": "TCPセグメント",
+      "aliases": [
+        "TCP segment"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPが扱うデータ単位。TCPヘッダとデータを含む。"
+    },
+    {
+      "id": "net-tcp-udp-port-018",
+      "term": "UDPデータグラム",
+      "aliases": [
+        "UDP datagram"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "UDPが扱うデータ単位。UDPヘッダとデータを含む。"
+    },
+    {
+      "id": "net-tcp-udp-port-019",
+      "term": "エフェメラルポート",
+      "aliases": [
+        "ephemeral port",
+        "動的ポート"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "クライアント側が一時的に使うポート番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-020",
+      "term": "Keepalive",
+      "aliases": [
+        "TCP Keepalive"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "長時間通信がない接続で、相手が生きているか確認する仕組み。"
+    },
+    {
+      "id": "net-tcp-udp-port-021",
+      "term": "TCPヘッダ",
+      "aliases": [
+        "TCP header"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPセグメントの制御情報。ポート番号、シーケンス番号、ACK番号、フラグなどを含む。"
+    },
+    {
+      "id": "net-tcp-udp-port-022",
+      "term": "UDPヘッダ",
+      "aliases": [
+        "UDP header"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "UDPデータグラムの制御情報。送信元ポート、宛先ポート、長さ、チェックサムを含む。"
+    },
+    {
+      "id": "net-tcp-udp-port-023",
+      "term": "送信元ポート番号",
+      "aliases": [
+        "source port"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "通信元アプリケーションを識別するために送信側が使うポート番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-024",
+      "term": "宛先ポート番号",
+      "aliases": [
+        "destination port"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "通信先アプリケーションやサービスを識別するためのポート番号。"
+    },
+    {
+      "id": "net-tcp-udp-port-025",
+      "term": "登録済みポート",
+      "aliases": [
+        "registered port"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "IANAに登録される1024〜49151番のポート範囲。"
+    },
+    {
+      "id": "net-tcp-udp-port-026",
+      "term": "動的ポート",
+      "aliases": [
+        "dynamic port",
+        "private port"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "一時的な通信などで使われる49152〜65535番のポート範囲。"
+    },
+    {
+      "id": "net-tcp-udp-port-027",
+      "term": "TCPフラグ",
+      "aliases": [
+        "TCP flags"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "SYN、ACK、FIN、RSTなど、TCP接続の状態を制御するビット。"
+    },
+    {
+      "id": "net-tcp-udp-port-028",
+      "term": "SYN/ACK",
+      "aliases": [
+        "SYN ACK"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "3ウェイハンドシェイクで、接続要求への受理を示す応答。"
+    },
+    {
+      "id": "net-tcp-udp-port-029",
+      "term": "PSH",
+      "aliases": [
+        "Push flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "受信側アプリケーションへデータをすぐ渡すことを促すTCPフラグ。"
+    },
+    {
+      "id": "net-tcp-udp-port-030",
+      "term": "URG",
+      "aliases": [
+        "Urgent flag"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "緊急データがあることを示すTCPフラグ。現在はあまり使われない。"
+    },
+    {
+      "id": "net-tcp-udp-port-031",
+      "term": "URGポインタ",
+      "aliases": [
+        "urgent pointer"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCPで緊急データの位置を示すフィールド。"
+    },
+    {
+      "id": "net-tcp-udp-port-032",
+      "term": "ACK番号",
+      "aliases": [
+        "acknowledgment number"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "次に受け取りたいシーケンス番号を示し、受信確認に使われる値。"
+    },
+    {
+      "id": "net-tcp-udp-port-033",
+      "term": "ゼロウィンドウ",
+      "aliases": [
+        "zero window"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "受信側のバッファに余裕がなく、送信を止めてほしい状態。"
+    },
+    {
+      "id": "net-tcp-udp-port-034",
+      "term": "スライディングウィンドウ",
+      "aliases": [
+        "sliding window"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "確認応答を待たずに一定量のデータを連続送信できるようにする制御。"
+    },
+    {
+      "id": "net-tcp-udp-port-035",
+      "term": "タイムアウト再送",
+      "aliases": [
+        "retransmission timeout"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "一定時間ACKが返らないときに、失われたとみなして再送する処理。"
+    },
+    {
+      "id": "net-tcp-udp-port-036",
+      "term": "SACK",
+      "aliases": [
+        "Selective ACK"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "受信できた範囲を細かく知らせ、必要な部分だけ再送しやすくする仕組み。"
+    },
+    {
+      "id": "net-tcp-udp-port-037",
+      "term": "TCPコネクション状態",
+      "aliases": [
+        "TCP state"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "LISTEN、ESTABLISHED、TIME_WAITなど、TCP接続の状態。"
+    },
+    {
+      "id": "net-tcp-udp-port-038",
+      "term": "TIME_WAIT",
+      "aliases": [
+        "TIME_WAIT state"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "TCP終了後もしばらく接続情報を保持し、遅延パケットの影響を抑える状態。"
+    },
+    {
+      "id": "net-tcp-udp-port-039",
+      "term": "ポートスキャン",
+      "aliases": [
+        "port scan"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "宛先のどのポートが応答するかを調べる行為。運用確認にも攻撃準備にも使われる。"
+    },
+    {
+      "id": "net-tcp-udp-port-040",
+      "term": "ソケットペア",
+      "aliases": [
+        "socket pair"
+      ],
+      "category": "TCP・UDP・ポート番号",
+      "definition": "送信元IP、送信元ポート、宛先IP、宛先ポート、プロトコルで通信を識別する組。"
+    }
+  ]
+}

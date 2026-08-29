@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "title": "情報セキュリティ用語マニフェスト",
+    "version": "v6-genre-json",
+    "description": "カテゴリ別JSONを読み込むための索引。検索用の軽量データのみを持つ。",
+    "totalTerms": 501
+  },
+  "files": [
+    {
+      "category": "セキュリティ基礎・超基礎",
+      "file": "json/terms/security-terms-basic.json",
+      "count": 50
+    },
+    {
+      "category": "ネットワーク基礎・DNS・通信",
+      "file": "json/terms/security-terms-network-dns.json",
+      "count": 99
+    },
+    {
+      "category": "暗号・証明書・PKI",
+      "file": "json/terms/security-terms-crypto-pki.json",
+      "count": 53
+    },
+    {
+      "category": "認証・認可・ID管理",
+      "file": "json/terms/security-terms-auth-id.json",
+      "count": 46
+    },
+    {
+      "category": "Web・メール・アプリ防御",
+      "file": "json/terms/security-terms-web-mail-app.json",
+      "count": 40
+    },
+    {
+      "category": "攻撃手法・マルウェア",
+      "file": "json/terms/security-terms-attacks-malware.json",
+      "count": 67
+    },
+    {
+      "category": "防御・監視・運用",
+      "file": "json/terms/security-terms-defense-monitoring.json",
+      "count": 64
+    },
+    {
+      "category": "管理・制度・リスク",
+      "file": "json/terms/security-terms-management-risk.json",
+      "count": 50
+    },
+    {
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "file": "json/terms/security-terms-cloud-zero-trust.json",
+      "count": 32
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-01-basic",
+      "title": "セキュリティ基礎・超基礎",
+      "description": "パスワード、アカウント、ログ、脆弱性など、午後問題の文章を読む前に必要な土台の言葉。",
+      "file": "json/terms/security-terms-basic.json",
+      "detailFile": "json/details/security-details-basic.json",
+      "count": 50
+    },
+    {
+      "id": "cat-02-network-dns",
+      "title": "ネットワーク基礎・DNS・通信",
+      "description": "IP、ポート、DNS、HTTP、DMZなど、セキュリティ問題の構成図を読むための基礎。",
+      "file": "json/terms/security-terms-network-dns.json",
+      "detailFile": "json/details/security-details-network-dns.json",
+      "count": 99
+    },
+    {
+      "id": "cat-03-crypto-pki",
+      "title": "暗号・証明書・PKI",
+      "description": "暗号化、電子署名、ハッシュ、証明書、PKIなど、認証と保護の根幹。",
+      "file": "json/terms/security-terms-crypto-pki.json",
+      "detailFile": "json/details/security-details-crypto-pki.json",
+      "count": 53
+    },
+    {
+      "id": "cat-04-auth-id",
+      "title": "認証・認可・ID管理",
+      "description": "本人確認、権限管理、MFA、SSOなど、不正利用を防ぐための仕組み。",
+      "file": "json/terms/security-terms-auth-id.json",
+      "detailFile": "json/details/security-details-auth-id.json",
+      "count": 46
+    },
+    {
+      "id": "cat-05-web-mail-app",
+      "title": "Web・メール・アプリ防御",
+      "description": "XSS、SQLi、SPF、DKIM、S/MIMEなど、Webとメールで頻出の守り方。",
+      "file": "json/terms/security-terms-web-mail-app.json",
+      "detailFile": "json/details/security-details-web-mail-app.json",
+      "count": 40
+    },
+    {
+      "id": "cat-06-attacks-malware",
+      "title": "攻撃手法・マルウェア",
+      "description": "マルウェア、標的型攻撃、DoS、なりすましなど、攻撃のパターン。",
+      "file": "json/terms/security-terms-attacks-malware.json",
+      "detailFile": "json/details/security-details-attacks-malware.json",
+      "count": 67
+    },
+    {
+      "id": "cat-07-defense-monitoring",
+      "title": "防御・監視・運用",
+      "description": "FW、IDS、IPS、WAF、SIEM、EDRなど、検知・防御・監視の実戦用語。",
+      "file": "json/terms/security-terms-defense-monitoring.json",
+      "detailFile": "json/details/security-details-defense-monitoring.json",
+      "count": 64
+    },
+    {
+      "id": "cat-08-management-risk",
+      "title": "管理・制度・リスク",
+      "description": "ISMS、CSIRT、リスク対応、監査、個人情報保護など、管理系の頻出事項。",
+      "file": "json/terms/security-terms-management-risk.json",
+      "detailFile": "json/details/security-details-management-risk.json",
+      "count": 50
+    },
+    {
+      "id": "cat-09-cloud-zero-trust",
+      "title": "クラウド・仮想化・ゼロトラスト",
+      "description": "クラウド、SaaS、IAM、ゼロトラストなど、近年の構成で出る用語。",
+      "file": "json/terms/security-terms-cloud-zero-trust.json",
+      "detailFile": "json/details/security-details-cloud-zero-trust.json",
+      "count": 32
+    }
+  ]
+}

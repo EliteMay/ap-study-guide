@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "category": "SQL定義・制約",
+    "version": "v1-database-json-expanded",
+    "count": 22
+  },
+  "terms": [
+    {
+      "id": "term-db-019",
+      "term": "CREATE TABLE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "新しいテーブルを作るSQL文。"
+    },
+    {
+      "id": "term-db-020",
+      "term": "データ型",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "列に入る値の種類を指定するもの。"
+    },
+    {
+      "id": "term-db-021",
+      "term": "NOT NULL",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "その列に空値を入れられないようにする制約。"
+    },
+    {
+      "id": "term-db-022",
+      "term": "PRIMARY KEY",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "主キーを指定するSQLの制約。"
+    },
+    {
+      "id": "term-db-023",
+      "term": "FOREIGN KEY / REFERENCES",
+      "aliases": [
+        "FOREIGN KEY",
+        "REFERENCES"
+      ],
+      "category": "SQL定義・制約",
+      "definition": "外部キーと、その参照先を指定するSQLの制約。"
+    },
+    {
+      "id": "term-db-024",
+      "term": "成績表の定義",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "プリントの成績表は、学生表と科目表をつなぐ中間表として定義できる。"
+    },
+    {
+      "id": "term-db-025",
+      "term": "経験表の定義",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "プリントの経験表は、学生表とスキル表をつなぐ中間表。"
+    },
+    {
+      "id": "term-db-088",
+      "term": "ALTER TABLE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "既存テーブルへ列や制約を追加・変更・削除するSQL文。"
+    },
+    {
+      "id": "term-db-089",
+      "term": "DROP TABLE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "既存のテーブルを削除するSQL文。"
+    },
+    {
+      "id": "term-db-090",
+      "term": "CREATE INDEX",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "検索を速くするための索引を作成するSQL文。"
+    },
+    {
+      "id": "term-db-091",
+      "term": "INSERT",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "テーブルへ新しい行を追加するSQL文。"
+    },
+    {
+      "id": "term-db-092",
+      "term": "UPDATE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "テーブル内の既存行の値を変更するSQL文。"
+    },
+    {
+      "id": "term-db-093",
+      "term": "DELETE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "条件に合う行をテーブルから削除するSQL文。"
+    },
+    {
+      "id": "term-db-094",
+      "term": "TRUNCATE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "テーブルの全行を高速に削除する命令。"
+    },
+    {
+      "id": "term-db-095",
+      "term": "DDL",
+      "aliases": [
+        "Data Definition Language"
+      ],
+      "category": "SQL定義・制約",
+      "definition": "CREATEやALTERなど、データベース構造を定義するSQLの分類。"
+    },
+    {
+      "id": "term-db-096",
+      "term": "DML",
+      "aliases": [
+        "Data Manipulation Language"
+      ],
+      "category": "SQL定義・制約",
+      "definition": "SELECT、INSERT、UPDATE、DELETEなど、データを操作するSQLの分類。"
+    },
+    {
+      "id": "term-db-097",
+      "term": "DCL",
+      "aliases": [
+        "Data Control Language"
+      ],
+      "category": "SQL定義・制約",
+      "definition": "GRANTやREVOKEなど、権限を制御するSQLの分類。"
+    },
+    {
+      "id": "term-db-098",
+      "term": "TCL",
+      "aliases": [
+        "Transaction Control Language"
+      ],
+      "category": "SQL定義・制約",
+      "definition": "COMMITやROLLBACKなど、トランザクションを制御するSQLの分類。"
+    },
+    {
+      "id": "term-db-099",
+      "term": "GRANT",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "利用者やロールに権限を与えるSQL文。"
+    },
+    {
+      "id": "term-db-100",
+      "term": "REVOKE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "利用者やロールから権限を取り消すSQL文。"
+    },
+    {
+      "id": "term-db-101",
+      "term": "UNIQUE",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "列または列の組の値が重複しないことを指定する制約。"
+    },
+    {
+      "id": "term-db-102",
+      "term": "DEFAULT",
+      "aliases": [],
+      "category": "SQL定義・制約",
+      "definition": "値が指定されなかったときに使う既定値を指定する制約。"
+    }
+  ]
+}

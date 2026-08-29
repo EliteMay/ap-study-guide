@@ -1,0 +1,381 @@
+{
+  "meta": {
+    "category": "TCP/IP基礎・OSI参照モデル",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-tcpip-osi-001",
+      "term": "OSI参照モデル",
+      "aliases": [
+        "OSIモデル",
+        "Open Systems Interconnection"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "通信機能を7つの層に分けて整理する考え方。実装そのものより、どの層で何が起きるかを説明するときに使う。"
+    },
+    {
+      "id": "net-tcpip-osi-002",
+      "term": "TCP/IPモデル",
+      "aliases": [
+        "TCP/IP階層モデル"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "インターネットで実際に使われる通信を、アプリケーション層、トランスポート層、インターネット層、ネットワークインタフェース層などで整理するモデル。"
+    },
+    {
+      "id": "net-tcpip-osi-003",
+      "term": "アプリケーション層",
+      "aliases": [
+        "Application layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "HTTP、DNS、SMTPなど、利用者に近い通信サービスを扱う層。"
+    },
+    {
+      "id": "net-tcpip-osi-004",
+      "term": "トランスポート層",
+      "aliases": [
+        "Transport layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "TCPやUDPで、端末上のアプリケーション同士の通信を扱う層。"
+    },
+    {
+      "id": "net-tcpip-osi-005",
+      "term": "インターネット層",
+      "aliases": [
+        "Internet layer",
+        "IP層"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPアドレスを使い、ネットワークをまたいでパケットを届ける層。"
+    },
+    {
+      "id": "net-tcpip-osi-006",
+      "term": "ネットワークインタフェース層",
+      "aliases": [
+        "リンク層",
+        "Network Interface layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "LANカード、イーサネット、無線LANなど、同じネットワーク内で実際にフレームを送る部分。"
+    },
+    {
+      "id": "net-tcpip-osi-007",
+      "term": "カプセル化",
+      "aliases": [
+        "encapsulation"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "上位層のデータに、各層のヘッダを順番に付けて送信できる形にすること。"
+    },
+    {
+      "id": "net-tcpip-osi-008",
+      "term": "PDU",
+      "aliases": [
+        "Protocol Data Unit"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "各層で扱うデータ単位。例として、TCPではセグメント、IPではパケット、イーサネットではフレームと呼ぶ。"
+    },
+    {
+      "id": "net-tcpip-osi-009",
+      "term": "プロトコル",
+      "aliases": [
+        "通信プロトコル"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "通信する機器同士が同じ解釈でやり取りするための決まり。"
+    },
+    {
+      "id": "net-tcpip-osi-010",
+      "term": "RFC",
+      "aliases": [
+        "Request for Comments"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "インターネット技術の仕様や運用上の合意を文書化したもの。"
+    },
+    {
+      "id": "net-tcpip-osi-011",
+      "term": "エンドツーエンド",
+      "aliases": [
+        "end-to-end"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "途中のネットワーク機器ではなく、送信元と宛先の端末・アプリケーション間で成立する考え方。"
+    },
+    {
+      "id": "net-tcpip-osi-012",
+      "term": "クライアントサーバ",
+      "aliases": [
+        "client-server"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "サービスを要求するクライアントと、要求に応答するサーバに役割を分ける通信形態。"
+    },
+    {
+      "id": "net-tcpip-osi-013",
+      "term": "ピアツーピア",
+      "aliases": [
+        "P2P",
+        "peer-to-peer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "端末同士が対等な立場で直接データをやり取りする形態。"
+    },
+    {
+      "id": "net-tcpip-osi-014",
+      "term": "ソケット",
+      "aliases": [
+        "socket"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPアドレスとポート番号などを使い、アプリケーション通信の接点を表す仕組み。"
+    },
+    {
+      "id": "net-tcpip-osi-015",
+      "term": "MTU",
+      "aliases": [
+        "Maximum Transmission Unit"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "一つのリンクで分割せずに送れる最大データサイズ。"
+    },
+    {
+      "id": "net-tcpip-osi-016",
+      "term": "MSS",
+      "aliases": [
+        "Maximum Segment Size"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "TCPで一度に送るデータ本体の最大サイズ。IP/TCPヘッダ分を除いて考える。"
+    },
+    {
+      "id": "net-tcpip-osi-017",
+      "term": "フラグメンテーション",
+      "aliases": [
+        "fragmentation",
+        "断片化"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "MTUより大きいIPパケットを、通れるサイズに分割して送ること。"
+    },
+    {
+      "id": "net-tcpip-osi-018",
+      "term": "TTL",
+      "aliases": [
+        "Time To Live"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPパケットがルータを通過するたびに減る値。無限に転送され続けることを防ぐ。"
+    },
+    {
+      "id": "net-tcpip-osi-019",
+      "term": "ICMP",
+      "aliases": [
+        "Internet Control Message Protocol"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IP通信のエラー通知や到達確認などに使われる制御用プロトコル。"
+    },
+    {
+      "id": "net-tcpip-osi-020",
+      "term": "ping",
+      "aliases": [
+        "疎通確認"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "ICMP Echoを使い、相手に届くか、応答が返るかを確認する代表的なコマンド。"
+    },
+    {
+      "id": "net-tcpip-osi-021",
+      "term": "セッション層",
+      "aliases": [
+        "OSI第5層",
+        "Session Layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "通信相手との会話の開始、維持、終了を管理するOSI参照モデルの層。"
+    },
+    {
+      "id": "net-tcpip-osi-022",
+      "term": "プレゼンテーション層",
+      "aliases": [
+        "OSI第6層",
+        "Presentation Layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "文字コード変換、暗号化、圧縮など、データ表現の違いを吸収するOSI参照モデルの層。"
+    },
+    {
+      "id": "net-tcpip-osi-023",
+      "term": "物理層",
+      "aliases": [
+        "OSI第1層",
+        "Physical Layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "ケーブル、電気信号、電波、コネクタなど、ビットを物理的に送る層。"
+    },
+    {
+      "id": "net-tcpip-osi-024",
+      "term": "データリンク層",
+      "aliases": [
+        "OSI第2層",
+        "Data Link Layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "同一ネットワーク内でフレームを届けるためにMACアドレスなどを扱う層。"
+    },
+    {
+      "id": "net-tcpip-osi-025",
+      "term": "ネットワーク層",
+      "aliases": [
+        "OSI第3層",
+        "Network Layer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPアドレスと経路選択によって、異なるネットワーク間へパケットを届ける層。"
+    },
+    {
+      "id": "net-tcpip-osi-026",
+      "term": "パケット",
+      "aliases": [
+        "packet"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IP層で扱うデータ単位で、送信元・宛先IPアドレスなどの情報を持つ。"
+    },
+    {
+      "id": "net-tcpip-osi-027",
+      "term": "データグラム",
+      "aliases": [
+        "datagram"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "コネクションを前提にせず、個々に宛先情報を持って送られるデータ単位。"
+    },
+    {
+      "id": "net-tcpip-osi-028",
+      "term": "ヘッダ",
+      "aliases": [
+        "header"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "通信データの先頭に付く制御情報で、宛先、送信元、長さ、制御フラグなどを含む。"
+    },
+    {
+      "id": "net-tcpip-osi-029",
+      "term": "ペイロード",
+      "aliases": [
+        "payload"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "ヘッダを除いた実際に運びたいデータ部分。"
+    },
+    {
+      "id": "net-tcpip-osi-030",
+      "term": "トレーラ",
+      "aliases": [
+        "trailer"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "フレーム末尾に付く制御情報で、誤り検出用の情報などを含む。"
+    },
+    {
+      "id": "net-tcpip-osi-031",
+      "term": "FCS",
+      "aliases": [
+        "Frame Check Sequence"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "イーサネットフレームなどで誤り検出に使う末尾のチェック値。"
+    },
+    {
+      "id": "net-tcpip-osi-032",
+      "term": "チェックサム",
+      "aliases": [
+        "checksum"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "データの破損を検出するために計算される確認用の値。"
+    },
+    {
+      "id": "net-tcpip-osi-033",
+      "term": "Path MTU Discovery",
+      "aliases": [
+        "PMTUD",
+        "経路MTU探索"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "経路上で通れる最大MTUを調べ、途中の分割を避けるための仕組み。"
+    },
+    {
+      "id": "net-tcpip-osi-034",
+      "term": "DFビット",
+      "aliases": [
+        "Don't Fragment bit",
+        "分割禁止ビット"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPパケットの分割を禁止する制御ビット。Path MTU Discoveryと関係する。"
+    },
+    {
+      "id": "net-tcpip-osi-035",
+      "term": "ICMP Echo Request",
+      "aliases": [
+        "エコー要求"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "pingで送る問い合わせで、相手に応答可能か確認するICMPメッセージ。"
+    },
+    {
+      "id": "net-tcpip-osi-036",
+      "term": "ICMP Echo Reply",
+      "aliases": [
+        "エコー応答"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "ICMP Echo Requestに対する応答で、相手まで到達できたことを確認する材料になる。"
+    },
+    {
+      "id": "net-tcpip-osi-037",
+      "term": "ICMP Destination Unreachable",
+      "aliases": [
+        "宛先到達不能"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "宛先ネットワーク、ホスト、ポートなどに届かないことを通知するICMPメッセージ。"
+    },
+    {
+      "id": "net-tcpip-osi-038",
+      "term": "ICMP Time Exceeded",
+      "aliases": [
+        "時間超過"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "TTLが0になったときなどに返されるICMPメッセージ。tracerouteで使われる。"
+    },
+    {
+      "id": "net-tcpip-osi-039",
+      "term": "TTL減算",
+      "aliases": [
+        "TTL decrement"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "ルータを1つ通過するたびにTTLを減らし、無限ループを防ぐ処理。"
+    },
+    {
+      "id": "net-tcpip-osi-040",
+      "term": "プロトコル番号",
+      "aliases": [
+        "IP protocol number"
+      ],
+      "category": "TCP/IP基礎・OSI参照モデル",
+      "definition": "IPヘッダ内で上位プロトコルがTCP、UDP、ICMPなどのどれかを示す番号。"
+    }
+  ]
+}

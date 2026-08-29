@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "title": "情報セキュリティ詳細解説マニフェスト",
+    "version": "v6-genre-json",
+    "description": "カテゴリ別の詳細解説JSONを読み込むための索引。重い説明文はここから分割ロードする。",
+    "totalDetails": 501
+  },
+  "files": [
+    {
+      "category": "セキュリティ基礎・超基礎",
+      "file": "json/details/security-details-basic.json",
+      "count": 50
+    },
+    {
+      "category": "ネットワーク基礎・DNS・通信",
+      "file": "json/details/security-details-network-dns.json",
+      "count": 99
+    },
+    {
+      "category": "暗号・証明書・PKI",
+      "file": "json/details/security-details-crypto-pki.json",
+      "count": 53
+    },
+    {
+      "category": "認証・認可・ID管理",
+      "file": "json/details/security-details-auth-id.json",
+      "count": 46
+    },
+    {
+      "category": "Web・メール・アプリ防御",
+      "file": "json/details/security-details-web-mail-app.json",
+      "count": 40
+    },
+    {
+      "category": "攻撃手法・マルウェア",
+      "file": "json/details/security-details-attacks-malware.json",
+      "count": 67
+    },
+    {
+      "category": "防御・監視・運用",
+      "file": "json/details/security-details-defense-monitoring.json",
+      "count": 64
+    },
+    {
+      "category": "管理・制度・リスク",
+      "file": "json/details/security-details-management-risk.json",
+      "count": 50
+    },
+    {
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "file": "json/details/security-details-cloud-zero-trust.json",
+      "count": 32
+    }
+  ],
+  "version": "v7-quality-rewrite",
+  "note": "各ジャンルの詳細JSONを、使い回し感を減らした解説に再生成。主要語は個別記述を強化。"
+}

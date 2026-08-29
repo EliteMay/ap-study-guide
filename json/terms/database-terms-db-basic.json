@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "category": "データベース基礎",
+    "version": "v1-database-json-expanded",
+    "count": 21
+  },
+  "terms": [
+    {
+      "id": "term-db-001",
+      "term": "データベース",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データを整理して保存し、必要なときに検索・追加・更新・削除できるようにした仕組み。"
+    },
+    {
+      "id": "term-db-002",
+      "term": "テーブル",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "同じ種類のデータを行と列で整理した表。"
+    },
+    {
+      "id": "term-db-003",
+      "term": "レコード",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "テーブルの横1行分のデータ。1件分の情報を表す。"
+    },
+    {
+      "id": "term-db-004",
+      "term": "フィールド / カラム",
+      "aliases": [
+        "フィールド",
+        "カラム"
+      ],
+      "category": "データベース基礎",
+      "definition": "テーブルの縦1列。データの項目名を表す。"
+    },
+    {
+      "id": "term-db-005",
+      "term": "スキーマ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "テーブル名、列名、データ型、主キー、外部キーなど、データベースの構造を定めたもの。"
+    },
+    {
+      "id": "term-db-006",
+      "term": "リレーショナルデータベース",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データを複数の表に分け、表同士をキーで関連付けて扱うデータベース。"
+    },
+    {
+      "id": "term-db-057",
+      "term": "DBMS",
+      "aliases": [
+        "Database Management System"
+      ],
+      "category": "データベース基礎",
+      "definition": "データベースを作成・検索・更新・保護するための管理ソフトウェア。"
+    },
+    {
+      "id": "term-db-058",
+      "term": "RDBMS",
+      "aliases": [
+        "Relational Database Management System"
+      ],
+      "category": "データベース基礎",
+      "definition": "表形式の関係モデルに基づいてデータを管理するDBMS。"
+    },
+    {
+      "id": "term-db-059",
+      "term": "データ独立性",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "アプリケーションとデータの構造・保存方法の影響を小さくする性質。"
+    },
+    {
+      "id": "term-db-060",
+      "term": "論理データ独立性",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "表や列など論理構造を変更しても、利用側への影響を小さくできる性質。"
+    },
+    {
+      "id": "term-db-061",
+      "term": "物理データ独立性",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "索引や保存場所など物理的な保存方法を変えても、利用側への影響を小さくできる性質。"
+    },
+    {
+      "id": "term-db-062",
+      "term": "3層スキーマ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "外部スキーマ、概念スキーマ、内部スキーマの3段階でDBを整理する考え方。"
+    },
+    {
+      "id": "term-db-063",
+      "term": "外部スキーマ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "利用者やアプリケーションから見えるデータの見え方。"
+    },
+    {
+      "id": "term-db-064",
+      "term": "概念スキーマ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データベース全体の論理的な構造。"
+    },
+    {
+      "id": "term-db-065",
+      "term": "内部スキーマ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データを記憶装置へどのように保存するかという物理的な構造。"
+    },
+    {
+      "id": "term-db-066",
+      "term": "関係モデル",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データを表の集まりとして扱い、行と列と関係で表すモデル。"
+    },
+    {
+      "id": "term-db-067",
+      "term": "関係",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "関係モデルにおける表そのもの。"
+    },
+    {
+      "id": "term-db-068",
+      "term": "タプル",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "関係モデルにおける1行分のデータ。"
+    },
+    {
+      "id": "term-db-069",
+      "term": "ドメイン",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "列に入れてよい値の範囲や型。"
+    },
+    {
+      "id": "term-db-070",
+      "term": "メタデータ",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "データの構造、意味、作成者、型など、データについて説明するデータ。"
+    },
+    {
+      "id": "term-db-071",
+      "term": "データ辞書",
+      "aliases": [],
+      "category": "データベース基礎",
+      "definition": "表名、列名、型、制約など、データ定義情報を管理する辞書。"
+    }
+  ]
+}

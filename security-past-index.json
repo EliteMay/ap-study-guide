@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "title": "AP Study Notes セキュリティ過去問解説インデックス",
+    "version": "v19-past-addition",
+    "description": "問題文PDFと問題文起こしJSONを保存し、設問単位で解説漏れを検出できる構成。README.mdのみを正式仕様書とする。v18で過去問2件、v19で平成25年春期問9・平成25年秋期問8を追加。"
+  },
+  "files": [
+    {
+      "id": "h24-s-incident",
+      "examRound": "平成24年 春期",
+      "label": "AP H24 春",
+      "file": "json/past/security-past-h24-s-incident.json",
+      "count": 1,
+      "theme": "情報セキュリティ：IDSアラート、インシデント対応、ログ保全、誤検知、NTP時刻同期",
+      "problemFile": "json/past-problems/security-problem-h24-s-incident.json",
+      "sourcePdf": "sources/pm09-h24s-incident.pdf",
+      "sourceCheck": {
+        "userProvidedFile": "pm09.pdf",
+        "identifiedRound": "平成24年 春期",
+        "confidence": "pdf-rendered-and-ipa-answer-checked",
+        "note": "PDF画像とIPA公式解答例で平成24年春期午後問9と確認"
+      }
+    },
+    {
+      "id": "h25-s-pc-malware",
+      "examRound": "平成25年 春期",
+      "label": "AP H25 春",
+      "file": "json/past/security-past-h25-s-pc-malware.json",
+      "count": 1,
+      "theme": "情報セキュリティ：PCのマルウェア対策、スパム誤検知、ブラックリスト、標的型攻撃、ゼロデイ攻撃、USBメモリ対策、ホワイトリスト、バックアップ",
+      "problemFile": "json/past-problems/security-problem-h25-s-pc-malware.json",
+      "sourcePdf": "sources/pm09-h25s-pc-malware.pdf",
+      "sourceCheck": {
+        "userProvidedFile": "pm09 (1).pdf",
+        "identifiedRound": "平成25年 春期",
+        "confidence": "ipa-official-answer-checked-on-import",
+        "note": "IPA公式午後解答例で平成25年春期午後問9の年度・問番号・解答要点を確認。PDFはZIPから追加"
+      }
+    },
+    {
+      "id": "h25-a-web-https",
+      "examRound": "平成25年 秋期",
+      "label": "AP H25 秋",
+      "file": "json/past/security-past-h25-a-web-https.json",
+      "count": 1,
+      "theme": "情報セキュリティ：Webサイトのセキュリティ強化、HTTPS、SSLサーバ証明書、CSR、公開鍵・秘密鍵、ロードバランサ、WAF、証明書警告",
+      "problemFile": "json/past-problems/security-problem-h25-a-web-https.json",
+      "sourcePdf": "sources/pm08-h25a-web-https.pdf",
+      "sourceCheck": {
+        "userProvidedFile": "pm08.pdf",
+        "identifiedRound": "平成25年 秋期",
+        "confidence": "ipa-official-answer-checked-on-import",
+        "note": "IPA公式午後解答例で平成25年秋期午後問8の年度・問番号・解答要点を確認。PDFはZIPから追加"
+      }
+    },
+    {
+      "id": "h26-s",
+      "examRound": "平成26年 春期",
+      "label": "AP H26 春",
+      "file": "json/past/security-past-h26-s.json",
+      "count": 1,
+      "theme": "情報セキュリティ：SSL/TLS導入、クライアント証明書、DMZ、リバースプロキシ、FW設定",
+      "problemFile": "json/past-problems/security-problem-h26-s.json",
+      "sourcePdf": "sources/pm01-h26s.pdf",
+      "sourceCheck": {
+        "userConfirmedRound": "平成26年 春期",
+        "confidence": "user-confirmed",
+        "note": "ユーザーがスクショで1件目を平成26年春期と指定"
+      }
+    },
+    {
+      "id": "h26-a-fw-waf",
+      "examRound": "平成26年 秋期",
+      "label": "AP H26 秋",
+      "file": "json/past/security-past-h26-a-fw-waf.json",
+      "count": 1,
+      "theme": "情報セキュリティ：FWの限界、IDS/IPS/WAF、ネットワーク型IPS、ホワイトリスト",
+      "problemFile": "json/past-problems/security-problem-h26-a-fw-waf.json",
+      "sourcePdf": "sources/pm01-h26a-fw-waf.pdf",
+      "sourceCheck": {
+        "userConfirmedRound": "平成26年 秋期",
+        "confidence": "user-confirmed",
+        "note": "ユーザーがスクショで3件目を平成26年秋期と指定"
+      }
+    },
+    {
+      "id": "h27-s",
+      "examRound": "平成27年 春期",
+      "label": "AP H27 春",
+      "file": "json/past/security-past-h27-s.json",
+      "count": 1,
+      "theme": "情報セキュリティ：メールシステム、IMAP、送信ドメイン認証、S/MIME、電子署名、標的型攻撃メール",
+      "problemFile": "json/past-problems/security-problem-h27-s.json",
+      "sourcePdf": "sources/pm01-h27s.pdf",
+      "sourceCheck": {
+        "userConfirmedRound": "平成27年 春期",
+        "confidence": "user-confirmed",
+        "note": "ユーザーがスクショで2件目を平成27年春期と指定"
+      }
+    },
+    {
+      "id": "h29-s-malware",
+      "examRound": "平成29年 春期",
+      "label": "AP H29 春",
+      "file": "json/past/security-past-h29-s-malware.json",
+      "count": 1,
+      "theme": "情報セキュリティ：マルウェア対策、水飲み場型攻撃、バックドア通信、ログ検査、NTP、インシデント対応体制",
+      "problemFile": "json/past-problems/security-problem-h29-s-malware.json",
+      "sourcePdf": "sources/pm01-h29s-malware.pdf",
+      "sourceCheck": {
+        "userProvidedFile": "pm01(2).pdf",
+        "identifiedRound": "平成29年 春期",
+        "confidence": "pdf-rendered-and-ipa-answer-checked",
+        "note": "PDF画像とIPA公式解答例で平成29年春期午後問1と確認"
+      }
+    }
+  ]
+}

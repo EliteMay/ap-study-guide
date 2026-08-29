@@ -1,0 +1,373 @@
+{
+  "meta": {
+    "category": "IPアドレス・サブネット",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-ip-subnet-001",
+      "term": "IPv4",
+      "aliases": [
+        "Internet Protocol version 4"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "32ビットのIPアドレスを使う現在も広く使われるIPの版。例は192.0.2.1。"
+    },
+    {
+      "id": "net-ip-subnet-002",
+      "term": "IPv6",
+      "aliases": [
+        "Internet Protocol version 6"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "128ビットのIPアドレスを使うIPの版。アドレス枯渇対策として導入される。"
+    },
+    {
+      "id": "net-ip-subnet-003",
+      "term": "IPアドレス",
+      "aliases": [
+        "IP address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "ネットワーク上の端末やインタフェースを識別するための論理アドレス。"
+    },
+    {
+      "id": "net-ip-subnet-004",
+      "term": "グローバルIPアドレス",
+      "aliases": [
+        "global IP address",
+        "パブリックIP"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "インターネット上で一意に使われるIPアドレス。"
+    },
+    {
+      "id": "net-ip-subnet-005",
+      "term": "プライベートIPアドレス",
+      "aliases": [
+        "private IP address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "組織内や家庭内LANなどで使うIPアドレス。インターネットへ直接は経路広告されない。"
+    },
+    {
+      "id": "net-ip-subnet-006",
+      "term": "サブネットマスク",
+      "aliases": [
+        "subnet mask"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4アドレスのネットワーク部とホスト部を分けるための値。"
+    },
+    {
+      "id": "net-ip-subnet-007",
+      "term": "CIDR",
+      "aliases": [
+        "Classless Inter-Domain Routing",
+        "サイダー"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPアドレスとプレフィックス長でネットワーク範囲を表す記法。例は192.168.1.0/24。"
+    },
+    {
+      "id": "net-ip-subnet-008",
+      "term": "ネットワークアドレス",
+      "aliases": [
+        "network address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "サブネットそのものを表すアドレス。通常ホストには割り当てない。"
+    },
+    {
+      "id": "net-ip-subnet-009",
+      "term": "ブロードキャストアドレス",
+      "aliases": [
+        "broadcast address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4で同じサブネット内の全端末宛てに送るためのアドレス。通常ホストには割り当てない。"
+    },
+    {
+      "id": "net-ip-subnet-010",
+      "term": "ホスト部",
+      "aliases": [
+        "host part"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPアドレスのうち、同じネットワーク内の個々の端末を識別する部分。"
+    },
+    {
+      "id": "net-ip-subnet-011",
+      "term": "サブネット化",
+      "aliases": [
+        "subnetting"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "一つのネットワークを複数の小さなネットワークに分けること。"
+    },
+    {
+      "id": "net-ip-subnet-012",
+      "term": "プレフィックス長",
+      "aliases": [
+        "prefix length"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "CIDRの/24など、ネットワーク部のビット数を示す値。"
+    },
+    {
+      "id": "net-ip-subnet-013",
+      "term": "デフォルトゲートウェイ",
+      "aliases": [
+        "default gateway"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "宛先が自分のサブネット外の場合に最初に送るルータ。"
+    },
+    {
+      "id": "net-ip-subnet-014",
+      "term": "ループバックアドレス",
+      "aliases": [
+        "loopback address",
+        "127.0.0.1",
+        "localhost"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "自分自身を指す特別なアドレス。通信機能やサーバ動作確認に使う。"
+    },
+    {
+      "id": "net-ip-subnet-015",
+      "term": "リンクローカルアドレス",
+      "aliases": [
+        "link-local address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "同一リンク内だけで有効なアドレス。ルータを越えた通信には使わない。"
+    },
+    {
+      "id": "net-ip-subnet-016",
+      "term": "APIPA",
+      "aliases": [
+        "Automatic Private IP Addressing"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "DHCPでアドレスを取得できないとき、Windowsなどが自動的に169.254.0.0/16のアドレスを使う仕組み。"
+    },
+    {
+      "id": "net-ip-subnet-017",
+      "term": "ユニキャスト",
+      "aliases": [
+        "unicast"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "一つの送信元から一つの宛先へ送る通信。"
+    },
+    {
+      "id": "net-ip-subnet-018",
+      "term": "マルチキャスト",
+      "aliases": [
+        "multicast"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "特定のグループに参加している複数の宛先へ送る通信。"
+    },
+    {
+      "id": "net-ip-subnet-019",
+      "term": "ブロードキャスト",
+      "aliases": [
+        "broadcast"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "同じネットワーク内の全端末に向けて送る通信。"
+    },
+    {
+      "id": "net-ip-subnet-020",
+      "term": "エニーキャスト",
+      "aliases": [
+        "anycast"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "同じアドレスを複数拠点で共有し、経路上もっとも近い拠点へ届ける方式。"
+    },
+    {
+      "id": "net-ip-subnet-021",
+      "term": "クラスフルアドレス",
+      "aliases": [
+        "classful addressing"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPアドレスをA/B/Cなどのクラスで分ける古い考え方。現在はCIDRで柔軟に扱う。"
+    },
+    {
+      "id": "net-ip-subnet-022",
+      "term": "クラスA",
+      "aliases": [
+        "Class A"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "先頭ビットが0のIPv4アドレス範囲で、大規模ネットワーク向けに使われたクラス。"
+    },
+    {
+      "id": "net-ip-subnet-023",
+      "term": "クラスB",
+      "aliases": [
+        "Class B"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "先頭ビットが10のIPv4アドレス範囲で、中規模ネットワーク向けに使われたクラス。"
+    },
+    {
+      "id": "net-ip-subnet-024",
+      "term": "クラスC",
+      "aliases": [
+        "Class C"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "先頭ビットが110のIPv4アドレス範囲で、小規模ネットワーク向けに使われたクラス。"
+    },
+    {
+      "id": "net-ip-subnet-025",
+      "term": "クラスD",
+      "aliases": [
+        "Class D"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4マルチキャスト用のアドレス範囲。通常の端末アドレスとしては使わない。"
+    },
+    {
+      "id": "net-ip-subnet-026",
+      "term": "クラスE",
+      "aliases": [
+        "Class E"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "実験用として予約されたIPv4アドレス範囲。通常利用しない。"
+    },
+    {
+      "id": "net-ip-subnet-027",
+      "term": "ネットワーク部",
+      "aliases": [
+        "network portion"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPアドレスのうち、どのネットワークに属するかを示す部分。"
+    },
+    {
+      "id": "net-ip-subnet-028",
+      "term": "サブネット部",
+      "aliases": [
+        "subnet portion"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "ネットワークをさらに細かく分けるためにホスト部から借りた部分。"
+    },
+    {
+      "id": "net-ip-subnet-029",
+      "term": "ホストアドレス範囲",
+      "aliases": [
+        "usable host range"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "ネットワークアドレスとブロードキャストアドレスを除き、端末に割り当てられる範囲。"
+    },
+    {
+      "id": "net-ip-subnet-030",
+      "term": "第1オクテット",
+      "aliases": [
+        "first octet"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4アドレスをドットで区切った最初の8ビット部分。"
+    },
+    {
+      "id": "net-ip-subnet-031",
+      "term": "オクテット",
+      "aliases": [
+        "octet"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4アドレスを8ビット単位に区切った部分。10進数では0〜255で表す。"
+    },
+    {
+      "id": "net-ip-subnet-032",
+      "term": "サブネット計算",
+      "aliases": [
+        "subnet calculation"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPアドレスとプレフィックス長からネットワーク範囲やホスト数を求める計算。"
+    },
+    {
+      "id": "net-ip-subnet-033",
+      "term": "ワイルドカードマスク",
+      "aliases": [
+        "wildcard mask"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "ACLなどで、どのビットを比較対象にするかを示すマスク。"
+    },
+    {
+      "id": "net-ip-subnet-034",
+      "term": "IPv6リンクローカルアドレス",
+      "aliases": [
+        "fe80::/10"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "同一リンク内の通信に使うIPv6アドレス。ルータを越えた通信には使わない。"
+    },
+    {
+      "id": "net-ip-subnet-035",
+      "term": "IPv6グローバルユニキャストアドレス",
+      "aliases": [
+        "global unicast address"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "インターネット上で一意に使えるIPv6のユニキャストアドレス。"
+    },
+    {
+      "id": "net-ip-subnet-036",
+      "term": "IPv6マルチキャストアドレス",
+      "aliases": [
+        "ff00::/8"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv6で複数の相手に同時配信するためのアドレス。"
+    },
+    {
+      "id": "net-ip-subnet-037",
+      "term": "IPv6エニーキャストアドレス",
+      "aliases": [
+        "IPv6 anycast"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "同じアドレスを複数ノードに割り当て、最も近いノードに届ける仕組み。"
+    },
+    {
+      "id": "net-ip-subnet-038",
+      "term": "SLAAC",
+      "aliases": [
+        "Stateless Address Autoconfiguration"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv6で端末がルータ広告などを使って自動的にアドレスを構成する仕組み。"
+    },
+    {
+      "id": "net-ip-subnet-039",
+      "term": "NDP",
+      "aliases": [
+        "Neighbor Discovery Protocol"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv6で隣接ノード探索、アドレス解決、ルータ探索などを行うプロトコル。"
+    },
+    {
+      "id": "net-ip-subnet-040",
+      "term": "デュアルスタック",
+      "aliases": [
+        "dual stack"
+      ],
+      "category": "IPアドレス・サブネット",
+      "definition": "IPv4とIPv6を同時に有効化し、両方の通信に対応する構成。"
+    }
+  ]
+}

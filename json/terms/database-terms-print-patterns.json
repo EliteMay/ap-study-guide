@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "category": "プリント対応パターン",
+    "version": "v1-database-json-expanded",
+    "count": 6
+  },
+  "terms": [
+    {
+      "id": "term-db-047",
+      "term": "学生・科目・成績のE-R図",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "画像の最初のプリントでは、学生表・科目表・成績表の関係を読む。"
+    },
+    {
+      "id": "term-db-048",
+      "term": "学生・スキル・経験のE-R図",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "スキルのプリントでは、学生表・スキル表・経験表の関係を読む。"
+    },
+    {
+      "id": "term-db-049",
+      "term": "生徒・講座・講師・テストのE-R図",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "成績管理データベースでは、生徒・講座・講師・実力テストを分けて考える。"
+    },
+    {
+      "id": "term-db-050",
+      "term": "参照制約で追加できない例",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "子表にデータを追加するとき、親表に存在しないコードを入れると参照制約に反する。"
+    },
+    {
+      "id": "term-db-051",
+      "term": "参照制約で削除できない例",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "親表の行を削除するとき、子表から参照されていると削除できないことがある。"
+    },
+    {
+      "id": "term-db-052",
+      "term": "SQL穴埋めの読み順",
+      "aliases": [],
+      "category": "プリント対応パターン",
+      "definition": "穴埋めSQLは、英語としてではなく「処理の順番」で読むと分かりやすい。"
+    }
+  ]
+}

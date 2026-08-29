@@ -1,0 +1,758 @@
+{
+  "meta": {
+    "category": "ネットワーク基礎・DNS・通信",
+    "version": "v6-genre-json",
+    "count": 99
+  },
+  "terms": [
+    {
+      "id": "sec-031",
+      "term": "ネットワーク",
+      "aliases": [
+        "network"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "複数のコンピュータや機器をつなぎ、データをやり取りできるようにした仕組み。"
+    },
+    {
+      "id": "sec-032",
+      "term": "LAN",
+      "aliases": [
+        "Local Area Network"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "家庭・学校・会社など、限られた範囲のネットワーク。"
+    },
+    {
+      "id": "sec-033",
+      "term": "WAN",
+      "aliases": [
+        "Wide Area Network"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "離れた拠点や広い範囲をつなぐネットワーク。"
+    },
+    {
+      "id": "sec-034",
+      "term": "インターネット",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "世界中のネットワークが相互につながった巨大なネットワーク。"
+    },
+    {
+      "id": "sec-035",
+      "term": "イントラネット",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "組織内部だけで使うネットワークやWebシステム。"
+    },
+    {
+      "id": "sec-036",
+      "term": "DMZ",
+      "aliases": [
+        "非武装地帯"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "インターネットと内部ネットワークの中間に置く、公開サーバ用のネットワーク領域。"
+    },
+    {
+      "id": "sec-037",
+      "term": "内部セグメント",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "社内PCや業務サーバなど、外部公開しない内部向けのネットワーク区画。"
+    },
+    {
+      "id": "sec-038",
+      "term": "外部ネットワーク",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "インターネットなど、組織の管理外にあるネットワーク。"
+    },
+    {
+      "id": "sec-039",
+      "term": "セグメント",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワークを用途や部門ごとに分けた単位。"
+    },
+    {
+      "id": "sec-040",
+      "term": "VLAN",
+      "aliases": [
+        "Virtual LAN"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "1台または複数のスイッチ上で、論理的にLANを分ける仕組み。"
+    },
+    {
+      "id": "sec-041",
+      "term": "IPアドレス",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク上の機器を識別するための住所のような番号。"
+    },
+    {
+      "id": "sec-042",
+      "term": "IPv4",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "32ビットで表すIPアドレス。例：192.168.1.1。"
+    },
+    {
+      "id": "sec-043",
+      "term": "IPv6",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "128ビットで表す新しいIPアドレス。IPv4よりはるかに多くのアドレスを扱える。"
+    },
+    {
+      "id": "sec-044",
+      "term": "グローバルIPアドレス",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "インターネット上で一意に使われるIPアドレス。"
+    },
+    {
+      "id": "sec-045",
+      "term": "プライベートIPアドレス",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "家庭や会社の内部ネットワークで使うIPアドレス。"
+    },
+    {
+      "id": "sec-046",
+      "term": "サブネットマスク",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IPアドレスのうち、ネットワーク部とホスト部を分ける情報。"
+    },
+    {
+      "id": "sec-047",
+      "term": "CIDR",
+      "aliases": [
+        "Classless Inter-Domain Routing"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IPアドレスの範囲を /24 のような表記で表す方法。"
+    },
+    {
+      "id": "sec-048",
+      "term": "デフォルトゲートウェイ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "自分のネットワーク外へ通信するとき、最初に送る相手となる機器。"
+    },
+    {
+      "id": "sec-049",
+      "term": "MACアドレス",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク機器に割り当てられた物理的な識別番号。"
+    },
+    {
+      "id": "sec-050",
+      "term": "ARP",
+      "aliases": [
+        "Address Resolution Protocol"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "同じLAN内で、IPアドレスからMACアドレスを調べるプロトコル。"
+    },
+    {
+      "id": "sec-051",
+      "term": "ARPテーブル",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IPアドレスとMACアドレスの対応を端末が一時的に保存する表。"
+    },
+    {
+      "id": "sec-052",
+      "term": "ARPスプーフィング",
+      "aliases": [
+        "ARPポイズニング"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "偽のARP応答で通信相手をだまし、盗聴や中間者攻撃につなげる攻撃。"
+    },
+    {
+      "id": "sec-053",
+      "term": "DNS",
+      "aliases": [
+        "Domain Name System",
+        "名前解決"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ドメイン名とIPアドレスを対応付ける仕組み。"
+    },
+    {
+      "id": "sec-054",
+      "term": "DNSサーバー",
+      "aliases": [
+        "ネームサーバ"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNSの問い合わせを受け取り、ドメイン名に対応するIPアドレスなどを返すサーバー。"
+    },
+    {
+      "id": "sec-055",
+      "term": "キャッシュDNSサーバー",
+      "aliases": [
+        "フルサービスリゾルバ",
+        "再帰リゾルバ"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "利用者の代わりにDNS問い合わせを行い、結果を一時保存するDNSサーバー。"
+    },
+    {
+      "id": "sec-056",
+      "term": "権威DNSサーバー",
+      "aliases": [
+        "authoritative DNS server"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "特定ドメインの正式なDNS情報を持つDNSサーバー。"
+    },
+    {
+      "id": "sec-057",
+      "term": "リゾルバ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNS問い合わせを行い、名前解決を助ける仕組みやソフトウェア。"
+    },
+    {
+      "id": "sec-058",
+      "term": "名前解決",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ドメイン名からIPアドレスなどを調べる処理。"
+    },
+    {
+      "id": "sec-059",
+      "term": "FQDN",
+      "aliases": [
+        "Fully Qualified Domain Name"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ホスト名からトップレベルドメインまで省略せずに書いた完全なドメイン名。"
+    },
+    {
+      "id": "sec-060",
+      "term": "DNSレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNSに登録される名前と情報の対応データ。A、AAAA、MX、TXTなどがある。"
+    },
+    {
+      "id": "sec-061",
+      "term": "Aレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ドメイン名をIPv4アドレスに対応付けるDNSレコード。"
+    },
+    {
+      "id": "sec-062",
+      "term": "AAAAレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ドメイン名をIPv6アドレスに対応付けるDNSレコード。"
+    },
+    {
+      "id": "sec-063",
+      "term": "CNAMEレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ある名前を別の正式名の別名として扱うDNSレコード。"
+    },
+    {
+      "id": "sec-064",
+      "term": "MXレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "そのドメイン宛メールを受け取るメールサーバを示すDNSレコード。"
+    },
+    {
+      "id": "sec-065",
+      "term": "TXTレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "任意の文字列情報をDNSに登録するレコード。SPFやDKIM関連で使う。"
+    },
+    {
+      "id": "sec-066",
+      "term": "SPF",
+      "aliases": [
+        "Sender Policy Framework"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "送信元メールサーバが正当かをDNSで確認する仕組み。"
+    },
+    {
+      "id": "sec-067",
+      "term": "DKIM",
+      "aliases": [
+        "DomainKeys Identified Mail"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "メールに電子署名を付け、送信ドメインと改ざん有無を確認する仕組み。"
+    },
+    {
+      "id": "sec-068",
+      "term": "DMARC",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "SPFやDKIMの結果を使い、なりすましメールへの扱いをドメイン側が示す仕組み。"
+    },
+    {
+      "id": "sec-069",
+      "term": "DNSSEC",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNS応答に署名を付け、改ざんや偽応答を検出しやすくする仕組み。"
+    },
+    {
+      "id": "sec-070",
+      "term": "DNSキャッシュポイズニング",
+      "aliases": [
+        "DNS poisoning"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNSキャッシュに偽の情報を入れ、利用者を偽サイトへ誘導する攻撃。"
+    },
+    {
+      "id": "sec-071",
+      "term": "DHCP",
+      "aliases": [
+        "Dynamic Host Configuration Protocol"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "端末へIPアドレス、サブネットマスク、DNSサーバなどを自動配布する仕組み。"
+    },
+    {
+      "id": "sec-072",
+      "term": "NAT",
+      "aliases": [
+        "Network Address Translation"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "プライベートIPアドレスとグローバルIPアドレスを変換する仕組み。"
+    },
+    {
+      "id": "sec-073",
+      "term": "NAPT",
+      "aliases": [
+        "IPマスカレード"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IPアドレスに加えてポート番号も使い、複数端末で1つのグローバルIPを共有する仕組み。"
+    },
+    {
+      "id": "sec-074",
+      "term": "ポート番号",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "1台の機器内で、どのサービス宛の通信かを区別する番号。"
+    },
+    {
+      "id": "sec-075",
+      "term": "ウェルノウンポート",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "HTTP 80、HTTPS 443、DNS 53など、標準的なサービスに割り当てられたポート番号。"
+    },
+    {
+      "id": "sec-076",
+      "term": "プロトコル",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "通信の手順やルール。"
+    },
+    {
+      "id": "sec-077",
+      "term": "TCP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "信頼性を重視し、接続を確立してデータを送る通信プロトコル。"
+    },
+    {
+      "id": "sec-078",
+      "term": "UDP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "接続確立を省き、軽く高速に送る通信プロトコル。"
+    },
+    {
+      "id": "sec-079",
+      "term": "3ウェイハンドシェイク",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "TCPで通信開始前に接続を確立する3段階のやり取り。"
+    },
+    {
+      "id": "sec-080",
+      "term": "パケット",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワークで送るために小さく分けたデータの単位。"
+    },
+    {
+      "id": "sec-081",
+      "term": "ルーティング",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "宛先ネットワークへデータを届ける経路を選ぶこと。"
+    },
+    {
+      "id": "sec-082",
+      "term": "ルータ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "異なるネットワーク同士を接続し、IPアドレスを見て転送する機器。"
+    },
+    {
+      "id": "sec-083",
+      "term": "スイッチ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "LAN内でMACアドレスを見て通信を転送する機器。"
+    },
+    {
+      "id": "sec-084",
+      "term": "ミラーポート",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "スイッチの通信を監視用ポートへコピーする機能。"
+    },
+    {
+      "id": "sec-085",
+      "term": "LANアナライザ",
+      "aliases": [
+        "パケットキャプチャ"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク上のパケットを取得・解析するためのツール。"
+    },
+    {
+      "id": "sec-086",
+      "term": "HTTP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "WebブラウザとWebサーバがデータをやり取りするためのプロトコル。"
+    },
+    {
+      "id": "sec-087",
+      "term": "HTTPS",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "HTTPをTLSで暗号化し、安全性を高めた通信。"
+    },
+    {
+      "id": "sec-088",
+      "term": "SSH",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "暗号化されたリモートログインやコマンド実行を行うプロトコル。"
+    },
+    {
+      "id": "sec-089",
+      "term": "FTP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ファイル転送用の古いプロトコル。認証情報や内容が平文になりやすい。"
+    },
+    {
+      "id": "sec-090",
+      "term": "SFTP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "SSH上で安全にファイル転送を行う仕組み。"
+    },
+    {
+      "id": "sec-091",
+      "term": "FTPS",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "FTPにTLSを組み合わせて安全性を高めたファイル転送方式。"
+    },
+    {
+      "id": "sec-092",
+      "term": "SMTP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "メールを送信・転送するためのプロトコル。"
+    },
+    {
+      "id": "sec-093",
+      "term": "POP3",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "メールサーバから端末へメールを取り出すプロトコル。"
+    },
+    {
+      "id": "sec-094",
+      "term": "IMAP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "メールをサーバ上に置いたまま複数端末で同期して扱うプロトコル。"
+    },
+    {
+      "id": "sec-095",
+      "term": "SMTP AUTH",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "メール送信時にユーザー認証を行う仕組み。"
+    },
+    {
+      "id": "sec-096",
+      "term": "SNMP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク機器の状態を監視・管理するプロトコル。"
+    },
+    {
+      "id": "sec-097",
+      "term": "NTP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク経由で時刻を同期するプロトコル。"
+    },
+    {
+      "id": "sec-098",
+      "term": "VPN",
+      "aliases": [
+        "Virtual Private Network"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "インターネット上に仮想的な専用線のような安全な通信路を作る仕組み。"
+    },
+    {
+      "id": "sec-099",
+      "term": "IPsec",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IP層で暗号化や認証を行うVPNなどで使われるプロトコル群。"
+    },
+    {
+      "id": "sec-100",
+      "term": "SSL-VPN",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "TLSを使ってリモートアクセスVPNを実現する方式。"
+    },
+    {
+      "id": "sec-101",
+      "term": "プロキシサーバー",
+      "aliases": [
+        "proxy server"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "クライアントやサーバの代理として通信を中継するサーバー。"
+    },
+    {
+      "id": "sec-102",
+      "term": "フォワードプロキシ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "利用者側の代理として外部サイトへの通信を中継するプロキシ。"
+    },
+    {
+      "id": "sec-103",
+      "term": "リバースプロキシ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "公開サーバ側の代理として外部からの通信を受けるプロキシ。"
+    },
+    {
+      "id": "sec-104",
+      "term": "ロードバランサ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "複数サーバへ通信を振り分け、負荷分散や可用性向上を行う機器・機能。"
+    },
+    {
+      "id": "sec-365",
+      "term": "クライアント",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "サービスを利用する側のコンピュータやアプリ。"
+    },
+    {
+      "id": "sec-366",
+      "term": "サーバ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "サービスを提供する側のコンピュータやソフトウェア。"
+    },
+    {
+      "id": "sec-367",
+      "term": "ホスト",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワークに接続されたコンピュータや機器。"
+    },
+    {
+      "id": "sec-368",
+      "term": "ノード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ネットワーク上の接続点。PC、サーバ、ルータなどが該当する。"
+    },
+    {
+      "id": "sec-369",
+      "term": "URL",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "Webページなどインターネット上の場所を示す文字列。"
+    },
+    {
+      "id": "sec-370",
+      "term": "URI",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "名前や場所でリソースを識別するための文字列。URLはURIの一種。"
+    },
+    {
+      "id": "sec-371",
+      "term": "ドメイン名",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "IPアドレスを人が覚えやすい名前にしたもの。"
+    },
+    {
+      "id": "sec-372",
+      "term": "トップレベルドメイン",
+      "aliases": [
+        "TLD"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "ドメイン名の一番右側の部分。"
+    },
+    {
+      "id": "sec-373",
+      "term": "NSレコード",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "そのドメインを管理する権威DNSサーバを示すDNSレコード。"
+    },
+    {
+      "id": "sec-374",
+      "term": "TTL",
+      "aliases": [
+        "Time To Live"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNSキャッシュなどの情報を保存してよい時間。"
+    },
+    {
+      "id": "sec-375",
+      "term": "DNSリゾルバ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "利用者の代わりにDNS問い合わせを処理する仕組み。"
+    },
+    {
+      "id": "sec-376",
+      "term": "権威DNSサーバ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "特定のドメインについて正式なDNS情報を持つサーバ。"
+    },
+    {
+      "id": "sec-377",
+      "term": "DNSゾーン転送",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNSサーバ間でゾーン情報をコピーする仕組み。"
+    },
+    {
+      "id": "sec-379",
+      "term": "DoH",
+      "aliases": [
+        "DNS over HTTPS"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNS問い合わせをHTTPSで送る仕組み。"
+    },
+    {
+      "id": "sec-380",
+      "term": "DoT",
+      "aliases": [
+        "DNS over TLS"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "DNS問い合わせをTLSで暗号化して送る仕組み。"
+    },
+    {
+      "id": "sec-381",
+      "term": "BGP",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "インターネット上の組織間で経路情報を交換するプロトコル。"
+    },
+    {
+      "id": "sec-382",
+      "term": "経路制御",
+      "aliases": [
+        "ルーティング"
+      ],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "通信をどの経路で届けるか決めること。"
+    },
+    {
+      "id": "sec-383",
+      "term": "ルーティングテーブル",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "どの宛先へどの経路で送るかを示す表。"
+    },
+    {
+      "id": "sec-384",
+      "term": "L2スイッチ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "MACアドレスを見て同じLAN内の通信を中継する機器。"
+    },
+    {
+      "id": "sec-385",
+      "term": "L3スイッチ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "スイッチの高速転送とルータのIPルーティング機能を持つ機器。"
+    },
+    {
+      "id": "sec-386",
+      "term": "ブロードキャスト",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "同じネットワーク内の全員に送る通信。"
+    },
+    {
+      "id": "sec-387",
+      "term": "ユニキャスト",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "1対1で送る通信。"
+    },
+    {
+      "id": "sec-388",
+      "term": "マルチキャスト",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "特定グループに送る通信。"
+    },
+    {
+      "id": "sec-389",
+      "term": "CDN",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "利用者に近いサーバからコンテンツを配信して高速化・負荷分散する仕組み。"
+    },
+    {
+      "id": "sec-390",
+      "term": "透過型プロキシ",
+      "aliases": [],
+      "category": "ネットワーク基礎・DNS・通信",
+      "definition": "利用者が明示設定しなくても通信を中継するプロキシ。"
+    }
+  ]
+}

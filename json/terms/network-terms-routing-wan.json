@@ -1,0 +1,372 @@
+{
+  "meta": {
+    "category": "ルーティング・WAN・NAT",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-routing-wan-001",
+      "term": "ルータ",
+      "aliases": [
+        "router"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "異なるネットワーク間でIPパケットを転送する機器。"
+    },
+    {
+      "id": "net-routing-wan-002",
+      "term": "ルーティングテーブル",
+      "aliases": [
+        "routing table"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "宛先ネットワークごとに、次に送る先やインタフェースを記録した表。"
+    },
+    {
+      "id": "net-routing-wan-003",
+      "term": "静的ルーティング",
+      "aliases": [
+        "static routing"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "管理者が手動で経路を設定する方式。"
+    },
+    {
+      "id": "net-routing-wan-004",
+      "term": "動的ルーティング",
+      "aliases": [
+        "dynamic routing"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "ルータ同士が経路情報を交換し、自動的に経路を更新する方式。"
+    },
+    {
+      "id": "net-routing-wan-005",
+      "term": "デフォルトルート",
+      "aliases": [
+        "default route"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "より具体的な経路がない宛先に使う経路。0.0.0.0/0などで表す。"
+    },
+    {
+      "id": "net-routing-wan-006",
+      "term": "経路集約",
+      "aliases": [
+        "route summarization"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "複数の経路をより大きなプレフィックスにまとめ、経路表を小さくすること。"
+    },
+    {
+      "id": "net-routing-wan-007",
+      "term": "OSPF",
+      "aliases": [
+        "Open Shortest Path First"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "組織内ネットワークで使われる代表的なリンクステート型ルーティングプロトコル。"
+    },
+    {
+      "id": "net-routing-wan-008",
+      "term": "BGP",
+      "aliases": [
+        "Border Gateway Protocol"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "AS間で経路情報を交換するインターネット規模のルーティングプロトコル。"
+    },
+    {
+      "id": "net-routing-wan-009",
+      "term": "RIP",
+      "aliases": [
+        "Routing Information Protocol"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "ホップ数を基準に経路を選ぶ古典的なルーティングプロトコル。"
+    },
+    {
+      "id": "net-routing-wan-010",
+      "term": "メトリック",
+      "aliases": [
+        "metric"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "経路選択の優先度を決めるための値。"
+    },
+    {
+      "id": "net-routing-wan-011",
+      "term": "ホップ数",
+      "aliases": [
+        "hop count"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "宛先までに通過するルータ数。"
+    },
+    {
+      "id": "net-routing-wan-012",
+      "term": "AS",
+      "aliases": [
+        "Autonomous System",
+        "自律システム"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "単一の管理方針で運用されるネットワークの集合。BGPで重要になる。"
+    },
+    {
+      "id": "net-routing-wan-013",
+      "term": "NAT",
+      "aliases": [
+        "Network Address Translation"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "IPアドレスを変換して通信させる仕組み。"
+    },
+    {
+      "id": "net-routing-wan-014",
+      "term": "NAPT",
+      "aliases": [
+        "PAT",
+        "IPマスカレード"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "IPアドレスだけでなくポート番号も使って、複数端末の通信を一つのグローバルIPに対応させる方式。"
+    },
+    {
+      "id": "net-routing-wan-015",
+      "term": "ポートフォワーディング",
+      "aliases": [
+        "port forwarding"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "外部から特定ポートへ来た通信を内部の特定サーバへ転送する設定。"
+    },
+    {
+      "id": "net-routing-wan-016",
+      "term": "DMZ",
+      "aliases": [
+        "Demilitarized Zone"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "外部公開サーバを内部LANから分離して置くネットワーク領域。"
+    },
+    {
+      "id": "net-routing-wan-017",
+      "term": "VPN",
+      "aliases": [
+        "Virtual Private Network"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "公衆網などの上に仮想的な専用線のような通信経路を作る仕組み。"
+    },
+    {
+      "id": "net-routing-wan-018",
+      "term": "IPsec",
+      "aliases": [
+        "IP Security"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "IP層で暗号化や認証を行うVPNなどに使われるプロトコル群。"
+    },
+    {
+      "id": "net-routing-wan-019",
+      "term": "MPLS",
+      "aliases": [
+        "Multiprotocol Label Switching"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "ラベルを使ってパケットを転送するキャリア網などで使われる技術。"
+    },
+    {
+      "id": "net-routing-wan-020",
+      "term": "広域イーサネット",
+      "aliases": [
+        "wide area Ethernet"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "拠点間をイーサネットのように接続するWANサービス。"
+    },
+    {
+      "id": "net-routing-wan-021",
+      "term": "ルーティングプロトコル",
+      "aliases": [
+        "routing protocol"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "ルータ同士が経路情報を交換し、到達先への経路を決めるためのプロトコル。"
+    },
+    {
+      "id": "net-routing-wan-022",
+      "term": "IGP",
+      "aliases": [
+        "Interior Gateway Protocol"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "同一AS内で経路制御を行うルーティングプロトコルの総称。"
+    },
+    {
+      "id": "net-routing-wan-023",
+      "term": "EGP",
+      "aliases": [
+        "Exterior Gateway Protocol"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "異なるAS間で経路制御を行うルーティングプロトコルの総称。代表例はBGP。"
+    },
+    {
+      "id": "net-routing-wan-024",
+      "term": "ディスタンスベクタ型",
+      "aliases": [
+        "distance vector"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "宛先までの距離と方向をもとに経路を決めるルーティング方式。"
+    },
+    {
+      "id": "net-routing-wan-025",
+      "term": "リンクステート型",
+      "aliases": [
+        "link state"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "ネットワーク全体の接続状態をもとに最短経路を計算するルーティング方式。"
+    },
+    {
+      "id": "net-routing-wan-026",
+      "term": "コスト",
+      "aliases": [
+        "routing cost"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "経路選択で優先度を決めるための値。小さいほど優先されることが多い。"
+    },
+    {
+      "id": "net-routing-wan-027",
+      "term": "AD値",
+      "aliases": [
+        "Administrative Distance"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "複数の経路情報源があるとき、どれを信頼するかを決める値。"
+    },
+    {
+      "id": "net-routing-wan-028",
+      "term": "ルート再配布",
+      "aliases": [
+        "route redistribution"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "異なるルーティングプロトコル間で経路情報を受け渡す設定。"
+    },
+    {
+      "id": "net-routing-wan-029",
+      "term": "ブラックホールルート",
+      "aliases": [
+        "blackhole route"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "特定宛先への通信を意図的に破棄する経路設定。"
+    },
+    {
+      "id": "net-routing-wan-030",
+      "term": "ポリシーベースルーティング",
+      "aliases": [
+        "PBR",
+        "Policy Based Routing"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "宛先だけでなく送信元、ポート、アプリなどの条件で経路を選ぶ方式。"
+    },
+    {
+      "id": "net-routing-wan-031",
+      "term": "ECMP",
+      "aliases": [
+        "Equal-Cost Multi-Path"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "同じコストの複数経路を使って通信を分散する仕組み。"
+    },
+    {
+      "id": "net-routing-wan-032",
+      "term": "VRF",
+      "aliases": [
+        "Virtual Routing and Forwarding"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "1台のルータ内で複数の独立したルーティングテーブルを持たせる仕組み。"
+    },
+    {
+      "id": "net-routing-wan-033",
+      "term": "トンネル",
+      "aliases": [
+        "tunnel"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "別のプロトコルの中に通信を包み、仮想的な経路として運ぶ仕組み。"
+    },
+    {
+      "id": "net-routing-wan-034",
+      "term": "GRE",
+      "aliases": [
+        "Generic Routing Encapsulation"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "さまざまなプロトコルをIP上にカプセル化して運ぶトンネル方式。"
+    },
+    {
+      "id": "net-routing-wan-035",
+      "term": "PPPoE",
+      "aliases": [
+        "PPP over Ethernet"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "イーサネット上でPPP接続を行う方式。インターネット接続で使われることがある。"
+    },
+    {
+      "id": "net-routing-wan-036",
+      "term": "WAN回線冗長",
+      "aliases": [
+        "WAN redundancy"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "複数のWAN回線を用意し、障害時に別回線へ切り替えられる構成。"
+    },
+    {
+      "id": "net-routing-wan-037",
+      "term": "スタブネットワーク",
+      "aliases": [
+        "stub network"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "外部への出口が限られ、自ネットワークを中継経路として使わせないネットワーク。"
+    },
+    {
+      "id": "net-routing-wan-038",
+      "term": "デフォルトゲートウェイ冗長化",
+      "aliases": [
+        "gateway redundancy"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "端末の出口となるゲートウェイを複数用意し、障害時の通信断を防ぐ構成。"
+    },
+    {
+      "id": "net-routing-wan-039",
+      "term": "オーバーレイネットワーク",
+      "aliases": [
+        "overlay network"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "既存ネットワークの上に論理的な別ネットワークを重ねて作る構成。"
+    },
+    {
+      "id": "net-routing-wan-040",
+      "term": "アンダーレイネットワーク",
+      "aliases": [
+        "underlay network"
+      ],
+      "category": "ルーティング・WAN・NAT",
+      "definition": "オーバーレイ通信を実際に運ぶ物理または基盤ネットワーク。"
+    }
+  ]
+}

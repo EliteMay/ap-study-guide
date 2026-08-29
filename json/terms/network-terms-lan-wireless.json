@@ -1,0 +1,372 @@
+{
+  "meta": {
+    "category": "LAN・イーサネット・無線LAN",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-lan-wireless-001",
+      "term": "LAN",
+      "aliases": [
+        "Local Area Network"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "社内、学校、家庭など限られた範囲のネットワーク。"
+    },
+    {
+      "id": "net-lan-wireless-002",
+      "term": "WAN",
+      "aliases": [
+        "Wide Area Network"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "拠点間やインターネットなど、広い範囲を結ぶネットワーク。"
+    },
+    {
+      "id": "net-lan-wireless-003",
+      "term": "イーサネット",
+      "aliases": [
+        "Ethernet"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "有線LANで広く使われる通信方式。MACアドレスとフレームを使う。"
+    },
+    {
+      "id": "net-lan-wireless-004",
+      "term": "MACアドレス",
+      "aliases": [
+        "Media Access Control address"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "ネットワークインタフェースに割り当てられるリンク層の識別子。"
+    },
+    {
+      "id": "net-lan-wireless-005",
+      "term": "フレーム",
+      "aliases": [
+        "Ethernet frame"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "イーサネットなどのリンク層で送受信されるデータ単位。"
+    },
+    {
+      "id": "net-lan-wireless-006",
+      "term": "スイッチ",
+      "aliases": [
+        "L2スイッチ",
+        "switch"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "MACアドレス表を使い、同じLAN内の適切なポートへフレームを転送する機器。"
+    },
+    {
+      "id": "net-lan-wireless-007",
+      "term": "ハブ",
+      "aliases": [
+        "hub"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "受け取った信号を全ポートへ流す古い集線装置。宛先を見て転送先を絞らない。"
+    },
+    {
+      "id": "net-lan-wireless-008",
+      "term": "ブリッジ",
+      "aliases": [
+        "bridge"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "複数のLANセグメントを接続し、MACアドレスでフレーム転送を制御する機器。"
+    },
+    {
+      "id": "net-lan-wireless-009",
+      "term": "VLAN",
+      "aliases": [
+        "Virtual LAN"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "一台または複数台のスイッチ上で、論理的にLANを分割する仕組み。"
+    },
+    {
+      "id": "net-lan-wireless-010",
+      "term": "トランクポート",
+      "aliases": [
+        "trunk port"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "複数のVLANのフレームをタグ付きで運ぶスイッチポート。"
+    },
+    {
+      "id": "net-lan-wireless-011",
+      "term": "アクセスポート",
+      "aliases": [
+        "access port"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "一つのVLANに所属する端末接続用のスイッチポート。"
+    },
+    {
+      "id": "net-lan-wireless-012",
+      "term": "STP",
+      "aliases": [
+        "Spanning Tree Protocol"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "L2ネットワークのループを防ぐため、冗長経路の一部を遮断するプロトコル。"
+    },
+    {
+      "id": "net-lan-wireless-013",
+      "term": "PoE",
+      "aliases": [
+        "Power over Ethernet"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "LANケーブルで通信と電力供給を同時に行う仕組み。"
+    },
+    {
+      "id": "net-lan-wireless-014",
+      "term": "全二重通信",
+      "aliases": [
+        "full duplex"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "送信と受信を同時に行える通信方式。"
+    },
+    {
+      "id": "net-lan-wireless-015",
+      "term": "半二重通信",
+      "aliases": [
+        "half duplex"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "送信と受信を同時には行えず、片方向ずつ行う通信方式。"
+    },
+    {
+      "id": "net-lan-wireless-016",
+      "term": "CSMA/CD",
+      "aliases": [
+        "Carrier Sense Multiple Access with Collision Detection"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "半二重イーサネットで衝突を検出して再送するための方式。"
+    },
+    {
+      "id": "net-lan-wireless-017",
+      "term": "無線LAN",
+      "aliases": [
+        "Wi-Fi",
+        "WLAN"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "電波を使って端末をネットワークに接続するLAN。"
+    },
+    {
+      "id": "net-lan-wireless-018",
+      "term": "SSID",
+      "aliases": [
+        "Service Set Identifier"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線LANのネットワーク名として表示される識別子。"
+    },
+    {
+      "id": "net-lan-wireless-019",
+      "term": "BSSID",
+      "aliases": [
+        "Basic Service Set Identifier"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線アクセスポイントの無線インタフェースを表すMACアドレス。"
+    },
+    {
+      "id": "net-lan-wireless-020",
+      "term": "ローミング",
+      "aliases": [
+        "wireless roaming"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "端末が移動しながら接続先アクセスポイントを切り替えること。"
+    },
+    {
+      "id": "net-lan-wireless-021",
+      "term": "IEEE 802.3",
+      "aliases": [
+        "Ethernet standard"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "有線LANで使われるイーサネットの標準規格。"
+    },
+    {
+      "id": "net-lan-wireless-022",
+      "term": "IEEE 802.11",
+      "aliases": [
+        "Wi-Fi standard"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線LANで使われる規格群。周波数帯や通信方式の違いで複数の版がある。"
+    },
+    {
+      "id": "net-lan-wireless-023",
+      "term": "Wi-Fi 5",
+      "aliases": [
+        "IEEE 802.11ac"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "主に5GHz帯を使う無線LAN規格。高速化のためMIMOなどを利用する。"
+    },
+    {
+      "id": "net-lan-wireless-024",
+      "term": "Wi-Fi 6",
+      "aliases": [
+        "IEEE 802.11ax"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "OFDMAなどにより、多数端末がいる環境で効率を高めた無線LAN規格。"
+    },
+    {
+      "id": "net-lan-wireless-025",
+      "term": "2.4GHz帯",
+      "aliases": [
+        "2.4 GHz band"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "障害物に比較的強いが、混雑しやすく干渉を受けやすい無線LANの周波数帯。"
+    },
+    {
+      "id": "net-lan-wireless-026",
+      "term": "5GHz帯",
+      "aliases": [
+        "5 GHz band"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "2.4GHz帯より混雑しにくく高速化しやすいが、壁などの影響を受けやすい周波数帯。"
+    },
+    {
+      "id": "net-lan-wireless-027",
+      "term": "6GHz帯",
+      "aliases": [
+        "6 GHz band"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "Wi-Fi 6E以降で使われる周波数帯。利用可能なチャネル幅を広げやすい。"
+    },
+    {
+      "id": "net-lan-wireless-028",
+      "term": "チャネル",
+      "aliases": [
+        "wireless channel"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線LANで使う周波数の区切り。近いチャネル同士は干渉する場合がある。"
+    },
+    {
+      "id": "net-lan-wireless-029",
+      "term": "チャネルボンディング",
+      "aliases": [
+        "channel bonding"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "複数のチャネル幅をまとめて使い、通信速度を高める技術。"
+    },
+    {
+      "id": "net-lan-wireless-030",
+      "term": "MIMO",
+      "aliases": [
+        "Multiple-Input Multiple-Output"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "複数アンテナを使って無線通信の速度や安定性を高める技術。"
+    },
+    {
+      "id": "net-lan-wireless-031",
+      "term": "OFDMA",
+      "aliases": [
+        "Orthogonal Frequency Division Multiple Access"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "周波数資源を細かく分け、複数端末へ効率よく割り当てる方式。"
+    },
+    {
+      "id": "net-lan-wireless-032",
+      "term": "ビーコン",
+      "aliases": [
+        "beacon"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "アクセスポイントがSSIDなどの情報を定期的に知らせる管理フレーム。"
+    },
+    {
+      "id": "net-lan-wireless-033",
+      "term": "プローブ要求",
+      "aliases": [
+        "probe request"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "端末が接続先の無線LANを探すために送る問い合わせフレーム。"
+    },
+    {
+      "id": "net-lan-wireless-034",
+      "term": "プローブ応答",
+      "aliases": [
+        "probe response"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "アクセスポイントがプローブ要求に返す応答フレーム。"
+    },
+    {
+      "id": "net-lan-wireless-035",
+      "term": "アソシエーション",
+      "aliases": [
+        "association"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線LAN端末がアクセスポイントと接続関係を確立する処理。"
+    },
+    {
+      "id": "net-lan-wireless-036",
+      "term": "認証フレーム",
+      "aliases": [
+        "authentication frame"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "無線LANで接続前の認証手続きに使う管理フレーム。"
+    },
+    {
+      "id": "net-lan-wireless-037",
+      "term": "コリジョンドメイン",
+      "aliases": [
+        "collision domain"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "同時送信による衝突の影響を受ける範囲。ハブでは広く、スイッチでは分割される。"
+    },
+    {
+      "id": "net-lan-wireless-038",
+      "term": "ブロードキャストドメイン",
+      "aliases": [
+        "broadcast domain"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "ブロードキャストフレームが届く範囲。ルータやVLANで区切られる。"
+    },
+    {
+      "id": "net-lan-wireless-039",
+      "term": "タグVLAN",
+      "aliases": [
+        "IEEE 802.1Q",
+        "tagged VLAN"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "VLAN IDをフレームに付加して、1本のリンクで複数VLANを運ぶ方式。"
+    },
+    {
+      "id": "net-lan-wireless-040",
+      "term": "ネイティブVLAN",
+      "aliases": [
+        "native VLAN"
+      ],
+      "category": "LAN・イーサネット・無線LAN",
+      "definition": "トランクポート上でタグなしフレームとして扱われるVLAN。"
+    }
+  ]
+}

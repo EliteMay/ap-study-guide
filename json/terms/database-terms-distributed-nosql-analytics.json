@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "category": "分散DB・NoSQL・データ活用",
+    "version": "v1-database-json-expanded",
+    "count": 20
+  },
+  "terms": [
+    {
+      "id": "term-db-210",
+      "term": "レプリケーション",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "同じデータを複数のサーバに複製して可用性や読取性能を高める仕組み。"
+    },
+    {
+      "id": "term-db-211",
+      "term": "シャーディング",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "データをキーの範囲や値で分割し、複数サーバに分散する方式。"
+    },
+    {
+      "id": "term-db-212",
+      "term": "分散データベース",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "複数の場所やサーバに分かれたデータを一つのDBのように扱う仕組み。"
+    },
+    {
+      "id": "term-db-213",
+      "term": "CAP定理",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "分散システムでは一貫性、可用性、分断耐性を同時に完全には満たせないという考え方。"
+    },
+    {
+      "id": "term-db-214",
+      "term": "NoSQL",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "関係モデル以外の柔軟なデータモデルを使うデータベース群。"
+    },
+    {
+      "id": "term-db-215",
+      "term": "キーバリュー型DB",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "キーと値の組でデータを管理するNoSQLの一種。"
+    },
+    {
+      "id": "term-db-216",
+      "term": "ドキュメント指向DB",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "JSONのような文書単位でデータを管理するNoSQLの一種。"
+    },
+    {
+      "id": "term-db-217",
+      "term": "カラム指向DB",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "列単位の保存や処理に向き、大量データ分析で使われるDB。"
+    },
+    {
+      "id": "term-db-218",
+      "term": "グラフDB",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "ノードとエッジで関係を表し、つながりの分析に向くDB。"
+    },
+    {
+      "id": "term-db-219",
+      "term": "データウェアハウス",
+      "aliases": [
+        "DWH"
+      ],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "分析用に、複数システムのデータを統合して蓄積する基盤。"
+    },
+    {
+      "id": "term-db-220",
+      "term": "データマート",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "特定部門や目的向けに切り出した小規模な分析用データ領域。"
+    },
+    {
+      "id": "term-db-221",
+      "term": "ETL",
+      "aliases": [
+        "Extract Transform Load"
+      ],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "抽出、変換、格納の順でデータを分析基盤へ取り込む処理。"
+    },
+    {
+      "id": "term-db-222",
+      "term": "ELT",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "抽出、格納、変換の順でデータを処理する取り込み方式。"
+    },
+    {
+      "id": "term-db-223",
+      "term": "OLTP",
+      "aliases": [
+        "Online Transaction Processing"
+      ],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "日々の取引処理を高速・正確に行うオンライン処理。"
+    },
+    {
+      "id": "term-db-224",
+      "term": "OLAP",
+      "aliases": [
+        "Online Analytical Processing"
+      ],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "蓄積データを多角的に分析するオンライン分析処理。"
+    },
+    {
+      "id": "term-db-225",
+      "term": "BI",
+      "aliases": [
+        "Business Intelligence"
+      ],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "データを集計・可視化し、意思決定に使う仕組み。"
+    },
+    {
+      "id": "term-db-226",
+      "term": "データレイク",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "構造化・非構造化を問わず、生データを大きく保存する領域。"
+    },
+    {
+      "id": "term-db-227",
+      "term": "スタースキーマ",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "中心のファクト表と周囲のディメンション表で分析用DBを構成する設計。"
+    },
+    {
+      "id": "term-db-228",
+      "term": "ファクト表",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "売上や回数など、分析したい数値や事実を持つ表。"
+    },
+    {
+      "id": "term-db-229",
+      "term": "ディメンション表",
+      "aliases": [],
+      "category": "分散DB・NoSQL・データ活用",
+      "definition": "日付、商品、顧客など、分析軸となる属性を持つ表。"
+    }
+  ]
+}

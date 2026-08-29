@@ -1,0 +1,369 @@
+{
+  "meta": {
+    "category": "メール・ファイル転送・リモート接続",
+    "version": "v16-network-expanded-480",
+    "count": 40
+  },
+  "terms": [
+    {
+      "id": "net-mail-file-remote-001",
+      "term": "SMTP",
+      "aliases": [
+        "Simple Mail Transfer Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールを送信・転送するためのプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-002",
+      "term": "POP3",
+      "aliases": [
+        "Post Office Protocol version 3"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールサーバから端末へメールを取り出すプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-003",
+      "term": "IMAP",
+      "aliases": [
+        "Internet Message Access Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールをサーバ上に置いたまま、複数端末から管理しやすい受信用プロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-004",
+      "term": "MTA",
+      "aliases": [
+        "Mail Transfer Agent"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールを宛先メールサーバへ転送するソフトウェアやサーバ。"
+    },
+    {
+      "id": "net-mail-file-remote-005",
+      "term": "MUA",
+      "aliases": [
+        "Mail User Agent"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "利用者がメールを作成・送受信するためのメールクライアント。"
+    },
+    {
+      "id": "net-mail-file-remote-006",
+      "term": "MDA",
+      "aliases": [
+        "Mail Delivery Agent"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "受信したメールをユーザのメールボックスへ配送する仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-007",
+      "term": "MIME",
+      "aliases": [
+        "Multipurpose Internet Mail Extensions"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールで日本語、HTML、添付ファイルなどを扱えるようにする拡張仕様。"
+    },
+    {
+      "id": "net-mail-file-remote-008",
+      "term": "添付ファイル",
+      "aliases": [
+        "attachment"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メール本文とは別に付けるファイル。サイズ制限やウイルス検査の対象になる。"
+    },
+    {
+      "id": "net-mail-file-remote-009",
+      "term": "FTP",
+      "aliases": [
+        "File Transfer Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "ファイル転送用プロトコル。制御用とデータ用の接続を使う。"
+    },
+    {
+      "id": "net-mail-file-remote-010",
+      "term": "FTPS",
+      "aliases": [
+        "FTP over TLS"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "FTP通信をTLSで保護する方式。"
+    },
+    {
+      "id": "net-mail-file-remote-011",
+      "term": "SFTP",
+      "aliases": [
+        "SSH File Transfer Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "SSH上でファイル転送を行うプロトコル。FTPSとは別物。"
+    },
+    {
+      "id": "net-mail-file-remote-012",
+      "term": "TFTP",
+      "aliases": [
+        "Trivial File Transfer Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "認証などを簡略化した軽量なファイル転送プロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-013",
+      "term": "SMB",
+      "aliases": [
+        "Server Message Block"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "Windowsファイル共有などで使われるプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-014",
+      "term": "NFS",
+      "aliases": [
+        "Network File System"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "主にUNIX/Linux環境で使われるネットワークファイル共有プロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-015",
+      "term": "SSH",
+      "aliases": [
+        "Secure Shell"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "暗号化されたリモートログインやコマンド実行に使うプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-016",
+      "term": "Telnet",
+      "aliases": [
+        "telnet"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "暗号化せずにリモートログインする古いプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-017",
+      "term": "RDP",
+      "aliases": [
+        "Remote Desktop Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "Windowsのリモートデスクトップ接続などで使われるプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-018",
+      "term": "SNMP",
+      "aliases": [
+        "Simple Network Management Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "ネットワーク機器の監視や状態取得に使うプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-019",
+      "term": "NTP",
+      "aliases": [
+        "Network Time Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "ネットワーク経由で時刻を同期するプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-020",
+      "term": "LDAP",
+      "aliases": [
+        "Lightweight Directory Access Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "ユーザやグループなどのディレクトリ情報を検索・参照するためのプロトコル。"
+    },
+    {
+      "id": "net-mail-file-remote-021",
+      "term": "SMTPS",
+      "aliases": [
+        "SMTP over TLS"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "SMTP通信をTLSで保護する方式。メール送信経路の盗聴や改ざんリスクを下げる。"
+    },
+    {
+      "id": "net-mail-file-remote-022",
+      "term": "Submissionポート",
+      "aliases": [
+        "port 587"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールクライアントが認証付きで送信用サーバへメールを投稿するためのポート。"
+    },
+    {
+      "id": "net-mail-file-remote-023",
+      "term": "STARTTLS",
+      "aliases": [
+        "STARTTLS command"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "平文接続を開始した後、途中からTLS通信へ切り替える仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-024",
+      "term": "POP3S",
+      "aliases": [
+        "POP3 over TLS"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "POP3通信をTLSで保護する方式。"
+    },
+    {
+      "id": "net-mail-file-remote-025",
+      "term": "IMAPS",
+      "aliases": [
+        "IMAP over TLS"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "IMAP通信をTLSで保護する方式。"
+    },
+    {
+      "id": "net-mail-file-remote-026",
+      "term": "SMTPリレー",
+      "aliases": [
+        "SMTP relay"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールサーバが別のメールサーバへメールを中継すること。"
+    },
+    {
+      "id": "net-mail-file-remote-027",
+      "term": "オープンリレー",
+      "aliases": [
+        "open mail relay"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "認証なしで第三者のメール送信を中継してしまうメールサーバ設定。"
+    },
+    {
+      "id": "net-mail-file-remote-028",
+      "term": "SPF",
+      "aliases": [
+        "Sender Policy Framework"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "送信元IPアドレスが、そのドメインの正当な送信サーバかをDNSで確認する仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-029",
+      "term": "DKIM",
+      "aliases": [
+        "DomainKeys Identified Mail"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "メールに電子署名を付け、送信ドメインと本文改ざんの有無を検証する仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-030",
+      "term": "DMARC",
+      "aliases": [
+        "Domain-based Message Authentication, Reporting and Conformance"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "SPFやDKIMの結果をもとに、受信側の扱いを送信ドメイン側が指定する仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-031",
+      "term": "メールキュー",
+      "aliases": [
+        "mail queue"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "配送待ちや再送待ちのメールを一時的に保管する領域。"
+    },
+    {
+      "id": "net-mail-file-remote-032",
+      "term": "バウンスメール",
+      "aliases": [
+        "bounce mail"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "配送できなかったメールについて送信元へ返される通知。"
+    },
+    {
+      "id": "net-mail-file-remote-033",
+      "term": "SCP",
+      "aliases": [
+        "Secure Copy Protocol"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "SSHを利用してファイルを安全にコピーするための仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-034",
+      "term": "rsync",
+      "aliases": [
+        "remote sync"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "差分転送により、ファイルやディレクトリを効率よく同期するツール。"
+    },
+    {
+      "id": "net-mail-file-remote-035",
+      "term": "WebDAV",
+      "aliases": [
+        "Web Distributed Authoring and Versioning"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "HTTPを拡張し、ネットワーク越しにファイル編集や管理を行う仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-036",
+      "term": "NFSマウント",
+      "aliases": [
+        "NFS mount"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "NFSで共有されたディレクトリを手元のファイルシステムの一部として扱うこと。"
+    },
+    {
+      "id": "net-mail-file-remote-037",
+      "term": "SMB共有",
+      "aliases": [
+        "SMB share"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "Windows系ネットワークなどで、ファイルやプリンタを共有する仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-038",
+      "term": "リモートシェル",
+      "aliases": [
+        "remote shell"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "ネットワーク越しに別のコンピュータのコマンド操作を行う仕組み。"
+    },
+    {
+      "id": "net-mail-file-remote-039",
+      "term": "公開鍵認証",
+      "aliases": [
+        "public key authentication"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "秘密鍵と公開鍵を使ってSSHなどへログインする認証方式。"
+    },
+    {
+      "id": "net-mail-file-remote-040",
+      "term": "ポートフォワーディング（SSH）",
+      "aliases": [
+        "SSH port forwarding"
+      ],
+      "category": "メール・ファイル転送・リモート接続",
+      "definition": "SSH接続を使って、別の通信を安全なトンネル経由で転送する機能。"
+    }
+  ]
+}

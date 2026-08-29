@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "category": "クラウド・仮想化・ゼロトラスト",
+    "version": "v6-genre-json",
+    "count": 32
+  },
+  "terms": [
+    {
+      "id": "sec-326",
+      "term": "クラウドコンピューティング",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "インターネット経由でサーバ、ストレージ、アプリなどを利用する形態。"
+    },
+    {
+      "id": "sec-327",
+      "term": "IaaS",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "仮想サーバやネットワークなどの基盤を提供するクラウドサービス。"
+    },
+    {
+      "id": "sec-328",
+      "term": "PaaS",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "アプリ実行環境やDBなどの開発・実行基盤を提供するクラウドサービス。"
+    },
+    {
+      "id": "sec-329",
+      "term": "SaaS",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "完成済みのアプリケーションをインターネット経由で利用するサービス。"
+    },
+    {
+      "id": "sec-330",
+      "term": "HaaS",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "ハードウェア資源をサービスとして提供する形態。"
+    },
+    {
+      "id": "sec-331",
+      "term": "責任共有モデル",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド事業者と利用者が、それぞれどこまでセキュリティ責任を持つかを分ける考え方。"
+    },
+    {
+      "id": "sec-332",
+      "term": "クラウドストレージ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド上にファイルを保存・共有するサービス。"
+    },
+    {
+      "id": "sec-333",
+      "term": "CASB",
+      "aliases": [
+        "Cloud Access Security Broker"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウドサービス利用を可視化・制御する仕組み。"
+    },
+    {
+      "id": "sec-334",
+      "term": "CSPM",
+      "aliases": [
+        "Cloud Security Posture Management"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド設定ミスやリスクを継続的に検出する仕組み。"
+    },
+    {
+      "id": "sec-335",
+      "term": "IAM",
+      "aliases": [
+        "Identity and Access Management"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "利用者や権限を管理する仕組み。クラウドでは特に重要。"
+    },
+    {
+      "id": "sec-336",
+      "term": "KMS",
+      "aliases": [
+        "Key Management Service"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "暗号鍵を安全に作成・保管・利用する管理サービス。"
+    },
+    {
+      "id": "sec-337",
+      "term": "保存時暗号化",
+      "aliases": [
+        "encryption at rest"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "ストレージやDBに保存されているデータを暗号化すること。"
+    },
+    {
+      "id": "sec-338",
+      "term": "転送時暗号化",
+      "aliases": [
+        "encryption in transit"
+      ],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "通信中のデータを暗号化すること。TLSなど。"
+    },
+    {
+      "id": "sec-339",
+      "term": "仮想化",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "物理サーバ上で複数の仮想サーバなどを動かす技術。"
+    },
+    {
+      "id": "sec-340",
+      "term": "コンテナ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "アプリと実行環境を軽量にまとめて動かす仕組み。"
+    },
+    {
+      "id": "sec-341",
+      "term": "コンテナイメージ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "コンテナ実行に必要なファイル群をまとめたもの。"
+    },
+    {
+      "id": "sec-342",
+      "term": "オーケストレーション",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "複数コンテナの配置、起動、拡張、復旧を自動管理すること。"
+    },
+    {
+      "id": "sec-343",
+      "term": "マイクロセグメンテーション",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "ネットワークやシステムを細かく分け、横展開を抑える考え方。"
+    },
+    {
+      "id": "sec-344",
+      "term": "SASE",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "ネットワーク機能とセキュリティ機能をクラウド側で統合提供する考え方。"
+    },
+    {
+      "id": "sec-489",
+      "term": "VPC",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド上に作る仮想的な専用ネットワーク。"
+    },
+    {
+      "id": "sec-490",
+      "term": "セキュリティグループ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド上の仮想サーバに対する通信許可ルール。"
+    },
+    {
+      "id": "sec-491",
+      "term": "ネットワークACL",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "サブネット単位などで通信を許可・拒否するルール。"
+    },
+    {
+      "id": "sec-492",
+      "term": "IAMロール",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウドサービスに一時的な権限を与えるための役割。"
+    },
+    {
+      "id": "sec-493",
+      "term": "オブジェクトストレージ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "ファイルをオブジェクトとして保存するクラウドストレージ。"
+    },
+    {
+      "id": "sec-494",
+      "term": "シークレットマネージャ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "パスワードやAPIキーなどを安全に保管・配布するサービス。"
+    },
+    {
+      "id": "sec-495",
+      "term": "CWPP",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド上のサーバやコンテナなど実行環境を保護する仕組み。"
+    },
+    {
+      "id": "sec-496",
+      "term": "CNAPP",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウドアプリ保護の機能を統合したプラットフォーム。"
+    },
+    {
+      "id": "sec-497",
+      "term": "イメージスキャン",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "コンテナイメージに脆弱性や秘密情報がないか検査すること。"
+    },
+    {
+      "id": "sec-498",
+      "term": "Kubernetes",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "コンテナの配置や運用を自動化する基盤。"
+    },
+    {
+      "id": "sec-499",
+      "term": "サービスメッシュ",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "マイクロサービス間通信を制御・監視する仕組み。"
+    },
+    {
+      "id": "sec-500",
+      "term": "サーバレス",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "サーバ管理をクラウド側に任せ、関数やサービス単位で実行する方式。"
+    },
+    {
+      "id": "sec-501",
+      "term": "クラウド責任共有モデル",
+      "aliases": [],
+      "category": "クラウド・仮想化・ゼロトラスト",
+      "definition": "クラウド事業者と利用者がそれぞれ責任を持つ範囲を分ける考え方。"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "category": "障害回復・運用",
+    "version": "v1-database-json-expanded",
+    "count": 20
+  },
+  "terms": [
+    {
+      "id": "term-db-190",
+      "term": "排他制御",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "複数の処理が同じデータを同時に更新して不整合になることを防ぐ制御。"
+    },
+    {
+      "id": "term-db-191",
+      "term": "共有ロック",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "読み取り用のロック。複数の共有ロックは同時に許可されることが多い。"
+    },
+    {
+      "id": "term-db-192",
+      "term": "専有ロック",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "更新用のロック。他の読み書きを制限することが多い。"
+    },
+    {
+      "id": "term-db-193",
+      "term": "デッドロック",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "複数の処理が互いに相手のロック解除を待ち続ける状態。"
+    },
+    {
+      "id": "term-db-194",
+      "term": "タイムアウト",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "一定時間処理が終わらない場合に待ちを打ち切ること。"
+    },
+    {
+      "id": "term-db-195",
+      "term": "2相ロック",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "ロックを取得する段階と解放する段階を分け、直列化可能性を高める方式。"
+    },
+    {
+      "id": "term-db-196",
+      "term": "隔離性",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "同時実行されるトランザクション同士の影響をどこまで見せるかという性質。"
+    },
+    {
+      "id": "term-db-197",
+      "term": "ダーティリード",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "まだコミットされていない変更を別の処理が読んでしまう現象。"
+    },
+    {
+      "id": "term-db-198",
+      "term": "ノンリピータブルリード",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "同じ行を2回読んだとき、途中の更新により値が変わる現象。"
+    },
+    {
+      "id": "term-db-199",
+      "term": "ファントムリード",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "同じ条件で検索したとき、途中の追加・削除により行集合が変わる現象。"
+    },
+    {
+      "id": "term-db-200",
+      "term": "分離レベル",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "同時実行時に許す読み取り現象の範囲を決める設定。"
+    },
+    {
+      "id": "term-db-201",
+      "term": "READ COMMITTED",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "コミット済みのデータだけを読む分離レベル。"
+    },
+    {
+      "id": "term-db-202",
+      "term": "REPEATABLE READ",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "同じ行を繰り返し読んでも値が変わらないことを目指す分離レベル。"
+    },
+    {
+      "id": "term-db-203",
+      "term": "SERIALIZABLE",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "並行実行しても直列実行したのと同じ結果になることを目指す分離レベル。"
+    },
+    {
+      "id": "term-db-204",
+      "term": "ログ",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "DBの更新内容やトランザクション状態を記録する情報。"
+    },
+    {
+      "id": "term-db-205",
+      "term": "WAL",
+      "aliases": [
+        "Write Ahead Logging"
+      ],
+      "category": "障害回復・運用",
+      "definition": "データ本体を書き換える前にログを先に書く回復方式。"
+    },
+    {
+      "id": "term-db-206",
+      "term": "チェックポイント",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "回復時にどこからログを見ればよいかを短縮するための区切り。"
+    },
+    {
+      "id": "term-db-207",
+      "term": "ロールフォワード",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "バックアップ後のログを使い、障害直前の状態へ進める回復処理。"
+    },
+    {
+      "id": "term-db-208",
+      "term": "ロールバック復旧",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "未完了トランザクションの更新を取り消して整合性を戻す処理。"
+    },
+    {
+      "id": "term-db-209",
+      "term": "バックアップ",
+      "aliases": [],
+      "category": "障害回復・運用",
+      "definition": "障害や誤操作に備えて、データの複製を保存しておくこと。"
+    }
+  ]
+}
