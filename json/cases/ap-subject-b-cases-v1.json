@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "AP Subject B型 オリジナル長文Case",
+    "source": "original",
+    "notice": "IPA公式問題文の転載ではなく、シラバスVer.7.2と本サイトLessonを基に作成した複数設問型のオリジナルCase。",
+    "caseCount": 6
+  },
+  "cases": [
+    {
+      "id": "CASE-SEC-01",
+      "unitId": "security",
+      "middleCodes": [11],
+      "title": "ECサイトの不正Loginと情報流出",
+      "difficulty": 4,
+      "estimatedMinutes": 25,
+      "scenario": [
+        "A社は会員向けECサイトを運営している。利用者はEmail AddressとPasswordでLoginし、Login後はSession Cookieで認証状態を維持する。運用Teamは、ある朝から短時間に大量のLogin失敗が発生し、その直後に複数Accountで通常と異なる海外IP AddressからLogin成功が記録されていることを確認した。",
+        "調査すると、Login APIにはIP単位のRate Limitがなく、MFAも未導入だった。一方、Passwordは十分なCostを持つPassword Hashで保存されており、DBからPassword平文が漏えいした形跡はない。被害Accountの一部では、別Serviceで使用していたPasswordと同じPasswordを使用していた。",
+        "さらに攻撃者はLogin後、会員情報表示APIへ短時間に多数Accessしていた。SOCはWAF Log、Authentication Log、Application Access Logを保全し、該当Sessionを無効化した。"
+      ],
+      "questions": [
+        {"id":"CASE-SEC-01-Q1","type":"written","prompt":"最も疑うべき認証攻撃を答え、その根拠を説明してください。","modelAnswer":"Credential Stuffingを疑う。別Serviceから漏えいしたID/Passwordの組を大量に試し、Password再利用者のAccountへLoginする攻撃であり、大量のLogin失敗後に一部Accountで成功している状況と一致する。","points":["Credential Stuffingを挙げる","別Service由来Credentialの再利用と大量試行を根拠にする"]},
+        {"id":"CASE-SEC-01-Q2","type":"written","prompt":"この攻撃への直接的な予防・被害軽減策を3つ挙げてください。","modelAnswer":"MFA/Passkeyの導入、Login試行へのRate Limit・Risk based detection、漏えい済みPasswordの拒否やPassword再利用を避ける啓発などが有効。Account LockoutはDoS化に注意して設計する。","points":["MFAまたはPasskey","Rate Limit/異常Login検知","漏えいPassword対策またはPassword再利用対策"]},
+        {"id":"CASE-SEC-01-Q3","type":"written","prompt":"Incident Responseで、すぐにLogを削除せず保全する理由を説明してください。","modelAnswer":"侵入経路・被害範囲・攻撃者の操作を時系列で特定し、再発防止や必要な報告判断に使う証拠となるため。改ざんを避け、時刻・取得元・保管手順も記録する。","points":["侵入経路/被害範囲の調査に使う","証拠性・改ざん防止または時系列保全に触れる"]}
+      ],
+      "lessonRefs": ["SEC-04","SEC-07","SEC-10"]
+    },
+    {
+      "id": "CASE-NET-01",
+      "unitId": "network",
+      "middleCodes": [10],
+      "title": "拠点追加後に一部通信だけ失敗する",
+      "difficulty": 4,
+      "estimatedMinutes": 25,
+      "scenario": [
+        "B社は本社と支社をRouter間VPNで接続している。本社LANは10.10.0.0/16、支社LANは10.20.0.0/16である。支社に新しく10.20.30.0/24のServer VLANを追加した。Client VLANからServer VLAN内のWeb Server 10.20.30.50へはAccessできるが、本社から同ServerへはAccessできない。",
+        "本社Clientから支社RouterのVPN側Addressまではping成功する。支社RouterのRouting Tableには10.20.0.0/16がConnectedとして存在し、本社Routerには10.20.0.0/16をVPNへ送るRouteがある。支社側Firewall Logには、本社から10.20.30.50へのPacketが到着した記録がない。",
+        "Network担当者がVPN設定を確認すると、VPNの暗号化対象Networkとして旧Client VLAN 10.20.10.0/24だけが登録されており、新Server VLANは追加されていなかった。"
+      ],
+      "questions": [
+        {"id":"CASE-NET-01-Q1","type":"written","prompt":"本社からWeb Serverへ到達できない主原因を説明してください。","modelAnswer":"Routing Table上は10.20.0.0/16を支社へ送れるが、VPNの暗号化/Traffic Selector対象に10.20.30.0/24が含まれていないため、新VLAN宛PacketがVPN Tunnelへ正しく載らないことが原因。","points":["RoutingではなくVPN対象Network設定に原因がある","10.20.30.0/24がTraffic Selector等へ未登録と述べる"]},
+        {"id":"CASE-NET-01-Q2","type":"written","prompt":"Firewall LogにPacketが到着していないという観測は、切り分け上どのような意味を持ちますか。","modelAnswer":"支社Firewallより手前でPacketが失われている可能性を高める。VPN Tunnel/Router/経路設定を優先確認し、ApplicationやServer Firewallを最初の原因候補にしにくくする。","points":["障害点がFirewallより手前と推定できる","VPN/Router/Routeを優先確認すると述べる"]},
+        {"id":"CASE-NET-01-Q3","type":"written","prompt":"設定変更後の確認手順を、Layerを意識して3段階で示してください。","modelAnswer":"まずRoute/VPN SAと対象Prefixを確認し、次にIP疎通をping/traceroute等で確認し、最後にTCP PortやHTTP応答を確認する。下位Layerから上位へ確認する。","points":["Route/VPN状態を確認","IP疎通を確認","Port/Applicationを確認"]}
+      ],
+      "lessonRefs": ["NET-06","NET-11","NET-12"]
+    },
+    {
+      "id": "CASE-DB-01",
+      "unitId": "database",
+      "middleCodes": [9],
+      "title": "在庫更新で二重販売が起きる",
+      "difficulty": 4,
+      "estimatedMinutes": 25,
+      "scenario": [
+        "C社の販売Systemでは、注文処理時に商品Tableの在庫数をSELECTし、在庫が1以上なら注文TableへINSERTした後、在庫数を1減らすUPDATEを行う。繁忙時に在庫1個の商品へ2件の注文がほぼ同時に入り、両方とも注文成立する事象が発生した。",
+        "ApplicationはSELECTとUPDATEを同一Transactionで実行しているが、単純なSELECT時点では排他Lockを取っていない。2つのTransactionがともに在庫=1を読み、その後それぞれ更新していた。",
+        "DB担当者は、在庫行を更新対象としてLockしてから判定する方法、在庫>0を条件にUPDATEして更新件数で成否判定する方法などを検討している。"
+      ],
+      "questions": [
+        {"id":"CASE-DB-01-Q1","type":"written","prompt":"この二重販売が起きる競合の本質を説明してください。","modelAnswer":"2 Transactionが在庫=1という同じ古い状態を並行して読み、互いの処理を考慮せず注文成立判定を行うRace Conditionが原因。単に同一Transaction内であるだけでは判定時の競合を防げない。","points":["並行Transactionが同じ在庫値を読むと述べる","判定と更新の間の競合/Raceを指摘する"]},
+        {"id":"CASE-DB-01-Q2","type":"written","prompt":"在庫行をSELECT FOR UPDATE等でLockする方式が有効な理由を説明してください。","modelAnswer":"判定対象行へ排他Lockを取得することで、先行TransactionがCommit/Rollbackするまで他Transactionの競合更新を待たせ、最新在庫を基に直列化して判定できるため。","points":["対象行へ排他Lockを取る","競合Transactionを待たせ直列化すると述べる"]},
+        {"id":"CASE-DB-01-Q3","type":"written","prompt":"Lock範囲を必要以上に広くすると生じる問題を2つ挙げてください。","modelAnswer":"同時実行性が低下して待ち時間/Throughputが悪化する。また複数資源Lock順序が不適切ならDeadlockの可能性も高まる。","points":["Concurrency/Performance低下","DeadlockまたはLock待ち増加"]}
+      ],
+      "lessonRefs": ["DB-09","DB-11"]
+    },
+    {
+      "id": "CASE-SYS-01",
+      "unitId": "system-development",
+      "middleCodes": [12,13],
+      "title": "要件変更がTestへ反映されない",
+      "difficulty": 4,
+      "estimatedMinutes": 25,
+      "scenario": [
+        "D社は申請Workflow Systemを開発している。途中で『100万円以上の申請は部長承認に加えて役員承認を必要とする』という要件変更が承認された。担当者は仕様書を修正し実装も変更したが、既存Test Caseの更新が漏れ、本番前Testでは100万円以上のCaseを十分確認できなかった。",
+        "Release後、一部申請が旧Flowのまま処理される不具合が見つかった。調査すると、要件IDとDesign、Source、Test Caseの対応表がなく、Change Requestの完了条件にも関連成果物の更新確認が含まれていなかった。"
+      ],
+      "questions": [
+        {"id":"CASE-SYS-01-Q1","type":"written","prompt":"要件変更漏れを防ぐためTraceabilityをどのように使うべきか説明してください。","modelAnswer":"要件IDからDesign、Implementation、Test Caseへの対応を追跡可能にし、要件変更時に影響する成果物を一覧化して全て更新・再Testしたことを確認する。","points":["要件と設計/実装/Testの対応を持つ","変更時に影響成果物を追跡し更新確認する"]},
+        {"id":"CASE-SYS-01-Q2","type":"written","prompt":"Change Managementの完了条件に追加すべき確認を2つ挙げてください。","modelAnswer":"関連Document/Design/Test Caseが更新されたこと、影響範囲のRegression Testを実施し合格したことなどを完了条件にする。","points":["関連成果物更新確認","Regression Testまたは承認記録"]},
+        {"id":"CASE-SYS-01-Q3","type":"written","prompt":"この不具合でRegression Testが必要な理由を説明してください。","modelAnswer":"変更した承認条件だけでなく、既存の金額帯や他の承認Flowに副作用がないことを確認する必要があるため。","points":["変更箇所以外への副作用確認","既存機能が壊れていないことを確認"]}
+      ],
+      "lessonRefs": ["SYS-02","SYS-07","SYS-08"]
+    },
+    {
+      "id": "CASE-PM-01",
+      "unitId": "project-management",
+      "middleCodes": [14,15],
+      "title": "遅延ProjectとService移行判断",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "E社のSystem更改ProjectはBAC=1,000万円で進行している。現在時点のPV=600万円、EV=480万円、AC=600万円である。予定Releaseまで残り2か月だが、性能Testで重大なBottleneckが見つかり、追加作業が必要になった。",
+        "運用部門はRelease日を守ることを求めている一方、Service LevelとしてResponse TimeとAvailabilityの目標が定められている。Project Managerは、機能を一部延期して品質を確保する案と、全機能を予定通り出す案を比較している。"
+      ],
+      "questions": [
+        {"id":"CASE-PM-01-Q1","type":"written","prompt":"現時点のCPIとSPIを求め、状態を説明してください。","modelAnswer":"CPI=EV/AC=480/600=0.8、SPI=EV/PV=480/600=0.8。Cost効率・Schedule効率とも1未満で、予算超過傾向かつ進捗遅延。","points":["CPI=0.8","SPI=0.8","Cost超過傾向とSchedule遅延を説明"]},
+        {"id":"CASE-PM-01-Q2","type":"written","prompt":"Release日だけを優先して性能問題を残すことが、Service Management上危険な理由を説明してください。","modelAnswer":"Release達成はProject目標でも、運用開始後にResponse Time/Availabilityなど合意Service Levelを満たせなければ利用者影響とIncident増加につながるため、移行判定では運用品質も評価する必要がある。","points":["SLA/Service Level未達Risk","運用後の利用者影響やIncident増加"]},
+        {"id":"CASE-PM-01-Q3","type":"written","prompt":"機能一部延期案をStakeholderへ提示する際、最低限説明すべき内容を挙げてください。","modelAnswer":"延期対象Scope、Release日/Costへの影響、延期しない場合の品質・Service Risk、代替策、後続Release計画、意思決定者と承認条件を明示する。","points":["Scope/日程/Cost影響","品質/Service Risk","代替策または後続計画"]}
+      ],
+      "lessonRefs": ["PM-03","PM-05","SVC-01"]
+    },
+    {
+      "id": "CASE-BUS-01",
+      "unitId": "business-accounting",
+      "middleCodes": [17,19,22],
+      "title": "新Service投資を数字と戦略で判断する",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "F社は法人向けSubscription Serviceへの投資を検討している。初期投資は2,000万円。導入後3年間の予想Cash Flowは1年目800万円、2年目900万円、3年目1,000万円で、割引率は10%とする。単純な売上増加だけでなく、既存顧客とのCross-sellや解約率低下も期待されている。",
+        "一方で市場には強い競合が存在し、F社は既存顧客Dataと業界特化Supportを強みとしている。経営会議では『NPVが正なら必ず投資すべきか』という意見も出た。"
+      ],
+      "questions": [
+        {"id":"CASE-BUS-01-Q1","type":"written","prompt":"概算NPVを求め、金銭面の一次判断を示してください。","modelAnswer":"現在価値は800/1.1≈727、900/1.1²≈744、1000/1.1³≈751万円、合計約2,222万円。初期投資2,000万円を引くとNPVは約+222万円で、金銭面では投資価値がある方向。","points":["各Cash Flowを割引く","現在価値合計約2,222万円","NPV約+222万円"]},
+        {"id":"CASE-BUS-01-Q2","type":"written","prompt":"NPVが正でも自動的に投資決定すべきではない理由を2つ挙げてください。","modelAnswer":"Cash Flow予測自体の不確実性や競合反応などStrategic Riskがある。また人材/開発Capacity、法規制、既存事業との整合など非財務要因も考慮が必要。","points":["予測不確実性/Market Risk","非財務要因や実行能力"]},
+        {"id":"CASE-BUS-01-Q3","type":"written","prompt":"F社の『既存顧客Dataと業界特化Support』を戦略分析でどのように評価しますか。","modelAnswer":"SWOTでは内部Strength候補。VRIOでは価値、希少性、模倣困難性、組織的活用可能性を確認し、持続的競争優位になり得るかを評価する。","points":["SWOTでStrength候補とする","VRIO等で競争優位の持続性を評価する"]}
+      ],
+      "lessonRefs": ["STR-02","BUS-01","BUS-09"]
+    }
+  ]
+}
