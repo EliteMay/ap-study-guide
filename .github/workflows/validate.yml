@@ -31,3 +31,5 @@ jobs:
         run: node tests/validate-computer-systems.mjs
       - name: Validate curriculum expansion and 23-middle coverage
         run: node tests/validate-curriculum-expansion.mjs
+      - name: Validate original practice bank
+        run: node tests/validate-practice.mjs
