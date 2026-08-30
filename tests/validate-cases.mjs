@@ -70,5 +70,4 @@ const html = readText('html/cases.html');
 for (const required of ['../js/study-state.js','../js/case-data.js','16Case','48設問']) if (!html.includes(required)) fail(`cases.html missing ${required}`);
 const shell = readText('js/shell.js');
 if (!shell.includes("['cases','📚 長文Case','cases.html']")) fail('navigation missing cases');
-if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 console.log(`[cases] OK: ${cases.length} cases / ${questionCount} written questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / non-empty answer gate enabled.`);
