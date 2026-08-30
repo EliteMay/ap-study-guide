@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"security","questionCount":5},
+  "questions":[
+    {"id":"P-SEC-01","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"SQL Injection対策","prompt":"User入力をSQL文字列へ連結している実装のSQL Injection対策として最も直接的なのはどれか。","options":["Parameterized Query/Prepared Statement","Passwordを長くするだけ","DNS TTL短縮","RAID1"],"answerIndex":0,"explanation":"DataとSQL構造を分離して入力がSQL構文として解釈されるのを防ぐ。","lessonRefs":["SEC-05"]},
+    {"id":"P-SEC-02","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"OAuthとOIDC","prompt":"Web Applicationが外部Identity Providerから『誰がLoginしたか』というIdentity情報を得たい。OAuth 2.0に加えて主に利用するのはどれか。","options":["OpenID Connect","RAID5","SNMP","Huffman"],"answerIndex":0,"explanation":"OAuthはAuthorization Frameworkで、OIDCがIdentity Layerを追加する。","lessonRefs":["SEC-04"]},
+    {"id":"P-SEC-03","unitId":"security","middleCodes":[11],"type":"written","difficulty":4,"title":"Incident Response","prompt":"Ransomware検知直後に、原因調査よりContainmentを先に行うことがある理由を説明してください。","modelAnswer":"攻撃が進行中なら横展開や暗号化、Data流出など被害が拡大するため、まず感染端末隔離や通信遮断で影響範囲を抑え、その後に証拠保全しながら根絶・復旧・原因分析を進める。","points":["被害拡大を止める目的を述べる","横展開/暗号化/流出など具体的Riskを挙げる","証拠保全や後続の根絶/復旧に触れる"],"lessonRefs":["SEC-10"]},
+    {"id":"P-SEC-04","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"Server証明書の検証","prompt":"BrowserがHTTPS Server証明書を検証するとき、最も重要な確認の組合せはどれか。","options":["信頼できるCAへのChain・有効期限・接続先Host名","ServerのCPU周波数・RAM容量・RAID Level","DNS TTL・MTU・VLAN番号だけ","UserのLocal Password長だけ"],"answerIndex":0,"explanation":"証明書は信頼Chain、有効期間、接続先Nameとの一致等を検証する。Private Key自体をBrowserへ送ることはない。","lessonRefs":["SEC-03"]},
+    {"id":"P-SEC-05","unitId":"security","middleCodes":[11],"type":"written","difficulty":3,"title":"Risk対応の選択","prompt":"発生確率は低いが発生時Impactが非常に大きいRiskに対し、『低確率だから何もしない』と即断してはいけない理由を説明してください。","modelAnswer":"Riskは発生確率だけでなくImpactも含めて評価するため。受容可能性、回避・低減・移転等の選択肢、Control Cost、残留Risk、事業継続への影響を比較して判断する必要がある。","points":["確率だけでなくImpactを評価すると述べる","Risk対応選択肢やCost/残留Riskを比較すると述べる"],"lessonRefs":["SEC-11"]}
+  ]
+}
