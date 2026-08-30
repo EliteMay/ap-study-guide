@@ -45,6 +45,8 @@ jobs:
         run: node tests/validate-progress.mjs
       - name: Validate runtime quality architecture
         run: node tests/validate-runtime-quality.mjs
+      - name: Validate unified glossary and action home
+        run: node tests/validate-glossary.mjs
       - name: Install Playwright Chromium
         run: |
           npm install --no-save playwright@1.55.0
