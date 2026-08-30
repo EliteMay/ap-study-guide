@@ -29,6 +29,15 @@
     return ['未着手','idle'];
   }
 
+  function renderLoadError(error) {
+    const message = escapeHtml(error?.message || '不明なエラー');
+    const retry = '<a href="progress.html">再読み込み</a>';
+    $('progress-summary').innerHTML = `<div class="progress-error">進捗データを読み込めませんでした。${message}<br>${retry}</div>`;
+    $('progress-unit-grid').innerHTML = `<div class="progress-error">ユニット別進捗を表示できません。${retry}</div>`;
+    $('progress-middle-body').innerHTML = `<tr><td colspan="8"><div class="progress-error">23中分類の進捗を表示できません。${retry}</div></td></tr>`;
+    $('progress-next').innerHTML = `<div class="progress-error">次にやる候補を表示できません。${retry}</div>`;
+  }
+
   function renderSummary(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory) {
     const lessonDone = lessons.filter(item => lessonState(lessonProgress[item.id]).mastered).length;
     const lessonDue = lessons.filter(item => lessonState(lessonProgress[item.id]).state === 'due').length;
@@ -122,6 +131,6 @@
     renderNext(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory,mockHistory);
   }
 
-  window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(console.error); });
-  document.addEventListener('DOMContentLoaded', () => init().catch(error => { console.error(error); $('progress-summary').innerHTML = `<div class="progress-error">進捗の読み込みに失敗しました: ${escapeHtml(error.message)}</div>`; }));
+  window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(error => { console.error(error); renderLoadError(error); }); });
+  document.addEventListener('DOMContentLoaded', () => init().catch(error => { console.error(error); renderLoadError(error); }));
 })();

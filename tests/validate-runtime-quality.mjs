@@ -41,6 +41,8 @@ const cases = read('js/cases.js');
 if (!cases.includes('CASE_MIN_CHARS') || !cases.includes('appendRecentScore') || !cases.includes('reveal.disabled = length < min')) fail('case answer gate/recent score logic missing');
 const lesson = read('js/lesson.js');
 if (!lesson.includes('LESSON_PASS_RATIO') || !lesson.includes('completed:passed')) fail('lesson completion is not pass-threshold based');
+const lessonPractice = read('js/lesson-practice.js');
+for (const required of ['APPracticeData.load','APLessonData.load','dataset.practiceFallback','practice.html?unit=','cases.html?unit=']) if (!lessonPractice.includes(required)) fail(`lesson practice fallback missing ${required}`);
 
 const coverage = json('json/curriculum/ap-2026-coverage.json');
 const curriculum = json('json/curriculum/ap-2026-map.json');
@@ -57,10 +59,25 @@ for (const stale of ['0/118','0/91','0/16','0 / 118','0 / 91','0 / 16','BUILD r1
 const homeJs = read('js/home.js');
 for (const required of ['buildQuickActions','renderLoadError','finderBound','lessonCount:lessons.length','practiceCount:questions.length','caseCount:cases.length']) if (!homeJs.includes(required)) fail(`home runtime missing ${required}`);
 
+const changingCopy = {
+  'html/practice.html':['91問'],
+  'html/cases.html':['16Case','48設問','短問91問'],
+  'html/mock.html':['長文Case14本','短問91問'],
+  'html/roadmap.html':['1,422','118本']
+};
+for (const [file, staleValues] of Object.entries(changingCopy)) {
+  const text = read(file);
+  for (const stale of staleValues) if (text.includes(stale)) fail(`${file} contains changing static count ${stale}`);
+}
+const roadmapJs = read('js/roadmap.js');
+for (const required of ['renderLoadError','study-unit-grid','official-map','再読み込み']) if (!roadmapJs.includes(required)) fail(`roadmap error state missing ${required}`);
+const progressJs = read('js/progress.js');
+for (const required of ['renderLoadError','progress-unit-grid','progress-middle-body','progress-next','再読み込み']) if (!progressJs.includes(required)) fail(`progress error state missing ${required}`);
+
 const dataPage = read('html/data.html');
 for (const required of ['JSONを書き出す','data-import-file','data-reset','../js/data-tools.js','aria-live="polite"']) if (!dataPage.includes(required)) fail(`data page missing ${required}`);
 const dataTools = read('js/data-tools.js');
 for (const required of ['recognizedKeys','expectedSchemaVersion','validateStorageValue','preview.replaceChildren','ap-study-before-restore','rollbackFailed','localStorage.setItem','localStorage.removeItem']) if (!dataTools.includes(required)) fail(`data-tools missing ${required}`);
 if (dataTools.includes("$('data-import-preview').innerHTML") || dataTools.includes('data-import-preview.innerHTML')) fail('import preview uses raw innerHTML');
 
-console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / profiles ${meta.profiles.join('+')} / centralized metadata, safe backup restore, dynamic home, accessible navigation.`);
+console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / profiles ${meta.profiles.join('+')} / centralized metadata, dynamic count copy, complete error states, lesson exercise fallback, safe backup restore.`);

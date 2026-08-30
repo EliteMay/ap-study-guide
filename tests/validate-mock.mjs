@@ -51,7 +51,8 @@ for (const entry of optional) {
 for (const id of ['CASE-EMB-01','CASE-AUD-01']) if (!optional.some(item => item.caseId === id)) fail(`mock support case missing ${id}`);
 
 const html = readText('html/mock.html');
-for (const required of ['../css/mock.css','../js/practice-data.js','../js/case-data.js','../js/mock-data.js','../js/mock.js','80問','150分','11問提示','5問解答']) if (!html.includes(required)) fail(`mock.html missing ${required}`);
+for (const required of ['../css/mock.css','../js/practice-data.js','../js/case-data.js','../js/mock-data.js','../js/mock.js','Mock Config']) if (!html.includes(required)) fail(`mock.html missing ${required}`);
+for (const stale of ['長文Case14本','短問91問']) if (html.includes(stale)) fail(`mock.html contains stale changing count ${stale}`);
 const loader = readText('js/mock-data.js');
 for (const required of ['mock-config.json','APPracticeData.load','APCaseData.load','subjectAQuestions','subjectBCases']) if (!loader.includes(required)) fail(`mock-data.js missing ${required}`);
 const js = readText('js/mock.js');
@@ -67,4 +68,4 @@ if (home.includes('js/home-mock.js')) fail('homepage should not load separate mo
 const homeJs = readText('js/home.js');
 if (!homeJs.includes('ap-study-mock-history-v1') || !homeJs.includes('mock-progress-number')) fail('home.js does not aggregate mock history');
 
-console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 11 offered, 5 answered / 150min; home/progress integrated.`);
+console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 11 offered, 5 answered / 150min; UI copy defers changing configuration to runtime data.`);

@@ -17,13 +17,16 @@ async function assertNoHorizontalOverflow(label) {
 }
 
 try {
+  const projectMeta = await (await fetch(`${base}/json/project-meta.json`)).json();
+  if (!projectMeta?.build) throw new Error('project-meta build missing');
+
   await goto('index.html');
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil:'networkidle' });
   if (!await page.getByRole('heading', { name:'何をするか選ぶだけ。' }).isVisible()) throw new Error('action-first homepage heading missing');
   if (await page.locator('#home-unit-grid .unit-card').count() !== 13) throw new Error('homepage must render 13 unit cards');
   if (await page.locator('.home-launch-card').count() !== 8) throw new Error('homepage must expose 8 main actions');
-  await page.waitForFunction(() => document.querySelector('[data-ap-build]')?.textContent?.includes('r18'));
+  await page.waitForFunction(expected => document.querySelector('[data-ap-build]')?.textContent?.includes(expected), projectMeta.build);
   if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
   await page.locator('#home-quick-search').fill('OAuth');
   if (!await page.locator('#home-quick-results').isVisible()) throw new Error('homepage quick finder did not open');
@@ -42,6 +45,21 @@ try {
   const unitGlossary = page.getByRole('link', { name:'単語辞書', exact:true });
   if (!await unitGlossary.isVisible()) throw new Error('unified glossary link missing from generic hub');
   if ((await unitGlossary.getAttribute('href')) !== 'glossary.html?domain=security') throw new Error('security hub glossary filter mismatch');
+
+  const lessonIndexes = await Promise.all([
+    fetch(`${base}/json/lessons/lesson-index.json`).then(response => response.json()),
+    fetch(`${base}/json/lessons/lesson-index-expansion.json`).then(response => response.json())
+  ]);
+  const practiceIndex = await (await fetch(`${base}/json/practice/practice-index.json`)).json();
+  const practicePayloads = await Promise.all((practiceIndex.files || []).map(entry => fetch(`${base}/${entry.file}`).then(response => response.json())));
+  const practiceQuestions = practicePayloads.flatMap(payload => payload.questions || []);
+  const directLessonIds = new Set(practiceQuestions.flatMap(question => question.lessonRefs || []));
+  const uncoveredLesson = lessonIndexes.flatMap(index => index.lessons || []).find(lesson => !directLessonIds.has(lesson.id));
+  if (!uncoveredLesson) throw new Error('expected at least one lesson without direct practice reference');
+  await goto(`html/lesson.html?id=${encodeURIComponent(uncoveredLesson.id)}`);
+  await page.waitForSelector('[data-practice-fallback="true"]');
+  const fallbackPractice = page.locator('[data-practice-fallback="true"] a').first();
+  if ((await fallbackPractice.getAttribute('href')) !== `practice.html?unit=${encodeURIComponent(uncoveredLesson.unitId)}`) throw new Error('uncovered lesson fallback does not route to its unit practice');
 
   await goto('html/lesson.html?id=FND-02');
   await page.waitForSelector('.check-question');
@@ -120,7 +138,7 @@ try {
   if (imported !== 1) throw new Error('validated backup restore failed');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log('[e2e] OK: action home, unified glossary, 320px overflow, unit hub, lesson threshold, written gates, mobile drawer, validated backup restore');
+  console.log(`[e2e] OK: ${projectMeta.build}, action home, unified glossary, lesson practice fallback, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
 } finally {
   await browser.close();
 }

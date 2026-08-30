@@ -20,7 +20,7 @@ if ((curriculum.studyUnits || []).length !== 13 || (curriculum.middleCategories 
 const html = readText('html/progress.html');
 for (const required of ['../js/study-state.js','../js/lesson-data.js','../js/practice-data.js','../js/case-data.js','progress-unit-grid','progress-middle-body','progress-next','data.html']) if (!html.includes(required)) fail(`progress.html missing ${required}`);
 const js = readText('js/progress.js');
-for (const required of ['APStudyState.lessonState','APStudyState.practiceState','APStudyState.caseState','APLessonData.load','APPracticeData.load','APCaseData.load','ap-study-mock-history-v1','unit.html?unit=','FULL MOCK']) if (!js.includes(required)) fail(`progress.js missing ${required}`);
+for (const required of ['APStudyState.lessonState','APStudyState.practiceState','APStudyState.caseState','APLessonData.load','APPracticeData.load','APCaseData.load','ap-study-mock-history-v1','unit.html?unit=','FULL MOCK','renderLoadError','23中分類の進捗を表示できません','progress-unit-grid','progress-middle-body','progress-next']) if (!js.includes(required)) fail(`progress.js missing ${required}`);
 if (js.includes('ap-original-practice-v1.json')) fail('progress.js reads legacy practice snapshot');
 if (js.includes('lesson-index-expansion.json')) fail('progress.js should use APLessonData instead of rebuilding indexes');
 const shell = readText('js/shell.js');
@@ -31,4 +31,4 @@ const lessonUnits = new Set(lessons.map(item => item.unitId));
 const practiceUnits = new Set(questions.map(item => item.unitId));
 const caseUnits = new Set(cases.map(item => item.unitId));
 for (const unit of curriculum.studyUnits || []) if (!lessonUnits.has(unit.id) || !practiceUnits.has(unit.id) || !caseUnits.has(unit.id)) fail(`${unit.id}: missing learning mode coverage`);
-console.log(`[progress] OK: current mastery dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases across 13 units.`);
+console.log(`[progress] OK: current mastery dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases across 13 units with complete loader error states.`);

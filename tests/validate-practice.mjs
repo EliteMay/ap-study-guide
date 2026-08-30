@@ -76,11 +76,12 @@ const js = readText('js/practice.js');
 for (const required of ['APStudyState','appendRecentScore','recentScores','WRITTEN_MIN_CHARS','practice-reveal','latestAnswer']) if (!js.includes(required)) fail(`practice.js missing ${required}`);
 if (js.includes('ap-original-practice-v1.json')) fail('practice.js reads legacy 37-question snapshot directly');
 const html = readText('html/practice.html');
-for (const required of ['../js/study-state.js','../js/practice-data.js','../js/practice.js','91問']) if (!html.includes(required)) fail(`practice.html missing ${required}`);
+for (const required of ['../js/study-state.js','../js/practice-data.js','../js/practice.js','Manifestから読み込み']) if (!html.includes(required)) fail(`practice.html missing ${required}`);
+if (html.includes('91問')) fail('practice.html reintroduced changing question count as static copy');
 const lessonJs = readText('js/lesson.js');
 if (lessonJs.includes('ap-original-practice-v1.json')) fail('lesson.js still reads legacy practice snapshot');
 const lessonPractice = readText('js/lesson-practice.js');
-if (!lessonPractice.includes('APPracticeData.load')) fail('lesson practice links do not use modular bank');
+for (const required of ['APPracticeData.load','APLessonData.load','dataset.practiceFallback','関連ユニットの短問へ進む','cases.html?unit=']) if (!lessonPractice.includes(required)) fail(`lesson practice fallback missing ${required}`);
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['practice','🧪 短問演習','practice.html']")) fail('navigation missing short practice');
@@ -90,4 +91,4 @@ if (home.includes('js/home-practice.js')) fail('homepage still loads duplicate p
 const legacy = readJson('json/practice/ap-original-practice-v1.json');
 if (!Array.isArray(legacy.questions) || legacy.questions.length !== 37) fail('legacy snapshot should remain compatibility-only 37 questions');
 
-console.log(`[practice] OK: ${questions.length} questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / ${coveredLessons.size}/${lessons.length} lessons referenced / reliable recent-result mastery enabled.`);
+console.log(`[practice] OK: ${questions.length} questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / ${coveredLessons.size}/${lessons.length} lessons referenced / uncovered lessons get unit-practice fallback.`);

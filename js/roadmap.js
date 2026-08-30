@@ -41,8 +41,16 @@
     document.getElementById('official-map').innerHTML = (data.majorCategories || []).map(major => `<section class="official-major"><div class="official-major-heading"><span>${escapeHtml(major.group)}</span><h3>大分類${major.code}：${escapeHtml(major.title)}</h3></div><div class="official-middle-list">${(middleByMajor.get(major.code) || []).map(middle => `<article class="official-middle"><strong>中分類${middle.code}：${escapeHtml(middle.title)}</strong><p>${(middle.small || []).map(escapeHtml).join(' / ')}</p></article>`).join('')}</div></section>`).join('');
   }
 
+  function renderLoadError(error) {
+    const message = escapeHtml(error?.message || '不明なエラー');
+    const retry = '<a href="roadmap.html">再読み込み</a>';
+    document.getElementById('roadmap-summary').innerHTML = `<div class="roadmap-error">学習マップの読み込みに失敗しました: ${message}<br>${retry}</div>`;
+    document.getElementById('study-unit-grid').innerHTML = `<div class="roadmap-error">13ユニットを表示できません。${retry}</div>`;
+    document.getElementById('official-map').innerHTML = `<div class="roadmap-error">IPA公式分類を表示できません。${retry}</div>`;
+  }
+
   document.addEventListener('DOMContentLoaded', () => loadMap().then(data => { renderSummary(data); renderUnits(data); renderOfficial(data); }).catch(error => {
     console.error(error);
-    document.getElementById('roadmap-summary').innerHTML = `<div class="roadmap-error">学習マップの読み込みに失敗しました: ${escapeHtml(error.message)}</div>`;
+    renderLoadError(error);
   }));
 })();
