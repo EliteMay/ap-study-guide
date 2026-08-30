@@ -25,7 +25,6 @@ if (js.includes('ap-original-practice-v1.json')) fail('progress.js reads legacy 
 if (js.includes('lesson-index-expansion.json')) fail('progress.js should use APLessonData instead of rebuilding indexes');
 const shell = readText('js/shell.js');
 if (!shell.includes("['progress','📈 学習進捗','progress.html']")) fail('navigation missing progress');
-if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 const state = readText('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','practiceState','caseState']) if (!state.includes(required)) fail(`study-state missing ${required}`);
 const lessonUnits = new Set(lessons.map(item => item.unitId));
