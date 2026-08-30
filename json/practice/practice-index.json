@@ -1,11 +1,12 @@
 {
   "meta": {
     "schemaVersion": 1,
-    "version": "2026.08.30-v1",
-    "title": "AP総合演習 Unit別Manifest",
-    "questionCount": 65,
+    "version": "2026.08.30-v2",
+    "title": "AP総合演習 Modular Manifest",
+    "questionCount": 91,
     "unitFileCount": 13,
-    "policy": "13学習ユニットごとに問題JSONを分割し、このManifestからRuntimeとCIが結合する。"
+    "expansionFileCount": 1,
+    "policy": "13学習ユニット別の基本65問に、既存の追加26問を統合する。旧37問単一Bankは移行前SnapshotとしてRuntimeから外す。"
   },
   "files": [
     {"unitId":"foundation-theory","file":"json/practice/units/foundation-theory.json","count":5},
@@ -20,6 +21,7 @@
     {"unitId":"service-audit","file":"json/practice/units/service-audit.json","count":5},
     {"unitId":"strategy-planning","file":"json/practice/units/strategy-planning.json","count":5},
     {"unitId":"business-accounting","file":"json/practice/units/business-accounting.json","count":5},
-    {"unitId":"law-standards","file":"json/practice/units/law-standards.json","count":5}
+    {"unitId":"law-standards","file":"json/practice/units/law-standards.json","count":5},
+    {"unitId":"cross-unit-expansion","file":"json/practice/ap-original-practice-expansion-v1.json","count":26}
   ]
 }
