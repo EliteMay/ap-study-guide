@@ -50,16 +50,20 @@ try {
     fetch(`${base}/json/lessons/lesson-index.json`).then(response => response.json()),
     fetch(`${base}/json/lessons/lesson-index-expansion.json`).then(response => response.json())
   ]);
+  const allLessons = lessonIndexes.flatMap(index => index.lessons || []);
   const practiceIndex = await (await fetch(`${base}/json/practice/practice-index.json`)).json();
   const practicePayloads = await Promise.all((practiceIndex.files || []).map(entry => fetch(`${base}/${entry.file}`).then(response => response.json())));
   const practiceQuestions = practicePayloads.flatMap(payload => payload.questions || []);
   const directLessonIds = new Set(practiceQuestions.flatMap(question => question.lessonRefs || []));
-  const uncoveredLesson = lessonIndexes.flatMap(index => index.lessons || []).find(lesson => !directLessonIds.has(lesson.id));
-  if (!uncoveredLesson) throw new Error('expected at least one lesson without direct practice reference');
-  await goto(`html/lesson.html?id=${encodeURIComponent(uncoveredLesson.id)}`);
-  await page.waitForSelector('[data-practice-fallback="true"]');
-  const fallbackPractice = page.locator('[data-practice-fallback="true"] a').first();
-  if ((await fallbackPractice.getAttribute('href')) !== `practice.html?unit=${encodeURIComponent(uncoveredLesson.unitId)}`) throw new Error('uncovered lesson fallback does not route to its unit practice');
+  const uncoveredLessons = allLessons.filter(lesson => !directLessonIds.has(lesson.id));
+  if (uncoveredLessons.length) throw new Error(`all lessons must have direct practice coverage: ${uncoveredLessons.map(item => item.id).join(', ')}`);
+  await goto('html/lesson.html?id=ALG-01');
+  const directPractice = page.locator('a[href="practice.html?unit=algorithm-programming&question=PC-ALG-01"]');
+  await directPractice.waitFor({ state:'visible' });
+  if (await page.locator('[data-practice-fallback="true"]').count()) throw new Error('covered lesson unexpectedly rendered practice fallback');
+  await directPractice.click();
+  await page.waitForSelector('#practice-question');
+  if (!(await page.locator('#practice-question').textContent())?.includes('擬似言語のトレース')) throw new Error('direct lesson practice did not open PC-ALG-01');
 
   await goto('html/lesson.html?id=FND-02');
   await page.waitForSelector('.check-question');
@@ -138,7 +142,7 @@ try {
   if (imported !== 1) throw new Error('validated backup restore failed');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e] OK: ${projectMeta.build}, action home, unified glossary, lesson practice fallback, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
+  console.log(`[e2e] OK: ${projectMeta.build}, action home, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
 } finally {
   await browser.close();
 }
