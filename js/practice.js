@@ -26,6 +26,11 @@
     try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch {}
   }
 
+  function isMastered(question, record) {
+    if (!record) return false;
+    return question.type === 'choice' ? Number(record.bestScore) >= 1 : Number(record.bestScore) >= 2;
+  }
+
   function saveResult(question, result) {
     const history = readHistory();
     const previous = history[question.id] || {};
@@ -58,23 +63,20 @@
 
   function resultLabel(question, record) {
     if (!record) return '未挑戦';
-    if (question.type === 'choice') return record.bestScore >= 1 ? '正解済み' : '再挑戦';
-    return record.bestScore >= 2 ? '自己評価◎' : record.bestScore >= 1 ? '自己評価△' : '再挑戦';
+    if (isMastered(question, record)) return '理解済み';
+    return '要復習';
   }
 
   function renderSummary() {
     const history = readHistory();
     const attempted = questions.filter(q => history[q.id]).length;
-    const mastered = questions.filter(q => {
-      const h = history[q.id];
-      if (!h) return false;
-      return q.type === 'choice' ? Number(h.bestScore) >= 1 : Number(h.bestScore) >= 2;
-    }).length;
+    const mastered = questions.filter(q => isMastered(q, history[q.id])).length;
+    const retry = questions.filter(q => history[q.id] && !isMastered(q, history[q.id])).length;
     $('practice-summary').innerHTML = `
       <div><strong>${questions.length}</strong><span>全問題</span></div>
       <div><strong>${attempted}</strong><span>挑戦済み</span></div>
-      <div><strong>${mastered}</strong><span>理解できた</span></div>
-      <div><strong>${filtered.length}</strong><span>現在の絞込</span></div>`;
+      <div><strong>${mastered}</strong><span>理解済み</span></div>
+      <div><strong>${retry}</strong><span>要復習</span></div>`;
   }
 
   function renderList() {
@@ -96,9 +98,24 @@
     }));
   }
 
+  function nextQuestion() {
+    if (!filtered.length) return;
+    const index = filtered.findIndex(q => q.id === currentId);
+    currentId = filtered[(index + 1 + filtered.length) % filtered.length].id;
+    renderList();
+    renderQuestion();
+    $('practice-question')?.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function attachNextButton(root) {
+    const button = root.querySelector('[data-practice-next]');
+    button?.addEventListener('click', nextQuestion);
+  }
+
   function renderChoice(question) {
+    const record = readHistory()[question.id];
     $('practice-question').innerHTML = `
-      <div class="practice-question-meta"><span>${escapeHtml(question.id)}</span><span>${escapeHtml(unitLabel(question.unitId))}</span><span>${escapeHtml(difficultyLabel(question.difficulty))}</span></div>
+      <div class="practice-question-meta"><span>${escapeHtml(question.id)}</span><span>${escapeHtml(unitLabel(question.unitId))}</span><span>${escapeHtml(difficultyLabel(question.difficulty))}</span>${record ? `<span>${escapeHtml(resultLabel(question, record))} · ${Number(record.attempts || 0)}回</span>` : ''}</div>
       <h2>${escapeHtml(question.title)}</h2>
       <p class="practice-prompt">${escapeHtml(question.prompt)}</p>
       <div class="practice-options">${question.options.map((option,index) => `<button type="button" data-choice="${index}">${escapeHtml(option)}</button>`).join('')}</div>
@@ -117,14 +134,16 @@
       const feedback = $('practice-feedback');
       feedback.hidden = false;
       feedback.className = `practice-feedback ${correct ? 'correct' : 'wrong'}`;
-      feedback.innerHTML = `<strong>${correct ? '正解' : '不正解'}</strong><p>${escapeHtml(question.explanation || '')}</p>`;
+      feedback.innerHTML = `<strong>${correct ? '正解' : '不正解'}</strong><p>${escapeHtml(question.explanation || '')}</p><button type="button" class="practice-next" data-practice-next>次の問題 →</button>`;
       saveResult(question, { score:correct ? 1 : 0, correct, answer:String(selected) });
+      attachNextButton(feedback);
     }));
   }
 
   function renderWritten(question) {
+    const record = readHistory()[question.id];
     $('practice-question').innerHTML = `
-      <div class="practice-question-meta"><span>${escapeHtml(question.id)}</span><span>${escapeHtml(unitLabel(question.unitId))}</span><span>${escapeHtml(difficultyLabel(question.difficulty))}</span></div>
+      <div class="practice-question-meta"><span>${escapeHtml(question.id)}</span><span>${escapeHtml(unitLabel(question.unitId))}</span><span>${escapeHtml(difficultyLabel(question.difficulty))}</span>${record ? `<span>${escapeHtml(resultLabel(question, record))} · ${Number(record.attempts || 0)}回</span>` : ''}</div>
       <h2>${escapeHtml(question.title)}</h2>
       <p class="practice-prompt">${escapeHtml(question.prompt)}</p>
       <label class="practice-written-label">自分の回答<textarea id="practice-written-answer" rows="7" placeholder="先に自分の言葉で書いてから模範観点を開いてください。"></textarea></label>
@@ -132,7 +151,7 @@
       <div id="practice-model" class="practice-model" hidden>
         <h3>モデル解答</h3><p>${escapeHtml(question.modelAnswer || '')}</p>
         <h3>採点観点</h3><ul>${(question.points || []).map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul>
-        <div class="practice-self-grade"><strong>自分で評価</strong><button type="button" data-grade="2">できた</button><button type="button" data-grade="1">一部できた</button><button type="button" data-grade="0">できなかった</button></div>
+        <div class="practice-self-grade"><strong>自分で評価</strong><button type="button" data-grade="2">できた</button><button type="button" data-grade="1">一部できた</button><button type="button" data-grade="0">できなかった</button><button type="button" class="practice-next" data-practice-next hidden>次の問題 →</button></div>
       </div>
       ${lessonLinks(question)}`;
     $('practice-reveal').addEventListener('click', () => {
@@ -147,6 +166,9 @@
       saveResult(question, { score, correct:score === 2, answer });
       $('practice-question').querySelectorAll('[data-grade]').forEach(item => item.disabled = true);
       button.classList.add('selected');
+      const next = $('practice-question').querySelector('[data-practice-next]');
+      if (next) next.hidden = false;
+      attachNextButton($('practice-question'));
     }));
   }
 
@@ -157,19 +179,55 @@
     else renderChoice(question);
   }
 
+  function updateUrl() {
+    const params = new URLSearchParams();
+    const pairs = [
+      ['unit',$('practice-unit').value],
+      ['type',$('practice-type').value],
+      ['difficulty',$('practice-difficulty').value],
+      ['status',$('practice-status').value]
+    ];
+    pairs.forEach(([key,value]) => { if (value && value !== 'all') params.set(key,value); });
+    history.replaceState(null,'',`${location.pathname}${params.toString() ? `?${params}` : ''}`);
+  }
+
   function applyFilters() {
     const unit = $('practice-unit').value;
     const type = $('practice-type').value;
     const difficulty = $('practice-difficulty').value;
-    filtered = questions.filter(q =>
-      (unit === 'all' || q.unitId === unit) &&
-      (type === 'all' || q.type === type) &&
-      (difficulty === 'all' || String(q.difficulty) === difficulty)
-    );
+    const status = $('practice-status').value;
+    const history = readHistory();
+    filtered = questions.filter(q => {
+      const record = history[q.id];
+      const statusMatch = status === 'all' ||
+        (status === 'unattempted' && !record) ||
+        (status === 'retry' && record && !isMastered(q, record)) ||
+        (status === 'mastered' && isMastered(q, record));
+      return (unit === 'all' || q.unitId === unit) &&
+        (type === 'all' || q.type === type) &&
+        (difficulty === 'all' || String(q.difficulty) === difficulty) &&
+        statusMatch;
+    });
     if (!filtered.some(q => q.id === currentId)) currentId = filtered[0]?.id || '';
+    updateUrl();
     renderSummary();
     renderList();
     renderQuestion();
+  }
+
+  function applyInitialParams() {
+    const params = new URLSearchParams(location.search);
+    const mapping = [
+      ['unit','practice-unit'],
+      ['type','practice-type'],
+      ['difficulty','practice-difficulty'],
+      ['status','practice-status']
+    ];
+    mapping.forEach(([param,id]) => {
+      const value = params.get(param);
+      const select = $(id);
+      if (value && [...select.options].some(option => option.value === value)) select.value = value;
+    });
   }
 
   async function init() {
@@ -180,7 +238,8 @@
     questions = Array.isArray(bank.questions) ? bank.questions : [];
     units = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order) - Number(b.order));
     $('practice-unit').insertAdjacentHTML('beforeend', units.map(unit => `<option value="${escapeHtml(unit.id)}">${escapeHtml(unit.title)}</option>`).join(''));
-    ['practice-unit','practice-type','practice-difficulty'].forEach(id => $(id).addEventListener('change', applyFilters));
+    applyInitialParams();
+    ['practice-unit','practice-type','practice-difficulty','practice-status'].forEach(id => $(id).addEventListener('change', applyFilters));
     $('practice-random').addEventListener('click', () => {
       if (!filtered.length) return;
       currentId = filtered[Math.floor(Math.random() * filtered.length)].id;
@@ -189,12 +248,10 @@
     });
     filtered = [...questions];
     currentId = filtered[0]?.id || '';
-    renderSummary();
-    renderList();
-    renderQuestion();
+    applyFilters();
   }
 
-  window.addEventListener('storage', event => { if (event.key === HISTORY_KEY) { renderSummary(); renderList(); } });
+  window.addEventListener('storage', event => { if (event.key === HISTORY_KEY) applyFilters(); });
   document.addEventListener('DOMContentLoaded', () => init().catch(error => {
     console.error(error);
     $('practice-question').innerHTML = `<p class="practice-empty">総合演習の読み込みに失敗しました: ${escapeHtml(error.message)}</p>`;
