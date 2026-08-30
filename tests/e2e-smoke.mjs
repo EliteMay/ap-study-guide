@@ -11,6 +11,11 @@ async function goto(path) {
   await page.goto(`${base}/${path}`, { waitUntil:'networkidle' });
 }
 
+async function assertNoHorizontalOverflow(label) {
+  const metrics = await page.evaluate(() => ({ width:document.documentElement.clientWidth, scroll:document.documentElement.scrollWidth }));
+  if (metrics.scroll > metrics.width + 1) throw new Error(`${label}: horizontal overflow ${metrics.scroll}px > ${metrics.width}px`);
+}
+
 try {
   await goto('index.html');
   await page.evaluate(() => localStorage.clear());
@@ -18,6 +23,8 @@ try {
   if (!await page.getByRole('heading', { name:'何をするか選ぶだけ。' }).isVisible()) throw new Error('action-first homepage heading missing');
   if (await page.locator('#home-unit-grid .unit-card').count() !== 13) throw new Error('homepage must render 13 unit cards');
   if (await page.locator('.home-launch-card').count() !== 8) throw new Error('homepage must expose 8 main actions');
+  await page.waitForFunction(() => document.querySelector('[data-ap-build]')?.textContent?.includes('r18'));
+  if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
   await page.locator('#home-quick-search').fill('OAuth');
   if (!await page.locator('#home-quick-results').isVisible()) throw new Error('homepage quick finder did not open');
   if (!(await page.locator('#home-quick-results').textContent())?.includes('単語辞書')) throw new Error('homepage quick finder does not route unknown term to glossary');
@@ -64,8 +71,9 @@ try {
   await firstCase.locator('textarea').fill('在庫更新が同時実行されると競合が起きるため、トランザクションとロックで整合性を守る必要がある。');
   if (await firstCase.locator('.case-reveal').isDisabled()) throw new Error('case model answer did not unlock');
 
-  await page.setViewportSize({ width:390, height:844 });
+  await page.setViewportSize({ width:320, height:700 });
   await goto('index.html');
+  await assertNoHorizontalOverflow('home 320px');
   const menu = page.locator('.ap-mobile-menu');
   const nav = page.locator('.unit-nav');
   if ((await nav.getAttribute('inert')) === null) throw new Error('closed mobile nav must be inert');
@@ -73,13 +81,46 @@ try {
   if ((await nav.getAttribute('inert')) !== null) throw new Error('open mobile nav must not be inert');
   await page.keyboard.press('Escape');
   if ((await nav.getAttribute('inert')) === null) throw new Error('Escape must close and inert mobile nav');
+  await goto('html/glossary.html?q=OAuth');
+  await page.waitForFunction(() => document.querySelectorAll('.glossary-card').length > 0);
+  await assertNoHorizontalOverflow('glossary 320px');
 
+  await page.setViewportSize({ width:1280, height:900 });
   await goto('html/data.html');
   if (!await page.getByRole('button', { name:'JSONを書き出す' }).isVisible()) throw new Error('backup export button missing');
   if (!await page.locator('#data-import-file').isVisible()) throw new Error('backup import input missing');
 
+  const badBackup = {
+    schemaVersion:1,
+    app:'AP Study Notes',
+    build:'malformed-test',
+    exportedAt:new Date().toISOString(),
+    storage:{ 'ap-study-lesson-progress-v1':'{broken-json' }
+  };
+  await page.locator('#data-import-file').setInputFiles({ name:'bad-backup.json', mimeType:'application/json', buffer:Buffer.from(JSON.stringify(badBackup)) });
+  await page.waitForFunction(() => document.querySelector('#data-import-preview')?.textContent?.includes('読み込み失敗'));
+  if (!(await page.locator('#data-import').isDisabled())) throw new Error('malformed recognized storage must not enable restore');
+
+  const validBuildText = '<img src=x onerror=window.__backupXss=1>';
+  const validBackup = {
+    schemaVersion:1,
+    app:'AP Study Notes',
+    build:validBuildText,
+    exportedAt:new Date().toISOString(),
+    storage:{ 'ap-study-lesson-progress-v1':JSON.stringify({ 'IMPORT-TEST':{ latestAnswered:1,total:1,latestCorrect:1,updatedAt:Date.now() } }) }
+  };
+  await page.locator('#data-import-file').setInputFiles({ name:'valid-backup.json', mimeType:'application/json', buffer:Buffer.from(JSON.stringify(validBackup)) });
+  await page.waitForFunction(() => !document.querySelector('#data-import')?.disabled);
+  if (await page.locator('#data-import-preview img').count()) throw new Error('backup metadata rendered as HTML');
+  if (await page.evaluate(() => Boolean(window.__backupXss))) throw new Error('backup preview executed imported HTML');
+  page.once('dialog', dialog => dialog.accept());
+  await page.locator('#data-import').click();
+  await page.waitForFunction(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']);
+  const imported = await page.evaluate(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']?.latestCorrect);
+  if (imported !== 1) throw new Error('validated backup restore failed');
+
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log('[e2e] OK: action home, unified glossary, unit hub, lesson threshold, written gates, mobile drawer, backup page');
+  console.log('[e2e] OK: action home, unified glossary, 320px overflow, unit hub, lesson threshold, written gates, mobile drawer, validated backup restore');
 } finally {
   await browser.close();
 }
