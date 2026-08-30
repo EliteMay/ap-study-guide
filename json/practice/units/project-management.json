@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"project-management","questionCount":5},
+  "questions":[
+    {"id":"P-PM-01","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":3,"title":"EVM","prompt":"PV=100、EV=80、AC=90のProjectでCPIとSPIの組合せとして正しいものはどれか。","options":["CPI≈0.89, SPI=0.80","CPI=1.25, SPI=1.13","CPI=0.80, SPI=0.89","CPI=1.00, SPI=1.00"],"answerIndex":0,"explanation":"CPI=EV/AC=80/90≈0.89、SPI=EV/PV=80/100=0.80。Cost超過かつSchedule遅延傾向。","lessonRefs":["PM-03"]},
+    {"id":"P-PM-02","unitId":"project-management","middleCodes":[14],"type":"written","difficulty":3,"title":"Critical Path","prompt":"Critical Path上のTaskが1日遅れた場合にProject全体へ影響しやすい理由を説明してください。","modelAnswer":"Critical Pathは通常Total Floatが0の最長経路であり、そのTaskの遅延を吸収する余裕がないため、他の短縮や並行化がなければProject完了日も遅れる。","points":["Float/余裕が0または小さいと述べる","完了日へ直接影響すると述べる"],"lessonRefs":["PM-02"]},
+    {"id":"P-PM-03","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":3,"title":"Risk期待損失","prompt":"発生確率20%、発生時損失500万円のRiskがある。単純な期待損失額はどれか。","options":["20万円","100万円","400万円","500万円"],"answerIndex":1,"explanation":"Expected Monetary Valueは0.2×500万円=100万円。実際の対応判断ではRisk appetiteや対策Cost等も考える。","lessonRefs":["PM-05"]},
+    {"id":"P-PM-04","unitId":"project-management","middleCodes":[14],"type":"written","difficulty":3,"title":"RACIの役割分離","prompt":"RACIでResponsibleとAccountableを分ける目的を説明してください。","modelAnswer":"実作業を行うResponsibleと、成果に最終責任を負い承認するAccountableを区別することで、誰が実行し誰が最終判断するかの曖昧さを減らすため。","points":["Responsibleを実行担当として説明する","Accountableを最終責任/承認として説明する","責任の曖昧さを減らす目的に触れる"],"lessonRefs":["PM-06"]},
+    {"id":"P-PM-05","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":3,"title":"契約形態とCost Risk","prompt":"Scopeが明確で、発注側がCost超過Riskを受注側へ比較的移しやすい契約として一般に近いものはどれか。","options":["固定価格型","Time and Materialsのみ","Cost Plusのみ","契約を結ばない"],"answerIndex":0,"explanation":"固定価格では合意Scopeに対する価格が固定され、見積誤差のCost Riskを受注側が多く負う。ただしScope変更管理は必要。","lessonRefs":["PM-06"]}
+  ]
+}
