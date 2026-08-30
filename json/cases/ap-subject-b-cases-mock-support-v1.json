@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "AP Subject B型 模試分野補完Case",
+    "source": "original",
+    "notice": "組込みシステムとシステム監査を独立した長文Caseとして補完する。IPA公式問題文の転載・再現ではない。",
+    "caseCount": 2
+  },
+  "cases": [
+    {
+      "id": "CASE-EMB-01",
+      "unitId": "computer-systems",
+      "middleCodes": [6],
+      "title": "搬送ロボットの周期制御と安全停止",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "工場の搬送ロボットは10ms周期で距離Sensorを読み取り、障害物との距離に応じてMotor出力を更新する。Sensor値はA/D ConverterからI/O Controllerへ入り、制御Taskは周期Timerの割込みで起動する。通常の制御計算は3msで完了するが、Log書込みを同期処理した場合には最大12msかかることがある。",
+        "安全設計では、一定時間Control Taskが応答しない場合にWatchdog TimerがMotor出力を停止する。さらにSensor断線時は異常値を検出し、前回値で走行を継続するのではなく安全側へ遷移する方針である。",
+        "開発Teamは、平均処理時間だけでなくWorst Case Execution Time、Interrupt Priority、共有Dataへの排他、Fail-safe動作を含めて確認することにした。"
+      ],
+      "questions": [
+        {
+          "id": "CASE-EMB-01-Q1",
+          "type": "written",
+          "prompt": "10ms周期Taskで最大12msの同期Log処理を行う設計が危険な理由を説明してください。",
+          "modelAnswer": "周期Deadlineの10msをWorst Caseで超え、次周期の制御開始が遅れて制御応答が保証できないため。Logは非同期化やBufferingなどでControl TaskのDeadlineから分離する必要がある。",
+          "points": ["12msが10ms Deadlineを超えると指摘する", "非同期化/Bufferingなどで制御処理から分離する"]
+        },
+        {
+          "id": "CASE-EMB-01-Q2",
+          "type": "written",
+          "prompt": "周期Timer割込みをPollingより優先する利点を、CPU利用の観点から説明してください。",
+          "modelAnswer": "PollingではCPUが状態を繰り返し確認し続けるが、Interruptならイベント発生時だけControl Taskを起動できるため、待機中のCPU時間を他処理へ使いやすい。Priority設計は必要である。",
+          "points": ["Pollingの継続確認によるCPU消費に触れる", "Interruptは必要時に処理を起動できると述べる"]
+        },
+        {
+          "id": "CASE-EMB-01-Q3",
+          "type": "written",
+          "prompt": "Sensor断線時にMotor停止へ遷移する設計とWatchdog Timerが、それぞれどのような安全性を担保するか説明してください。",
+          "modelAnswer": "Sensor異常時のMotor停止は異常入力を検出した際に危険側へ動作し続けないFail-safe設計である。WatchdogはSoftware HangやDeadline超過などControl Task自体が応答しないFailureを検出し、安全停止へ移行させる。",
+          "points": ["Sensor異常時停止をFail-safeとして説明する", "WatchdogがTask停止/応答不能を検出すると説明する"]
+        }
+      ],
+      "lessonRefs": ["CMP-05", "CMP-06", "CMP-12", "FND-07"]
+    },
+    {
+      "id": "CASE-AUD-01",
+      "unitId": "service-audit",
+      "middleCodes": [16],
+      "title": "特権ID管理の有効性をシステム監査で確かめる",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "G社では本番Databaseの特権IDを運用Teamが利用している。規程では申請・承認後に一時的に権限を付与し、作業終了後に削除することになっている。監査人が台帳を確認すると申請記録は存在したが、実際のDatabase権限一覧には退職者Accountと、期限を過ぎた一時権限が残っていた。",
+        "運用責任者は『申請台帳では全て承認済みなのでControlは有効』と説明した。一方、監査人は台帳だけでなくDatabaseから直接取得したAccount一覧、認証Log、権限変更Logを突合する必要があると判断した。",
+        "対象Accountは数千件あるため、監査TeamはCAATを使って退職者一覧との全件突合、期限超過権限の抽出、休日深夜の特権Login抽出を自動化することを検討している。"
+      ],
+      "questions": [
+        {
+          "id": "CASE-AUD-01-Q1",
+          "type": "written",
+          "prompt": "申請台帳だけでは特権ID Controlが有効と結論付けられない理由を説明してください。",
+          "modelAnswer": "規程上の申請・承認が記録されていても、実際のSystem上で権限が期限どおり削除されているか、未承認Accountが存在しないかは別途確認が必要だから。実Systemから取得した権限情報など、実施状況を示すEvidenceが必要である。",
+          "points": ["規程/台帳と実際のSystem状態は別と述べる", "実権限情報などのEvidenceで実施状況を確認すると述べる"]
+        },
+        {
+          "id": "CASE-AUD-01-Q2",
+          "type": "written",
+          "prompt": "Databaseから監査人が直接取得した権限一覧が、運用担当者作成の集計表より一般に信頼性を高めやすい理由を説明してください。",
+          "modelAnswer": "監査対象部門による加工・選別を受ける余地が小さく、一次Dataに近い独立したEvidenceとして確認できるため。ただし取得条件、時点、完全性も監査人が確認する必要がある。",
+          "points": ["対象部門による加工余地が小さいことに触れる", "一次Data/取得条件・完全性の確認に触れる"]
+        },
+        {
+          "id": "CASE-AUD-01-Q3",
+          "type": "written",
+          "prompt": "この監査でCAATによる全件突合が有効な理由を2つ説明してください。",
+          "modelAnswer": "数千件を手作業Sampleだけで確認するより、退職者や期限超過など明確な条件を全件へ適用でき、見逃しを減らせる。また異常候補を絞って詳細調査へつなげられる。",
+          "points": ["大量Dataへ同一条件を全件適用できる", "異常候補抽出や見逃し低減につながる"]
+        }
+      ],
+      "lessonRefs": ["AUD-01", "AUD-02", "SVC-02"]
+    }
+  ]
+}
