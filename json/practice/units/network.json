@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"network","questionCount":5},
+  "questions":[
+    {"id":"P-NET-01","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"Subnet","prompt":"192.168.1.96/27 のBroadcast Addressはどれか。","options":["192.168.1.95","192.168.1.96","192.168.1.126","192.168.1.127"],"answerIndex":3,"explanation":"/27は32 Address単位。96〜127がSubnetでBroadcastは127。","lessonRefs":["NET-02"]},
+    {"id":"P-NET-02","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"障害切り分け","prompt":"Default Gatewayへのping成功、外部IP Addressへのping成功、FQDNへのAccess失敗、nslookup失敗。この時まず疑う範囲はどれか。","options":["DNS名前解決","LAN Cable断線","Default Gateway停止","PC電源断"],"answerIndex":0,"explanation":"IP疎通は外部まで成功しているため名前解決を優先して確認する。","lessonRefs":["NET-12"]},
+    {"id":"P-NET-03","unitId":"network","middleCodes":[10],"type":"written","difficulty":3,"title":"TCP Flow Control","prompt":"TCPの受信Windowが必要な理由を説明してください。","modelAnswer":"受信側が処理・Bufferできる量を送信側へ知らせ、受信能力を超えてDataを送り過ぎることを防ぐFlow Controlのため。","points":["受信側のBuffer/処理能力を通知すると述べる","送り過ぎを防ぐFlow Controlだと述べる"],"lessonRefs":["NET-07"]},
+    {"id":"P-NET-04","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"Longest Prefix Match","prompt":"宛先10.1.2.130に対しRoute 10.0.0.0/8、10.1.0.0/16、10.1.2.0/24、0.0.0.0/0がある。選ばれるRouteはどれか。","options":["10.0.0.0/8","10.1.0.0/16","10.1.2.0/24","0.0.0.0/0"],"answerIndex":2,"explanation":"複数Routeが一致する場合、最も長いPrefix、つまり最も具体的な10.1.2.0/24が選ばれる。","lessonRefs":["NET-06"]},
+    {"id":"P-NET-05","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"VLAN Trunk","prompt":"1本のSwitch間LinkでVLAN10とVLAN20のFrameを識別して運びたい。最も適する仕組みはどれか。","options":["802.1Q Tagを使うTrunk","ARPを無効化する","DNSSECを使う","全Portを同じAccess VLANにする"],"answerIndex":0,"explanation":"Trunk Linkでは802.1Q Tag等で複数VLANを識別して同一物理Link上へ運ぶ。","lessonRefs":["NET-04"]}
+  ]
+}
