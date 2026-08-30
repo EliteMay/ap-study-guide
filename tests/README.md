@@ -1,71 +1,54 @@
 # AP Study Notes tests
 
-品質確認をサイト本体から分離して管理するフォルダ。
+CIは構文・Data・参照・Coverageを保証します。実Browserの見た目や全Clickを完全保証するものではありません。
 
-CIは構文・Data・内部参照・Coverageを保証する。実Browserの見た目や全Clickを完全保証するものではない。
+## Validator一覧
 
-## `validate.mjs`
-
-基本Data / 既存機能検証。
-
-主な検査:
+### `validate.mjs`
 
 - 全JSON構文
-- 旧6教材manifest / JSON件数
-- 用語ID / category / required fields
-- terms-details対応
-- Security過去問target
+- 旧6教材manifest / 件数 / ID
+- Security / Network / Database details対応
+- Security既存過去問target
 - 主要HTML参照
-- IPA大分類9 / 中分類23 / 学習Unit13
+- IPA 9大分類 / 23中分類 / 13Unit
 - Base Lesson構造
-- Algorithm 65/65割当
+- Algorithm 65/65
 
-## `validate-audits.mjs`
-
-旧教材監査と実Lesson移行。
-
-対象:
+### `validate-audits.mjs`
 
 - System 75/75
 - Management 72/72
 - Database 229/229
 - Network 480/480
+- `legacyTermRanges`展開
+- missing / duplicate / extra ID検出
 
-`legacyTermRanges`を展開し、missing / duplicate / extra IDを検出する。
+### `validate-security-audit.mjs`
 
-## `validate-security-audit.mjs`
-
-Security 501語のCross-domain再分類専用。
-
-期待:
+Security 501語のCross-domain再分類。
 
 - Security 369
 - Network 104
 - Computer Systems 13
 - Law 10
 - System Development 2
-- Service / Audit 3
+- Service/Audit 3
 - Total 501
 
-## `validate-computer-systems.mjs`
+### `validate-computer-systems.mjs`
 
-CMP-01〜12と中分類3〜6のCoverageを検証する。
+CMP-01〜12とIPA中分類3〜6のCoverage。
 
-## `validate-curriculum-expansion.mjs`
+### `validate-curriculum-expansion.mjs`
 
-118Lessonと23中分類Coverage。
+- Base Lesson 87
+- Expansion 31
+- Total **118**
+- 13Unit Hub
+- IPA中分類1〜23 Lesson Coverage
 
-期待:
-
-- Base: 87
-- Expansion: 31
-- Total: **118**
-- 13学習Unitに有効Hub
-- IPA中分類1〜23すべてにLesson
-
-## `validate-practice.mjs`
-
-短問総合演習専用。
+### `validate-practice.mjs`
 
 Runtime正本:
 
@@ -73,20 +56,16 @@ Runtime正本:
 
 期待:
 
-- **91問**
-- 13 / 13学習Unit
+- **91短問**
+- 13/13 Unit
 - 各Unit 7問以上
-- 23 / 23 IPA中分類
-- Choice / Written両方
-- 関連Lesson実在
-- Practice画面 / Filter / Random / Direct Link整合
-- BUILD r13
+- 23/23中分類
+- Choice / Written
+- Lesson参照実在
+- Filter / Random / Direct Link
+- BUILD r14
 
-旧37問JSONはSnapshotとして維持し、Runtimeから直接読まないことも検証する。
-
-## `validate-cases.mjs`
-
-長文Case専用。
+### `validate-cases.mjs`
 
 Runtime正本:
 
@@ -94,60 +73,59 @@ Runtime正本:
 
 期待:
 
-- Base 6Case
-- Expansion 8Case
-- **Total 14Case**
-- **42 Written questions**
-- **13 / 13学習Unit Coverage**
-- **23 / 23 IPA中分類Coverage**
-
-検査:
-
-- Manifest count
-- Case / Question ID重複
-- Scenario長
-- estimatedMinutes
+- Base6 + Expansion8 = **14Case**
+- **42 Written設問**
+- 13/13 Unit
+- 23/23中分類
 - 1Case 3設問
-- Model Answer
-- 採点観点
-- 関連Lesson実在
+- Model Answer / 採点観点
 - Unit / Status Filter
 - Random Case
-- `ap-study-case-history-v1`
-- BUILD r13
+- BUILD r14
 
-## `validate-past-lesson-map.mjs`
+### `validate-official-past.mjs`
 
-既存Security過去問7問をLessonへ対応付けるMappingを検証。
+最新公開公式問題Mapping専用。
 
 期待:
 
-- 7 / 7 past question Mapping
+- currentExamYear = 2026
+- currentMethod = CBT
+- **2026 actual questions = non-public**
+- latestPublicFullExamYear = 2025
+- 2025春 + 秋
+- 各午後11大問
+- Total **22大問**
+- 問1必須
+- 問2〜11選択
+- Unit / Lesson参照実在
+- IPA公式URLのみ
+- `html/official-past.html`
+- `js/lesson-official-past.js`
+- canonical Navigation
+- BUILD r14
+
+### `validate-past-lesson-map.mjs`
+
+既存Security過去問7問のLesson Mapping。
+
+- 7/7
 - 関連Lesson実在
-- Lesson → 過去問direct Link
-- 過去問Page → target card open
+- Lesson→過去問Direct Link
 
-## `validate-progress.mjs`
+### `validate-progress.mjs`
 
-学習進捗Dashboard専用。
+学習進捗Dashboard。
 
-接続対象:
+接続:
 
 - 118Lesson
 - 91短問
 - 14長文Case
-- 13学習Unit
+- 13Unit
 - 23中分類
 
-検査:
-
-- Lesson / Practice / Case Data loader
-- 3種類のlocalStorage Key
-- 13 / 13 UnitにLesson・短問・Caseあり
-- 23 / 23中分類にLesson・短問・Caseあり
-- Unit別Link
-- Next Action
-- BUILD r13
+各Unit / 中分類にLesson・短問・長文Caseが存在することを検証。
 
 ## GitHub Actions
 
@@ -163,25 +141,24 @@ Runtime正本:
 6. `validate-curriculum-expansion.mjs`
 7. `validate-practice.mjs`
 8. `validate-cases.mjs`
-9. `validate-past-lesson-map.mjs`
-10. `validate-progress.mjs`
+9. `validate-official-past.mjs`
+10. `validate-past-lesson-map.mjs`
+11. `validate-progress.mjs`
 
 ## CIで保証しないもの
 
-以下は実Browser E2Eが別途必要。
+実Browser E2Eが別途必要:
 
-- PC表示
-- Mobile表示
+- PC / Mobile
 - Dark Mode
 - 118Lesson全表示
 - 全Lesson check button
 - Table / Diagram horizontal scroll
 - 13Unit Hub
 - Practice 91問全操作
-- Written自己採点
 - Case 14本 / 42設問全操作
-- Case Filter / Random
-- Navigation drawer
-- GitHub Pages上での実操作
+- Official Public Exam Mapの外部PDF Link実操作
+- Mobile drawer
+- GitHub Pages上の実操作
 
-CI successだけでこれらを「確認済み」と扱わない。
+CI successだけでこれらを確認済みと扱いません。
