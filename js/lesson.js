@@ -64,9 +64,10 @@
   async function loadLesson() {
     const id = requestedLessonId();
     if (!id) throw new Error('lesson id が指定されていません。');
-    const [baseIndex, expansionIndex] = await Promise.all([
+    const [baseIndex, expansionIndex, practiceBank] = await Promise.all([
       json('json/lessons/lesson-index.json'),
-      json('json/lessons/lesson-index-expansion.json')
+      json('json/lessons/lesson-index-expansion.json'),
+      json('json/practice/ap-original-practice-v1.json')
     ]);
     const lessons = [
       ...(Array.isArray(baseIndex.lessons) ? baseIndex.lessons : []),
@@ -76,7 +77,8 @@
     if (!entry) throw new Error(`教材 ${id} は見つかりません。`);
     const lesson = await json(entry.file);
     if (lesson.meta?.id !== entry.id) throw new Error(`${entry.id}: index と教材JSONのIDが一致しません。`);
-    return { entry, lesson, lessons };
+    const practiceQuestions = (practiceBank.questions || []).filter(question => (question.lessonRefs || []).includes(entry.id));
+    return { entry, lesson, lessons, practiceQuestions };
   }
 
   function renderHero(entry, lesson) {
@@ -190,6 +192,15 @@
     });
   }
 
+  function renderPracticeLinks(entry, questions) {
+    if (!questions.length) return '';
+    return `<section class="lesson-block lesson-practice-block"><h2>このLessonを総合演習で使う</h2><p>Lesson内の確認問題より一段離れた状況で、知識を選択・説明できるか確認します。</p>${questions.map(question => {
+      const type = question.type === 'written' ? '記述' : '選択';
+      const href = `practice.html?unit=${encodeURIComponent(entry.unitId)}&question=${encodeURIComponent(question.id)}`;
+      return `<a class="next-lesson-row is-link" href="${href}"><div><small>PRACTICE · ${escapeHtml(type)}</small><strong>${escapeHtml(question.id)} ${escapeHtml(question.title)}</strong></div><span>解く</span></a>`;
+    }).join('')}</section>`;
+  }
+
   function renderLessonNav(entry, lesson, lessons) {
     const indexedById = new Map(lessons.map(item => [item.id, item]));
     const sameUnit = lessons
@@ -231,11 +242,11 @@
 
   async function init() {
     try {
-      const { entry, lesson, lessons } = await loadLesson();
+      const { entry, lesson, lessons, practiceQuestions } = await loadLesson();
       renderHero(entry, lesson);
       renderObjectives(lesson);
       $('lesson-status').innerHTML = `<strong>${escapeHtml(lesson.meta.id)}</strong> は、共通生成の長文ではなく、この学習内容専用に作った構造化教材です。`;
-      $('lesson-sections').innerHTML = (lesson.sections || []).map(renderSection).join('') + renderLessonNav(entry, lesson, lessons);
+      $('lesson-sections').innerHTML = (lesson.sections || []).map(renderSection).join('') + renderPracticeLinks(entry, practiceQuestions) + renderLessonNav(entry, lesson, lessons);
       renderChecks(lesson);
     } catch (error) {
       console.error(error);
