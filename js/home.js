@@ -11,6 +11,7 @@
   ];
   const TEST_HISTORY_KEY = 'ap-study-test-history-v1';
   const LESSON_PROGRESS_KEY = 'ap-study-lesson-progress-v1';
+  const PRACTICE_HISTORY_KEY = 'ap-study-practice-history-v1';
 
   function readArray(key) {
     try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; }
@@ -95,19 +96,6 @@
     breakdown.textContent = DOMAIN_CONFIGS.filter(item => counts.get(item.id)).map(item => `${item.shortLabel} ${counts.get(item.id)}`).join(' / ');
   }
 
-  function renderTestHistory() {
-    const root = document.getElementById('recent-test-result');
-    if (!root) return;
-    const latest = readArray(TEST_HISTORY_KEY)[0];
-    if (!latest) {
-      root.innerHTML = '<strong>まだテスト履歴がありません</strong><span>ランダムテストを1回終えると、ここに直近結果が表示されます。</span>';
-      return;
-    }
-    const date = new Date(latest.at || Date.now());
-    const source = latest.sourceLabel || 'ランダム';
-    root.innerHTML = `<strong>${Number(latest.percent || 0)}% · ${Number(latest.score || 0)} / ${Number(latest.total || 0)} 問</strong><span>${source} · ${date.toLocaleString('ja-JP',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>`;
-  }
-
   function renderLessonProgress(lessons) {
     const progress = readObject(LESSON_PROGRESS_KEY);
     const completed = lessons.filter(lesson => progress[lesson.id]?.completed).length;
@@ -164,20 +152,34 @@
     if (hero) { hero.href = href; hero.textContent = saved.completed ? '最後のLessonを復習' : '続きから学ぶ'; }
   }
 
-  async function renderPersonalDashboard(lessons) {
-    renderBookmarkSummary(getBookmarks());
-    renderTestHistory();
-    renderLessonProgress(lessons);
+  function isPracticeMastered(question, record) {
+    if (!record) return false;
+    return question.type === 'choice' ? Number(record.bestScore) >= 1 : Number(record.bestScore) >= 2;
+  }
+
+  function renderPracticeProgress(bank) {
+    const questions = Array.isArray(bank?.questions) ? bank.questions : [];
+    const history = readObject(PRACTICE_HISTORY_KEY);
+    const attempted = questions.filter(question => history[question.id]).length;
+    const mastered = questions.filter(question => isPracticeMastered(question, history[question.id])).length;
+    const retry = questions.filter(question => history[question.id] && !isPracticeMastered(question, history[question.id])).length;
+    const number = document.getElementById('practice-progress-number');
+    const meta = document.getElementById('practice-progress-meta');
+    if (number) number.textContent = `${mastered} / ${questions.length}`;
+    if (meta) meta.textContent = `${attempted}問挑戦 · ${mastered}問理解済み · ${retry}問要復習。未挑戦/要復習で絞り込めます。`;
   }
 
   async function init() {
-    const [lessons, ...domainProgress] = await Promise.all([
+    const [lessons, practiceBank, ...domainProgress] = await Promise.all([
       loadLessonIndex(),
+      fetchJson('json/practice/ap-original-practice-v1.json'),
       ...DOMAIN_CONFIGS.map(updateDomain)
     ]);
     const totalTerms = domainProgress.reduce((sum,item) => sum + item.total, 0);
     if (document.getElementById('total-terms')) document.getElementById('total-terms').textContent = String(totalTerms);
-    await renderPersonalDashboard(lessons);
+    renderBookmarkSummary(getBookmarks());
+    renderLessonProgress(lessons);
+    renderPracticeProgress(practiceBank);
     await updatePastCount();
   }
 
@@ -185,8 +187,8 @@
   window.addEventListener('ap-lesson-progress-changed', async () => renderLessonProgress(await loadLessonIndex()));
   window.addEventListener('storage', async event => {
     if (event.key === 'ap-study-bookmarks-v1') renderBookmarkSummary(getBookmarks());
-    if (event.key === TEST_HISTORY_KEY) renderTestHistory();
     if (event.key === LESSON_PROGRESS_KEY) renderLessonProgress(await loadLessonIndex());
+    if (event.key === PRACTICE_HISTORY_KEY) renderPracticeProgress(await fetchJson('json/practice/ap-original-practice-v1.json'));
   });
   document.addEventListener('DOMContentLoaded', () => init().catch(error => console.error('[home] init failed', error)));
 })();
