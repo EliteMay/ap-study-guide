@@ -1,7 +1,7 @@
 {
   "meta": {
     "schemaVersion": 1,
-    "version": "2026.08.30-v1",
+    "version": "2026.08.30-v2",
     "title": "AP Study Notes オリジナル模試設定",
     "notice": "IPA公式問題の転載・再現ではない。2026年度APの公開試験仕様に合わせて問題数・解答数・試験時間を設定する。"
   },
@@ -21,10 +21,23 @@
     "offeredMainQuestions": 11,
     "answeredMainQuestions": 5,
     "mandatoryUnitId": "security",
+    "mandatoryCaseId": "CASE-SEC-01",
     "mandatoryCount": 1,
     "optionalOfferedCount": 10,
     "optionalAnswerCount": 4,
     "questionsPerCase": 3,
+    "optionalCases": [
+      {"domain":"経営戦略","caseId":"CASE-BUS-01"},
+      {"domain":"プログラミング","caseId":"CASE-ALG-01"},
+      {"domain":"システムアーキテクチャ","caseId":"CASE-CMP-01"},
+      {"domain":"ネットワーク","caseId":"CASE-NET-01"},
+      {"domain":"データベース","caseId":"CASE-DB-01"},
+      {"domain":"組込みシステム開発","caseId":"CASE-EMB-01"},
+      {"domain":"情報システム開発","caseId":"CASE-SYS-01"},
+      {"domain":"プロジェクトマネジメント","caseId":"CASE-PM-01"},
+      {"domain":"サービスマネジメント","caseId":"CASE-SVC-01"},
+      {"domain":"システム監査","caseId":"CASE-AUD-01"}
+    ],
     "historyKey": "ap-study-mock-history-v1",
     "activeKey": "ap-study-mock-active-b-v1"
   }
