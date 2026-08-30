@@ -6,19 +6,26 @@
   const CASE_KEY = 'ap-study-case-history-v1';
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
   const normalize = value => String(value || '').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ');
+  let finderCatalog = [];
+  let finderBound = false;
 
-  const QUICK_ACTIONS = [
-    { title:'Lessonで学ぶ', description:'118本の構造化Lesson', href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
-    { title:'単語辞書', description:'旧1,422語を横断検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
-    { title:'短問演習', description:'91問の選択・記述問題', href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
-    { title:'長文Case', description:'16Case・48設問', href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
-    { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
-    { title:'公式公開問題', description:'2025春・秋の22大問', href:'html/official-past.html', keywords:'公式 過去問 ipa 2025 春 秋 午後 科目b' },
-    { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', keywords:'進捗 弱点 復習 成績 理解 progress' },
-    { title:'学習データ', description:'Backup / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
-  ];
+  function buildQuickActions(stats = {}) {
+    const lessonText = Number.isFinite(stats.lessonCount) ? `${stats.lessonCount}本の構造化Lesson` : '構造化Lessonから体系的に学ぶ';
+    const practiceText = Number.isFinite(stats.practiceCount) ? `${stats.practiceCount}問の選択・記述問題` : '選択・記述の短問演習';
+    const caseText = Number.isFinite(stats.caseCount) ? `${stats.caseCount}Caseの長文記述` : '長文Caseの記述演習';
+    return [
+      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
+      { title:'単語辞書', description:'旧用語資産を横断検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
+      { title:'短問演習', description:practiceText, href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
+      { title:'長文Case', description:caseText, href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
+      { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
+      { title:'公式公開問題', description:'IPA公開問題とLessonを往復', href:'html/official-past.html', keywords:'公式 過去問 ipa 春 秋 午後 科目b' },
+      { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', keywords:'進捗 弱点 復習 成績 理解 progress' },
+      { title:'学習データ', description:'Backup / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
+    ];
+  }
 
   async function fetchJson(path) {
     const response = await fetch(path);
@@ -35,7 +42,16 @@
   function renderUnits(curriculum, lessons, progress) {
     const root = $('home-unit-grid');
     if (!root) return;
-    root.innerHTML = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order)-Number(b.order)).map(unit => {
+    const units = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order)-Number(b.order));
+    if (!units.length) {
+      root.replaceChildren();
+      const empty = document.createElement('div');
+      empty.className = 'unit-hub-empty';
+      empty.textContent = '学習ユニットがありません。教材データを確認してください。';
+      root.appendChild(empty);
+      return;
+    }
+    root.innerHTML = units.map(unit => {
       const items = lessons.filter(item => item.unitId === unit.id);
       const mastered = items.filter(item => lessonState(progress[item.id]).mastered).length;
       const due = items.filter(item => lessonState(progress[item.id]).state === 'due').length;
@@ -84,19 +100,50 @@
     if ($('hero-case')) $('hero-case').textContent = `${caseMastered}/${cases.length}`;
   }
 
-  function setupFinder(curriculum) {
+  function renderLoadError(error) {
+    console.error('[home] init failed', error);
+    if ($('continue-kicker')) $('continue-kicker').textContent = 'LOAD ERROR';
+    if ($('continue-title')) $('continue-title').textContent = '教材データを読み込めませんでした';
+    if ($('continue-meta')) $('continue-meta').textContent = '通信状態を確認してページを再読み込みしてください。主要機能のカードはそのまま利用できます。';
+    for (const id of ['continue-link','continue-hero']) {
+      const link = $(id);
+      if (!link) continue;
+      link.href = 'index.html';
+      link.textContent = '再読み込み →';
+    }
+    if ($('practice-progress-meta')) $('practice-progress-meta').textContent = '短問の集計に失敗';
+    if ($('case-progress-meta')) $('case-progress-meta').textContent = 'Caseの集計に失敗';
+    const root = $('home-unit-grid');
+    if (root) {
+      root.replaceChildren();
+      const box = document.createElement('div');
+      box.className = 'unit-hub-empty';
+      const text = document.createElement('p');
+      text.textContent = '13ユニットを読み込めませんでした。';
+      const retry = document.createElement('a');
+      retry.href = 'index.html';
+      retry.textContent = 'ページを再読み込み';
+      box.append(text,retry);
+      root.appendChild(box);
+    }
+    setupFinder({ studyUnits:[] }, {});
+  }
+
+  function setupFinder(curriculum, stats = {}) {
     const input = $('home-quick-search');
     const output = $('home-quick-results');
     if (!input || !output) return;
     const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
-    const catalog = [...QUICK_ACTIONS,...unitActions].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+    finderCatalog = [...buildQuickActions(stats),...unitActions].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+    if (finderBound) return;
+    finderBound = true;
 
     const render = () => {
       const raw = input.value.trim();
       if (!raw) { output.hidden = true; output.innerHTML=''; return; }
       const query = normalize(raw);
-      const hits = catalog.filter(item => item.searchable.includes(query)).slice(0,6);
-      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」を単語辞書で検索</strong><span>1,422語から一致する用語を探す</span></a>`;
+      const hits = finderCatalog.filter(item => item.searchable.includes(query)).slice(0,6);
+      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」を単語辞書で検索</strong><span>統合辞書から一致する用語を探す</span></a>`;
       output.hidden = false;
     };
     input.addEventListener('input',render);
@@ -118,16 +165,19 @@
       window.APPracticeData.load(''),
       window.APCaseData.load('')
     ]);
+    const lessons = lessonBank.lessons || [];
+    const questions = practiceBank.questions || [];
+    const cases = caseBank.cases || [];
     const lessonProgress = readObject(LESSON_KEY);
     const practiceHistory = readObject(PRACTICE_KEY);
     const caseHistory = readObject(CASE_KEY);
     const mockHistory = readArray(MOCK_KEY);
-    renderDashboard(lessonBank.lessons || [],practiceBank.questions || [],caseBank.cases || [],lessonProgress,practiceHistory,caseHistory,mockHistory);
-    renderUnits(curriculum,lessonBank.lessons || [],lessonProgress);
-    setupFinder(curriculum);
+    renderDashboard(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory,mockHistory);
+    renderUnits(curriculum,lessons,lessonProgress);
+    setupFinder(curriculum,{ lessonCount:lessons.length, practiceCount:questions.length, caseCount:cases.length });
   }
 
-  window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(console.error); });
-  window.addEventListener('ap-lesson-progress-changed', () => init().catch(console.error));
-  document.addEventListener('DOMContentLoaded', () => init().catch(error => console.error('[home] init failed', error)));
+  window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(renderLoadError); });
+  window.addEventListener('ap-lesson-progress-changed', () => init().catch(renderLoadError));
+  document.addEventListener('DOMContentLoaded', () => init().catch(renderLoadError));
 })();
