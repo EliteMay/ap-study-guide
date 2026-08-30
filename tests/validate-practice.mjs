@@ -123,7 +123,7 @@ if (practiceJs.includes('ap-original-practice-v1.json')) fail('practice.js still
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['practice','🧪 総合演習','practice.html']")) fail('canonical navigation missing practice');
-if (!shell.includes("const BUILD = '2026.08.30-r11'")) fail('shell BUILD is not r11');
+if (!shell.includes("const BUILD = '2026.08.30-r12'")) fail('shell BUILD is not r12');
 
 const lessonHtml = readText('html/lesson.html');
 for (const required of ['../js/practice-data.js','../js/lesson-practice.js','../js/lesson-past.js']) {
