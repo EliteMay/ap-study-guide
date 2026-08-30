@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"business-accounting","questionCount":5},
+  "questions":[
+    {"id":"P-BUS-01","unitId":"business-accounting","middleCodes":[22],"type":"choice","difficulty":3,"title":"損益分岐点","prompt":"固定費400万円、変動費率60%の事業の損益分岐点売上高は何万円か。","options":["640","800","1000","1600"],"answerIndex":2,"explanation":"限界利益率40%。400/0.4=1000万円。","lessonRefs":["BUS-09"]},
+    {"id":"P-BUS-02","unitId":"business-accounting","middleCodes":[19],"type":"choice","difficulty":2,"title":"Ansoff Matrix","prompt":"既存市場の既存顧客へ新しい製品を販売する戦略はどれか。","options":["市場浸透","市場開拓","製品開発","多角化"],"answerIndex":2,"explanation":"市場は既存、製品が新規なので製品開発。","lessonRefs":["BUS-01"]},
+    {"id":"P-BUS-03","unitId":"business-accounting","middleCodes":[22],"type":"written","difficulty":3,"title":"利益とCash","prompt":"黒字でも資金繰りが悪化し得る理由を、売掛金を例に説明してください。","modelAnswer":"売上を計上して利益が出ても、代金が売掛金として未回収なら現金はまだ入っていない。支払が先行すると利益が正でもCash不足になり得る。","points":["売上/利益計上と現金回収のTiming差を述べる","売掛金未回収でも利益が計上されると述べる"],"lessonRefs":["BUS-08"]},
+    {"id":"P-BUS-04","unitId":"business-accounting","middleCodes":[20],"type":"choice","difficulty":3,"title":"Technology Roadmap","prompt":"市場要求・製品計画・必要技術を時間軸で関連付け、研究開発や投資の優先順位を考えるのに適するものはどれか。","options":["Technology Roadmap","ER図","PERTだけ","DNS Zone"],"answerIndex":0,"explanation":"Technology Roadmapは将来の市場・製品・技術の関係を時間軸で可視化し、技術戦略や投資判断を支援する。","lessonRefs":["BUS-04"]},
+    {"id":"P-BUS-05","unitId":"business-accounting","middleCodes":[21],"type":"choice","difficulty":3,"title":"Supply Chainの全体最適","prompt":"各拠点が自拠点の在庫だけを最小化した結果、欠品と緊急輸送が増えた。SCMの観点で最も重要な改善はどれか。","options":["調達・生産・物流・販売を横断して全体最適する","各拠点の在庫を必ず0にする","販売Dataを共有しない","輸送費だけをKPIにする"],"answerIndex":0,"explanation":"SCMは企業内外のSupply Chainを横断し、局所最適ではなくLead Time・在庫・Service水準等を全体で最適化する。","lessonRefs":["BUS-07"]}
+  ]
+}
