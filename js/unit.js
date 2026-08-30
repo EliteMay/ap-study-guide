@@ -5,13 +5,13 @@
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const params = new URLSearchParams(location.search);
   const unitId = params.get('unit') || '';
-  const LEGACY_GLOSSARIES = {
-    'algorithm-programming':'algorithm.html',
-    database:'database.html',
-    network:'network.html',
-    security:'security.html',
-    'system-development':'system.html',
-    'project-management':'management.html'
+  const GLOSSARY_DOMAINS = {
+    'algorithm-programming':'algorithm',
+    database:'database',
+    network:'network',
+    security:'security',
+    'system-development':'system',
+    'project-management':'management'
   };
 
   async function loadJson(path) {
@@ -21,14 +21,11 @@
   }
 
   function readProgress() { return window.APStudyState?.readObject?.(LESSON_PROGRESS_KEY) || {}; }
-
   function applyCoverage(curriculum, coverage) {
     const overrides = coverage?.overrides || {};
     return { ...curriculum, studyUnits:(curriculum.studyUnits || []).map(unit => ({ ...unit, ...(overrides[unit.id] || {}) })) };
   }
-
   function middleMap(curriculum) { return new Map((curriculum.middleCategories || []).map(item => [Number(item.code), item])); }
-
   function stateFor(progress, lessonId) {
     return window.APStudyState?.lessonState?.(progress[lessonId]) || { state:progress[lessonId]?.completed ? 'mastered' : 'unattempted', label:progress[lessonId]?.completed ? '理解確認済み' : '未着手', mastered:Boolean(progress[lessonId]?.completed) };
   }
@@ -37,7 +34,7 @@
     const mastered = lessons.filter(lesson => stateFor(progress, lesson.id).mastered).length;
     const next = lessons.find(lesson => !stateFor(progress, lesson.id).mastered) || lessons[0];
     document.title = `${unit.title} | AP Study Notes`;
-    const glossary = LEGACY_GLOSSARIES[unit.id];
+    const glossaryDomain = GLOSSARY_DOMAINS[unit.id];
     document.getElementById('unit-hero').innerHTML = `
       <p class="eyebrow">CURRICULUM UNIT / ${(unit.officialMiddleCodes || []).map(code => `IPA ${code}`).join(' · ')}</p>
       <h1>${escapeHtml(unit.title)}</h1>
@@ -46,7 +43,7 @@
         ${next ? `<a class="home-action-btn" href="lesson.html?id=${encodeURIComponent(next.id)}">${mastered ? '次のLessonへ' : '最初のLessonから始める'}</a>` : ''}
         <a class="home-action-btn secondary" href="practice.html?unit=${encodeURIComponent(unit.id)}">短問</a>
         <a class="home-action-btn secondary" href="cases.html?unit=${encodeURIComponent(unit.id)}">長文Case</a>
-        ${glossary ? `<a class="home-action-btn secondary" href="${glossary}">旧用語辞書</a>` : ''}
+        ${glossaryDomain ? `<a class="home-action-btn secondary" href="glossary.html?domain=${encodeURIComponent(glossaryDomain)}">単語辞書</a>` : `<a class="home-action-btn secondary" href="glossary.html">単語辞書</a>`}
       </div>`;
   }
 
