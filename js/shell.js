@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r14';
+  const BUILD = '2026.08.30-r15';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -26,6 +26,7 @@
     ['law-standards','⚖️ 法務・標準化','unit.html?unit=law-standards'],
     ['practice','🧪 総合演習','practice.html'],
     ['cases','📚 長文Case','cases.html'],
+    ['mock','⏱️ 模試','mock.html'],
     ['official-past','🎯 公式問題対応','official-past.html'],
     ['past','📘 Security過去問','security-past.html'],
     ['test','📝 用語テスト','test.html']
@@ -150,6 +151,7 @@
     if (page === 'progress.html') return 'progress';
     if (page === 'practice.html') return 'practice';
     if (page === 'cases.html') return 'cases';
+    if (page === 'mock.html') return 'mock';
     if (page === 'official-past.html') return 'official-past';
     if (page === 'security-past.html') return 'past';
     if (page === 'test.html') return 'test';
