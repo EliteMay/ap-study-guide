@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"foundation-theory","questionCount":5},
+  "questions":[
+    {"id":"P-FND-01","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":2,"title":"2の補数","prompt":"8bitの2の補数表現で 1111 0110 が表す10進数として正しいものはどれか。","options":["-10","-9","246","10"],"answerIndex":0,"explanation":"反転して00001001、+1で00001010=10なので元は-10。","lessonRefs":["FND-02"]},
+    {"id":"P-FND-02","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"待ち行列と利用率","prompt":"平均到着率が36件/分、平均処理能力が45件/分の単一Serverがある。利用率として正しいものはどれか。","options":["20%","80%","125%","450%"],"answerIndex":1,"explanation":"ρ=λ/μ=36/45=0.8=80%。利用率が1へ近づくほど待ち時間は増えやすい。","lessonRefs":["FND-06"]},
+    {"id":"P-FND-03","unitId":"foundation-theory","middleCodes":[1],"type":"written","difficulty":3,"title":"条件付き確率の説明","prompt":"Alertが出た機器だけを対象に故障率を再計算する場合、全機器を母数にした故障率をそのまま使ってはいけない理由を80字程度で説明してください。","modelAnswer":"Alertが出たという条件で標本空間が限定されるため、求めるのはP(故障|Alert)であり、全機器を母数とするP(故障)とは異なるから。","points":["条件によって母集団/標本空間が変わると述べる","P(故障|Alert)など条件付き確率であると述べる"],"lessonRefs":["FND-04"]},
+    {"id":"P-FND-04","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"情報量と等確率事象","prompt":"8種類の記号がすべて等確率で出現する。各記号を固定長Binary Codeで表すために最低何bit必要か。","options":["2bit","3bit","4bit","8bit"],"answerIndex":1,"explanation":"2^3=8なので3bitあれば8種類を区別できる。等確率なら1記号当たりの情報量もlog2(8)=3bit。","lessonRefs":["FND-05"]},
+    {"id":"P-FND-05","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"Sampling定理","prompt":"最高周波数3kHzまで含むAnalog Signalを標本化するとき、理論上Aliasingを避けるためのSampling周波数として最も適切なのはどれか。","options":["2kHz","3kHz","4kHz","8kHz"],"answerIndex":3,"explanation":"Sampling定理では最高周波数の2倍を超えるSampling周波数が必要。6kHzより十分高い8kHzが適切。","lessonRefs":["FND-07"]}
+  ]
+}
