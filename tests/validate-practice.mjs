@@ -24,6 +24,8 @@ if (questions.length !== 37) fail(`expected 37 questions, got ${questions.length
 const ids = new Set();
 const coveredUnits = new Set();
 const coveredMiddle = new Set();
+const coveredLessons = new Set();
+const questionsPerUnit = new Map([...unitIds].map(id => [id, 0]));
 
 for (const [index, q] of questions.entries()) {
   const where = `questions[${index}]`;
@@ -33,6 +35,7 @@ for (const [index, q] of questions.entries()) {
 
   if (!unitIds.has(q.unitId)) fail(`${q.id}: invalid unitId ${q.unitId}`);
   coveredUnits.add(q.unitId);
+  questionsPerUnit.set(q.unitId, Number(questionsPerUnit.get(q.unitId) || 0) + 1);
 
   if (!Array.isArray(q.middleCodes) || !q.middleCodes.length) fail(`${q.id}: middleCodes missing`);
   for (const raw of q.middleCodes) {
@@ -48,6 +51,7 @@ for (const [index, q] of questions.entries()) {
   if (!Array.isArray(q.lessonRefs) || !q.lessonRefs.length) fail(`${q.id}: lessonRefs missing`);
   for (const lessonId of q.lessonRefs) {
     if (!lessonIds.has(lessonId)) fail(`${q.id}: referenced lesson ${lessonId} does not exist`);
+    coveredLessons.add(lessonId);
   }
 
   if (q.type === 'choice') {
@@ -64,6 +68,7 @@ for (const [index, q] of questions.entries()) {
 
 for (const unit of unitIds) {
   if (!coveredUnits.has(unit)) fail(`study unit ${unit} has no practice question`);
+  if (Number(questionsPerUnit.get(unit) || 0) < 2) fail(`study unit ${unit} should have at least 2 practice questions`);
 }
 for (const code of validMiddle) {
   if (!coveredMiddle.has(code)) fail(`IPA middle category ${code} has no practice question`);
@@ -73,14 +78,39 @@ const html = readText('html/practice.html');
 if (!html.includes('../css/practice.css')) fail('practice.html does not load practice.css');
 if (!html.includes('../js/practice.js')) fail('practice.html does not load practice.js');
 if (!html.includes('practice-status')) fail('practice.html missing status filter');
+if (!html.includes('37問')) fail('practice.html does not state current 37-question bank');
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['practice','🧪 総合演習','practice.html']")) fail('canonical navigation missing practice');
 if (!shell.includes("const BUILD = '2026.08.30-r10'")) fail('shell BUILD is not r10');
 
 const practiceJs = readText('js/practice.js');
-for (const required of ['ap-study-practice-history-v1','practice-status','lesson.html?id=','data-practice-next']) {
+for (const required of [
+  'ap-study-practice-history-v1',
+  'practice-status',
+  'lesson.html?id=',
+  'data-practice-next',
+  "params.get('question')",
+  "params.set('question', currentId)"
+]) {
   if (!practiceJs.includes(required)) fail(`practice.js missing ${required}`);
 }
 
-console.log(`[practice] OK: ${questions.length} questions, ${coveredUnits.size}/13 units, ${coveredMiddle.size}/23 middle categories.`);
+const lessonJs = readText('js/lesson.js');
+if (!lessonJs.includes("json/practice/ap-original-practice-v1.json")) fail('lesson.js does not load practice bank');
+if (!lessonJs.includes('renderPracticeLinks')) fail('lesson.js does not render related practice links');
+if (!lessonJs.includes('practice.html?unit=')) fail('lesson.js does not create direct practice links');
+if (!lessonJs.includes('&question=')) fail('lesson.js direct practice links do not specify question');
+
+const unitJs = readText('js/unit.js');
+if (!unitJs.includes('practice.html?unit=')) fail('unit.js does not link unit-specific practice');
+
+const homeHtml = readText('index.html');
+if (!homeHtml.includes('practice-progress-number')) fail('homepage missing practice progress card');
+if (!homeHtml.includes('html/practice.html')) fail('homepage missing practice link');
+
+const homeJs = readText('js/home.js');
+if (!homeJs.includes('ap-study-practice-history-v1')) fail('home.js does not read practice progress');
+if (!homeJs.includes('renderPracticeProgress')) fail('home.js does not render practice progress');
+
+console.log(`[practice] OK: ${questions.length} questions, ${coveredUnits.size}/13 units, ${coveredMiddle.size}/23 middle categories, ${coveredLessons.size}/${lessons.length} lessons directly referenced.`);
