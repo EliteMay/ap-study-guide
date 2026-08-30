@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>学習データ | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/data-tools.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li></ul></div></nav>
+<header class="data-hero"><div class="container"><p class="eyebrow">LOCAL DATA BACKUP</p><h1>学習データ</h1><p class="lead">Lesson・短問・長文Case・模試・復習リスト・旧用語チェックはブラウザに保存されています。定期的にJSONへバックアップしておくと、ブラウザデータ削除やPC移行に備えられます。</p></div></header>
+<main id="main-content">
+<section class="section"><div class="container data-grid">
+<article class="data-card"><h2>バックアップを書き出す</h2><p>AP Study Notesが使用している認識済みlocalStorageだけをJSONへ保存します。教材JSONや秘密情報は含みません。</p><div id="data-export-summary" class="data-summary">保存対象を確認中...</div><button type="button" id="data-export" class="data-primary">JSONを書き出す</button></article>
+<article class="data-card"><h2>バックアップを読み込む</h2><p>このページから書き出したJSONを読み込み、認識済みキーだけを復元します。復元前に内容を確認し、実行時に確認画面を出します。</p><input type="file" id="data-import-file" accept="application/json,.json"><div id="data-import-preview" class="data-summary">ファイル未選択</div><button type="button" id="data-import" class="data-primary" disabled>このバックアップを復元</button></article>
+<article class="data-card danger"><h2>学習履歴を初期化</h2><p>Lesson・演習・模試・復習リスト・旧用語チェックをこのブラウザから削除します。教材そのものは削除しません。先にバックアップしてください。</p><button type="button" id="data-reset" class="data-danger">学習データをすべて削除</button></article>
+</section>
+<section class="section section-alt"><div class="container"><h2>保存の考え方</h2><div class="data-notes"><p><strong>GitHub:</strong> 教材・問題・シラバス対応表などの正本。</p><p><strong>このブラウザ:</strong> 個人の回答履歴・理解状況・模試履歴・復習リスト。</p><p><strong>Backup JSON:</strong> 上記個人履歴を手動で持ち運ぶための復旧用データ。</p></div></div></section>
+</main>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">学習データのバックアップ / 復元</p></div></footer>
+<script src="../js/study-state.js" defer></script>
+<script src="../js/shell.js" defer></script>
+<script src="../js/data-tools.js" defer></script>
+</body>
+</html>
