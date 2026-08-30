@@ -1,15 +1,23 @@
 # AP Study Notes tests
 
-CIは **Data整合・Runtime構造・主要Browser操作** を検証します。
+CIは **Data整合・Runtime構造・保存安全性・主要Browser操作** を検証します。
 
-BUILD基準: **`2026.08.30-r17`**
+Buildの正本は `json/project-meta.json` です。Test READMEや各ValidatorへBuild文字列を重複して持ちません。
+
+Project Profile:
+
+`STATIC + DATA + TOOL + PUBLIC-CONTENT`
+
+採用Guide:
+
+`EliteMay/web-project-guide`（Versionは `json/project-meta.json` に記録）
 
 ## Validator一覧
 
 ### `validate.mjs`
 
 - 全JSON構文
-- 旧6教材manifest / 件数 / ID
+- 旧6教材Manifest / 件数 / ID
 - Security / Network / Database details対応
 - Security既存過去問target
 - 主要HTML参照
@@ -48,7 +56,7 @@ CMP-01〜12と中分類3〜6。
 - Manifest Loader
 - Recent-result mastery
 - Written Guard
-- r17 Home / Navigation接続
+- Home / Navigation接続
 
 ### `validate-cases.mjs`
 
@@ -58,7 +66,7 @@ CMP-01〜12と中分類3〜6。
 - 1Case 3設問
 - Model Answer / 採点観点
 - Written Guard
-- r17 Navigation
+- Navigation
 
 ### `validate-mock.mjs`
 
@@ -75,7 +83,7 @@ CMP-01〜12と中分類3〜6。
 - Security必須
 - 選択10分野
 
-RuntimeのTimer / Answer / Flag / Session復帰 / Self Gradeと、r17 Home / Progress接続を検証。
+RuntimeのTimer / Answer / Flag / Session復帰 / Self GradeとHome / Progress接続を検証。
 
 ### `validate-official-past.mjs`
 
@@ -86,7 +94,7 @@ RuntimeのTimer / Answer / Flag / Session復帰 / Self Gradeと、r17 Home / Pro
 - 2025春 + 秋 午後22大問
 - Lesson Mapping
 - IPA公式URL
-- r17 Navigation
+- Navigation
 
 ### `validate-past-lesson-map.mjs`
 
@@ -98,20 +106,32 @@ RuntimeのTimer / Answer / Flag / Session復帰 / Self Gradeと、r17 Home / Pro
 
 ### `validate-runtime-quality.mjs`
 
-- BUILD r17
+Web Project Guideで再発コストが高い項目を、このサイトに必要な範囲でRegression Guardする。
+
+検証:
+
+- `json/project-meta.json` が存在する
+- Build形式
+- Guide Repository / Version
+- `STATIC + DATA + TOOL + PUBLIC-CONTENT`
+- GitHub Pages target
+- Backup Schema Version
+- `js/shell.js` に固定BUILDが再混入していない
 - Central Loader
-- Strict Mastery
-- 14日Review Due
-- Written / Case Guard
-- 13 Generic Unit Hub
+- Strict Mastery / Review Due / Written Guard
+- Generic Unit Hub
 - Action-first Home
+- Home件数の旧hardcode再混入禁止
+- Home Loading失敗時のError / Retry State
+- Home Finder Listener重複防止
 - Glossary Navigation
-- Backup / Restore
+- Backup Key別Validation
+- Restore前Backup
+- Restore失敗時Rollback
+- Import Previewをraw `innerHTML`へ入れない
 - Accessible Mobile Drawer
 
 ### `validate-glossary.mjs`
-
-r17で追加。
 
 検証:
 
@@ -132,7 +152,6 @@ r17で追加。
 - Unit Hub→Glossary
 - Home Quick Finder
 - Sidebar Glossary
-- BUILD r17
 
 ## Browser Smoke
 
@@ -143,22 +162,29 @@ Playwright Chromiumで実ブラウザ操作する。
 現在の対象:
 
 1. Action-first Homeを開く
-2. 13Unit Cardが13枚ある
-3. 主要Actionが8個ある
-4. Home Searchへ`OAuth`入力
-5. Glossary検索導線が出る
-6. `glossary.html?q=OAuth`を開く
-7. OAuth検索Resultを確認
-8. 詳しい解説をLazy Open
-9. Security Generic Hubを開く
-10. Unit内Glossary Linkが`domain=security`であること
-11. Lessonを全問誤答しMasteredにならないこと
-12. Written Practiceの空欄Guard
-13. Long Caseの空欄Guard
-14. 390px Mobile Drawerの`inert`
-15. Menu Open / Escape Close
-16. Backup Export / Import UI
-17. Browser console / page errorがないこと
+2. `project-meta.json` のBuild表示を確認
+3. Homeの教材件数がLoading状態から実Dataへ更新される
+4. 13Unit Cardが13枚ある
+5. 主要Actionが8個ある
+6. Home Searchへ`OAuth`入力
+7. Glossary検索導線が出る
+8. `glossary.html?q=OAuth`を開く
+9. OAuth検索Resultを確認
+10. 詳しい解説をLazy Open
+11. Security Generic Hub→Domain指定Glossaryを確認
+12. Lessonを全問誤答しMasteredにならないこと
+13. Written Practiceの空欄Guard
+14. Long Caseの空欄Guard
+15. **320px Homeでページ全体の横overflowなし**
+16. Mobile Drawerの`inert` / Open / Escape Close
+17. **320px Glossaryでページ全体の横overflowなし**
+18. Backup Export / Import UI
+19. **壊れた認識済みStorage JSONをImport拒否**
+20. **Import JSON内のHTML文字列をDOMとして実行しない**
+21. **Validation済みBackupを実際にRestoreできる**
+22. Browser console / page errorがないこと
+
+Backup Restore Smokeは、既存保存Dataがある状態で実行するため、復元直前BackupのDownload経路も通る。
 
 ## GitHub Actions
 
@@ -178,14 +204,14 @@ Playwright Chromiumで実ブラウザ操作する。
 10. Official Public Mapping
 11. Security Past Mapping
 12. Progress
-13. Runtime Quality
-14. **Unified Glossary / Action Home**
+13. Runtime Quality / Guide Profile / Backup Safety
+14. Unified Glossary / Action Home
 15. Install Playwright Chromium
-16. **Browser Smoke**
+16. Browser Smoke
 
 ## CIで完全には保証しないもの
 
-Browser Smokeを導入したが、以下は総当たりではない。
+Browser Smokeを導入しているが、以下は総当たりではない。
 
 - 118Lesson全表示
 - 全Lesson Check
@@ -195,7 +221,21 @@ Browser Smokeを導入したが、以下は総当たりではない。
 - 時間切れ自動提出の150分実待機
 - 全Table / Diagramの全Viewport
 - Dark Mode全画面
-- 旧互換ページ全1,422カード
+- Legacy互換ページ全用語Card
 - すべての外部IPA PDF Link
+- 長時間利用時の全Performance
+- 実利用者によるUser Validation
 
 CI successだけでこれらを全確認済みとは扱わない。
+
+## Verification State
+
+作業報告では必要に応じて以下を区別する。
+
+- Implemented
+- Static Validated
+- Browser Validated
+- GitHub Pages Validated
+- User Validated
+- Known Limitation
+- Not Verified
