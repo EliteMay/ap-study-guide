@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"ui-media","questionCount":5},
+  "questions":[
+    {"id":"P-UIM-01","unitId":"ui-media","middleCodes":[7],"type":"choice","difficulty":2,"title":"Accessibility","prompt":"FormのErrorを赤色だけで表現している。最も直接的な改善はどれか。","options":["Error箇所にText/Iconも併用する","赤をさらに薄くする","Fontを小さくする","HoverだけでError理由を表示する"],"answerIndex":0,"explanation":"色覚差やScreen Reader利用を考え、色以外の手掛かりも用いる。","lessonRefs":["UIM-02"]},
+    {"id":"P-UIM-02","unitId":"ui-media","middleCodes":[8],"type":"choice","difficulty":3,"title":"PCM Data量","prompt":"48kHz・16bit・Stereoの非圧縮PCM音声を10秒保存する。Headerを無視したData量は約何MBか。1MB=10^6byteとする。","options":["0.96MB","1.92MB","7.68MB","15.36MB"],"answerIndex":1,"explanation":"48,000×16×2×10=15,360,000bit、÷8=1,920,000byte=1.92MB。","lessonRefs":["MED-02"]},
+    {"id":"P-UIM-03","unitId":"ui-media","middleCodes":[7],"type":"written","difficulty":2,"title":"Error Recovery","prompt":"大量削除操作に確認Dialogだけを付けるより、Undo機能を併用する価値を説明してください。","modelAnswer":"確認Dialogを見落として誤操作しても、Undoにより操作後に回復できるため。事前のError Preventionだけでなく事後Recoveryを提供できる。","points":["確認Dialogは誤操作を完全には防げないと述べる","UndoがRecoveryを提供すると述べる"],"lessonRefs":["UIM-01"]},
+    {"id":"P-UIM-04","unitId":"ui-media","middleCodes":[8],"type":"choice","difficulty":2,"title":"RasterとVector","prompt":"会社Logoを様々なSizeへ拡大しても輪郭を滑らかに保ちたい。最も適する形式はどれか。","options":["Vector Graphic","低解像度JPEG","非圧縮PCM","CSV"],"answerIndex":0,"explanation":"Logoのような図形は座標・線・曲線で表すVector形式が拡大縮小に強い。SVGなどが代表例。","lessonRefs":["MED-01"]},
+    {"id":"P-UIM-05","unitId":"ui-media","middleCodes":[8],"type":"choice","difficulty":3,"title":"Video Bitrateと容量","prompt":"平均Bitrate 8Mbit/sのVideoを5分保存する。Container overheadを無視したData量は約何MBか。1MB=10^6byteとする。","options":["30MB","120MB","300MB","2400MB"],"answerIndex":2,"explanation":"8Mbit/s×300s=2400Mbit。8で割ると300Mbyte。","lessonRefs":["MED-03"]}
+  ]
+}
