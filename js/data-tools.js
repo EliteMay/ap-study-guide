@@ -12,6 +12,33 @@
     return keys().map(key => [key, localStorage.getItem(key)]).filter(([,value]) => value !== null);
   }
 
+  function expectedSchemaVersion() {
+    return Number(window.APStudyUI?.meta?.storage?.backupSchemaVersion || 1);
+  }
+
+  function storageShape(key) {
+    const stateKeys = window.APStudyState?.keys || {};
+    if (key === stateKeys.theme) return 'theme';
+    if ([stateKeys.lesson,stateKeys.practice,stateKeys.cases,stateKeys.mockA,stateKeys.mockB].includes(key)) return 'object';
+    if ([stateKeys.mock,stateKeys.bookmarks,stateKeys.recent,stateKeys.test,...(window.APStudyState?.legacyKeys || [])].includes(key)) return 'array';
+    return 'unknown';
+  }
+
+  function validateStorageValue(key, raw) {
+    const shape = storageShape(key);
+    if (shape === 'theme') {
+      if (!['light','dark'].includes(raw)) throw new Error(`${key}: theme値が不正です。`);
+      return raw;
+    }
+    if (shape === 'unknown') throw new Error(`${key}: 未対応の保存形式です。`);
+    let parsed;
+    try { parsed = JSON.parse(raw); }
+    catch { throw new Error(`${key}: 保存JSONが壊れています。`); }
+    if (shape === 'array' && !Array.isArray(parsed)) throw new Error(`${key}: 配列形式ではありません。`);
+    if (shape === 'object' && (!parsed || typeof parsed !== 'object' || Array.isArray(parsed))) throw new Error(`${key}: オブジェクト形式ではありません。`);
+    return raw;
+  }
+
   function renderExportSummary() {
     const entries = existingEntries();
     $('data-export-summary').textContent = entries.length
@@ -26,7 +53,7 @@
       if (value !== null) storage[key] = value;
     }
     return {
-      schemaVersion:1,
+      schemaVersion:expectedSchemaVersion(),
       app:'AP Study Notes',
       build:window.APStudyUI?.build || 'unknown',
       exportedAt:new Date().toISOString(),
@@ -34,13 +61,13 @@
     };
   }
 
-  function downloadJson(data) {
+  function downloadJson(data, prefix = 'ap-study-backup') {
     const stamp = new Date().toISOString().slice(0,10).replaceAll('-','');
     const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = `ap-study-backup-${stamp}.json`;
+    anchor.download = `${prefix}-${stamp}.json`;
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
@@ -50,27 +77,55 @@
   function validateBackup(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('JSONの形式が正しくありません。');
     if (value.app !== 'AP Study Notes') throw new Error('AP Study Notesのバックアップではありません。');
-    if (Number(value.schemaVersion) !== 1) throw new Error(`未対応のschemaVersionです: ${value.schemaVersion}`);
+    if (Number(value.schemaVersion) !== expectedSchemaVersion()) throw new Error(`未対応のschemaVersionです: ${value.schemaVersion}`);
     if (!value.storage || typeof value.storage !== 'object' || Array.isArray(value.storage)) throw new Error('storageデータがありません。');
     const allowed = new Set(keys());
-    const recognized = Object.entries(value.storage).filter(([key,val]) => allowed.has(key) && typeof val === 'string');
+    const recognized = [];
+    for (const [key,raw] of Object.entries(value.storage)) {
+      if (!allowed.has(key)) continue;
+      if (typeof raw !== 'string') throw new Error(`${key}: 保存値が文字列ではありません。`);
+      recognized.push([key,validateStorageValue(key,raw)]);
+    }
     if (!recognized.length) throw new Error('復元できる認識済みデータがありません。');
     return { ...value, recognized };
   }
 
   async function loadFile(file) {
     const text = await file.text();
-    return validateBackup(JSON.parse(text));
+    let parsed;
+    try { parsed = JSON.parse(text); }
+    catch { throw new Error('JSONとして読み込めません。'); }
+    return validateBackup(parsed);
   }
 
   function previewBackup(backup) {
-    const date = backup.exportedAt ? new Date(backup.exportedAt).toLocaleString('ja-JP') : '日時不明';
-    $('data-import-preview').innerHTML = `<strong>${backup.recognized.length}種類</strong><span>書き出し: ${date}</span><span>BUILD: ${String(backup.build || 'unknown')}</span>`;
+    const preview = $('data-import-preview');
+    const date = backup.exportedAt && Number.isFinite(Date.parse(backup.exportedAt))
+      ? new Date(backup.exportedAt).toLocaleString('ja-JP')
+      : '日時不明';
+    preview.replaceChildren();
+    const count = document.createElement('strong');
+    count.textContent = `${backup.recognized.length}種類`;
+    const exported = document.createElement('span');
+    exported.textContent = `書き出し: ${date}`;
+    const build = document.createElement('span');
+    build.textContent = `BUILD: ${String(backup.build || 'unknown')}`;
+    preview.append(count,exported,build);
     $('data-import').disabled = false;
   }
 
   function restoreBackup(backup) {
-    for (const [key,value] of backup.recognized) localStorage.setItem(key, value);
+    const previous = new Map(backup.recognized.map(([key]) => [key,localStorage.getItem(key)]));
+    try {
+      for (const [key,value] of backup.recognized) localStorage.setItem(key, value);
+    } catch (error) {
+      let rollbackFailed = false;
+      for (const [key,value] of previous) {
+        try { if (value === null) localStorage.removeItem(key); else localStorage.setItem(key,value); }
+        catch { rollbackFailed = true; }
+      }
+      throw new Error(rollbackFailed ? `復元に失敗し、Rollbackも一部失敗しました: ${error.message}` : `復元に失敗したため変更を元に戻しました: ${error.message}`);
+    }
   }
 
   function resetAll() {
@@ -99,9 +154,15 @@
     $('data-import').addEventListener('click', () => {
       if (!pendingBackup) return;
       if (!confirm(`${pendingBackup.recognized.length}種類の学習データをこのブラウザへ復元します。現在の同名データは上書きされます。続けますか？`)) return;
-      restoreBackup(pendingBackup);
-      renderExportSummary();
-      window.APStudyUI?.toast?.('学習データを復元しました');
+      try {
+        if (existingEntries().length) downloadJson(makeBackup(),'ap-study-before-restore');
+        restoreBackup(pendingBackup);
+        renderExportSummary();
+        window.APStudyUI?.toast?.('学習データを復元しました');
+      } catch (error) {
+        $('data-import-preview').textContent = error.message;
+        window.APStudyUI?.toast?.('学習データを復元できませんでした');
+      }
     });
 
     $('data-reset').addEventListener('click', () => {
