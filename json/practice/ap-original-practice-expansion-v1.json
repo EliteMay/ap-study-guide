@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-e1",
+    "title": "AP総合演習 追加問題",
+    "source": "original",
+    "notice": "IPA公式過去問の問題文を転載せず、シラバスVer.7.2と本サイトLessonを基に作成した追加オリジナル演習。",
+    "questionCount": 26
+  },
+  "questions": [
+    {"id":"PX-FND-01","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"情報量と確率","prompt":"ある事象の発生確率が1/8である。この事象が持つ自己情報量をlog2で表すと何bitか。","options":["1bit","2bit","3bit","8bit"],"answerIndex":2,"explanation":"自己情報量は-log2(p)。p=1/8=2^-3なので3bit。起こりにくい事象ほど情報量は大きい。","lessonRefs":["FND-05"]},
+    {"id":"PX-FND-02","unitId":"foundation-theory","middleCodes":[1],"type":"written","difficulty":3,"title":"Feedback制御","prompt":"室温を25℃に保つ制御で、目標値と現在値の差を使うFeedback制御がOpen Loop制御より外乱に強い理由を説明してください。","modelAnswer":"Feedback制御は現在の室温を測定して目標値との差を継続的に補正するため、外気温変化などの外乱でずれても出力を修正できる。一方Open Loopは結果を観測して補正しない。","points":["現在値を測定して目標との差を使うと述べる","外乱でずれた後も出力を補正できると述べる"],"lessonRefs":["FND-07"]},
+
+    {"id":"PX-ALG-01","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":3,"title":"二分探索の前提","prompt":"昇順に並んでいない配列へ通常の二分探索をそのまま適用できない主な理由はどれか。","options":["比較後に探索範囲の半分を捨てる判断が保証できない","配列には添字がない","二分探索は文字列にしか使えない","必ず再帰で書く必要がある"],"answerIndex":0,"explanation":"中央要素との大小比較から左右どちらを捨てるか判断できるのは、対象が探索順序に従って整列されているから。","lessonRefs":["ALG-06"]},
+    {"id":"PX-ALG-02","unitId":"algorithm-programming","middleCodes":[2],"type":"written","difficulty":4,"title":"動的計画法を使う条件","prompt":"同じ部分問題を何度も解く再帰処理に対して、Memoizationや動的計画法が有効になる理由を説明してください。","modelAnswer":"同一入力の部分問題の結果を保存して再利用すれば、同じ計算を繰り返さずに済むため。重複部分問題と、部分問題の解から全体解を構成できる性質がある場合に有効。","points":["部分問題の結果を保存・再利用すると述べる","重複計算を削減できると述べる"],"lessonRefs":["ALG-08"]},
+
+    {"id":"PX-CMP-01","unitId":"computer-systems","middleCodes":[3,5,6],"type":"choice","difficulty":3,"title":"RAID5容量","prompt":"容量2TBのDiskを5台使ってRAID5を構成する。故障時の予備Diskを別に持たないとき、利用可能容量は何TBか。","options":["4TB","6TB","8TB","10TB"],"answerIndex":2,"explanation":"RAID5は1台分相当をParityに使うため、(5-1)×2TB=8TB。","lessonRefs":["CMP-10"]},
+    {"id":"PX-CMP-02","unitId":"computer-systems","middleCodes":[3,6],"type":"written","difficulty":3,"title":"DMAの利点","prompt":"大容量Data転送で、CPUが1byteずつI/Oを仲介する方式よりDMAが有効な理由を説明してください。","modelAnswer":"DMA ControllerがMemoryとI/O Device間のBlock転送を直接行うことで、CPUが各Data転送を逐次処理する必要がなくなり、CPU負荷を下げて他の処理へ使えるため。","points":["MemoryとI/O間をDMA Controllerが直接転送すると述べる","CPUの逐次介入・負荷を減らせると述べる"],"lessonRefs":["CMP-05"]},
+
+    {"id":"PX-UIM-01","unitId":"ui-media","middleCodes":[8],"type":"choice","difficulty":3,"title":"画像Data量","prompt":"1920×1080画素、1画素24bitの非圧縮画像1枚のData量は約何MBか。1MB=10^6byteとする。","options":["約2.1MB","約4.1MB","約6.2MB","約49.8MB"],"answerIndex":2,"explanation":"1920×1080×24bit÷8=6,220,800byteなので約6.2MB。","lessonRefs":["MED-01"]},
+    {"id":"PX-UIM-02","unitId":"ui-media","middleCodes":[7],"type":"written","difficulty":3,"title":"A/B Testの注意点","prompt":"新UI Aと旧UI BのConversion率を比較するA/B Testで、曜日や利用者層が偏ると評価を誤る理由を説明してください。","modelAnswer":"UI以外の曜日・利用者属性などが結果へ影響すると、観測したConversion差をUI変更の効果と切り分けられないため。無作為割付や同時期比較などで交絡要因を抑える必要がある。","points":["UI以外の要因が結果へ影響すると述べる","無作為化・同時比較などで条件差を抑える必要を述べる"],"lessonRefs":["UIM-02"]},
+
+    {"id":"PX-DB-01","unitId":"database","middleCodes":[9],"type":"choice","difficulty":4,"title":"分離Level","prompt":"同一Transaction内で同じ行を2回読んだところ、別Transactionの更新Commitにより値が変わって見えた。この現象は何か。","options":["Dirty Read","Non-repeatable Read","Phantom Read","Lost Updateだけ"],"answerIndex":1,"explanation":"同じ行を再読したとき値が変わる現象はNon-repeatable Read。Phantomは条件に一致する行集合の増減。","lessonRefs":["DB-09"]},
+    {"id":"PX-DB-02","unitId":"database","middleCodes":[9],"type":"written","difficulty":3,"title":"LEFT JOINの用途","prompt":"顧客Tableと注文Tableから『注文が一度もない顧客も含めて全顧客を一覧表示』したい。INNER JOINではなくLEFT JOINが必要になる理由を説明してください。","modelAnswer":"INNER JOINは両Tableに対応行がある顧客だけを残すため、注文のない顧客が消える。顧客を左側にしたLEFT JOINなら左Tableの全顧客を保持し、注文がない部分をNULLとして表示できる。","points":["INNER JOINでは対応行のない顧客が消えると述べる","LEFT JOINは左側の全行を保持すると述べる"],"lessonRefs":["DB-06"]},
+
+    {"id":"PX-NET-01","unitId":"network","middleCodes":[10],"type":"choice","difficulty":4,"title":"Longest Prefix Match","prompt":"Routerに10.0.0.0/8→A、10.1.0.0/16→B、10.1.2.0/24→Cがある。宛先10.1.2.55の転送先はどれか。","options":["A","B","C","Default Route"],"answerIndex":2,"explanation":"3経路すべて一致するが、最もPrefix長が長い/24が最優先される。","lessonRefs":["NET-06"]},
+    {"id":"PX-NET-02","unitId":"network","middleCodes":[10],"type":"written","difficulty":3,"title":"DNSSECの役割","prompt":"DNSSECはDNS通信内容を秘密にする仕組みではない。この点を踏まえてDNSSECが主に何を保証するか説明してください。","modelAnswer":"DNSSECはDNS応答へ電子署名を付与して、応答が正当なZone由来で途中改ざんされていないことを検証する仕組みであり、DNS Query/Response自体の暗号化・秘匿を目的としない。","points":["電子署名により出所/完全性を検証すると述べる","通信内容の暗号化・秘匿が目的ではないと述べる"],"lessonRefs":["NET-08"]},
+
+    {"id":"PX-SEC-01","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"証明書検証","prompt":"HTTPS接続時、Server証明書の署名が正しくてもHostnameが一致しない場合に接続を安全と判断してはいけない理由はどれか。","options":["その証明書が接続先Domain用であることを確認できないため","TLSではHostnameを一切使わないため","公開鍵暗号は署名に使えないため","CAは秘密鍵を公開するため"],"answerIndex":0,"explanation":"署名Chainが正しくても、証明書のSAN等が接続先Hostnameと一致しなければ別Domain向け証明書の可能性がある。","lessonRefs":["SEC-03"]},
+    {"id":"PX-SEC-02","unitId":"security","middleCodes":[11],"type":"written","difficulty":4,"title":"Incident初動","prompt":"端末でRansomware感染が疑われ、共有Folderへ暗号化が広がっている。証拠保全も考慮した初動の優先事項を説明してください。","modelAnswer":"被害拡大を止めるため感染端末をNetworkから隔離し、無計画な初期化や電源断を避けてLog・Memory・Disk等の証拠を保全する。その後、影響範囲特定・封じ込め・除去・復旧へ進む。","points":["まずNetwork隔離などContainmentを行うと述べる","初期化せずLog等の証拠保全を行うと述べる"],"lessonRefs":["SEC-10"]},
+
+    {"id":"PX-SYS-01","unitId":"system-development","middleCodes":[12],"type":"choice","difficulty":3,"title":"Traceability","prompt":"要件R-12がどの設計項目・Test Caseで確認されるか追跡できるようにする主目的はどれか。","options":["要件漏れや変更影響を追跡する","Source Codeの行数を増やす","CPU利用率を下げる","Network経路を短くする"],"answerIndex":0,"explanation":"Requirements Traceabilityにより、要件→設計→実装→Testの対応と変更影響を追跡できる。","lessonRefs":["SYS-02"]},
+    {"id":"PX-SYS-02","unitId":"system-development","middleCodes":[12,13],"type":"written","difficulty":3,"title":"段階的Release","prompt":"大規模な新Version公開でBlue-GreenやCanary Releaseを使う利点を、Rollbackと影響範囲の観点から説明してください。","modelAnswer":"新Versionを旧Versionと分離または一部Userだけへ段階公開することで、不具合時の影響を限定し、Trafficを旧環境へ戻すなど迅速なRollbackがしやすくなる。","points":["新旧環境分離または段階公開で影響を限定すると述べる","問題時に旧Versionへ戻しやすいと述べる"],"lessonRefs":["SYS-08"]},
+
+    {"id":"PX-PM-01","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":4,"title":"EVM","prompt":"PV=100、EV=90、AC=120のProjectでCPIとSPIの組合せとして正しいものはどれか。","options":["CPI=0.75, SPI=0.90","CPI=0.90, SPI=0.75","CPI=1.33, SPI=1.11","CPI=1.20, SPI=0.90"],"answerIndex":0,"explanation":"CPI=EV/AC=90/120=0.75、SPI=EV/PV=90/100=0.90。両方1未満なのでCost超過かつSchedule遅延傾向。","lessonRefs":["PM-03"]},
+    {"id":"PX-PM-02","unitId":"project-management","middleCodes":[14],"type":"written","difficulty":3,"title":"Risk対応","prompt":"発生確率は低いが発生するとService停止が長期化するRiskに対し、単に『無視する』以外にどのような考え方で対応を決めるべきか説明してください。","modelAnswer":"確率だけでなくImpactとの組合せでRisk Exposureを評価し、回避・軽減・移転・受容をCostと効果から選ぶ。重大影響なら低確率でもBackupや代替手段などの軽減策を検討する。","points":["発生確率と影響度を組み合わせて評価すると述べる","回避/軽減/移転/受容などをCostと効果で選ぶと述べる"],"lessonRefs":["PM-05"]},
+
+    {"id":"PX-SVC-01","unitId":"service-audit","middleCodes":[15],"type":"choice","difficulty":3,"title":"SLAとSLM","prompt":"SLAでAvailability 99.9%を合意した後、実績を継続測定し未達原因を分析して改善する活動として最も適切なのはどれか。","options":["Service Level Management","Source Code Review","Subnetting","Normalization"],"answerIndex":0,"explanation":"SLAは合意内容、SLMはService Levelを定義・測定・報告・改善するManagement活動。","lessonRefs":["SVC-01"]},
+    {"id":"PX-SVC-02","unitId":"service-audit","middleCodes":[16],"type":"written","difficulty":3,"title":"監査証拠の信頼性","prompt":"担当者への口頭Interviewだけより、System Logや承認記録など複数の証拠を組み合わせる方が監査上望ましい理由を説明してください。","modelAnswer":"口頭説明だけでは記憶違い・主観・虚偽の影響を受けやすい。独立したSystem Logや文書記録と突合することで証拠の客観性・再現性・十分性を高められる。","points":["口頭説明だけでは主観や誤りのRiskがあると述べる","独立証拠との突合で信頼性/十分性を高めると述べる"],"lessonRefs":["AUD-02"]},
+
+    {"id":"PX-STR-01","unitId":"strategy-planning","middleCodes":[18],"type":"choice","difficulty":3,"title":"RFP","prompt":"RFPをVendorへ提示する段階で最も重要な記載内容の組合せはどれか。","options":["目的・要求・制約・評価条件","完成後のSource Codeだけ","担当者のPassword","CPU命令Setだけ"],"answerIndex":0,"explanation":"提案比較の基準になるよう、背景/目的、Scope、要求、制約、提案条件、評価方法などを明確にする。","lessonRefs":["STR-01"]},
+    {"id":"PX-STR-02","unitId":"strategy-planning","middleCodes":[17],"type":"written","difficulty":3,"title":"BPR","prompt":"既存業務をそのままSystem化するだけではBPRにならない理由を説明してください。","modelAnswer":"BPRは既存手順の単純な自動化ではなく、顧客価値や業務目的からProcess自体を根本的に見直し、不要工程の廃止・役割再設計などで大幅改善を狙うため。","points":["既存手順の単純自動化ではないと述べる","Process自体を根本から再設計すると述べる"],"lessonRefs":["STR-03"]},
+
+    {"id":"PX-BUS-01","unitId":"business-accounting","middleCodes":[22],"type":"choice","difficulty":4,"title":"NPV","prompt":"初期投資100万円、1年後のCash Flow 60万円、2年後60万円、割引率10%とする。概算NPVとして最も近いものはどれか。","options":["約-4万円","約+4万円","約+20万円","約+32万円"],"answerIndex":1,"explanation":"60/1.1≈54.5、60/1.1²≈49.6、合計約104.1万円。初期100万円を引くとNPV約+4.1万円。","lessonRefs":["BUS-09"]},
+    {"id":"PX-BUS-02","unitId":"business-accounting","middleCodes":[19,22],"type":"written","difficulty":3,"title":"BSCの役割","prompt":"売上・利益だけをKPIにするよりBalanced Scorecardで複数視点を持つ利点を説明してください。","modelAnswer":"財務結果だけでなく顧客、内部Process、学習と成長など先行要因も見ることで、短期的な財務数値だけに偏らず戦略実行の原因と結果をバランスよく管理できる。","points":["財務以外の複数視点を見ると述べる","戦略の先行要因と結果をバランスよく管理できると述べる"],"lessonRefs":["BUS-03"]},
+
+    {"id":"PX-LAW-01","unitId":"law-standards","middleCodes":[23],"type":"choice","difficulty":3,"title":"請負と準委任","prompt":"契約上、一般に仕事の完成を目的とする性格が強いものはどれか。","options":["請負","準委任","NDAだけ","OSS Licenseだけ"],"answerIndex":0,"explanation":"請負は仕事の完成とその結果に対する報酬を中心とする。準委任は一定の業務遂行を委託する性格が中心。実契約では条項を確認する。","lessonRefs":["LAW-02"]},
+    {"id":"PX-LAW-02","unitId":"law-standards","middleCodes":[23],"type":"written","difficulty":3,"title":"Open Standard","prompt":"特定Vendorの独自仕様だけへ依存するよりOpen Standardを採用することが、InteroperabilityやVendor Lock-inの観点で有利になり得る理由を説明してください。","modelAnswer":"公開された共通仕様を複数Vendorが実装できれば異なる製品間の相互運用性を確保しやすく、特定Vendor固有仕様への依存を減らして将来の製品選択・移行余地を広げられるため。","points":["共通仕様により相互運用性を高められると述べる","特定Vendorへの依存を減らし選択・移行余地を持てると述べる"],"lessonRefs":["LAW-04"]}
+  ]
+}
