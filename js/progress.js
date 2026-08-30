@@ -85,6 +85,7 @@
       const [label, state] = statusLabel(lessonDone, unitLessons.length, practiceDone, unitQuestions.length, caseDone, unitCases.length);
       const lessonPct = percent(lessonDone, unitLessons.length);
       const practicePct = percent(practiceDone, unitQuestions.length);
+      const casePct = percent(caseDone, unitCases.length);
       return `<article class="progress-unit-card" data-state="${state}">
         <div class="progress-unit-top"><span>${String(unit.order).padStart(2,'0')}</span><strong>${escapeHtml(label)}</strong></div>
         <h3>${escapeHtml(unit.title)}</h3>
@@ -92,8 +93,10 @@
         <div class="progress-meter"><i style="width:${lessonPct}%"></i></div>
         <div class="progress-meter-row"><span>短問理解 ${practiceDone}/${unitQuestions.length}</span><b>${practicePct}%</b></div>
         <div class="progress-meter practice"><i style="width:${practicePct}%"></i></div>
-        <p>${retry ? `短問要復習 ${retry}問` : '短問要復習なし'}${unitCases.length ? ` · 長文Case ${caseDone}/${unitCases.length}` : ''}${nextLesson ? ` · 次 ${escapeHtml(nextLesson.id)}` : ' · Lesson完了'}</p>
-        <div class="progress-unit-actions"><a href="${escapeHtml(HUBS[unit.id] || `unit.html?unit=${encodeURIComponent(unit.id)}`)}">教材</a><a href="practice.html?unit=${encodeURIComponent(unit.id)}">短問</a>${unitCases.length ? '<a href="cases.html">長文Case</a>' : ''}${nextLesson ? `<a href="lesson.html?id=${encodeURIComponent(nextLesson.id)}">続き</a>` : ''}</div>
+        <div class="progress-meter-row"><span>長文Case ${caseDone}/${unitCases.length}</span><b>${casePct}%</b></div>
+        <div class="progress-meter cases"><i style="width:${casePct}%"></i></div>
+        <p>${retry ? `短問要復習 ${retry}問` : '短問要復習なし'}${nextLesson ? ` · 次 ${escapeHtml(nextLesson.id)}` : ' · Lesson完了'}</p>
+        <div class="progress-unit-actions"><a href="${escapeHtml(HUBS[unit.id] || `unit.html?unit=${encodeURIComponent(unit.id)}`)}">教材</a><a href="practice.html?unit=${encodeURIComponent(unit.id)}">短問</a><a href="cases.html?unit=${encodeURIComponent(unit.id)}">長文Case</a>${nextLesson ? `<a href="lesson.html?id=${encodeURIComponent(nextLesson.id)}">続き</a>` : ''}</div>
       </article>`;
     }).join('');
   }
@@ -122,7 +125,7 @@
       .filter(item => !lessonProgress[item.id]?.completed)
       .sort((a,b) => Number(a.order) - Number(b.order));
     const cards = [];
-    caseRetry.slice(0,2).forEach(item => cards.push(`<a class="progress-next-card retry" href="cases.html?case=${encodeURIComponent(item.id)}"><small>CASE RETRY</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.title)}</strong><span>途中または要復習の長文Case</span></a>`));
+    caseRetry.slice(0,2).forEach(item => cards.push(`<a class="progress-next-card retry" href="cases.html?unit=${encodeURIComponent(item.unitId)}&case=${encodeURIComponent(item.id)}"><small>CASE RETRY</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.title)}</strong><span>途中または要復習の長文Case</span></a>`));
     retry.slice(0,Math.max(0,3 - cards.length)).forEach(q => cards.push(`<a class="progress-next-card retry" href="practice.html?unit=${encodeURIComponent(q.unitId)}&question=${encodeURIComponent(q.id)}"><small>SHORT RETRY</small><strong>${escapeHtml(q.id)} ${escapeHtml(q.title)}</strong><span>前回の要復習問題を再挑戦</span></a>`));
     incomplete.slice(0,Math.max(0,5 - cards.length)).forEach(item => cards.push(`<a class="progress-next-card" href="lesson.html?id=${encodeURIComponent(item.id)}"><small>NEXT LESSON</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.title)}</strong><span>未完了Lessonを進める</span></a>`));
     $('progress-next').innerHTML = cards.length ? cards.join('') : '<div class="progress-complete-message">登録済みLesson・短問・長文Caseはすべて完了しています。</div>';
@@ -130,12 +133,13 @@
 
   async function init() {
     if (!window.APPracticeData?.load) throw new Error('practice-data.js が読み込まれていません。');
+    if (!window.APCaseData?.load) throw new Error('case-data.js が読み込まれていません。');
     const [curriculum, base, expansion, practiceBank, caseBank] = await Promise.all([
       fetchJson('json/curriculum/ap-2026-map.json'),
       fetchJson('json/lessons/lesson-index.json'),
       fetchJson('json/lessons/lesson-index-expansion.json'),
       window.APPracticeData.load('../'),
-      fetchJson('json/cases/ap-subject-b-cases-v1.json')
+      window.APCaseData.load('../')
     ]);
     const lessons = [...(base.lessons || []), ...(expansion.lessons || [])].sort((a,b) => Number(a.order) - Number(b.order));
     const questions = Array.isArray(practiceBank.questions) ? practiceBank.questions : [];
