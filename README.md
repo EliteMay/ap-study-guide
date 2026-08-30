@@ -1,81 +1,50 @@
 # AP Study Notes
 
-応用情報技術者試験（AP）の個人学習用Webアプリです。
+応用情報技術者試験（AP）の個人学習用・静的Webアプリです。
 
-**BUILD `2026.08.30-r10` / 教材骨格23中分類対応済み**
+**BUILD `2026.08.30-r11` / IPA中分類23/23に教材 + 演習あり**
 
 - 正本: GitHub `EliteMay/ap-study-notes`
 - GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
 - 基準: IPA「応用情報技術者試験 シラバス Ver.7.2」
-- 構成: 静的HTML / CSS / JavaScript / JSON / PDF
+- 構成: HTML / CSS / JavaScript / JSON / PDF
 
 ## 目的
 
-単語を増やすのではなく、APで必要な知識を **理解 → 直後確認 → 総合演習 → 過去問** へつなげます。
+単語暗記だけで終わらず、**範囲把握 → Lessonで理解 → 直後確認 → 総合演習 → 弱点復習 → 過去問**へつなげる。
 
-教材内容に応じて次を使います。
-
-- 図 / 構成図 / 状態遷移
-- 擬似言語 / Code trace
-- SQL / E-R図 / 正規化
-- CPU / Cache / Subnet / PERT / EVM / 会計等の計算
-- 通信Flow / 障害切り分け
-- Securityの攻撃 → 成立条件 → 観測 → 影響 → 対策
-- UI / Accessibility / Multimedia
-- 経営戦略 / Marketing / Accounting / Law
-- 選択式 + 記述式のオリジナル総合演習
+操作性・分かりやすさ・軽量性・保守性を優先し、計算、図、状態遷移、擬似言語、SQL、Network/Security Case、会計等を内容に合う形式で学習する。
 
 ## 現在の状態
 
-### シラバスCoverage
-
-- IPA大分類: **9 / 9**
-- IPA中分類: **23 / 23 に構造化Lessonあり**
-- 学習UI: **13学習ユニット**
+- IPA大分類: **9/9**
+- IPA中分類: **23/23に構造化Lessonあり**
+- 学習UI: **13ユニット**
 - 構造化Lesson: **118本**
-  - Base index: 87本
-  - Expansion index: 31本
-- オリジナル総合演習: **37問**
-  - 13 / 13学習ユニットをCoverage
-  - 23 / 23中分類をCoverage
+  - `lesson-index.json`: 87本
+  - `lesson-index-expansion.json`: 31本
+- オリジナル総合演習: **91問**
+  - 13ユニット別基本問題: 65問（各5問）
+  - Cross-unit Expansion: 26問
+  - 13/13ユニットをCoverage
+  - 23/23中分類をCoverage
+- 旧6教材: **1,422/1,422語を監査済み**
+- 既存Security過去問: **7/7を構造化Lessonへ対応付け済み**
 
-ここでの「23/23」は、全中分類に学習の入口と主要教材が存在するという意味です。過去問量、長文Case量、各Lessonの深度まで十分という意味ではありません。
+> 「23/23に教材あり」は全分野に学習の入口と主要骨格があるという意味です。各Lessonの深度、Subject B長文Case、公式過去問量まで十分という意味ではありません。
 
-### 旧教材監査
+## 主要画面
 
-旧6教材の **1,422 / 1,422語を全件監査済み**です。
+- `index.html` — 13ユニット中心のHome Dashboard
+- `html/roadmap.html` — IPA 9大分類 / 23中分類 / 13ユニットの学習マップ
+- `html/progress.html` — **Lesson + 総合演習の学習進捗Dashboard**
+- `html/unit.html?unit=<unitId>` — 汎用Unit Hub
+- `html/lesson.html?id=<LESSON_ID>` — 構造化Lesson
+- `html/practice.html` — オリジナル総合演習91問
+- `html/security-past.html` — 既存Security過去問
+- `html/test.html` — 旧用語4択テスト
 
-| 旧教材 | 語数 | 状態 |
-|---|---:|---|
-| Algorithm | 65 | 65/65 監査・再配置済み |
-| Database | 229 | 229/229 監査・Lesson移行済み |
-| Network | 480 | 480/480 監査・Lesson移行済み |
-| Security | 501 | 501/501 監査・公式分野へ再分類済み |
-| System | 75 | 75/75 監査・Lesson移行済み |
-| Management | 72 | 72/72 監査・Lesson移行済み |
-
-旧用語ページは削除せず、検索・☆復習・既存localStorage進捗の互換索引として維持します。
-
-## カリキュラム設計
-
-### 正式分類
-
-`json/curriculum/ap-2026-map.json`
-
-- IPA 9大分類 / 23中分類
-- 13学習ユニットへの対応
-
-### 現在の教材Coverage
-
-`json/curriculum/ap-2026-coverage.json`
-
-シラバス定義と制作進捗を分離しています。Coverageを更新するために公式分類の正本を書き換えません。
-
-### 学習マップ
-
-`html/roadmap.html`
-
-13ユニット・23中分類・現在の教材状態を確認できます。
+Algorithm / Computer Systems / Database / Network / Security / System Development / Project Managementには既存専用Hubも維持する。
 
 ## 13学習ユニット
 
@@ -93,24 +62,32 @@
 12. 経営・会計・ビジネス
 13. 法務・標準化
 
-共有Sidebarは `js/shell.js` がこの正式13ユニットを毎回再構築します。古いHTML内のNavigation差分を正本にしません。
+共有Sidebarは `js/shell.js` が毎回正式Navigationへ再構築する。古いHTML内のNavigation差分を正本にしない。
 
-## 構造化Lesson
+## Curriculum / Lesson Data
 
-共通URL:
+### 公式分類正本
 
-`html/lesson.html?id=<LESSON_ID>`
+`json/curriculum/ap-2026-map.json`
 
-主ファイル:
+- 9大分類
+- 23中分類
+- 13学習ユニット
 
-- `html/lesson.html`
-- `js/lesson.js`
-- `css/lesson.css`
-- `json/lessons/lesson-index.json` — Base 87本
-- `json/lessons/lesson-index-expansion.json` — Expansion 31本
-- `json/lessons/<unit>/*.json`
+### 教材Coverage Overlay
 
-対応section:
+`json/curriculum/ap-2026-coverage.json`
+
+公式シラバス定義と現在の教材整備状態を分離する。
+
+### Lesson Index
+
+- `json/lessons/lesson-index.json` — Base 87
+- `json/lessons/lesson-index-expansion.json` — Expansion 31
+
+Runtime/CIでは両方を結合して **118Lesson** として扱う。
+
+Lesson section type:
 
 - `text`
 - `comparison`
@@ -120,9 +97,7 @@
 - `steps`
 - `mistakes`
 
-Lessonには原則として、学習目標・本文section・確認問題を持たせます。
-
-### Lesson進捗
+## Lesson進捗
 
 localStorage:
 
@@ -130,186 +105,101 @@ localStorage:
 
 保存内容:
 
-- 最新の回答数 / 正答数
+- 最新回答数 / 正答数
 - Best score
-- Lesson完了状態
+- 完了状態
 - 完了回数
 - 最終学習日時
 
-確認問題を最後まで回答すると完了として記録し、トップと共通Unit Hubへ反映します。
+確認問題を1回分すべて回答するとLesson完了として記録する。
 
-## 共通Unit Hub
+表示先:
 
-- `html/unit.html`
-- `js/unit.js`
-- `css/unit.css`
-
-`html/unit.html?unit=foundation-theory` のように利用します。
-
-同一HTMLから、基礎理論・UI/Media・Service/Audit・Strategy・Business・Law等を表示できます。
-
-Hubでは:
-
-- IPA中分類ごとのLesson
-- 完了Lesson数
-- 各LessonのBest score
-- 未完了Lessonの続き
-- **そのユニットだけの総合演習への導線**
-
-を表示します。
-
-## 主なLesson群
-
-### 基礎理論
-
-- FND-01〜07
-- Bit演算 / 数値表現 / 集合論理 / 確率統計 / 情報量 / 待ち行列 / 計測制御
-
-### Algorithm / Programming
-
-- ALG-01〜11
-- PROG-01〜04
-
-### Computer Systems
-
-- CMP-01〜12
-- CPU / Memory / Cache / Virtual Memory / I/O / OS
-- System構成 / 性能 / MTBF・MTTR / RAID
-- Middleware / OSS / Hardware / Cloud / Container
-
-### UI / Media
-
-- UIM-01〜03
-- MED-01〜03
-- UI/UX / Accessibility / 情報設計
-- Raster/Vector / 色 / Audio Sampling / Video / Codec
-
-### Database
-
-- DB-01〜14
-- E-R / 正規化 / SQL / JOIN / 集計 / Subquery
-- Transaction / Recovery / Index / NoSQL / DWH / OLAP
-
-### Network
-
-- NET-01〜14
-- OSI/TCP-IP / IPv4・IPv6 / Subnet
-- VLAN/STP / Wi-Fi / Routing / NAT / VPN
-- TCP/UDP / DNS / HTTP / Mail / 障害切り分け / QoS / Cloud Network
-
-### Security
-
-- SEC-01〜12
-- CIA / Risk / Cryptography / PKI / TLS
-- Authentication / Authorization / MFA / OIDC
-- Web攻撃 / Mail攻撃 / Malware
-- FW / IDS/IPS / WAF / EDR / SIEM
-- Incident Response / ISMS / Cloud Security / Zero Trust
-
-### System / Project
-
-- SYS-01〜08
-- DEV-01
-- PM-01〜06
-- Requirement / Design / UML / CI/CD / Test / Maintenance / Agile
-- WBS / PERT / EVM / Quality / Risk / Procurement
-
-### Service / Audit
-
-- SVC-01〜03
-- AUD-01〜02
-- SLA / ITSM / Incident・Problem / Change・Release / Continuity
-- Facility Management / System Audit / Internal Control / Audit Evidence / CAAT
-
-### Strategy / Planning
-
-- STR-01〜05
-- Feasibility / RFP / IT Strategy / BPR・BPM・EA / Outsourcing / Adoption / Effect Measurement
-
-### Business / Accounting
-
-- BUS-01〜09
-- PEST / 5 Forces / SWOT / Ansoff / PPM
-- STP / 4P / KPI / BSC / Technology Roadmap
-- ERP / CRM / SCM / IoT / Digital Twin
-- Organization / Financial Statements / Break-even / ROI / NPV
-
-### Law / Standards
-
-- LAW-01〜04
-- Security関連法規 / Privacy
-- Intellectual Property / OSS License / Contract
-- Labor / Transaction / Compliance / Ethics
-- ISO / IEC / JIS / IEEE / Open Standard
+- Lesson画面
+- Unit Hub
+- Home
+- **学習進捗Dashboard**
 
 ## オリジナル総合演習
 
-- `html/practice.html`
-- `js/practice.js`
-- `css/practice.css`
-- `json/practice/ap-original-practice-v1.json`
+### Data構成
 
-現在 **37問**。
+- `json/practice/practice-index.json` — Runtime正本Manifest
+- `json/practice/units/*.json` — 13ユニット × 5問 = 65問
+- `json/practice/ap-original-practice-expansion-v1.json` — 追加26問
+- `json/practice/ap-original-practice-v1.json` — **旧37問Snapshot。Runtimeでは読まない**
+- `js/practice-data.js` — Manifestを読み全Bankを結合
 
-公式過去問の問題文を転載せず、シラバスVer.7.2と本サイトLessonを基に作成しています。
+現在 **91問**。
 
-### 問題形式
+問題形式:
 
-- 選択式: 自動採点
-- 記述式: 自分で回答 → Model Answer / 採点観点 → 自己評価
+- 選択式 — 自動採点 + 解説
+- 記述式 — 自分で回答 → Model Answer / 採点観点 → 自己評価
 
-### Filter
+Filter:
 
 - 学習ユニット
 - 問題形式
 - 難易度
 - 未挑戦 / 要復習 / 理解済み
 
-URL queryでも絞り込めます。
+URL例:
 
-例:
+`html/practice.html?unit=network&question=PX-NET-01`
 
-`html/practice.html?unit=network`
+Lessonから、そのLessonを参照する総合演習へ直接移動できる。
 
-Lessonから関連する問題へ `question=` 付きで直接移動できます。
-
-### Practice進捗
-
-localStorage:
+Practice進捗localStorage:
 
 `ap-study-practice-history-v1`
 
-保存内容:
+保存:
 
 - 挑戦回数
-- Latest score
-- Best score
+- Latest / Best score
 - Latest answer
 - 最終挑戦日時
 
-トップページにも「理解済み / 要復習」を表示します。
+## 学習進捗Dashboard
 
-## 学習Flow
+`html/progress.html`
 
-1. 学習マップで範囲を確認
-2. Lessonで仕組みを理解
-3. Lesson内確認問題を最後まで解く
-4. 関連する総合演習で知識を使う
-5. 要復習だけ再挑戦
-6. 公式過去問・長文Caseへ接続
-7. 必要なら旧用語索引で細部を検索
+118Lessonと91問の履歴を結合し、次を表示する。
+
+- 全体Lesson完了率
+- 演習の挑戦数 / 理解済み / 要復習
+- 13ユニット別のLesson / Practice進捗
+- IPA 23中分類別の教材数・完了数・演習数
+- 要復習問題を優先した「次にやる候補」
+
+旧用語の「チェック済み」と、構造化Lesson/Practiceの理解進捗は混同しない。
+
+## 旧1,422語の互換層
+
+| 旧教材 | 語数 | 状態 |
+|---|---:|---|
+| Algorithm | 65 | 監査・再配置済み |
+| Database | 229 | 監査・Lesson移行済み |
+| Network | 480 | 監査・Lesson移行済み |
+| Security | 501 | 監査・Cross-domain再分類済み |
+| System | 75 | 監査・Lesson移行済み |
+| Management | 72 | 監査・Lesson移行済み |
+| **合計** | **1,422** | **1,422/1,422** |
+
+旧ページ・旧ID・旧localStorageは検索、☆復習、既存進捗の互換用として維持する。
 
 ## 過去問
 
-既存Security過去問7問を維持しています。
+既存Security過去問7問を維持し、`json/past/lesson-past-map.json` で **7/7を構造化Lessonへ対応付け**した。
 
-総合演習37問は公式過去問とは別物です。
+Lesson側から関連過去問へ、過去問側から対象問題を直接開ける。
 
-今後の主課題は、**最近のAP過去問と118Lessonの体系的な対応付け**、およびSubject Bを意識した長文Case増強です。
+今後はSecurity以外の公式過去問と118Lessonの対応を増やす。
 
 ## 保存方法
 
-教材データはGitHub上のJSON。個人進捗はブラウザlocalStorageです。
+教材DataはGitHub上のJSON。個人進捗はブラウザlocalStorage。
 
 主なキー:
 
@@ -326,66 +216,66 @@ localStorage:
 - `ap-study-practice-history-v1`
 - `ap-study-theme`
 
-更新でこれらを意図せず消さないこと。
-
 ## 崩してはいけない仕様
 
-- 既存用語IDを不用意に変更・削除しない。
-- localStorageキー変更時は移行処理を用意する。
+- 既存用語IDを不用意に削除・変更しない。
+- localStorage key変更時は移行処理を用意する。
 - 過去問PDF / 問題JSON / 解説JSONの対応を壊さない。
-- GitHub Pagesの相対パスを維持する。
-- 秘密情報/APIキーを公開リポジトリへ置かない。
-- 監査済み移行表とLesson割当を根拠なく変更しない。
-- Base/Expansion Lesson indexをRuntime・CIの双方で統合する。
-- 「23/23にLessonあり」と「試験対策として完全」を混同しない。
+- GitHub Pagesで壊れない相対Pathを維持する。
+- API Key / Password等を公開Repoへ置かない。
+- 監査済みIDの主Lesson割当を根拠なく変えない。
+- Base/Expansion Lesson indexをRuntime/CI双方で結合する。
+- Practiceは `practice-index.json` をRuntime正本とし、旧37問Snapshotへ戻さない。
+- 「23/23にLessonあり」と「試験対策として完成」を混同しない。
 
 ## 自動検証
 
-`.github/workflows/validate.yml` でmain / PRごとに実行します。
+`.github/workflows/validate.yml`
 
-- JavaScript構文
+- JavaScript syntax
 - `tests/validate.mjs`
 - `tests/validate-audits.mjs`
 - `tests/validate-security-audit.mjs`
 - `tests/validate-computer-systems.mjs`
 - `tests/validate-curriculum-expansion.mjs`
 - `tests/validate-practice.mjs`
+- `tests/validate-past-lesson-map.mjs`
+- `tests/validate-progress.mjs`
 
-主要保証:
+主な保証:
 
 - 旧1,422語の監査整合
-- Base 87 + Expansion 31 = 118Lesson
-- Lesson ID / order重複禁止
-- 13学習ユニット整合
-- IPA中分類1〜23のLesson Coverage
-- Practice 37問
-- Practice 13/13 unit Coverage
-- Practice 23/23 middle Coverage
-- Practiceの関連Lesson実在
+- 118LessonのID/order/Data整合
+- 13/13ユニット・23/23中分類のLesson Coverage
+- Practice 91問・13ユニット各7問以上・23/23中分類Coverage
+- Practice関連Lessonの実在
+- Security過去問7/7 Lesson Mapping
+- Progress Dashboardが118Lesson + 91問を結合できる構成
 
 ## GitHub Pages
 
-`https://elitemay.github.io/ap-study-notes/`
+静的構成なのでGitHub Pagesでそのまま利用可能。
 
-静的構成のためGitHub Pagesでそのまま利用できます。
+`https://elitemay.github.io/ap-study-notes/`
 
 ## 注意点・既知の問題
 
-現在の大きな未完了は、教材の「分野が存在しない」ことではなく**深さと本番接続**です。
+現在の主な不足は「分野が存在しない」ことではなく、**深度と本番接続**。
 
-- 最近のAP過去問と118Lessonの体系的対応表は未完成
-- Subject Bを意識した長文Caseが不足
-- 37問では1Lessonごとの十分な演習量には達していない
-- 旧用語ページの生成詳細は互換層に残っている
-- 118Lesson + Practice全操作の実ブラウザE2E総当たりは未実施
+- Subject Bを意識した長文Caseがまだ不足
+- Security以外の公式過去問とのLesson対応が不足
+- 91問でも118Lesson全てへ十分な問題密度ではない
+- 旧用語ページの生成詳細は互換層に残る
+- 118Lesson + 91Practice + 全Hubの実ブラウザ総当たりE2Eは未実施
+
+CI successを実ブラウザ確認済みとは扱わない。
 
 ## 完成条件
 
 - 23中分類すべてを追跡できる。
 - テンプレ文章による水増しを主教材に使わない。
-- 内容に合う教材形式がある。
-- 計算 / 図 / Code / SQL / Network / Security / Business Case演習がある。
-- 最近の過去問へ体系的に接続できる。
+- 計算 / 図 / Code / SQL / Network / Security / Business Caseを扱える。
 - 問題結果から弱点を再学習できる。
-- CIとPages buildが通る。
+- 公式過去問・Subject Bへ体系的に接続できる。
+- CI / Pagesが通る。
 - 重大な既知不具合がなく通常利用できる。
