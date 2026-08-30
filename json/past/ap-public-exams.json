@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "AP 最新公開公式問題 Lesson対応表",
+    "policy": "2026年度CBTの実問題はIPA非公開。最新の公開済みフル問題である2025年度春期・秋期の午後22大問を、問題文を転載せずテーマ要約と関連Lessonへ対応付ける。対応付けはAP Study Notes独自分析でありIPA公式分類ではない。",
+    "currentExamYear": 2026,
+    "currentMethod": "CBT",
+    "currentSubjectNames": ["科目A", "科目B"],
+    "currentQuestionsPublic": false,
+    "latestPublicFullExamYear": 2025,
+    "mappedPublicQuestionCount": 22,
+    "officialSources": {
+      "currentCbtNotice": "https://www.ipa.go.jp/shiken/2026/ap_koudo_sc_kikan.html",
+      "public2025Page": "https://www.ipa.go.jp/shiken/mondai-kaiotu/2025r07.html"
+    }
+  },
+  "exams": [
+    {
+      "id": "AP-2025-SPRING-B",
+      "year": 2025,
+      "season": "spring",
+      "seasonLabel": "令和7年度 春期",
+      "legacySubjectName": "午後",
+      "currentSubjectName": "科目B",
+      "examDate": "2025-04-20",
+      "selectionRule": "問1必須、問2〜問11から4問選択",
+      "officialPageUrl": "https://www.ipa.go.jp/shiken/mondai-kaiotu/2025r07.html",
+      "officialQuestionPdfUrl": "https://www.ipa.go.jp/shiken/mondai-kaiotu/nl10bi0000009lh8-att/2025r07h_ap_pm_qs.pdf",
+      "questions": [
+        {"number":1,"selection":"required","domain":"情報セキュリティ","topic":"販売管理システムを狙うサイバー攻撃と対策","primaryUnitId":"security","lessonRefs":["SEC-04","SEC-07","SEC-09","SEC-10"]},
+        {"number":2,"selection":"selectable","domain":"経営戦略","topic":"企業の成長戦略と事業判断","primaryUnitId":"business-accounting","lessonRefs":["BUS-01","BUS-02","BUS-03"]},
+        {"number":3,"selection":"selectable","domain":"プログラミング","topic":"幅優先探索でスライドパズルの最小解を求める","primaryUnitId":"algorithm-programming","lessonRefs":["ALG-02","ALG-10"]},
+        {"number":4,"selection":"selectable","domain":"システムアーキテクチャ","topic":"クラウドBEMSの非機能要件とシステム構成","primaryUnitId":"computer-systems","lessonRefs":["CMP-02","CMP-07","CMP-09","SYS-02"]},
+        {"number":5,"selection":"selectable","domain":"ネットワーク","topic":"社内LAN障害の原因切り分け","primaryUnitId":"network","lessonRefs":["NET-11","NET-12"]},
+        {"number":6,"selection":"selectable","domain":"データベース","topic":"販売管理システムのデータ設計と処理","primaryUnitId":"database","lessonRefs":["DB-02","DB-03","DB-05","DB-06"]},
+        {"number":7,"selection":"selectable","domain":"組込みシステム開発","topic":"電動キックボードの状態遷移・タスク・通信","primaryUnitId":"computer-systems","lessonRefs":["FND-07","CMP-12","SYS-03"]},
+        {"number":8,"selection":"selectable","domain":"情報システム開発","topic":"エラーハンドリングと異常系設計","primaryUnitId":"system-development","lessonRefs":["SYS-05","SYS-07","SYS-08"]},
+        {"number":9,"selection":"selectable","domain":"プロジェクトマネジメント","topic":"CCPMを用いたスケジュール管理","primaryUnitId":"project-management","lessonRefs":["PM-01","PM-02","PM-05"]},
+        {"number":10,"selection":"selectable","domain":"サービスマネジメント","topic":"容量・能力管理とSLAを踏まえた運用判断","primaryUnitId":"service-audit","lessonRefs":["SVC-01","SVC-02","CMP-08"]},
+        {"number":11,"selection":"selectable","domain":"システム監査","topic":"勤務管理に関連するシステム監査","primaryUnitId":"service-audit","lessonRefs":["AUD-01","AUD-02"]}
+      ]
+    },
+    {
+      "id": "AP-2025-AUTUMN-B",
+      "year": 2025,
+      "season": "autumn",
+      "seasonLabel": "令和7年度 秋期",
+      "legacySubjectName": "午後",
+      "currentSubjectName": "科目B",
+      "examDate": "2025-10-12",
+      "selectionRule": "問1必須、問2〜問11から4問選択",
+      "officialPageUrl": "https://www.ipa.go.jp/shiken/mondai-kaiotu/2025r07.html",
+      "officialQuestionPdfUrl": "https://www.ipa.go.jp/shiken/mondai-kaiotu/nl10bi0000009lh8-att/2025r07a_ap_pm_qs.pdf",
+      "questions": [
+        {"number":1,"selection":"required","domain":"情報セキュリティ","topic":"企業グループ全体のセキュリティ対策と統制","primaryUnitId":"security","lessonRefs":["SEC-04","SEC-09","SEC-10","SEC-11"]},
+        {"number":2,"selection":"selectable","domain":"経営戦略","topic":"スポーツウェアメーカーの事業領域拡大戦略","primaryUnitId":"business-accounting","lessonRefs":["BUS-01","BUS-02"]},
+        {"number":3,"selection":"selectable","domain":"プログラミング","topic":"最長共通部分列を求めるアルゴリズム","primaryUnitId":"algorithm-programming","lessonRefs":["ALG-02","ALG-08"]},
+        {"number":4,"selection":"selectable","domain":"システムアーキテクチャ","topic":"エッジコンピューティングを用いたシステム構成","primaryUnitId":"computer-systems","lessonRefs":["CMP-02","CMP-07","NET-14"]},
+        {"number":5,"selection":"selectable","domain":"ネットワーク","topic":"クラウドサービス移行時のネットワーク設計","primaryUnitId":"network","lessonRefs":["NET-06","NET-11","NET-14"]},
+        {"number":6,"selection":"selectable","domain":"データベース","topic":"受講管理システム改修のデータ設計とSQL","primaryUnitId":"database","lessonRefs":["DB-02","DB-03","DB-04","DB-05"]},
+        {"number":7,"selection":"selectable","domain":"組込みシステム開発","topic":"猫の自動給餌・健康管理システムの制御設計","primaryUnitId":"computer-systems","lessonRefs":["FND-07","CMP-12","SYS-03"]},
+        {"number":8,"selection":"selectable","domain":"情報システム開発","topic":"モバイルオーダーシステムの画面設計","primaryUnitId":"system-development","lessonRefs":["UIM-01","UIM-03","SYS-03"]},
+        {"number":9,"selection":"selectable","domain":"プロジェクトマネジメント","topic":"開発モデルが混在するプロジェクトの管理","primaryUnitId":"project-management","lessonRefs":["PM-01","PM-05","PM-06","DEV-01"]},
+        {"number":10,"selection":"selectable","domain":"サービスマネジメント","topic":"社内手続を扱うサービスデスクの設計・運用","primaryUnitId":"service-audit","lessonRefs":["SVC-01","SVC-02"]},
+        {"number":11,"selection":"selectable","domain":"システム監査","topic":"アクセス管理状況の点検に関する監査","primaryUnitId":"service-audit","lessonRefs":["AUD-01","AUD-02","SEC-04","SEC-09"]}
+      ]
+    }
+  ]
+}
