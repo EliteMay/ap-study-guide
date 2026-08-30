@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r11';
+  const BUILD = '2026.08.30-r12';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -25,6 +25,7 @@
     ['business-accounting','📊 経営・会計・ビジネス','unit.html?unit=business-accounting'],
     ['law-standards','⚖️ 法務・標準化','unit.html?unit=law-standards'],
     ['practice','🧪 総合演習','practice.html'],
+    ['cases','📚 長文Case','cases.html'],
     ['past','📘 過去問解説','security-past.html'],
     ['test','📝 用語テスト','test.html']
   ];
@@ -147,6 +148,7 @@
     if (page === 'roadmap.html') return 'roadmap';
     if (page === 'progress.html') return 'progress';
     if (page === 'practice.html') return 'practice';
+    if (page === 'cases.html') return 'cases';
     if (page === 'security-past.html') return 'past';
     if (page === 'test.html') return 'test';
     if (page === 'algorithm.html') return 'algorithm-programming';
