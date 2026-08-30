@@ -51,12 +51,13 @@ Home上部の検索欄は、機能名・分野名・用語検索の入口を兼�
 | IPA中分類 | 23 |
 | 学習ユニット | 13 |
 | 構造化Lesson | 118 |
-| 短問 | 91 |
+| 短問 | 139 |
+| Lesson→短問直接Coverage | 118 / 118 |
 | 長文Case | 16 / 48設問 |
 | 旧用語資産 | 1,422語 |
 | 2025春・秋 公開午後問題Mapping | 22大問 |
 
-`23/23` の教材入口があることは、IPA全小分類・全出題パターンの完全Coverageを意味しません。
+`23/23` の教材入口や `118/118` の短問直接参照は、IPA全小分類・全出題パターン・全難易度の完全Coverageを意味しません。今後も問題品質と深さを監査します。
 
 ## 主なページ
 
@@ -96,8 +97,13 @@ Home上部の検索欄は、機能名・分野名・用語検索の入口を兼�
 
 ### Practice
 
-- `json/practice/practice-index.json`
+- Manifest: `json/practice/practice-index.json`
+- Lesson直接Coverage追加Bank: `json/practice/ap-lesson-coverage-v1.json`
 - Loader: `js/practice-data.js`
+
+全118 Lessonが少なくとも1つの短問から直接参照されます。Coverage追加Bankは **1 Lesson = 1問** を基本とし、複数Lessonを形式的に1問へまとめてCoverageだけ埋めません。
+
+追加Bankの4択は `mockEligible:false` とし、短問全体を増やしても150分模試の科目A構成が勝手に増えないよう分離します。
 
 ### Case
 
@@ -108,6 +114,8 @@ Home上部の検索欄は、機能名・分野名・用語検索の入口を兼�
 
 - `json/mock/mock-config.json`
 - Loader: `js/mock-data.js`
+
+科目Aの短問由来Poolは `type === 'choice' && mockEligible !== false` を対象にし、Mock Configで指定した件数を維持します。
 
 ### Curriculum
 
@@ -191,7 +199,8 @@ Homeは全機能説明を並べるDashboardではなく、今やる行動を選�
 - Backup / Restoreで元データを先に破壊しない。
 - 2026 CBT非公開実問題を公開問題として扱わない。
 - 模試得点をIPA公式得点へ直接換算しない。
-- `23/23`を試験対策の完全性と表現しない。
+- `23/23`や`118/118`を試験対策の完全性と表現しない。
+- Lesson Coverage用4択を、意図せず150分模試の科目A Poolへ混入させない。
 
 ## 自動検証
 
@@ -202,6 +211,8 @@ Workflow: `.github/workflows/validate.yml`
 - JavaScript構文
 - JSON / Manifest / ID / 参照
 - Curriculum / Audit
+- 118/118 Lesson→Practice直接参照
+- Lesson Coverage用4択のMock除外
 - Lesson / Practice / Case / Mock
 - Official problem mapping
 - Runtime architecture
@@ -209,7 +220,7 @@ Workflow: `.github/workflows/validate.yml`
 - Project metadata / Guide Profile
 - Playwright Chromium Smoke
 
-Browser Smokeでは主要導線に加えて、320px幅の横overflow、壊れたBackupの拒否、安全なImport Preview、検証済みBackupのRestoreも確認します。
+Browser Smokeでは主要導線に加えて、Lesson→Coverage問題への実遷移、320px幅の横overflow、壊れたBackupの拒否、安全なImport Preview、検証済みBackupのRestoreも確認します。
 
 ## Documentation
 
@@ -221,11 +232,11 @@ READMEへVersionごとの長い作業履歴を積み上げません。
 
 ## 既知の不足
 
-- 全Lesson確認問題の難易度再監査は継続課題。
-- 短問が直接参照するLessonはまだ全Lessonではない。
+- 118/118 Lessonへ短問の直接入口はあるが、全問題の難易度・質・本番類似度の再監査は継続課題。
+- IPA小分類 / 学習項目単位Coverageの可視化は未完了。
 - 2025午前および2024以前の公式公開問題Mappingは未完了。
 - Legacy用語ページ自体は大規模DOMの旧構造を残す。通常導線では使用しない。
-- Browser Smokeは主要導線のみで、全Lesson・全問題・150分実時間の総当たりではない。
+- Browser Smokeは主要導線のみで、全Lesson・全139問・150分実時間の総当たりではない。
 - 実利用者による長時間のUser Validationは自動CIでは代替しない。
 
 ## 完成の考え方

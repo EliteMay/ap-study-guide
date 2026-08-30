@@ -4,13 +4,9 @@ CIは **Data整合・Runtime構造・保存安全性・主要Browser操作** を
 
 Buildの正本は `json/project-meta.json` です。Test READMEや各ValidatorへBuild文字列を重複して持ちません。
 
-Project Profile:
+Project Profile: `STATIC + DATA + TOOL + PUBLIC-CONTENT`
 
-`STATIC + DATA + TOOL + PUBLIC-CONTENT`
-
-採用Guide:
-
-`EliteMay/web-project-guide`（Versionは `json/project-meta.json` に記録）
+採用Guide: `EliteMay/web-project-guide`（Versionは `json/project-meta.json` に記録）
 
 ## Validator一覧
 
@@ -48,15 +44,21 @@ CMP-01〜12と中分類3〜6。
 
 ### `validate-practice.mjs`
 
-- 91問
-- Choice57 + Written34
+現在はManifestから139問を読み込む。固定件数をValidatorへ重複させず、Manifestの宣言値と各File実件数を照合する。
+
+主な検証:
+
 - 13/13 Unit
 - 23/23中分類
-- Lesson参照
-- Manifest Loader
+- **118/118 Lessonが短問から直接参照される**
+- Choice / Written Schema
+- `json/practice/ap-lesson-coverage-v1.json` の存在
+- Coverage Bankは1問につき1 Lesson参照
+- Coverage Bankの4択は `mockEligible:false`
+- Manifest Loader / memoize
 - Recent-result mastery
 - Written Guard
-- Home / Navigation接続
+- Lesson→Practice / Home / Navigation接続
 
 ### `validate-cases.mjs`
 
@@ -74,7 +76,8 @@ CMP-01〜12と中分類3〜6。
 
 - 150分
 - 80問 / 80解答
-- Practice Choice57 + Mock専用23
+- Practice由来の **mockEligibleな4択57問** + Mock専用23問
+- Lesson Coverage追加4択はMock Poolから除外
 
 科目B:
 
@@ -102,7 +105,7 @@ RuntimeのTimer / Answer / Flag / Session復帰 / Self GradeとHome / Progress�
 
 ### `validate-progress.mjs`
 
-118Lesson + 91短問 + 16Case + Mock履歴を13Unitへ接続。
+Lesson / Practice / Caseの件数を各Manifest / Indexから集計し、13Unitへ接続する。Practice件数増加時に91等の古い固定値へ依存しない。
 
 ### `validate-runtime-quality.mjs`
 
@@ -133,14 +136,12 @@ Web Project Guideで再発コストが高い項目を、このサイトに必要
 
 ### `validate-glossary.mjs`
 
-検証:
-
 - `html/glossary.html`
 - `css/glossary.css`
 - `js/glossary.js`
 - 旧6Manifest
 - 全Term File count
-- Total **1,422**
+- Total 1,422
 - 旧6 `*-terms-checked`
 - `ap-study-bookmarks-v1`連携コード
 - Details Manifest
@@ -164,25 +165,23 @@ Playwright Chromiumで実ブラウザ操作する。
 1. Action-first Homeを開く
 2. `project-meta.json` のBuild表示を確認
 3. Homeの教材件数がLoading状態から実Dataへ更新される
-4. 13Unit Cardが13枚ある
-5. 主要Actionが8個ある
-6. Home Searchへ`OAuth`入力
-7. Glossary検索導線が出る
-8. `glossary.html?q=OAuth`を開く
-9. OAuth検索Resultを確認
-10. 詳しい解説をLazy Open
-11. Security Generic Hub→Domain指定Glossaryを確認
-12. Lessonを全問誤答しMasteredにならないこと
-13. Written Practiceの空欄Guard
-14. Long Caseの空欄Guard
-15. **320px Homeでページ全体の横overflowなし**
-16. Mobile Drawerの`inert` / Open / Escape Close
-17. **320px Glossaryでページ全体の横overflowなし**
-18. Backup Export / Import UI
-19. **壊れた認識済みStorage JSONをImport拒否**
-20. **Import JSON内のHTML文字列をDOMとして実行しない**
-21. **Validation済みBackupを実際にRestoreできる**
-22. Browser console / page errorがないこと
+4. 13Unit Card / 主要8Action確認
+5. Home Search→Glossary
+6. Glossary検索 / Lazy Detail
+7. Security Generic Hub→Domain指定Glossary
+8. **Practice ManifestをBrowserから読み、118 Lessonすべてに直接参照があることを確認**
+9. **ALG-01 LessonからPC-ALG-01へ実際に遷移し問題表示を確認**
+10. Lessonを全問誤答しMasteredにならないこと
+11. Written Practiceの空欄Guard
+12. Long Caseの空欄Guard
+13. 320px Homeでページ全体の横overflowなし
+14. Mobile Drawerの`inert` / Open / Escape Close
+15. 320px Glossaryでページ全体の横overflowなし
+16. Backup Export / Import UI
+17. 壊れた認識済みStorage JSONをImport拒否
+18. Import JSON内のHTML文字列をDOMとして実行しない
+19. Validation済みBackupを実際にRestoreできる
+20. Browser console / page errorがないこと
 
 Backup Restore Smokeは、既存保存Dataがある状態で実行するため、復元直前BackupのDownload経路も通る。
 
@@ -211,14 +210,11 @@ Backup Restore Smokeは、既存保存Dataがある状態で実行するため�
 
 ## CIで完全には保証しないもの
 
-Browser Smokeを導入しているが、以下は総当たりではない。
-
 - 118Lesson全表示
-- 全Lesson Check
-- 91問全操作
+- 全Lesson Checkの全選択肢
+- 139問すべてのUser操作・回答品質
 - 16Case / 48設問全操作
 - Mock 150分の実時間経過
-- 時間切れ自動提出の150分実待機
 - 全Table / Diagramの全Viewport
 - Dark Mode全画面
 - Legacy互換ページ全用語Card
@@ -226,7 +222,7 @@ Browser Smokeを導入しているが、以下は総当たりではない。
 - 長時間利用時の全Performance
 - 実利用者によるUser Validation
 
-CI successだけでこれらを全確認済みとは扱わない。
+`118/118` はLesson→短問の参照整合を保証するもので、全問題の難易度・本番類似度を保証する値ではない。
 
 ## Verification State
 
