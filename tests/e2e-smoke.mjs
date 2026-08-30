@@ -32,8 +32,9 @@ try {
 
   await goto('html/unit.html?unit=security');
   if (!(await page.locator('#unit-hero h1').textContent())?.includes('セキュリティ')) throw new Error('generic security hub failed');
-  if (!await page.getByRole('link', { name:'単語辞書' }).isVisible()) throw new Error('unified glossary link missing from generic hub');
-  if ((await page.getByRole('link', { name:'単語辞書' }).getAttribute('href')) !== 'glossary.html?domain=security') throw new Error('security hub glossary filter mismatch');
+  const unitGlossary = page.getByRole('link', { name:'単語辞書', exact:true });
+  if (!await unitGlossary.isVisible()) throw new Error('unified glossary link missing from generic hub');
+  if ((await unitGlossary.getAttribute('href')) !== 'glossary.html?domain=security') throw new Error('security hub glossary filter mismatch');
 
   await goto('html/lesson.html?id=FND-02');
   await page.waitForSelector('.check-question');
