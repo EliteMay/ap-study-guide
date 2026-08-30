@@ -6,9 +6,7 @@ const readText = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const readJson = rel => JSON.parse(readText(rel));
 const fail = message => { throw new Error(`[progress] ${message}`); };
 
-for (const file of ['html/progress.html','css/progress.css','js/progress.js','js/practice-data.js','js/case-data.js','js/lesson-data.js','js/study-state.js']) {
-  if (!fs.existsSync(path.join(root,file))) fail(`missing ${file}`);
-}
+for (const file of ['html/progress.html','css/progress.css','js/progress.js','js/practice-data.js','js/case-data.js','js/lesson-data.js','js/study-state.js']) if (!fs.existsSync(path.join(root,file))) fail(`missing ${file}`);
 const base = readJson('json/lessons/lesson-index.json');
 const expansion = readJson('json/lessons/lesson-index-expansion.json');
 const lessons = [...(base.lessons || []), ...(expansion.lessons || [])];
@@ -19,26 +17,19 @@ const cases = (caseManifest.files || []).flatMap(item => readJson(item.file).cas
 const curriculum = readJson('json/curriculum/ap-2026-map.json');
 if (lessons.length !== 118 || questions.length !== 91 || cases.length !== 16) fail('core counts mismatch');
 if ((curriculum.studyUnits || []).length !== 13 || (curriculum.middleCategories || []).length !== 23) fail('curriculum counts mismatch');
-
 const html = readText('html/progress.html');
 for (const required of ['../js/study-state.js','../js/lesson-data.js','../js/practice-data.js','../js/case-data.js','progress-unit-grid','progress-middle-body','progress-next','data.html']) if (!html.includes(required)) fail(`progress.html missing ${required}`);
-
 const js = readText('js/progress.js');
 for (const required of ['APStudyState.lessonState','APStudyState.practiceState','APStudyState.caseState','APLessonData.load','APPracticeData.load','APCaseData.load','ap-study-mock-history-v1','unit.html?unit=','FULL MOCK']) if (!js.includes(required)) fail(`progress.js missing ${required}`);
 if (js.includes('ap-original-practice-v1.json')) fail('progress.js reads legacy practice snapshot');
 if (js.includes('lesson-index-expansion.json')) fail('progress.js should use APLessonData instead of rebuilding indexes');
-
 const shell = readText('js/shell.js');
 if (!shell.includes("['progress','📈 学習進捗','progress.html']")) fail('navigation missing progress');
-if (!shell.includes("const BUILD = '2026.08.30-r16'")) fail('shell BUILD is not r16');
-
+if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 const state = readText('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','practiceState','caseState']) if (!state.includes(required)) fail(`study-state missing ${required}`);
-
 const lessonUnits = new Set(lessons.map(item => item.unitId));
 const practiceUnits = new Set(questions.map(item => item.unitId));
 const caseUnits = new Set(cases.map(item => item.unitId));
-for (const unit of curriculum.studyUnits || []) {
-  if (!lessonUnits.has(unit.id) || !practiceUnits.has(unit.id) || !caseUnits.has(unit.id)) fail(`${unit.id}: missing learning mode coverage`);
-}
+for (const unit of curriculum.studyUnits || []) if (!lessonUnits.has(unit.id) || !practiceUnits.has(unit.id) || !caseUnits.has(unit.id)) fail(`${unit.id}: missing learning mode coverage`);
 console.log(`[progress] OK: current mastery dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases across 13 units.`);
