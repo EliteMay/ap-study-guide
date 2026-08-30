@@ -92,5 +92,5 @@ const legacy = readJson('json/practice/ap-original-practice-v1.json');
 if (!Array.isArray(legacy.questions) || legacy.questions.length !== 37) fail('legacy snapshot should remain compatibility-only 37 questions');
 
 const uncovered = lessons.filter(item => !coveredLessons.has(item.id));
-console.log(`[practice-gap] ${uncovered.length} uncovered: ${uncovered.map(item => `${item.id}=${item.title}`).join(' | ')}`);
+console.log(`[practice-gap-meta] ${uncovered.map(item => `${item.id}|${item.unitId}|${(item.officialMiddleCodes || []).join(',')}|${item.file}`).join(' || ')}`);
 console.log(`[practice] OK: ${questions.length} questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / ${coveredLessons.size}/${lessons.length} lessons referenced / uncovered lessons get unit-practice fallback.`);
