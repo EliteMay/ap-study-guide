@@ -9,38 +9,31 @@ const fail = message => { throw new Error(`[runtime-quality] ${message}`); };
 
 for (const file of ['js/study-state.js','js/lesson-data.js','html/data.html','js/data-tools.js','css/data-tools.css']) if (!exists(file)) fail(`missing ${file}`);
 const shell = read('js/shell.js');
-if (!shell.includes("const BUILD = '2026.08.30-r16'")) fail('BUILD must be r16');
+if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('BUILD must be r17');
 if (!shell.includes('NAV_GROUPS')) fail('navigation is not grouped');
+if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('glossary missing from navigation');
 if (!shell.includes("['data','💾 学習データ','data.html']")) fail('data backup page missing from navigation');
 if (!shell.includes("toggleAttribute('inert'")) fail('mobile drawer does not become inert when closed');
 if (!shell.includes('ap-skip-link')) fail('skip link is not created');
-
 const state = read('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','WRITTEN_MIN_CHARS = 12','CASE_MIN_CHARS = 20','recentScores','recognizedKeys']) if (!state.includes(required)) fail(`study-state missing ${required}`);
-
 const lessonData = read('js/lesson-data.js');
 if (!lessonData.includes('lesson-index.json') || !lessonData.includes('lesson-index-expansion.json') || !lessonData.includes('cache = new Map()')) fail('lesson-data is not centralized+memoized');
 if (lessonData.includes('no-store')) fail('lesson-data disables browser cache');
 const practiceData = read('js/practice-data.js');
 const caseData = read('js/case-data.js');
 if (practiceData.includes('no-store') || caseData.includes('no-store')) fail('core modular loaders disable browser cache');
-
-for (const file of ['js/lesson.js','js/home.js','js/progress.js']) {
-  const text = read(file);
-  if (text.includes('ap-original-practice-v1.json')) fail(`${file} reads legacy 37-question snapshot`);
-}
+for (const file of ['js/lesson.js','js/home.js','js/progress.js']) if (read(file).includes('ap-original-practice-v1.json')) fail(`${file} reads legacy 37-question snapshot`);
 if (!read('js/lesson.js').includes('APLessonData.load')) fail('lesson.js does not use APLessonData');
 if (!read('js/unit.js').includes('APLessonData.load')) fail('unit.js does not use APLessonData');
 if (!read('js/progress.js').includes('APLessonData.load')) fail('progress.js does not use APLessonData');
 if (!read('js/home.js').includes('APLessonData.load')) fail('home.js does not use APLessonData');
-
 const practice = read('js/practice.js');
 if (!practice.includes('WRITTEN_MIN_CHARS') || !practice.includes('appendRecentScore') || !practice.includes('practice-reveal') || !practice.includes('reveal.disabled = length < min')) fail('practice written answer gate/recent score logic missing');
 const cases = read('js/cases.js');
 if (!cases.includes('CASE_MIN_CHARS') || !cases.includes('appendRecentScore') || !cases.includes('reveal.disabled = length < min')) fail('case answer gate/recent score logic missing');
 const lesson = read('js/lesson.js');
 if (!lesson.includes('LESSON_PASS_RATIO') || !lesson.includes('completed:passed')) fail('lesson completion is not pass-threshold based');
-
 const coverage = json('json/curriculum/ap-2026-coverage.json');
 const curriculum = json('json/curriculum/ap-2026-map.json');
 for (const unit of curriculum.studyUnits || []) {
@@ -49,11 +42,10 @@ for (const unit of curriculum.studyUnits || []) {
 }
 const index = read('index.html');
 for (const legacy of ['html/algorithm.html','html/computer.html','html/database.html','html/network.html','html/security.html','html/system.html','html/management.html']) if (index.includes(`href="${legacy}"`)) fail(`homepage links directly to legacy hub ${legacy}`);
+if (!index.includes('home-quick-search') || !index.includes('html/glossary.html')) fail('action-first home/glossary entry missing');
 if (index.includes('js/home-practice.js') || index.includes('js/home-cases.js') || index.includes('js/home-mock.js')) fail('homepage still loads duplicate progress renderers');
-
 const dataPage = read('html/data.html');
 for (const required of ['JSONを書き出す','data-import-file','data-reset','../js/data-tools.js']) if (!dataPage.includes(required)) fail(`data page missing ${required}`);
 const dataTools = read('js/data-tools.js');
 for (const required of ['recognizedKeys','schemaVersion:1','confirm(','localStorage.setItem','localStorage.removeItem']) if (!dataTools.includes(required)) fail(`data-tools missing ${required}`);
-
-console.log('[runtime-quality] OK: r16 centralized loaders, strict mastery, unified hubs, backup/restore, compact accessible navigation.');
+console.log('[runtime-quality] OK: r17 centralized loaders, strict mastery, unified hubs, glossary, backup/restore, compact accessible navigation.');
