@@ -36,11 +36,15 @@ if (total !== 1422) fail(`legacy total must be 1422, got ${total}`);
 
 for (const details of ['security-details-manifest.json','network-details-manifest.json','database-details-manifest.json']) if (!exists(details)) fail(`missing ${details}`);
 const html = read('html/glossary.html');
-for (const required of ['1,422','glossary-search','glossary-domain','glossary-category','glossary-status','glossary-more','../js/glossary.js']) if (!html.includes(required)) fail(`glossary.html missing ${required}`);
+for (const required of ['glossary-search','glossary-domain','glossary-category','glossary-status','glossary-more','../js/glossary.js']) if (!html.includes(required)) fail(`glossary.html missing ${required}`);
+for (const duplicated of ['1,422','さらに60件表示']) if (html.includes(duplicated)) fail(`glossary.html duplicates data-derived count: ${duplicated}`);
 const js = read('js/glossary.js');
 for (const required of ['PAGE_SIZE = 60','loadDetailFor','detailFileCache','detailIndex','state.filtered.slice(0,state.visible)','APStudyUI','glossary.html?term=']) if (!js.includes(required)) fail(`glossary.js missing ${required}`);
 if (js.includes('term-page.js')) fail('unified glossary must not depend on legacy term-page runtime');
 if (js.includes("cache:'no-store'") || js.includes('cache: \'no-store\'')) fail('glossary disables browser cache');
+
+const css = read('css/glossary.css');
+for (const required of ['min-width:0','overflow-wrap:anywhere','grid-template-columns:minmax(0,1fr)']) if (!css.includes(required)) fail(`glossary narrow-layout guard missing ${required}`);
 
 const unit = read('js/unit.js');
 for (const required of ['GLOSSARY_DOMAINS','glossary.html?domain=','>単語辞書<']) if (!unit.includes(required)) fail(`unit hub missing ${required}`);
@@ -54,4 +58,4 @@ for (const required of ['buildQuickActions','home-quick-search','glossary.html?q
 const shell = read('js/shell.js');
 if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('navigation missing glossary');
 
-console.log(`[glossary] OK: ${total} legacy terms unified, 60-result pagination, lazy rich details, action-first home, unified navigation.`);
+console.log(`[glossary] OK: ${total} legacy terms unified, ${60}-result pagination, lazy rich details, narrow-layout guards, no static count duplication.`);
