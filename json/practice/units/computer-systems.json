@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"computer-systems","questionCount":5},
+  "questions":[
+    {"id":"P-CMP-01","unitId":"computer-systems","middleCodes":[3,4],"type":"choice","difficulty":3,"title":"CPU実行時間","prompt":"Clock周波数2.5GHz、命令数5×10^8、平均CPI=2のCPU実行時間は約何秒か。","options":["0.04秒","0.4秒","4秒","40秒"],"answerIndex":1,"explanation":"時間=命令数×CPI/Clock=10^9/2.5×10^9=0.4秒。","lessonRefs":["CMP-08"]},
+    {"id":"P-CMP-02","unitId":"computer-systems","middleCodes":[3],"type":"choice","difficulty":3,"title":"Cache平均Access","prompt":"Cache hit時2ns、miss時はCache確認2ns+Main Memory48ns、hit率90%の平均Access時間はどれか。","options":["2.0ns","6.8ns","45.2ns","50ns"],"answerIndex":1,"explanation":"0.9×2 + 0.1×50 = 1.8+5=6.8ns。","lessonRefs":["CMP-04"]},
+    {"id":"P-CMP-03","unitId":"computer-systems","middleCodes":[4],"type":"written","difficulty":3,"title":"冗長化の落とし穴","prompt":"Serverを2台に増やしただけでは高可用性が保証されない理由を、単一障害点という語を使って説明してください。","modelAnswer":"2台のServerが同じ電源、Switch、Storageなどに依存していると、その共有部分が単一障害点となり両Serverが同時停止し得るため、経路全体の冗長化が必要。","points":["共有依存部分が単一障害点になると述べる","電源/Switch/Storage等の具体例か経路全体の冗長化を述べる"],"lessonRefs":["CMP-07","CMP-09"]},
+    {"id":"P-CMP-04","unitId":"computer-systems","middleCodes":[5],"type":"choice","difficulty":3,"title":"Process状態遷移","prompt":"実行中のProcessがDisk I/O完了を待つことになった。通常の状態遷移として最も適切なのはどれか。","options":["Running→Waiting","Waiting→Runningを必ず直接","Ready→Terminated","Running→Readyだけ"],"answerIndex":0,"explanation":"I/OなどEvent待ちではRunningからWaitingへ移る。I/O完了後は通常Readyへ戻り、Schedulerに選ばれてRunningになる。","lessonRefs":["CMP-06"]},
+    {"id":"P-CMP-05","unitId":"computer-systems","middleCodes":[6],"type":"choice","difficulty":3,"title":"A/D変換の分解能","prompt":"0〜5Vを8bitのA/D Converterで量子化する。1段階当たりの電圧幅の近似として最も適切なのはどれか。","options":["約0.02V","約0.2V","約2V","約20V"],"answerIndex":0,"explanation":"8bitは256段階なので5/256≈0.0195V。約0.02V/step。","lessonRefs":["CMP-12"]}
+  ]
+}
