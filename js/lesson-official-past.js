@@ -8,7 +8,7 @@
   }
 
   async function fetchJson(path) {
-    const response = await fetch(`../${path}`, { cache:'no-store' });
+    const response = await fetch(`../${path}`);
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     return response.json();
   }
@@ -25,9 +25,7 @@
     if (!id) return;
     try {
       const data = await fetchJson('json/past/ap-public-exams.json');
-      const items = (data.exams || []).flatMap(exam => (exam.questions || [])
-        .filter(question => (question.lessonRefs || []).includes(id))
-        .map(question => ({ exam, question })));
+      const items = (data.exams || []).flatMap(exam => (exam.questions || []).filter(question => (question.lessonRefs || []).includes(id)).map(question => ({ exam, question })));
       if (!items.length) return;
       const root = document.getElementById('lesson-sections');
       if (!root) return;
@@ -36,8 +34,7 @@
         if (!root.children.length) return false;
         root.querySelector('.lesson-official-past-block')?.remove();
         const nav = root.querySelector('.next-lesson-block');
-        if (nav) root.insertBefore(block, nav);
-        else root.appendChild(block);
+        if (nav) root.insertBefore(block, nav); else root.appendChild(block);
         return true;
       };
       if (inject()) return;
