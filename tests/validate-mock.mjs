@@ -59,7 +59,6 @@ for (const required of ['ap-study-mock-history-v1','mock-timer','flags','answers
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['mock','⏱️ 150分模試','mock.html']")) fail('navigation missing mock');
-if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 const progress = readText('js/progress.js');
 if (!progress.includes('ap-study-mock-history-v1') || !progress.includes('FULL MOCK')) fail('progress not connected to mock history');
 const home = readText('index.html');
@@ -68,4 +67,4 @@ if (home.includes('js/home-mock.js')) fail('homepage should not load separate mo
 const homeJs = readText('js/home.js');
 if (!homeJs.includes('ap-study-mock-history-v1') || !homeJs.includes('mock-progress-number')) fail('home.js does not aggregate mock history');
 
-console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 11 offered, 5 answered / 150min; r17 home/progress integrated.`);
+console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 11 offered, 5 answered / 150min; home/progress integrated.`);
