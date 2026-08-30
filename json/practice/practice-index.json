@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "AP総合演習 Unit別Manifest",
+    "questionCount": 65,
+    "unitFileCount": 13,
+    "policy": "13学習ユニットごとに問題JSONを分割し、このManifestからRuntimeとCIが結合する。"
+  },
+  "files": [
+    {"unitId":"foundation-theory","file":"json/practice/units/foundation-theory.json","count":5},
+    {"unitId":"algorithm-programming","file":"json/practice/units/algorithm-programming.json","count":5},
+    {"unitId":"computer-systems","file":"json/practice/units/computer-systems.json","count":5},
+    {"unitId":"ui-media","file":"json/practice/units/ui-media.json","count":5},
+    {"unitId":"database","file":"json/practice/units/database.json","count":5},
+    {"unitId":"network","file":"json/practice/units/network.json","count":5},
+    {"unitId":"security","file":"json/practice/units/security.json","count":5},
+    {"unitId":"system-development","file":"json/practice/units/system-development.json","count":5},
+    {"unitId":"project-management","file":"json/practice/units/project-management.json","count":5},
+    {"unitId":"service-audit","file":"json/practice/units/service-audit.json","count":5},
+    {"unitId":"strategy-planning","file":"json/practice/units/strategy-planning.json","count":5},
+    {"unitId":"business-accounting","file":"json/practice/units/business-accounting.json","count":5},
+    {"unitId":"law-standards","file":"json/practice/units/law-standards.json","count":5}
+  ]
+}
