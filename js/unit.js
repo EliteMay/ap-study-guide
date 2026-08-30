@@ -49,6 +49,7 @@
       <p class="lead">${escapeHtml(unit.auditNote || '')}</p>
       <div class="home-actions">
         ${firstIncomplete ? `<a class="home-action-btn" href="lesson.html?id=${encodeURIComponent(firstIncomplete.id)}">${completed ? '未完了のLessonを続ける' : '最初のLessonから始める'}</a>` : ''}
+        <a class="home-action-btn secondary" href="practice.html?unit=${encodeURIComponent(unit.id)}">このユニットを演習</a>
         <a class="home-action-btn secondary" href="roadmap.html">学習マップ</a>
       </div>`;
   }
