@@ -2,7 +2,7 @@
 
 応用情報技術者試験（AP）の個人学習用・静的Webアプリです。
 
-**BUILD `2026.08.30-r11` / IPA中分類23/23に教材 + 演習あり**
+**BUILD `2026.08.30-r12` / IPA中分類23/23に教材 + 短問演習あり / 長文Case追加済み**
 
 - 正本: GitHub `EliteMay/ap-study-notes`
 - GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
@@ -11,7 +11,7 @@
 
 ## 目的
 
-単語暗記だけで終わらず、**範囲把握 → Lessonで理解 → 直後確認 → 総合演習 → 弱点復習 → 過去問**へつなげる。
+単語暗記だけで終わらず、**範囲把握 → Lessonで理解 → 直後確認 → 短問演習 → 長文Case → 弱点復習 → 過去問**へつなげる。
 
 操作性・分かりやすさ・軽量性・保守性を優先し、計算、図、状態遷移、擬似言語、SQL、Network/Security Case、会計等を内容に合う形式で学習する。
 
@@ -21,26 +21,27 @@
 - IPA中分類: **23/23に構造化Lessonあり**
 - 学習UI: **13ユニット**
 - 構造化Lesson: **118本**
-  - `lesson-index.json`: 87本
-  - `lesson-index-expansion.json`: 31本
-- オリジナル総合演習: **91問**
-  - 13ユニット別基本問題: 65問（各5問）
-  - Cross-unit Expansion: 26問
-  - 13/13ユニットをCoverage
-  - 23/23中分類をCoverage
+  - Base index: 87本
+  - Expansion index: 31本
+- オリジナル短問総合演習: **91問**
+  - 13ユニット別基本問題65問
+  - Cross-unit Expansion 26問
+  - 13/13ユニット、23/23中分類をCoverage
+- Subject B型オリジナル長文Case: **6Case / 18設問**
 - 旧6教材: **1,422/1,422語を監査済み**
 - 既存Security過去問: **7/7を構造化Lessonへ対応付け済み**
 
-> 「23/23に教材あり」は全分野に学習の入口と主要骨格があるという意味です。各Lessonの深度、Subject B長文Case、公式過去問量まで十分という意味ではありません。
+> 「23/23に教材あり」は全分野に学習の入口と主要骨格があるという意味です。各Lessonの深度、長文Case量、公式過去問量まで十分という意味ではありません。
 
 ## 主要画面
 
 - `index.html` — 13ユニット中心のHome Dashboard
 - `html/roadmap.html` — IPA 9大分類 / 23中分類 / 13ユニットの学習マップ
-- `html/progress.html` — **Lesson + 総合演習の学習進捗Dashboard**
+- `html/progress.html` — **Lesson + 短問 + 長文Caseの学習進捗Dashboard**
 - `html/unit.html?unit=<unitId>` — 汎用Unit Hub
 - `html/lesson.html?id=<LESSON_ID>` — 構造化Lesson
-- `html/practice.html` — オリジナル総合演習91問
+- `html/practice.html` — オリジナル短問総合演習91問
+- `html/cases.html` — Subject B型オリジナル長文Case
 - `html/security-past.html` — 既存Security過去問
 - `html/test.html` — 旧用語4択テスト
 
@@ -70,10 +71,6 @@ Algorithm / Computer Systems / Database / Network / Security / System Developmen
 
 `json/curriculum/ap-2026-map.json`
 
-- 9大分類
-- 23中分類
-- 13学習ユニット
-
 ### 教材Coverage Overlay
 
 `json/curriculum/ap-2026-coverage.json`
@@ -84,8 +81,7 @@ Algorithm / Computer Systems / Database / Network / Security / System Developmen
 
 - `json/lessons/lesson-index.json` — Base 87
 - `json/lessons/lesson-index-expansion.json` — Expansion 31
-
-Runtime/CIでは両方を結合して **118Lesson** として扱う。
+- Runtime/CI合計: **118Lesson**
 
 Lesson section type:
 
@@ -113,22 +109,21 @@ localStorage:
 
 確認問題を1回分すべて回答するとLesson完了として記録する。
 
-表示先:
+## 短問総合演習
 
-- Lesson画面
-- Unit Hub
-- Home
-- **学習進捗Dashboard**
+Runtime:
 
-## オリジナル総合演習
+- `html/practice.html`
+- `js/practice-data.js`
+- `js/practice.js`
+- `css/practice.css`
 
-### Data構成
+Data:
 
 - `json/practice/practice-index.json` — Runtime正本Manifest
 - `json/practice/units/*.json` — 13ユニット × 5問 = 65問
 - `json/practice/ap-original-practice-expansion-v1.json` — 追加26問
 - `json/practice/ap-original-practice-v1.json` — **旧37問Snapshot。Runtimeでは読まない**
-- `js/practice-data.js` — Manifestを読み全Bankを結合
 
 現在 **91問**。
 
@@ -144,36 +139,68 @@ Filter:
 - 難易度
 - 未挑戦 / 要復習 / 理解済み
 
-URL例:
-
-`html/practice.html?unit=network&question=PX-NET-01`
-
-Lessonから、そのLessonを参照する総合演習へ直接移動できる。
-
-Practice進捗localStorage:
+Practice進捗:
 
 `ap-study-practice-history-v1`
 
+Lessonから、そのLessonを参照する短問へ直接移動できる。
+
+## Subject B型 長文Case
+
+Files:
+
+- `json/cases/ap-subject-b-cases-v1.json`
+- `html/cases.html`
+- `js/cases.js`
+- `css/cases.css`
+
+現在 **6Case / 18設問**。
+
+対象:
+
+- Security: Credential Stuffing / Incident Response
+- Network: VPN / Route障害切り分け
+- Database: 在庫競合 / Lock / Transaction
+- System Development: Requirement変更 / Traceability / Regression
+- Project + Service: EVM / Release判断 / SLA
+- Business Strategy: NPV / Strategic Risk / VRIO
+
+各Caseは状況文 + 3記述設問。自分で回答後にModel Answer/採点観点を開き、0/1/2で自己評価する。
+
+Case進捗:
+
+`ap-study-case-history-v1`
+
 保存:
 
-- 挑戦回数
-- Latest / Best score
-- Latest answer
-- 最終挑戦日時
+- 設問別attempts
+- latest/best score
+- latest answer
+- Case completion
+- updatedAt
 
 ## 学習進捗Dashboard
 
 `html/progress.html`
 
-118Lessonと91問の履歴を結合し、次を表示する。
+入力:
+
+- 118Lesson
+- 短問91問
+- 長文Case6本
+- Lesson / Practice / Case localStorage
+- 13 Unit / 23 Middle Category
+
+表示:
 
 - 全体Lesson完了率
-- 演習の挑戦数 / 理解済み / 要復習
-- 13ユニット別のLesson / Practice進捗
-- IPA 23中分類別の教材数・完了数・演習数
-- 要復習問題を優先した「次にやる候補」
+- 短問の挑戦数 / 理解済み / 要復習
+- 長文Case理解済み数
+- 13ユニット別Lesson / 短問 / Case進捗
+- IPA23中分類別の教材・短問・Case Coverage
+- Case途中 → 短問要復習 → 未完了Lessonの順でNext Action候補
 
-旧用語の「チェック済み」と、構造化Lesson/Practiceの理解進捗は混同しない。
+旧用語の「チェック済み」と構造化教材の理解進捗は混同しない。
 
 ## 旧1,422語の互換層
 
@@ -191,38 +218,32 @@ Practice進捗localStorage:
 
 ## 過去問
 
-既存Security過去問7問を維持し、`json/past/lesson-past-map.json` で **7/7を構造化Lessonへ対応付け**した。
-
-Lesson側から関連過去問へ、過去問側から対象問題を直接開ける。
+既存Security過去問7問を `json/past/lesson-past-map.json` で **7/7構造化Lessonへ対応付け済み**。
 
 今後はSecurity以外の公式過去問と118Lessonの対応を増やす。
 
 ## 保存方法
 
-教材DataはGitHub上のJSON。個人進捗はブラウザlocalStorage。
+教材DataはGitHub上のJSON。個人進捗はBrowser localStorage。
 
-主なキー:
+主なKey:
 
-- `security-terms-checked`
-- `network-terms-checked`
-- `database-terms-checked`
-- `algorithm-terms-checked`
-- `system-terms-checked`
-- `management-terms-checked`
+- `<domain>-terms-checked`
 - `ap-study-bookmarks-v1`
 - `ap-study-recent-v1`
 - `ap-study-test-history-v1`
 - `ap-study-lesson-progress-v1`
 - `ap-study-practice-history-v1`
+- `ap-study-case-history-v1`
 - `ap-study-theme`
 
 ## 崩してはいけない仕様
 
 - 既存用語IDを不用意に削除・変更しない。
 - localStorage key変更時は移行処理を用意する。
-- 過去問PDF / 問題JSON / 解説JSONの対応を壊さない。
+- 過去問PDF / 問題JSON / 解説JSON対応を壊さない。
 - GitHub Pagesで壊れない相対Pathを維持する。
-- API Key / Password等を公開Repoへ置かない。
+- 秘密情報を公開Repoへ置かない。
 - 監査済みIDの主Lesson割当を根拠なく変えない。
 - Base/Expansion Lesson indexをRuntime/CI双方で結合する。
 - Practiceは `practice-index.json` をRuntime正本とし、旧37問Snapshotへ戻さない。
@@ -239,43 +260,45 @@ Lesson側から関連過去問へ、過去問側から対象問題を直接開�
 - `tests/validate-computer-systems.mjs`
 - `tests/validate-curriculum-expansion.mjs`
 - `tests/validate-practice.mjs`
+- `tests/validate-cases.mjs`
 - `tests/validate-past-lesson-map.mjs`
 - `tests/validate-progress.mjs`
 
 主な保証:
 
-- 旧1,422語の監査整合
-- 118LessonのID/order/Data整合
-- 13/13ユニット・23/23中分類のLesson Coverage
-- Practice 91問・13ユニット各7問以上・23/23中分類Coverage
-- Practice関連Lessonの実在
-- Security過去問7/7 Lesson Mapping
-- Progress Dashboardが118Lesson + 91問を結合できる構成
+- 旧1,422語Audit
+- 118Lesson整合
+- 13/13 Unit・23/23 Lesson Coverage
+- 短問91問・13 Unit各7問以上・23/23 Practice Coverage
+- 長文6Case / 18設問 / 関連Lesson整合
+- Security過去問7/7 Mapping
+- Progress DashboardのLesson + Practice + Case配線
 
 ## GitHub Pages
 
-静的構成なのでGitHub Pagesでそのまま利用可能。
-
 `https://elitemay.github.io/ap-study-notes/`
+
+静的構成のためGitHub Pagesでそのまま利用可能。
 
 ## 注意点・既知の問題
 
-現在の主な不足は「分野が存在しない」ことではなく、**深度と本番接続**。
+現在の主な不足は**深度と公式本番接続**。
 
-- Subject Bを意識した長文Caseがまだ不足
-- Security以外の公式過去問とのLesson対応が不足
-- 91問でも118Lesson全てへ十分な問題密度ではない
+- Subject B型長文Caseは6本で、分野全体としてはまだ少ない
+- Security以外の公式過去問Mapping不足
+- 91短問でも118Lesson全てに十分な演習密度ではない
 - 旧用語ページの生成詳細は互換層に残る
-- 118Lesson + 91Practice + 全Hubの実ブラウザ総当たりE2Eは未実施
+- 118Lesson + 91短問 + 6Case + 全Hubの実Browser総当たりE2Eは未実施
 
-CI successを実ブラウザ確認済みとは扱わない。
+CI successを実Browser確認済みとは扱わない。
 
 ## 完成条件
 
-- 23中分類すべてを追跡できる。
-- テンプレ文章による水増しを主教材に使わない。
-- 計算 / 図 / Code / SQL / Network / Security / Business Caseを扱える。
-- 問題結果から弱点を再学習できる。
-- 公式過去問・Subject Bへ体系的に接続できる。
-- CI / Pagesが通る。
-- 重大な既知不具合がなく通常利用できる。
+- 23中分類すべてを追跡可能
+- Template文章の水増しを主教材に使わない
+- 計算 / 図 / Code / SQL / Network / Security / Business Caseを扱える
+- Lesson→短問→長文Case→過去問へ接続できる
+- 結果から弱点を再学習できる
+- 公式過去問/Subject Bへ体系的に接続する
+- CI/Pagesが成功
+- 重大な既知不具合がなく通常利用可能
