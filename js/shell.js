@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r9';
+  const BUILD = '2026.08.30-r10';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -23,8 +23,9 @@
     ['strategy-planning','🧭 システム戦略・企画','unit.html?unit=strategy-planning'],
     ['business-accounting','📊 経営・会計・ビジネス','unit.html?unit=business-accounting'],
     ['law-standards','⚖️ 法務・標準化','unit.html?unit=law-standards'],
+    ['practice','🧪 総合演習','practice.html'],
     ['past','📘 過去問解説','security-past.html'],
-    ['test','📝 テスト','test.html']
+    ['test','📝 用語テスト','test.html']
   ];
 
   const LESSON_UNIT_PREFIX = [
@@ -143,6 +144,7 @@
     const page = location.pathname.split('/').pop() || 'index.html';
     if (page === 'index.html' || !page) return 'home';
     if (page === 'roadmap.html') return 'roadmap';
+    if (page === 'practice.html') return 'practice';
     if (page === 'security-past.html') return 'past';
     if (page === 'test.html') return 'test';
     if (page === 'algorithm.html') return 'algorithm-programming';
@@ -195,7 +197,7 @@
     footer.className = 'ap-shell-footer';
     footer.innerHTML = `
       <div class="ap-shell-actions">
-        <a class="ap-shell-btn" href="${hrefFor('test.html')}" style="display:grid;place-items:center;text-decoration:none">ランダムテスト</a>
+        <a class="ap-shell-btn" href="${hrefFor('practice.html')}" style="display:grid;place-items:center;text-decoration:none">総合演習</a>
         <button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button>
       </div>
       <p class="ap-shell-version">BUILD ${BUILD}</p>`;
