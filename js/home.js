@@ -7,6 +7,18 @@
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const normalize = value => String(value || '').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ');
+
+  const QUICK_ACTIONS = [
+    { title:'Lessonで学ぶ', description:'118本の構造化Lesson', href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
+    { title:'単語辞書', description:'旧1,422語を横断検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
+    { title:'短問演習', description:'91問の選択・記述問題', href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
+    { title:'長文Case', description:'16Case・48設問', href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
+    { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
+    { title:'公式公開問題', description:'2025春・秋の22大問', href:'html/official-past.html', keywords:'公式 過去問 ipa 2025 春 秋 午後 科目b' },
+    { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', keywords:'進捗 弱点 復習 成績 理解 progress' },
+    { title:'学習データ', description:'Backup / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
+  ];
 
   async function fetchJson(path) {
     const response = await fetch(path);
@@ -56,9 +68,9 @@
     const caseRetry = cases.filter(item => caseHistory[item.id] && !caseState(item,caseHistory[item.id]).mastered).length;
     if ($('lesson-progress-number')) $('lesson-progress-number').textContent = `${lessonMastered} / ${lessons.length}`;
     if ($('practice-progress-number')) $('practice-progress-number').textContent = `${practiceMastered} / ${questions.length}`;
-    if ($('practice-progress-meta')) $('practice-progress-meta').textContent = `${practiceRetry}問が要復習・確認中。4択は1回正解だけでは理解済みになりません。`;
+    if ($('practice-progress-meta')) $('practice-progress-meta').textContent = practiceRetry ? `短問 要復習 ${practiceRetry}問` : '短問の要復習なし';
     if ($('case-progress-number')) $('case-progress-number').textContent = `${caseMastered} / ${cases.length}`;
-    if ($('case-progress-meta')) $('case-progress-meta').textContent = `${caseRetry}Caseが途中・要復習。記述回答を書いてから自己採点します。`;
+    if ($('case-progress-meta')) $('case-progress-meta').textContent = caseRetry ? `長文Case 要復習 ${caseRetry}本` : 'Caseの要復習なし';
     if ($('mock-progress-number')) $('mock-progress-number').textContent = `${mockHistory.length} 回`;
 
     const priority = buildPriority(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory);
@@ -66,12 +78,36 @@
     if ($('continue-title')) $('continue-title').textContent = priority.title;
     if ($('continue-meta')) $('continue-meta').textContent = priority.meta;
     if ($('continue-link')) $('continue-link').href = priority.href;
-    if ($('continue-hero')) $('continue-hero').href = priority.href;
-    if ($('continue-hero')) $('continue-hero').textContent = '今日の優先項目を続ける';
-
+    if ($('continue-hero')) { $('continue-hero').href = priority.href; $('continue-hero').textContent = '▶ 今日の優先項目を続ける'; }
     if ($('hero-lesson')) $('hero-lesson').textContent = `${lessonMastered}/${lessons.length}`;
     if ($('hero-practice')) $('hero-practice').textContent = `${practiceMastered}/${questions.length}`;
     if ($('hero-case')) $('hero-case').textContent = `${caseMastered}/${cases.length}`;
+  }
+
+  function setupFinder(curriculum) {
+    const input = $('home-quick-search');
+    const output = $('home-quick-results');
+    if (!input || !output) return;
+    const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
+    const catalog = [...QUICK_ACTIONS,...unitActions].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+
+    const render = () => {
+      const raw = input.value.trim();
+      if (!raw) { output.hidden = true; output.innerHTML=''; return; }
+      const query = normalize(raw);
+      const hits = catalog.filter(item => item.searchable.includes(query)).slice(0,6);
+      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」を単語辞書で検索</strong><span>1,422語から一致する用語を探す</span></a>`;
+      output.hidden = false;
+    };
+    input.addEventListener('input',render);
+    input.addEventListener('keydown',event => {
+      if (event.key !== 'Enter' || !input.value.trim()) return;
+      event.preventDefault();
+      const first = output.querySelector('a');
+      if (first) location.href = first.href;
+      else location.href = `html/glossary.html?q=${encodeURIComponent(input.value.trim())}`;
+    });
+    document.addEventListener('click',event => { if (!event.target.closest('.home-finder')) output.hidden=true; });
   }
 
   async function init() {
@@ -88,6 +124,7 @@
     const mockHistory = readArray(MOCK_KEY);
     renderDashboard(lessonBank.lessons || [],practiceBank.questions || [],caseBank.cases || [],lessonProgress,practiceHistory,caseHistory,mockHistory);
     renderUnits(curriculum,lessonBank.lessons || [],lessonProgress);
+    setupFinder(curriculum);
   }
 
   window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(console.error); });
