@@ -16,7 +16,6 @@ try {
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil:'networkidle' });
   if (!await page.getByRole('heading', { name:'AP Study Notes' }).isVisible()) throw new Error('homepage heading missing');
-  if (!await page.locator('#home-unit-grid .unit-card').count() === 13) throw new Error('unit cards not rendered');
   if (await page.locator('#home-unit-grid .unit-card').count() !== 13) throw new Error('homepage must render 13 unit cards');
 
   await goto('html/unit.html?unit=security');
