@@ -2,9 +2,11 @@
 
 品質確認をサイト本体から分離して管理するフォルダです。
 
+CIは構文・Data・内部参照を保証します。実Browserの見た目や全Clickを完全保証するものではありません。
+
 ## `validate.mjs`
 
-基本CI検証。
+基本Data / 既存機能検証。
 
 ```bash
 node tests/validate.mjs
@@ -13,22 +15,18 @@ node tests/validate.mjs
 主な検査:
 
 - 全JSON構文
-- 旧6教材のmanifest / JSON件数
-- 用語ID重複 / 必須field / category
-- Security / Network / Databaseのterms/details対応
-- セキュリティ過去問の問題文 / 解説 / targets
-- 主要HTMLの相対href/src
-- IPA大分類9 / 中分類23 / 学習ユニット13
-- 23中分類の重複なし全割当
-- Lesson ID / order / unit / middle code
-- section type / diagram / checks / next
-- Algorithm 65/65 Lesson完全割当
-
-GitHub Actionsでは全 `js/*.js` に `node --check` も実行します。
+- 旧6教材manifest / JSON件数
+- 用語ID / category / required fields
+- Security / Network / Database terms-details対応
+- Security過去問target
+- 主要HTML参照
+- IPA大分類9 / 中分類23 / 学習Unit13
+- Base Lessonのsection / diagram / checks / next
+- Algorithm 65/65割当
 
 ## `validate-audits.mjs`
 
-既存domain監査と実Lesson移行を突き合わせる厳格チェック。
+旧教材監査と実Lesson移行の厳格検証。
 
 ```bash
 node tests/validate-audits.mjs
@@ -41,28 +39,15 @@ node tests/validate-audits.mjs
 - Database 229/229
 - Network 480/480
 
-Networkでは `legacyTermRanges` を展開し、478語→NET-01〜14、2語→SVC-01の移行を検証します。
+`legacyTermRanges` も展開し、未割当 / 重複 / extra IDを検出する。
 
 ## `validate-security-audit.mjs`
 
-Security 501語専用のcross-domain監査Validator。
+Security 501語のcross-domain再分類専用。
 
 ```bash
 node tests/validate-security-audit.mjs
 ```
-
-検査:
-
-- Security sourceが501件
-- IDが正確に `sec-001`〜`sec-501`
-- duplicate / missing / extra ID禁止
-- `security-audit.json` のassignmentが501件をちょうど一度ずつカバー
-- destination Lessonが実装済み
-- destination `unitId` / IPA中分類がauditと一致
-- Security主所属369語がSEC-01〜12のLesson metaと完全一致
-- SEC Lesson間のlegacy ID重複禁止
-- cross-domain 132語の再配置
-- summary件数一致
 
 期待集計:
 
@@ -76,11 +61,17 @@ node tests/validate-security-audit.mjs
 | Service / Audit | 3 |
 | 合計 | 501 |
 
-Securityから他分野へ移動したIDは `security-audit.json` を中央の移行表として扱います。既存の成熟したNET/SYS/SVC LessonへSecurity IDを大量追記しません。
+検査:
+
+- sec-001〜501
+- duplicate / missing / extra禁止
+- Security 369語とSEC Lesson meta一致
+- Cross-domain移動先Lesson実在
+- unitId / IPA中分類一致
 
 ## `validate-computer-systems.mjs`
 
-Computer Systemsの新規教材Coverage専用Validator。
+CMP-01〜12専用。
 
 ```bash
 node tests/validate-computer-systems.mjs
@@ -88,43 +79,98 @@ node tests/validate-computer-systems.mjs
 
 検査:
 
-- `computer-systems` unitのLessonが **CMP-01〜CMP-12の12本**であること
-- CMP-01〜12のJSONが実在し、index / meta.id / unitIdが一致すること
-- 各Lessonにobjectives / sections / 3問以上のchecksがあること
-- IPA中分類 **3 / 4 / 5 / 6** を全て少なくとも1LessonがCoverageすること
-- Computer Systemsへ中分類3〜6以外が混ざっていないこと
-- `html/computer.html` が存在すること
-- HubからCMP-01〜12へ全てリンクしていること
+- CMP-01〜12が実在
+- JSON / index / meta / unit一致
+- objectives / sections / checks
+- 中分類3 / 4 / 5 / 6 Coverage
+- `html/computer.html` から全LessonへLink
 
-このValidatorは旧用語の件数監査ではなく、**シラバス不足分野として新規実装した教材が欠落しないこと**を保証する目的です。
+## `validate-curriculum-expansion.mjs`
+
+118Lessonと23中分類Coverageを検証。
+
+```bash
+node tests/validate-curriculum-expansion.mjs
+```
+
+期待:
+
+- Base index: **87**
+- Expansion index: **31**
+- Total: **118**
+
+検査:
+
+- ID重複なし
+- order重複なし
+- Expansion Lesson JSON実在
+- index / meta / unit / middle code整合
+- Expansion各Lessonの最低教材密度
+- RuntimeがBase + Expansionを読む
+- 13学習Unitに有効Hubあり
+- **IPA中分類1〜23すべてに構造化Lessonあり**
+
+## `validate-practice.mjs`
+
+オリジナル総合演習専用。
+
+```bash
+node tests/validate-practice.mjs
+```
+
+現在の期待:
+
+- **37問**
+- **13 / 13学習Unit Coverage**
+- **23 / 23 IPA中分類Coverage**
+
+検査:
+
+- `meta.questionCount` と実数一致
+- Question ID重複なし
+- valid unitId / middleCodes
+- difficulty 2/3/4
+- Choice: 4択以上 / answerIndex / explanation
+- Written: modelAnswer / 採点観点2件以上
+- `lessonRefs[]` が実Lessonを参照
+- Practice HTMLがCSS / JS / status filterを持つ
+- canonical Shellに総合演習が存在
+- BUILD r10
+- Practice localStorage / Filter / Lesson link / Next control
+
+今後、Lesson→`question=` direct linkとHome Practice progressもこのValidatorへ追加して固定する。
 
 ## `data-integrity.test.html`
 
-GitHub PagesまたはLive Serverで開くブラウザ検査。
+GitHub PagesまたはLive Serverで開くBrowser検査。
 
-旧6教材のterms/details/過去問データを中心に確認します。
+旧6教材のterms/details/過去問Dataを中心に確認する。
 
 ## GitHub Actions
 
 `.github/workflows/validate.yml`
 
-実行順:
+現在の実行順:
 
 1. JavaScript syntax
 2. `validate.mjs`
 3. `validate-audits.mjs`
 4. `validate-security-audit.mjs`
 5. `validate-computer-systems.mjs`
+6. `validate-curriculum-expansion.mjs`
+7. `validate-practice.mjs`
 
-## 注意
+## E2Eとして別途必要な確認
 
-CIはデータ・構文・内部参照を確認するもので、実ブラウザの見た目や全クリックを完全保証しません。
-
-別途E2E確認が必要:
-
-- PC / mobile
-- dark mode
-- 表/図のhorizontal scroll
+- PC / Mobile
+- Dark Mode
+- 118Lesson全表示
 - 全Lesson check button
-- Security / Network / Database / Computer Systems Hub
-- Shared ShellのComputer Systems自動リンク
+- Table / Diagram horizontal scroll
+- 13Unit Hub
+- Practice 37問全操作
+- Practice written self-grade
+- Lesson ↔ Practice direct link
+- GitHub Pages上のcanonical Navigation
+
+未確認項目をCI successだけで「確認済み」としない。
