@@ -57,7 +57,7 @@ if (js.includes("fetchJson('json/cases/ap-subject-b-cases-v1.json')")) fail('pro
 const shell = readText('js/shell.js');
 if (!shell.includes("['progress','📈 学習進捗','progress.html']")) fail('canonical navigation missing progress dashboard');
 if (!shell.includes("if (page === 'progress.html') return 'progress'")) fail('progress page cannot become active in navigation');
-if (!shell.includes("const BUILD = '2026.08.30-r13'")) fail('shell BUILD is not r13');
+if (!shell.includes("const BUILD = '2026.08.30-r14'")) fail('shell BUILD is not r14');
 
 const lessonUnits = new Set(lessons.map(item => item.unitId));
 const practiceUnits = new Set(questions.map(item => item.unitId));
