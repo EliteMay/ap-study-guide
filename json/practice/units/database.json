@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"database","questionCount":5},
+  "questions":[
+    {"id":"P-DB-01","unitId":"database","middleCodes":[9],"type":"choice","difficulty":3,"title":"正規化","prompt":"受注明細(受注番号, 商品番号, 受注日, 商品名, 数量)で主Keyが(受注番号,商品番号)、受注番号→受注日、商品番号→商品名である。第2正規形にする際の主な問題はどれか。","options":["部分関数従属","推移的関数従属だけ","多値従属だけ","NULLが存在することだけ"],"answerIndex":0,"explanation":"複合Keyの一部に非Key属性が従属しており部分関数従属がある。","lessonRefs":["DB-03"]},
+    {"id":"P-DB-02","unitId":"database","middleCodes":[9],"type":"choice","difficulty":3,"title":"NULLとNOT IN","prompt":"副問合せ結果にNULLが含まれ得る状況でNOT INが予期せず行を返さないRiskを避けるため、存在確認として適することが多いのはどれか。","options":["NOT EXISTS","ORDER BY","CREATE VIEW","COMMITだけ"],"answerIndex":0,"explanation":"NULLを含む三値論理の影響を避けるため、相関条件を持つNOT EXISTSが意図を表しやすい。","lessonRefs":["DB-05","DB-08"]},
+    {"id":"P-DB-03","unitId":"database","middleCodes":[9],"type":"written","difficulty":3,"title":"Indexが効かないCase","prompt":"Indexが存在する列を検索しても必ず高速化するとは限らない理由を2つ挙げてください。","modelAnswer":"該当行の割合が大きく選択率が低い場合は全表走査の方が効率的なことがある。また列への関数適用、型変換、複合Indexの先頭列を使わない条件などでIndexを利用しにくい場合がある。","points":["選択率/大量Hitの問題を挙げる","関数/型変換/複合Index列順などAccess Path上の理由を挙げる"],"lessonRefs":["DB-11"]},
+    {"id":"P-DB-04","unitId":"database","middleCodes":[9],"type":"choice","difficulty":3,"title":"分離LevelとDirty Read","prompt":"他TransactionがまだCOMMITしていない変更を読み取るDirty Readを防ぎたい。一般的なSQL分離Levelで、Dirty Readを許す可能性があるものはどれか。","options":["READ UNCOMMITTED","READ COMMITTED","REPEATABLE READ","SERIALIZABLE"],"answerIndex":0,"explanation":"READ UNCOMMITTEDは未確定Dataを読む可能性がある。READ COMMITTED以上は通常Dirty Readを防ぐ。","lessonRefs":["DB-09"]},
+    {"id":"P-DB-05","unitId":"database","middleCodes":[9],"type":"written","difficulty":3,"title":"LEFT JOINの用途","prompt":"顧客表を基準に、注文が一度もない顧客も結果へ残したい。INNER JOINではなくLEFT JOINを使う理由を説明してください。","modelAnswer":"INNER JOINは両表に一致行がある顧客だけを返すが、LEFT JOINは左側の顧客行を全て残し、注文がない場合は右側列をNULLにするため、未注文顧客も抽出できる。","points":["INNER JOINは一致行のみと述べる","LEFT JOINは左表を全て残すと述べる","未一致側がNULLになることに触れる"],"lessonRefs":["DB-06"]}
+  ]
+}
