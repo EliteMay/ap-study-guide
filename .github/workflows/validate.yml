@@ -33,6 +33,8 @@ jobs:
         run: node tests/validate-curriculum-expansion.mjs
       - name: Validate original practice bank
         run: node tests/validate-practice.mjs
+      - name: Validate Subject B case practice
+        run: node tests/validate-cases.mjs
       - name: Validate past-question lesson mapping
         run: node tests/validate-past-lesson-map.mjs
       - name: Validate learning progress dashboard
