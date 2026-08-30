@@ -45,6 +45,6 @@ const lessonHtml = readText('html/lesson.html');
 if (!lessonHtml.includes('../js/lesson-official-past.js')) fail('lesson page missing official reverse links');
 const shell = readText('js/shell.js');
 if (!shell.includes("['official-past','🎯 公式問題対応','official-past.html']")) fail('navigation missing official map');
-if (!shell.includes("const BUILD = '2026.08.30-r16'")) fail('shell BUILD is not r16');
+if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 
 console.log(`[official-past] OK: ${count} public 2025 afternoon questions mapped to ${mappedLessons.size}/118 lessons; 2026 CBT remains correctly non-public.`);
