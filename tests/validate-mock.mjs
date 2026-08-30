@@ -12,7 +12,7 @@ const config = readJson('json/mock/mock-config.json');
 const a = config.subjectA || {};
 const b = config.subjectB || {};
 if (Number(a.durationMinutes) !== 150 || Number(a.questionCount) !== 80 || Number(a.answerCount) !== 80 || a.type !== 'choice') fail('subject A public-format settings mismatch');
-if (Number(a.practiceChoiceCount) !== 57 || Number(a.extraChoiceCount) !== 23) fail('subject A must be 57 existing + 23 mock-only choices');
+if (Number(a.practiceChoiceCount) !== 57 || Number(a.extraChoiceCount) !== 23) fail('subject A must be 57 eligible practice + 23 mock-only choices');
 if (Number(b.durationMinutes) !== 150 || Number(b.offeredMainQuestions) !== 11 || Number(b.answeredMainQuestions) !== 5) fail('subject B public-format settings mismatch');
 if (b.mandatoryUnitId !== 'security' || b.mandatoryCaseId !== 'CASE-SEC-01') fail('subject B mandatory security case mismatch');
 if (Number(b.mandatoryCount) !== 1 || Number(b.optionalOfferedCount) !== 10 || Number(b.optionalAnswerCount) !== 4 || Number(b.questionsPerCase) !== 3) fail('subject B selection settings mismatch');
@@ -22,11 +22,13 @@ const expansion = readJson('json/lessons/lesson-index-expansion.json');
 const lessonIds = new Set([...(base.lessons || []), ...(expansion.lessons || [])].map(item => item.id));
 const practiceManifest = readJson('json/practice/practice-index.json');
 const practiceQuestions = (practiceManifest.files || []).flatMap(item => readJson(item.file).questions || []);
-const practiceChoices = practiceQuestions.filter(item => item.type === 'choice');
-if (practiceChoices.length !== 57) fail(`expected 57 practice choices, got ${practiceChoices.length}`);
+const practiceChoices = practiceQuestions.filter(item => item.type === 'choice' && item.mockEligible !== false);
+const excludedCoverageChoices = practiceQuestions.filter(item => item.type === 'choice' && item.mockEligible === false);
+if (practiceChoices.length !== Number(a.practiceChoiceCount)) fail(`expected ${a.practiceChoiceCount} mock-eligible practice choices, got ${practiceChoices.length}`);
+if (!excludedCoverageChoices.length) fail('no explicitly mock-excluded coverage choices found');
 const extra = readJson(a.extraFile);
 const extraQuestions = extra.questions || [];
-if (extraQuestions.length !== 23) fail(`expected 23 mock-only choices, got ${extraQuestions.length}`);
+if (extraQuestions.length !== Number(a.extraChoiceCount)) fail(`expected ${a.extraChoiceCount} mock-only choices, got ${extraQuestions.length}`);
 const ids = new Set(practiceQuestions.map(item => item.id));
 for (const q of extraQuestions) {
   if (!q?.id || ids.has(q.id)) fail(`duplicate/invalid mock question ${q?.id}`);
@@ -36,7 +38,7 @@ for (const q of extraQuestions) {
   if (!Array.isArray(q.lessonRefs) || !q.lessonRefs.length) fail(`${q.id}: lessonRefs missing`);
   for (const id of q.lessonRefs) if (!lessonIds.has(id)) fail(`${q.id}: unknown lesson ${id}`);
 }
-if (practiceChoices.length + extraQuestions.length !== 80) fail('subject A combined bank is not 80');
+if (practiceChoices.length + extraQuestions.length !== Number(a.questionCount)) fail('subject A combined bank does not match config');
 
 const caseManifest = readJson('json/cases/case-index.json');
 const cases = (caseManifest.files || []).flatMap(item => readJson(item.file).cases || []);
@@ -52,9 +54,9 @@ for (const id of ['CASE-EMB-01','CASE-AUD-01']) if (!optional.some(item => item.
 
 const html = readText('html/mock.html');
 for (const required of ['../css/mock.css','../js/practice-data.js','../js/case-data.js','../js/mock-data.js','../js/mock.js','Mock Config']) if (!html.includes(required)) fail(`mock.html missing ${required}`);
-for (const stale of ['長文Case14本','短問91問']) if (html.includes(stale)) fail(`mock.html contains stale changing count ${stale}`);
+for (const stale of ['長文Case14本','短問91問','短問139問']) if (html.includes(stale)) fail(`mock.html contains stale changing count ${stale}`);
 const loader = readText('js/mock-data.js');
-for (const required of ['mock-config.json','APPracticeData.load','APCaseData.load','subjectAQuestions','subjectBCases']) if (!loader.includes(required)) fail(`mock-data.js missing ${required}`);
+for (const required of ['mock-config.json','APPracticeData.load','APCaseData.load','subjectAQuestions','subjectBCases','mockEligible !== false']) if (!loader.includes(required)) fail(`mock-data.js missing ${required}`);
 const js = readText('js/mock.js');
 for (const required of ['ap-study-mock-history-v1','mock-timer','flags','answers','selectedCaseIds','grades','autoSubmitted','submitA','submitB','renderBGrading']) if (!js.includes(required)) fail(`mock.js missing ${required}`);
 
@@ -68,4 +70,4 @@ if (home.includes('js/home-mock.js')) fail('homepage should not load separate mo
 const homeJs = readText('js/home.js');
 if (!homeJs.includes('ap-study-mock-history-v1') || !homeJs.includes('mock-progress-number')) fail('home.js does not aggregate mock history');
 
-console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 11 offered, 5 answered / 150min; UI copy defers changing configuration to runtime data.`);
+console.log(`[mock] OK: Subject A ${practiceChoices.length} eligible practice + ${extraQuestions.length} mock-only = ${a.questionCount}; ${excludedCoverageChoices.length} coverage choices excluded; Subject B ${b.offeredMainQuestions} offered / ${b.answeredMainQuestions} answered.`);

@@ -16,17 +16,23 @@ const lessonIds = new Set(lessons.map(item => item.id));
 const unitIds = new Set((curriculum.studyUnits || []).map(item => item.id));
 const validMiddle = new Set((curriculum.middleCategories || []).map(item => Number(item.code)));
 const files = Array.isArray(manifest.files) ? manifest.files : [];
+const declaredFileCount = Number(manifest.meta?.unitFileCount || 0) + Number(manifest.meta?.expansionFileCount || 0);
+if (!files.length || files.length !== declaredFileCount) fail(`manifest file count mismatch: ${files.length}/${declaredFileCount}`);
+const declaredQuestions = Number(manifest.meta?.questionCount || 0);
+const manifestQuestions = files.reduce((sum, entry) => sum + Number(entry.count || 0), 0);
+if (!declaredQuestions || manifestQuestions !== declaredQuestions) fail(`manifest questionCount mismatch: ${manifestQuestions}/${declaredQuestions}`);
 
-if (Number(manifest.meta?.questionCount) !== 91) fail(`manifest questionCount must be 91, got ${manifest.meta?.questionCount}`);
-if (files.length !== 14) fail(`expected 14 practice files, got ${files.length}`);
+const payloadByFile = new Map();
 const questions = files.flatMap(entry => {
   if (!exists(entry.file)) fail(`missing ${entry.file}`);
   const payload = readJson(entry.file);
+  payloadByFile.set(entry.file, payload);
   const list = Array.isArray(payload.questions) ? payload.questions : [];
   if (list.length !== Number(entry.count)) fail(`${entry.file}: count mismatch`);
+  if (payload.meta?.questionCount != null && list.length !== Number(payload.meta.questionCount)) fail(`${entry.file}: payload meta count mismatch`);
   return list;
 });
-if (questions.length !== 91) fail(`expected 91 questions, got ${questions.length}`);
+if (questions.length !== declaredQuestions) fail(`loaded ${questions.length}/${declaredQuestions} questions`);
 
 const ids = new Set();
 const coveredUnits = new Set();
@@ -64,7 +70,23 @@ for (const q of questions) {
 }
 for (const unitId of unitIds) if (Number(perUnit.get(unitId) || 0) < 7) fail(`${unitId}: fewer than 7 questions`);
 for (const code of validMiddle) if (!coveredMiddle.has(code)) fail(`middle ${code}: no practice coverage`);
-if (choices !== 57 || written !== 34) fail(`expected 57 choice + 34 written, got ${choices}+${written}`);
+for (const lesson of lessons) if (!coveredLessons.has(lesson.id)) fail(`${lesson.id}: no direct practice coverage`);
+if (coveredLessons.size !== lessons.length) fail(`lesson coverage mismatch ${coveredLessons.size}/${lessons.length}`);
+if (!choices || !written || choices + written !== questions.length) fail('question type totals invalid');
+
+const coveragePath = 'json/practice/ap-lesson-coverage-v1.json';
+const coverageEntry = files.find(entry => entry.file === coveragePath);
+if (!coverageEntry) fail('lesson coverage bank missing from manifest');
+const coverageQuestions = payloadByFile.get(coveragePath)?.questions || [];
+if (!coverageQuestions.length || coverageQuestions.length !== Number(coverageEntry.count)) fail('lesson coverage bank count mismatch');
+const coverageRefs = new Set();
+for (const q of coverageQuestions) {
+  if (!String(q.id || '').startsWith('PC-')) fail(`${q.id}: coverage question id must use PC- prefix`);
+  if (!Array.isArray(q.lessonRefs) || q.lessonRefs.length !== 1) fail(`${q.id}: coverage question must reference exactly one lesson`);
+  if (coverageRefs.has(q.lessonRefs[0])) fail(`${q.id}: duplicate direct coverage for ${q.lessonRefs[0]}`);
+  coverageRefs.add(q.lessonRefs[0]);
+  if (q.type === 'choice' && q.mockEligible !== false) fail(`${q.id}: coverage choice must be excluded from mock pool`);
+}
 
 for (const file of ['js/study-state.js','js/practice-data.js','js/practice.js','html/practice.html','js/lesson-practice.js']) if (!exists(file)) fail(`missing ${file}`);
 const loader = readText('js/practice-data.js');
@@ -77,7 +99,7 @@ for (const required of ['APStudyState','appendRecentScore','recentScores','WRITT
 if (js.includes('ap-original-practice-v1.json')) fail('practice.js reads legacy 37-question snapshot directly');
 const html = readText('html/practice.html');
 for (const required of ['../js/study-state.js','../js/practice-data.js','../js/practice.js','Manifestから読み込み']) if (!html.includes(required)) fail(`practice.html missing ${required}`);
-if (html.includes('91問')) fail('practice.html reintroduced changing question count as static copy');
+if (/\b(?:91|139)問\b/.test(html)) fail('practice.html reintroduced changing question count as static copy');
 const lessonJs = readText('js/lesson.js');
 if (lessonJs.includes('ap-original-practice-v1.json')) fail('lesson.js still reads legacy practice snapshot');
 const lessonPractice = readText('js/lesson-practice.js');
@@ -91,6 +113,4 @@ if (home.includes('js/home-practice.js')) fail('homepage still loads duplicate p
 const legacy = readJson('json/practice/ap-original-practice-v1.json');
 if (!Array.isArray(legacy.questions) || legacy.questions.length !== 37) fail('legacy snapshot should remain compatibility-only 37 questions');
 
-const uncovered = lessons.filter(item => !coveredLessons.has(item.id));
-console.log(`[practice-gap-meta] ${uncovered.map(item => `${item.id}|${item.unitId}|${(item.officialMiddleCodes || []).join(',')}|${item.file}`).join(' || ')}`);
-console.log(`[practice] OK: ${questions.length} questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / ${coveredLessons.size}/${lessons.length} lessons referenced / uncovered lessons get unit-practice fallback.`);
+console.log(`[practice] OK: ${questions.length} questions (${choices} choice + ${written} written) / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / ${coveredLessons.size}/${lessons.length} lessons directly referenced.`);

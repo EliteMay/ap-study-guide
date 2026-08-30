@@ -22,7 +22,7 @@
         window.APCaseData.load(prefix),
         fetchJson(`${prefix}${config.subjectA.extraFile}`)
       ]);
-      const practiceChoices = (practiceBank.questions || []).filter(question => question.type === 'choice');
+      const practiceChoices = (practiceBank.questions || []).filter(question => question.type === 'choice' && question.mockEligible !== false);
       const extraChoices = Array.isArray(extraA.questions) ? extraA.questions : [];
       const subjectAQuestions = [...practiceChoices, ...extraChoices];
       const allCases = Array.isArray(caseBank.cases) ? caseBank.cases : [];
@@ -35,7 +35,7 @@
         return { ...item, sourceUnitId:item.unitId, unitId:entry.domain, mockDomain:entry.domain };
       });
       const subjectBCases = [{ ...mandatory, mockDomain:'情報セキュリティ' }, ...optionalCases];
-      if (practiceChoices.length !== Number(config.subjectA.practiceChoiceCount)) throw new Error(`既存4択 ${practiceChoices.length}問 / 設定 ${config.subjectA.practiceChoiceCount}問`);
+      if (practiceChoices.length !== Number(config.subjectA.practiceChoiceCount)) throw new Error(`模試対象4択 ${practiceChoices.length}問 / 設定 ${config.subjectA.practiceChoiceCount}問`);
       if (extraChoices.length !== Number(config.subjectA.extraChoiceCount)) throw new Error(`模試追加4択 ${extraChoices.length}問 / 設定 ${config.subjectA.extraChoiceCount}問`);
       if (subjectAQuestions.length !== Number(config.subjectA.questionCount)) throw new Error(`科目A ${subjectAQuestions.length}問 / 設定 ${config.subjectA.questionCount}問`);
       if (subjectBCases.length !== Number(config.subjectB.offeredMainQuestions)) throw new Error(`科目B ${subjectBCases.length}Case / 設定 ${config.subjectB.offeredMainQuestions}Case`);
