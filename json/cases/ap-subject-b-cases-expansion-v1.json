@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v2",
+    "title": "AP Subject B型 オリジナル長文Case Expansion",
+    "source": "original",
+    "notice": "既存6Caseを残したまま、未Coverage学習ユニットとIPA中分類を補完する追加Case。公式問題文は転載しない。",
+    "caseCount": 8
+  },
+  "cases": [
+    {
+      "id": "CASE-FND-01",
+      "unitId": "foundation-theory",
+      "middleCodes": [1],
+      "title": "IoT計測データの品質と通信量を見積もる",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "工場では100台の温度Sensorから1秒ごとに測定値を収集する。各Sensorは16bitの測定値と16bitのStatus情報を1Recordとして送信する。Gatewayは回線混雑時にRecordをQueueへ蓄積し、平均到着率が毎秒100Record、平均処理能力が毎秒125Recordである。",
+        "開発Teamは、通信量削減のため測定値の符号化を検討している。またSensorのA/D変換ではSampling間隔や量子化誤差が測定品質に影響するため、単にData量だけを減らせばよいわけではない。",
+        "運用試験ではGateway Queueの待ち時間増加が観測された。担当者は回線速度だけでなく利用率、到着率の偏り、Burst発生も確認することにした。"
+      ],
+      "questions": [
+        {"id":"CASE-FND-01-Q1","type":"written","prompt":"Header等を無視したとき、100台のSensorが1秒に送るData量をbit/sとbyte/sで求めてください。","modelAnswer":"1Recordは16+16=32bit。100Record/sなので3,200bit/s、8で割って400byte/s。実通信ではProtocol Header等が加わる。","points":["1Record=32bitと求める","3,200bit/s=400byte/sと求める"]},
+        {"id":"CASE-FND-01-Q2","type":"written","prompt":"Gatewayの利用率を求め、利用率が1へ近づくと待ち時間が増えやすい理由を説明してください。","modelAnswer":"利用率ρ=100/125=0.8=80%。処理能力の余裕が小さくなると、新しい到着を吸収できる空き時間が減り、BurstやばらつきによってQueueが解消しにくくなるため待ち時間が増えやすい。","points":["利用率80%を求める","余裕減少とQueue蓄積の関係を説明する"]},
+        {"id":"CASE-FND-01-Q3","type":"written","prompt":"符号化率だけでなくSampling・量子化も考慮すべき理由を説明してください。","modelAnswer":"圧縮でData量を減らしても、Samplingが粗すぎれば時間変化を捉えられず、量子化段階が粗すぎれば測定誤差が増える。情報量削減と必要な測定精度を両立させる必要がある。","points":["Sampling不足による情報欠落に触れる","量子化誤差と必要精度のTrade-offに触れる"]}
+      ],
+      "lessonRefs": ["FND-05","FND-06","FND-07"]
+    },
+    {
+      "id": "CASE-ALG-01",
+      "unitId": "algorithm-programming",
+      "middleCodes": [2],
+      "title": "大量Log検索を高速化する",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "監視Systemは1日1,000万件のLogを保持している。現在は発生時刻順の配列を先頭から走査し、指定IDに一致するRecordを探しているため、問い合わせ増加に伴い応答が遅くなった。",
+        "改善案として、IDをKeyにしたHash表を追加する案と、時刻順配列を利用して時刻範囲を二分探索する案が検討されている。一方、障害原因の依存関係はGraphとして保持され、関連Serviceを幅優先探索する処理もある。",
+        "開発者は『Data構造を変えれば必ず全処理がO(1)になる』と説明したが、Reviewで処理目的ごとに最適なData構造と計算量を分けて考えるべきだと指摘された。"
+      ],
+      "questions": [
+        {"id":"CASE-ALG-01-Q1","type":"written","prompt":"ID完全一致検索にHash表を使う利点と、最悪時に注意すべき点を説明してください。","modelAnswer":"適切なHash関数と負荷率なら平均O(1)でKey検索できる。一方、衝突が集中したり実装条件が悪い場合は探索が長くなり、最悪O(n)相当になり得る。","points":["平均O(1)の利点を述べる","衝突等で最悪性能が悪化すると述べる"]},
+        {"id":"CASE-ALG-01-Q2","type":"written","prompt":"時刻順配列から特定期間の開始位置を探す場合に二分探索が適する理由を説明してください。","modelAnswer":"時刻でSort済みなので中央値との比較で探索範囲を半分ずつ狭められ、線形探索O(n)に対して開始位置をO(log n)で求められる。","points":["Sort済みであることを条件にする","O(log n)で探索範囲を半減すると述べる"]},
+        {"id":"CASE-ALG-01-Q3","type":"written","prompt":"依存Graphで最短のHop数で到達できる関連Serviceを探すとき、重みなしGraphならBFSが適する理由を説明してください。","modelAnswer":"BFSは始点から距離0、1、2…の順にLayer単位で探索するため、重みなしGraphでは最初に到達した時点のEdge数が最短Hop数になる。","points":["Layer/距離順に探索すると述べる","重みなしGraphで最短Hop数を保証すると述べる"]}
+      ],
+      "lessonRefs": ["ALG-02","ALG-05","ALG-06","ALG-10"]
+    },
+    {
+      "id": "CASE-CMP-01",
+      "unitId": "computer-systems",
+      "middleCodes": [3,4,5,6],
+      "title": "Edge監視装置の性能とI/Oを設計する",
+      "difficulty": 4,
+      "estimatedMinutes": 35,
+      "scenario": [
+        "設備監視用Edge装置では、2GHz CPUが平均CPI=2で5×10^8命令を処理するBatchを周期実行する。装置はSensorから高速にDataを受信し、DMA対応I/O ControllerがMemoryへ転送する。",
+        "OS上では収集Process、解析Process、送信Processが動作し、解析ProcessはDisk I/O待ちになることがある。Memory不足時にはPage Faultが増加し、応答時間が急激に悪化した。",
+        "Sensor入力は0〜10Vを12bit A/D Converterで量子化する。設計者はCPUだけ高速化する案ではなく、Memory、I/O、Process状態、入力分解能を含めたSystem全体で評価することにした。"
+      ],
+      "questions": [
+        {"id":"CASE-CMP-01-Q1","type":"written","prompt":"BatchのCPU実行時間を求めてください。","modelAnswer":"実行時間=命令数×CPI/Clock周波数=(5×10^8×2)/(2×10^9)=0.5秒。","points":["命令数×CPI/Clockの式を使う","0.5秒と求める"]},
+        {"id":"CASE-CMP-01-Q2","type":"written","prompt":"DMAがCPUのPollingより有利になる理由と、Disk I/O待ちProcessの一般的な状態遷移を説明してください。","modelAnswer":"DMAはBlock転送をControllerへ任せ、CPUが各Data転送を逐次処理する負荷を減らせる。ProcessはI/O要求でRunningからWaitingへ移り、I/O完了でReadyへ戻りSchedulerに選ばれてRunningになる。","points":["DMAがCPU介在を減らすと述べる","Running→Waiting→Readyの遷移を説明する"]},
+        {"id":"CASE-CMP-01-Q3","type":"written","prompt":"0〜10Vを12bitで量子化するとき、1段階当たりの電圧幅を概算してください。","modelAnswer":"12bitは4,096段階なので10/4096≈0.00244V、約2.44mV/step。","points":["4096段階とする","約2.44mVと求める"]}
+      ],
+      "lessonRefs": ["CMP-05","CMP-06","CMP-08","CMP-12"]
+    },
+    {
+      "id": "CASE-UIM-01",
+      "unitId": "ui-media",
+      "middleCodes": [7,8],
+      "title": "災害通知AppのUIとMediaを改善する",
+      "difficulty": 4,
+      "estimatedMinutes": 30,
+      "scenario": [
+        "自治体向け災害通知Appでは、避難情報を赤色のBannerだけで示し、地図画像は高解像度JPEGを毎回配信している。高齢者から文字が小さく操作しにくいという意見があり、色覚特性の異なる利用者には警戒Levelの違いが判別しにくいことも分かった。",
+        "通信が混雑する災害時には画像読込みが遅く、音声案内も固定Bitrateの高品質音声を配信するため開始まで時間がかかる。TeamはUser TestとA/B Testを行い、重要操作の成功率や完了時間を測定することにした。",
+        "改善案として、色以外のIcon/Text併用、文字Size変更、画像の適切なFormat/解像度、音声Data量の削減、Error時の再試行導線が検討されている。"
+      ],
+      "questions": [
+        {"id":"CASE-UIM-01-Q1","type":"written","prompt":"赤色だけで警戒Levelを表現する問題と、直接的な改善方法を説明してください。","modelAnswer":"色だけでは色覚特性や表示環境によって意味を判別できない利用者がいる。Text、Icon、形状、Labelなど色以外の手掛かりを併用し、Contrastも確保する。","points":["色だけの伝達がAccessibility上問題と述べる","Text/Icon等を併用すると述べる"]},
+        {"id":"CASE-UIM-01-Q2","type":"written","prompt":"User TestとA/B Testの目的の違いを、このAppを例に説明してください。","modelAnswer":"User Testは利用者がどこで迷うか、操作できない理由は何かを観察して問題原因を発見する。A/B Testは改善案A/Bを実利用条件で比較し、成功率や完了時間などの指標差を検証する。","points":["User Testは問題発見/観察と述べる","A/B Testは案の定量比較と述べる"]},
+        {"id":"CASE-UIM-01-Q3","type":"written","prompt":"災害時のMedia配信で『常に最高画質・最高音質』が適切とは限らない理由を説明してください。","modelAnswer":"通信帯域が制約される状況ではData量が大きいほど表示/再生開始が遅れ、重要情報到達を妨げる。必要な可読性・明瞭度を維持しつつ解像度、Codec、Bitrateを調整する必要がある。","points":["Data量と通信遅延のTrade-offを述べる","必要品質を保ちながらFormat/Bitrateを調整すると述べる"]}
+      ],
+      "lessonRefs": ["UIM-01","UIM-02","UIM-03","MED-01","MED-02","MED-03"]
+    },
+    {
+      "id": "CASE-SVC-01",
+      "unitId": "service-audit",
+      "middleCodes": [15,16],
+      "title": "繰り返す障害と変更管理を監査する",
+      "difficulty": 4,
+      "estimatedMinutes": 35,
+      "scenario": [
+        "社内認証Serviceで月に数回、Memory使用量増加による応答遅延が発生している。Service Deskは毎回Process再起動で復旧させIncidentをCloseしていたが、根本原因調査は行われていなかった。",
+        "開発Teamは設定値変更で改善できると判断し、本番環境へ直接変更した。Change記録、事前Test、Rollback手順は残っておらず、変更後に別の認証機能で不具合が発生した。",
+        "内部監査では、Incident記録は存在するが、Problem管理、Change承認、Test Evidence、構成情報の更新が不十分であることが判明した。"
+      ],
+      "questions": [
+        {"id":"CASE-SVC-01-Q1","type":"written","prompt":"Incident ManagementだけでなくProblem Managementが必要な理由を説明してください。","modelAnswer":"Incident Managementは早期復旧が中心で、再起動だけでは根本原因が残る。繰返し障害を防ぐには原因分析、Known Error/恒久対策を管理するProblem Managementが必要。","points":["Incidentは復旧中心と述べる","Problemで根本原因と再発防止を扱うと述べる"]},
+        {"id":"CASE-SVC-01-Q2","type":"written","prompt":"本番変更前に最低限残すべき管理情報を3つ挙げてください。","modelAnswer":"変更目的・影響範囲と承認、事前Test結果、Rollback手順、対象Configuration Itemや実施日時・担当者などを残す。","points":["承認/影響範囲","Test Evidence","Rollbackまたは構成情報"]},
+        {"id":"CASE-SVC-01-Q3","type":"written","prompt":"監査人が『変更したと担当者が言った』という口頭説明だけでなくEvidenceを求める理由を説明してください。","modelAnswer":"監査結論は客観的かつ再確認可能な証拠に基づく必要があり、口頭説明だけでは正確性・完全性・改ざん有無を十分検証できない。Change Ticket、Log、Test結果など複数Evidenceで裏付ける。","points":["客観性/再検証可能性を述べる","Ticket/Log/Test結果等で裏付けると述べる"]}
+      ],
+      "lessonRefs": ["SVC-01","SVC-02","AUD-01","AUD-02"]
+    },
+    {
+      "id": "CASE-STR-01",
+      "unitId": "strategy-planning",
+      "middleCodes": [17,18],
+      "title": "受注業務改革と新System企画",
+      "difficulty": 4,
+      "estimatedMinutes": 35,
+      "scenario": [
+        "卸売会社では、営業が受注内容をExcelへ入力し、事務担当が基幹Systemへ再入力している。入力漏れと二重入力が多いが、経営層は単に新しいSoftwareを導入するのではなく、受注から出荷までのBusiness Processそのものを見直したいと考えている。",
+        "企画TeamはAs-Is/To-Be Processを整理し、重複入力を廃止して顧客Portalから受注Dataを直接連携する案を作成した。複数Vendorへ提案を求める予定だが、価格だけで選定すると要件を満たさないRiskがある。",
+        "導入効果として入力工数、入力Error率、受注から出荷指示までのLead TimeをKPIとして測定し、Pilot導入後に全社展開を判断する。"
+      ],
+      "questions": [
+        {"id":"CASE-STR-01-Q1","type":"written","prompt":"この企画でBPRの考え方が必要な理由を説明してください。","modelAnswer":"既存の二重入力ProcessをそのままSystem化するだけでは非効率を固定化する。業務目的からProcessを再設計し、不要作業や役割分担を見直してからITを適用する必要がある。","points":["現行非効率の単純System化を避ける","業務Process自体を再設計すると述べる"]},
+        {"id":"CASE-STR-01-Q2","type":"written","prompt":"RFPに価格以外で明確にすべき内容を3つ挙げてください。","modelAnswer":"業務/機能・非機能要件、Scope、移行/教育/運用条件、評価基準、Schedule、Service Level等を明確にし、Vendor提案を同じ基準で比較できるようにする。","points":["要件/Scopeを挙げる","非機能/運用/移行等を挙げる","評価基準を挙げる"]},
+        {"id":"CASE-STR-01-Q3","type":"written","prompt":"Pilot導入で入力工数・Error率・Lead Timeを測る意味を説明してください。","modelAnswer":"導入前後をKPIで比較し、System導入自体ではなくBusiness Process改善という目的を達成したか定量評価できる。期待効果が不足する場合は全社展開前に改善できる。","points":["目的達成をKPIで定量評価すると述べる","全社展開前の改善判断に使うと述べる"]}
+      ],
+      "lessonRefs": ["STR-01","STR-02","STR-03","STR-05"]
+    },
+    {
+      "id": "CASE-LAW-01",
+      "unitId": "law-standards",
+      "middleCodes": [23],
+      "title": "SaaS開発委託とOSS・個人情報の契約Risk",
+      "difficulty": 4,
+      "estimatedMinutes": 35,
+      "scenario": [
+        "企業Aは顧客管理SaaSの開発をVendorへ委託する。契約書には納期と金額はあるが、Source Codeや設計書の著作権・利用権、再委託条件、個人Data取扱い、OSS License確認責任が明確でない。",
+        "開発途中でVendorがCopyleft条件を持つOSSを組み込み、別会社へ一部開発を再委託していたことが判明した。Test環境には本番顧客DataのCopyも保存されていた。",
+        "A社は契約と運用Ruleを見直し、成果物の権利、OSS利用審査、個人Dataの利用目的・保管・削除、再委託先への義務を明確化することにした。"
+      ],
+      "questions": [
+        {"id":"CASE-LAW-01-Q1","type":"written","prompt":"OSSを『無料だから自由に使える』と判断してはいけない理由を説明してください。","modelAnswer":"OSSにもLicense条件があり、著作権表示、Source公開、派生物のLicense条件など守るべき義務が異なるため。利用形態とLicenseを確認し、製品配布条件と矛盾しないか判断する必要がある。","points":["OSSにもLicense条件があると述べる","配布/Source公開等の義務確認が必要と述べる"]},
+        {"id":"CASE-LAW-01-Q2","type":"written","prompt":"開発委託契約で成果物の知的財産について明確にすべき点を説明してください。","modelAnswer":"Source Code・設計書等の著作権帰属、利用/改変/再利用できる範囲、第三者権利侵害時の責任などを明確にし、納品後に必要な保守・改修が可能か確認する。","points":["権利帰属/利用範囲を明確化する","保守改修や第三者権利Riskに触れる"]},
+        {"id":"CASE-LAW-01-Q3","type":"written","prompt":"Test環境へ本番個人DataをそのままCopyする場合のRiskと対策を説明してください。","modelAnswer":"利用目的外利用やAccess範囲拡大、漏えいRiskが増える。必要性を確認し、可能なら匿名化/MaskingしたDataを使い、Access Control、保存期間、削除、再委託先管理を定める。","points":["個人Data漏えい/目的外利用Riskを述べる","匿名化/MaskingやAccess/削除管理を述べる"]}
+      ],
+      "lessonRefs": ["LAW-01","LAW-02","LAW-03"]
+    },
+    {
+      "id": "CASE-BUS-02",
+      "unitId": "business-accounting",
+      "middleCodes": [20,21],
+      "title": "製造業のIoT新Serviceと技術Roadmap",
+      "difficulty": 4,
+      "estimatedMinutes": 35,
+      "scenario": [
+        "製造業F社は販売した設備へSensorを追加し、稼働DataをCloudで分析して故障予兆を通知する新Serviceを計画している。自社だけではAI分析技術が不足しているため、大学・Startupとの共同開発も候補になっている。",
+        "経営層は、Sensor搭載、Data収集基盤、予知保全Model、顧客向けDashboardを一度に開発するのではなく、技術成熟度と市場投入時期をRoadmapで整理するよう求めた。Supply Chain側では交換部品の需要予測にも稼働Dataを活用したい。",
+        "企画TeamはPoCで検知精度だけを見るのではなく、保守停止時間、部品在庫、顧客継続率などBusiness KPIへの効果も確認する方針にした。"
+      ],
+      "questions": [
+        {"id":"CASE-BUS-02-Q1","type":"written","prompt":"Technology Roadmapを作る価値をこのCaseで説明してください。","modelAnswer":"Sensor、Data基盤、AI、Dashboardなど必要技術の成熟時期と製品/Service投入計画を時間軸で対応付け、先行開発すべき技術、依存関係、投資Timingを判断できる。","points":["技術成熟と事業計画を時間軸で対応付ける","依存関係/投資Timing判断に使うと述べる"]},
+        {"id":"CASE-BUS-02-Q2","type":"written","prompt":"大学やStartupとの共同開発がOpen Innovationに当たる理由と、注意点を1つ説明してください。","modelAnswer":"自社外の知識・技術を取り込み、自社資源だけでは得にくい価値創出を狙うためOpen Innovationに当たる。知財帰属、秘密情報、成果利用範囲などを事前に合意する必要がある。","points":["外部知識を活用するOpen Innovationと説明する","知財/秘密/成果利用等の注意点を挙げる"]},
+        {"id":"CASE-BUS-02-Q3","type":"written","prompt":"稼働Dataを交換部品の需要予測へ使うことがSCM改善につながる理由を説明してください。","modelAnswer":"故障予兆や稼働状況から部品需要を早めに予測できれば、過剰在庫と欠品を減らし、調達・在庫・保守をSupply Chain全体で最適化できるため。","points":["需要予測精度向上と在庫/欠品改善を述べる","調達から保守まで全体最適に触れる"]}
+      ],
+      "lessonRefs": ["BUS-04","BUS-05","BUS-06"]
+    }
+  ]
+}
