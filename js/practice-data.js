@@ -2,9 +2,10 @@
   'use strict';
 
   const DEFAULT_MANIFEST = 'json/practice/practice-index.json';
+  const cache = new Map();
 
   async function fetchJson(path) {
-    const response = await fetch(path, { cache:'no-store' });
+    const response = await fetch(path);
     if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
     return response.json();
   }
@@ -14,13 +15,18 @@
   }
 
   async function load(prefix = '') {
-    const manifest = await fetchJson(joinPrefix(prefix, DEFAULT_MANIFEST));
-    const files = Array.isArray(manifest.files) ? manifest.files : [];
-    if (!files.length) throw new Error('practice manifest has no unit files');
-
-    const payloads = await Promise.all(files.map(item => fetchJson(joinPrefix(prefix, item.file))));
-    const questions = payloads.flatMap(payload => Array.isArray(payload.questions) ? payload.questions : []);
-    return { meta:manifest.meta || {}, files, questions, payloads };
+    const key = String(prefix || '');
+    if (cache.has(key)) return cache.get(key);
+    const promise = (async () => {
+      const manifest = await fetchJson(joinPrefix(prefix, DEFAULT_MANIFEST));
+      const files = Array.isArray(manifest.files) ? manifest.files : [];
+      if (!files.length) throw new Error('practice manifest has no unit files');
+      const payloads = await Promise.all(files.map(item => fetchJson(joinPrefix(prefix, item.file))));
+      const questions = payloads.flatMap(payload => Array.isArray(payload.questions) ? payload.questions : []);
+      return { meta:manifest.meta || {}, files, questions, payloads };
+    })().catch(error => { cache.delete(key); throw error; });
+    cache.set(key, promise);
+    return promise;
   }
 
   window.APPracticeData = { load, manifestPath:DEFAULT_MANIFEST };
