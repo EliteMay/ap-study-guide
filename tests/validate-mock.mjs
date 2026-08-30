@@ -15,7 +15,8 @@ const requiredFiles = [
   'js/mock-data.js',
   'js/mock.js',
   'js/practice-data.js',
-  'js/case-data.js'
+  'js/case-data.js',
+  'js/home-mock.js'
 ];
 for (const file of requiredFiles) if (!exists(file)) fail(`missing ${file}`);
 
@@ -129,4 +130,13 @@ if (!shell.includes("const BUILD = '2026.08.30-r15'")) fail('shell BUILD is not 
 const progress = readText('js/progress.js');
 if (!progress.includes('ap-study-mock-history-v1') || !progress.includes('mock.html') || !progress.includes('FULL MOCK')) fail('progress dashboard is not connected to mock history');
 
-console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 1 mandatory + ${optional.length} optional domains, answer 5 / 150min.`);
+const home = readText('index.html');
+for (const required of ['html/mock.html','150分模試','mock-progress-number','mock-progress-meta','js/home-mock.js','長文Case16本','16Case・48設問']) {
+  if (!home.includes(required)) fail(`homepage missing ${required}`);
+}
+const homeMock = readText('js/home-mock.js');
+for (const required of ['ap-study-mock-history-v1','mock-progress-number','mock-progress-meta']) {
+  if (!homeMock.includes(required)) fail(`home-mock.js missing ${required}`);
+}
+
+console.log(`[mock] OK: Subject A ${practiceChoices.length}+${extraQuestions.length}=80 choices / 150min; Subject B 1 mandatory + ${optional.length} optional domains, answer 5 / 150min; homepage/progress integrated.`);
