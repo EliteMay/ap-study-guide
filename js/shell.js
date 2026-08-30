@@ -1,11 +1,11 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r17';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
   const DOMAIN_ALIASES = { sec:'security', net:'network', db:'database', alg:'algorithm', sys:'system', pm:'management' };
+  let metaPromise = null;
 
   const NAV_GROUPS = [
     { label:'学習', items:[
@@ -108,6 +108,37 @@
     return isHtmlPage() ? target : `html/${target}`;
   }
 
+  function projectMetaPath() { return isHtmlPage() ? '../json/project-meta.json' : 'json/project-meta.json'; }
+  function shortBuild(build) {
+    if (!build || build === 'unknown') return '…';
+    return String(build).split('-').pop() || String(build);
+  }
+  function syncBuildLabels() {
+    const build = window.APStudyUI?.build || 'unknown';
+    document.querySelectorAll('[data-ap-build]').forEach(node => { node.textContent = build === 'unknown' ? 'BUILD ?' : `BUILD ${build}`; });
+    document.querySelectorAll('[data-ap-build-short]').forEach(node => { node.textContent = shortBuild(build); });
+  }
+  function loadProjectMeta() {
+    if (metaPromise) return metaPromise;
+    metaPromise = (async () => {
+      try {
+        const response = await fetch(projectMetaPath());
+        if (!response.ok) throw new Error(`project-meta.json: HTTP ${response.status}`);
+        const meta = await response.json();
+        if (!meta || meta.app !== 'AP Study Notes' || !String(meta.build || '').trim()) throw new Error('project-meta.json の形式が正しくありません。');
+        window.APStudyUI.meta = meta;
+        window.APStudyUI.build = String(meta.build);
+        syncBuildLabels();
+        return meta;
+      } catch (error) {
+        console.error('[shell] project meta load failed', error);
+        syncBuildLabels();
+        return null;
+      }
+    })();
+    return metaPromise;
+  }
+
   function activeNavKey() {
     const page = location.pathname.split('/').pop() || 'index.html';
     if (page === 'index.html' || !page) return 'home';
@@ -170,13 +201,13 @@
 
     const footer = document.createElement('div');
     footer.className = 'ap-shell-footer';
-    footer.innerHTML = `<div class="ap-shell-actions"><a class="ap-shell-btn" href="${hrefFor('practice.html')}" style="display:grid;place-items:center;text-decoration:none">短問演習</a><button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button></div><p class="ap-shell-version">BUILD ${BUILD}</p>`;
+    footer.innerHTML = `<div class="ap-shell-actions"><a class="ap-shell-btn" href="${hrefFor('practice.html')}" style="display:grid;place-items:center;text-decoration:none">短問演習</a><button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button></div><p class="ap-shell-version" data-ap-build>BUILD ?</p>`;
     nav.querySelector('.container')?.appendChild(footer);
 
     const current = nav.querySelector('.unit-nav-link.is-current')?.textContent?.trim() || document.querySelector('h1')?.textContent?.trim() || 'AP Study Notes';
     const mobile = document.createElement('div');
     mobile.className = 'ap-mobile-bar';
-    mobile.innerHTML = `<button class="ap-mobile-menu" type="button" aria-label="メニューを開く" aria-expanded="false">☰</button><span class="ap-mobile-title">${current}</span><span class="ap-mobile-version">${BUILD}</span>`;
+    mobile.innerHTML = `<button class="ap-mobile-menu" type="button" aria-label="メニューを開く" aria-expanded="false">☰</button><span class="ap-mobile-title">${current}</span><span class="ap-mobile-version" data-ap-build-short>…</span>`;
     document.body.prepend(mobile);
 
     const backdrop = document.createElement('button');
@@ -213,12 +244,14 @@
 
     document.querySelectorAll('[data-ap-theme-toggle]').forEach(button => button.addEventListener('click', () => applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark')));
     applyTheme(document.documentElement.dataset.theme || initialTheme());
+    syncBuildLabels();
     syncMode();
   }
 
   migrateStudyItems(RECENT_KEY);
   migrateStudyItems(BOOKMARK_KEY);
-  window.APStudyUI = { build:BUILD, toast, recordRecent, getRecent, getBookmarks, saveBookmarks, theme:{ get:() => document.documentElement.dataset.theme || initialTheme(), set:applyTheme } };
+  window.APStudyUI = { build:'unknown', meta:null, ready:null, toast, recordRecent, getRecent, getBookmarks, saveBookmarks, theme:{ get:() => document.documentElement.dataset.theme || initialTheme(), set:applyTheme } };
+  window.APStudyUI.ready = loadProjectMeta();
   applyTheme(initialTheme());
   document.addEventListener('DOMContentLoaded', buildShell);
 })();
