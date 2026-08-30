@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"law-standards","questionCount":5},
+  "questions":[
+    {"id":"P-LAW-01","unitId":"law-standards","middleCodes":[23],"type":"choice","difficulty":2,"title":"Open Standard","prompt":"Open StandardとOpen Sourceの関係として最も適切なのはどれか。","options":["別概念であり必ず同じではない","常に同義","Open StandardならSource Code公開が必須","Open Sourceは標準化できない"],"answerIndex":0,"explanation":"仕様の公開性・相互運用性とSoftware Source Licenseは別の概念。","lessonRefs":["LAW-04"]},
+    {"id":"P-LAW-02","unitId":"law-standards","middleCodes":[23],"type":"written","difficulty":3,"title":"OSS License管理","prompt":"外部OSSをProductへ組み込む前に、License名だけでなく利用形態を確認すべき理由を説明してください。","modelAnswer":"内部利用、Binary配布、Source改変、SaaS提供など利用形態によってNotice、Source提供、再配布等の義務が変わり得るため、具体的License条項と利用方法を合わせて確認する必要がある。","points":["利用形態で義務が変わり得ると述べる","Notice/Source公開/再配布等の具体的義務に触れる"],"lessonRefs":["LAW-02"]},
+    {"id":"P-LAW-03","unitId":"law-standards","middleCodes":[23],"type":"choice","difficulty":3,"title":"著作権とIdea","prompt":"一般に著作権が直接保護する対象として最も適切なのはどれか。","options":["Ideaそのものではなく創作的な表現","業務Ideaだけで自動的に特許権が成立","会社名なら必ず著作権のみで保護","秘密にしていない一般知識"],"answerIndex":0,"explanation":"著作権は思想・感情の創作的表現を保護し、Ideaそのものを独占する制度ではない。特許・商標・営業秘密とは保護対象が異なる。","lessonRefs":["LAW-02"]},
+    {"id":"P-LAW-04","unitId":"law-standards","middleCodes":[23],"type":"choice","difficulty":3,"title":"請負と準委任","prompt":"成果物の完成責任より、専門的な業務を適切に遂行することを主眼とする契約に一般に近いものはどれか。","options":["準委任","請負だけ","売買のみ","License契約だけ"],"answerIndex":0,"explanation":"準委任は一定の事務・業務の遂行を委託する形で、請負は仕事の完成を目的とする。実契約では具体的条項を確認する。","lessonRefs":["LAW-03"]},
+    {"id":"P-LAW-05","unitId":"law-standards","middleCodes":[23],"type":"written","difficulty":3,"title":"De factoとDe jure","prompt":"技術仕様が広く市場で使われていることと、公的標準化団体で正式に標準化されていることを区別する必要がある理由を説明してください。","modelAnswer":"市場普及によって事実上標準となるDe facto Standardと、標準化機関の手続で制定されるDe jure Standardでは成立根拠が異なるため。採用判断では互換性だけでなく仕様公開性、Governance、認証等も確認する。","points":["De factoは市場普及によると述べる","De jureは標準化機関の正式手続によると述べる","採用時の確認観点に触れる"],"lessonRefs":["LAW-04"]}
+  ]
+}
