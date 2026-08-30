@@ -5,6 +5,8 @@
   const $ = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   let cases = [];
+  let filteredCases = [];
+  let units = [];
   let currentId = '';
 
   async function fetchJson(path) {
@@ -28,13 +30,27 @@
     return readHistory()[caseId] || { questions:{} };
   }
 
-  function caseStatus(item, record) {
-    const total = item.questions.length;
+  function masteredCount(item, record) {
+    return item.questions.filter(q => Number(record?.questions?.[q.id]?.bestScore || 0) >= 2).length;
+  }
+
+  function caseState(item, record) {
     const graded = Object.keys(record?.questions || {}).length;
-    const mastered = Object.values(record?.questions || {}).filter(q => Number(q.bestScore) >= 2).length;
-    if (graded === total && mastered === total) return '理解済み';
-    if (graded) return `${graded}/${total}回答`;
-    return '未挑戦';
+    const mastered = masteredCount(item, record);
+    if (graded === item.questions.length && mastered === item.questions.length) return 'mastered';
+    if (graded) return 'retry';
+    return 'unattempted';
+  }
+
+  function caseStatus(item, record) {
+    const state = caseState(item, record);
+    if (state === 'mastered') return '理解済み';
+    const graded = Object.keys(record?.questions || {}).length;
+    return graded ? `${graded}/${item.questions.length}回答` : '未挑戦';
+  }
+
+  function unitLabel(unitId) {
+    return units.find(unit => unit.id === unitId)?.title || unitId;
   }
 
   function saveGrade(item, question, score, answer) {
@@ -67,7 +83,7 @@
     const history = readHistory();
     const attempted = cases.filter(item => Object.keys(history[item.id]?.questions || {}).length).length;
     const completed = cases.filter(item => history[item.id]?.completed).length;
-    const mastered = cases.filter(item => item.questions.every(q => Number(history[item.id]?.questions?.[q.id]?.bestScore || 0) >= 2)).length;
+    const mastered = cases.filter(item => caseState(item, history[item.id] || {}) === 'mastered').length;
     const totalQuestions = cases.reduce((sum,item) => sum + item.questions.length, 0);
     $('cases-summary').innerHTML = `
       <div><strong>${cases.length}</strong><span>Case</span></div>
@@ -77,15 +93,31 @@
       <div><strong>${mastered}</strong><span>全設問理解済み</span></div>`;
   }
 
+  function updateUrl() {
+    const params = new URLSearchParams();
+    const unit = $('cases-unit')?.value || 'all';
+    const status = $('cases-status')?.value || 'all';
+    if (unit !== 'all') params.set('unit', unit);
+    if (status !== 'all') params.set('status', status);
+    if (currentId) params.set('case', currentId);
+    history.replaceState(null,'',`${location.pathname}${params.toString() ? `?${params}` : ''}`);
+  }
+
   function renderList() {
     const history = readHistory();
-    $('cases-list').innerHTML = cases.map(item => {
+    if (!filteredCases.length) {
+      $('cases-list').innerHTML = '<p class="cases-empty">条件に一致するCaseがありません。</p>';
+      $('case-main').innerHTML = '<p class="cases-empty">Filterを変更してください。</p>';
+      return;
+    }
+    if (!filteredCases.some(item => item.id === currentId)) currentId = filteredCases[0].id;
+    $('cases-list').innerHTML = filteredCases.map(item => {
       const record = history[item.id] || {};
-      return `<button type="button" class="cases-list-item ${item.id === currentId ? 'is-current' : ''}" data-case-id="${escapeHtml(item.id)}"><span>${escapeHtml(item.id)}</span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(caseStatus(item, record))} · ${item.estimatedMinutes}分目安</small></button>`;
+      return `<button type="button" class="cases-list-item ${item.id === currentId ? 'is-current' : ''}" data-case-id="${escapeHtml(item.id)}"><span>${escapeHtml(item.id)} · ${escapeHtml(unitLabel(item.unitId))}</span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(caseStatus(item, record))} · ${item.estimatedMinutes}分目安</small></button>`;
     }).join('');
     $('cases-list').querySelectorAll('[data-case-id]').forEach(button => button.addEventListener('click', () => {
       currentId = button.dataset.caseId;
-      history.replaceState(null,'',`${location.pathname}?case=${encodeURIComponent(currentId)}`);
+      updateUrl();
       renderList();
       renderCase();
     }));
@@ -100,7 +132,7 @@
     if (!item) return;
     const record = caseRecord(item.id);
     $('case-main').innerHTML = `
-      <div class="case-meta"><span>${escapeHtml(item.id)}</span><span>中分類 ${(item.middleCodes || []).join('・')}</span><span>難易度 ${item.difficulty}</span><span>${item.estimatedMinutes}分</span></div>
+      <div class="case-meta"><span>${escapeHtml(item.id)}</span><span>${escapeHtml(unitLabel(item.unitId))}</span><span>中分類 ${(item.middleCodes || []).join('・')}</span><span>難易度 ${item.difficulty}</span><span>${item.estimatedMinutes}分</span></div>
       <h2>${escapeHtml(item.title)}</h2>
       <section class="case-scenario"><h3>状況</h3>${item.scenario.map(p => `<p>${escapeHtml(p)}</p>`).join('')}</section>
       <div class="case-questions">${item.questions.map((q,index) => {
@@ -128,17 +160,56 @@
     });
   }
 
-  async function init() {
-    const data = await fetchJson('json/cases/ap-subject-b-cases-v1.json');
-    cases = Array.isArray(data.cases) ? data.cases : [];
-    const requested = new URLSearchParams(location.search).get('case');
-    currentId = cases.some(item => item.id === requested) ? requested : (cases[0]?.id || '');
-    renderSummary();
+  function applyFilters() {
+    const history = readHistory();
+    const unit = $('cases-unit')?.value || 'all';
+    const status = $('cases-status')?.value || 'all';
+    filteredCases = cases.filter(item => {
+      const state = caseState(item, history[item.id] || {});
+      return (unit === 'all' || item.unitId === unit) && (status === 'all' || state === status);
+    });
+    if (!filteredCases.some(item => item.id === currentId)) currentId = filteredCases[0]?.id || '';
+    updateUrl();
     renderList();
     renderCase();
   }
 
-  window.addEventListener('storage', event => { if (event.key === HISTORY_KEY) { renderSummary(); renderList(); renderCase(); } });
+  function applyInitialParams() {
+    const params = new URLSearchParams(location.search);
+    const requestedUnit = params.get('unit');
+    const requestedStatus = params.get('status');
+    if (requestedUnit && [...$('cases-unit').options].some(option => option.value === requestedUnit)) $('cases-unit').value = requestedUnit;
+    if (requestedStatus && [...$('cases-status').options].some(option => option.value === requestedStatus)) $('cases-status').value = requestedStatus;
+    const requestedCase = params.get('case');
+    if (requestedCase && cases.some(item => item.id === requestedCase)) currentId = requestedCase;
+  }
+
+  async function init() {
+    if (!window.APCaseData?.load) throw new Error('case-data.js が読み込まれていません。');
+    const [bank, curriculum] = await Promise.all([
+      window.APCaseData.load('../'),
+      fetchJson('json/curriculum/ap-2026-map.json')
+    ]);
+    cases = Array.isArray(bank.cases) ? bank.cases : [];
+    units = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order) - Number(b.order));
+    $('cases-unit').insertAdjacentHTML('beforeend', units.map(unit => `<option value="${escapeHtml(unit.id)}">${escapeHtml(unit.title)}</option>`).join(''));
+    currentId = cases[0]?.id || '';
+    applyInitialParams();
+    $('cases-unit').addEventListener('change', applyFilters);
+    $('cases-status').addEventListener('change', applyFilters);
+    $('cases-random').addEventListener('click', () => {
+      if (!filteredCases.length) return;
+      currentId = filteredCases[Math.floor(Math.random() * filteredCases.length)].id;
+      updateUrl();
+      renderList();
+      renderCase();
+    });
+    filteredCases = [...cases];
+    renderSummary();
+    applyFilters();
+  }
+
+  window.addEventListener('storage', event => { if (event.key === HISTORY_KEY) { renderSummary(); applyFilters(); } });
   document.addEventListener('DOMContentLoaded', () => init().catch(error => {
     console.error(error);
     $('case-main').innerHTML = `<p>長文Caseの読み込みに失敗しました: ${escapeHtml(error.message)}</p>`;
