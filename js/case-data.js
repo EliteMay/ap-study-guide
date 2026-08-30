@@ -1,0 +1,22 @@
+(() => {
+  'use strict';
+
+  const MANIFEST = 'json/cases/case-index.json';
+
+  async function fetchJson(path) {
+    const response = await fetch(path, { cache:'no-store' });
+    if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
+    return response.json();
+  }
+
+  async function load(prefix = '') {
+    const manifest = await fetchJson(`${prefix}${MANIFEST}`);
+    const files = Array.isArray(manifest.files) ? manifest.files : [];
+    if (!files.length) throw new Error('case manifest has no files');
+    const payloads = await Promise.all(files.map(item => fetchJson(`${prefix}${item.file}`)));
+    const cases = payloads.flatMap(payload => Array.isArray(payload.cases) ? payload.cases : []);
+    return { meta:manifest.meta || {}, files, payloads, cases };
+  }
+
+  window.APCaseData = { load, manifestPath:MANIFEST };
+})();
