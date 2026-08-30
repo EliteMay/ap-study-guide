@@ -88,6 +88,6 @@ if (js.includes("fetchJson('json/cases/ap-subject-b-cases-v1.json')")) fail('cas
 const shell = readText('js/shell.js');
 if (!shell.includes("['cases','📚 長文Case','cases.html']")) fail('canonical navigation missing cases');
 if (!shell.includes("if (page === 'cases.html') return 'cases'")) fail('cases page cannot become active in navigation');
-if (!shell.includes("const BUILD = '2026.08.30-r13'")) fail('shell BUILD is not r13');
+if (!shell.includes("const BUILD = '2026.08.30-r14'")) fail('shell BUILD is not r14');
 
 console.log(`[cases] OK: ${cases.length} cases / ${questionCount} written questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories.`);
