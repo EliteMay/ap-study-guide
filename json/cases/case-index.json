@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v2",
+    "title": "AP Subject B型 長文Case Manifest",
+    "caseCount": 14,
+    "questionCount": 42,
+    "policy": "既存Base6Caseを維持し、Expansion8Caseを結合してRuntime/CI/進捗Dashboardの共通正本にする。"
+  },
+  "files": [
+    {"file":"json/cases/ap-subject-b-cases-v1.json","count":6},
+    {"file":"json/cases/ap-subject-b-cases-expansion-v1.json","count":8}
+  ]
+}
