@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "AP Study Notes オリジナル模試設定",
+    "notice": "IPA公式問題の転載・再現ではない。2026年度APの公開試験仕様に合わせて問題数・解答数・試験時間を設定する。"
+  },
+  "subjectA": {
+    "durationMinutes": 150,
+    "questionCount": 80,
+    "answerCount": 80,
+    "type": "choice",
+    "practiceChoiceCount": 57,
+    "extraChoiceCount": 23,
+    "extraFile": "json/mock/subject-a-extra.json",
+    "historyKey": "ap-study-mock-history-v1",
+    "activeKey": "ap-study-mock-active-a-v1"
+  },
+  "subjectB": {
+    "durationMinutes": 150,
+    "offeredMainQuestions": 11,
+    "answeredMainQuestions": 5,
+    "mandatoryUnitId": "security",
+    "mandatoryCount": 1,
+    "optionalOfferedCount": 10,
+    "optionalAnswerCount": 4,
+    "questionsPerCase": 3,
+    "historyKey": "ap-study-mock-history-v1",
+    "activeKey": "ap-study-mock-active-b-v1"
+  }
+}
