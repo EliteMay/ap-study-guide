@@ -154,6 +154,9 @@
       skip.href = '#main-content';
       skip.className = 'ap-skip-link';
       skip.textContent = '本文へスキップ';
+      skip.style.pointerEvents = 'none';
+      skip.addEventListener('focus', () => { skip.style.pointerEvents = 'auto'; });
+      skip.addEventListener('blur', () => { skip.style.pointerEvents = 'none'; });
       document.body.prepend(skip);
     }
 
