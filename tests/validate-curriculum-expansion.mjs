@@ -79,7 +79,9 @@ for (const [file,text] of [['lesson.js',lessonJs],['unit.js',unitJs],['progress.
   if (!text.includes('APLessonData.load')) fail(`${file} does not use centralized APLessonData`);
 }
 const home = readText('index.html');
-for (const unit of curriculum.studyUnits || []) if (!home.includes('home-unit-grid')) break;
+if (!home.includes('home-unit-grid')) fail('homepage dynamic 13-unit grid missing');
+const homeJs = readText('js/home.js');
+if (!homeJs.includes('unit.html?unit=')) fail('homepage unit cards are not routed through generic unit hub');
 
 if (errors.length) {
   console.error(`Curriculum expansion validation failed (${errors.length})`);
