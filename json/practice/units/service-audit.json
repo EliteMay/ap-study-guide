@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"service-audit","questionCount":5},
+  "questions":[
+    {"id":"P-SVC-01","unitId":"service-audit","middleCodes":[15],"type":"choice","difficulty":3,"title":"IncidentとProblem","prompt":"Service停止を暫定回避策で復旧した後、再発原因を調査する活動は主にどれか。","options":["Problem Management","Incident復旧だけで終了","Marketing","Normalization"],"answerIndex":0,"explanation":"Incidentは早期復旧、Problemは根本原因と恒久対策を扱う。","lessonRefs":["SVC-02"]},
+    {"id":"P-AUD-01","unitId":"service-audit","middleCodes":[16],"type":"written","difficulty":3,"title":"監査証拠","prompt":"『担当者が口頭で毎月Access権限を棚卸ししていると回答した』だけでは監査証拠として弱い理由と、追加確認例を説明してください。","modelAnswer":"口頭説明だけでは実施事実や完全性を裏付けにくいため。棚卸し記録、承認履歴、権限変更Logを閲覧し、必要に応じて再実施やSample確認を行う。","points":["口頭説明だけでは裏付けが弱いと述べる","記録/Log/承認等の追加証拠を挙げる"],"lessonRefs":["AUD-02"]},
+    {"id":"P-SVC-02","unitId":"service-audit","middleCodes":[15],"type":"choice","difficulty":3,"title":"SLA稼働率","prompt":"月720時間のServiceで、SLA対象停止時間が合計3.6時間だった。単純な稼働率は約何%か。","options":["95.0%","99.0%","99.5%","99.95%"],"answerIndex":2,"explanation":"(720-3.6)/720=0.995=99.5%。実際のSLAでは対象時間帯や除外条件も定義する。","lessonRefs":["SVC-01"]},
+    {"id":"P-AUD-02","unitId":"service-audit","middleCodes":[16],"type":"choice","difficulty":3,"title":"監査人の独立性","prompt":"自分が設計・運用しているControlを自分自身で独立監査することが望ましくない主な理由はどれか。","options":["客観性が損なわれるRiskがある","監査では証拠を使ってはいけない","System知識があると監査できない","内部監査は必ず外部委託が必要"],"answerIndex":0,"explanation":"自己レビューでは利害や思い込みにより客観性・独立性が損なわれやすい。組織上・機能上の独立性が重要。","lessonRefs":["AUD-01"]},
+    {"id":"P-SVC-03","unitId":"service-audit","middleCodes":[15],"type":"written","difficulty":3,"title":"Service Continuity","prompt":"Backupを毎日取得しているだけではService Continuity対策として不十分な理由を、復旧という観点で説明してください。","modelAnswer":"Backupが存在しても、復旧手順・必要人員・代替環境・RTO/RPO・復旧Testがなければ、障害時に期限内でServiceを再開できる保証がないため。","points":["Backupと復旧可能性は別だと述べる","RTO/RPOや代替環境/手順/訓練の必要性を挙げる"],"lessonRefs":["SVC-02","SVC-03"]}
+  ]
+}
