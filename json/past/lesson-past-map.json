@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "purpose": "既存のSecurity過去問7問と構造化Lessonをテーマ単位で接続する。問題文は複製せずpastIdで既存データを参照する。"
+  },
+  "mappings": [
+    {
+      "pastId": "h24-s-incident",
+      "label": "平成24年 春期",
+      "theme": "IDSアラート・インシデント対応・ログ保全・時刻同期",
+      "lessonRefs": ["SEC-10", "SEC-09", "NET-12"]
+    },
+    {
+      "pastId": "h25-s-pc-malware",
+      "label": "平成25年 春期",
+      "theme": "マルウェア対策・標的型攻撃・ホワイトリスト・バックアップ",
+      "lessonRefs": ["SEC-07", "SEC-06", "SEC-10"]
+    },
+    {
+      "pastId": "h25-a-web-https",
+      "label": "平成25年 秋期",
+      "theme": "HTTPS・証明書・WAF・Webサイト防御",
+      "lessonRefs": ["SEC-03", "SEC-05", "NET-09", "CMP-07"]
+    },
+    {
+      "pastId": "h26-s",
+      "label": "平成26年 春期",
+      "theme": "TLS・クライアント証明書・DMZ・リバースプロキシ・FW",
+      "lessonRefs": ["SEC-03", "SEC-09", "NET-11", "CMP-07"]
+    },
+    {
+      "pastId": "h26-a-fw-waf",
+      "label": "平成26年 秋期",
+      "theme": "FWの限界・IDS/IPS/WAF・ホワイトリスト",
+      "lessonRefs": ["SEC-09", "SEC-05"]
+    },
+    {
+      "pastId": "h27-s",
+      "label": "平成27年 春期",
+      "theme": "メール・送信ドメイン認証・S/MIME・電子署名・標的型メール",
+      "lessonRefs": ["SEC-06", "SEC-03", "NET-10"]
+    },
+    {
+      "pastId": "h29-s-malware",
+      "label": "平成29年 春期",
+      "theme": "水飲み場型攻撃・バックドア通信・ログ・NTP・インシデント対応",
+      "lessonRefs": ["SEC-07", "SEC-10", "NET-12"]
+    }
+  ]
+}
