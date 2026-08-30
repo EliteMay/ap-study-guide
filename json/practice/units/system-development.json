@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"system-development","questionCount":5},
+  "questions":[
+    {"id":"P-SYS-01","unitId":"system-development","middleCodes":[12,13],"type":"choice","difficulty":3,"title":"Traceability","prompt":"要件R-15を変更した際、影響する設計・Code・Testを追跡しやすくする仕組みとして最も適切なのはどれか。","options":["Traceability Matrix","Color Palette","RAID Parity","DNS Cache"],"answerIndex":0,"explanation":"要件と下流成果物の対応を保持し変更影響を追えるようにする。","lessonRefs":["SYS-02"]},
+    {"id":"P-SYS-02","unitId":"system-development","middleCodes":[12],"type":"written","difficulty":3,"title":"Test設計","prompt":"Statement Coverage 100%だけではProgramの品質を十分に保証できない理由を説明してください。","modelAnswer":"全Statementを1回以上実行しても、Branchの両方向、Boundary条件、Data組合せ、Exception、Requirement欠落など未検証の挙動が残るため。","points":["Branch/条件など未通過Pathが残ると述べる","Coverageは品質全体の一指標に過ぎないと述べる"],"lessonRefs":["SYS-07"]},
+    {"id":"P-SYS-03","unitId":"system-development","middleCodes":[13],"type":"choice","difficulty":3,"title":"ScrumのIncrement","prompt":"Sprint終了時にIncrementへ求められる状態として最も適切なのはどれか。","options":["Definition of Doneを満たし、利用可能なProduct Incrementである","設計書だけ完成していればよい","必ず本番Release済みでなければならない","未TestでもBacklogに記録すれば完成扱い"],"answerIndex":0,"explanation":"IncrementはDefinition of Doneを満たす利用可能な状態である必要がある。Releaseするかは別の判断。","lessonRefs":["DEV-01"]},
+    {"id":"P-SYS-04","unitId":"system-development","middleCodes":[13],"type":"written","difficulty":3,"title":"CIの価値","prompt":"複数Developerが長期間Branchを分離したまま最後に統合するより、CIで小さく頻繁に統合する方が問題を見つけやすい理由を説明してください。","modelAnswer":"変更差分が小さいうちにBuild・Testを自動実行することで、どの変更がIntegration Errorを生んだか切り分けやすく、Conflictや不整合を早期に検出できるため。","points":["小さく頻繁に統合すると述べる","自動Build/Testで早期検出すると述べる","原因差分を絞りやすいと述べる"],"lessonRefs":["SYS-06"]},
+    {"id":"P-SYS-05","unitId":"system-development","middleCodes":[12],"type":"choice","difficulty":3,"title":"CouplingとCohesion","prompt":"Module設計として一般に望ましい組合せはどれか。","options":["高Cohesion・低Coupling","低Cohesion・高Coupling","低Cohesion・低Couplingだけが絶対条件","高Coupling・高Cohesion"],"answerIndex":0,"explanation":"Module内部の責務はまとまりを高くし、Module間依存は小さくすると変更影響を局所化しやすい。","lessonRefs":["SYS-03"]}
+  ]
+}
