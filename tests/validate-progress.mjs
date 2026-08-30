@@ -21,17 +21,17 @@ const questions = (practiceManifest.files || []).flatMap(item => readJson(item.f
 if (questions.length !== 91) fail(`practice manifest expands to ${questions.length}, expected 91`);
 
 const caseManifest = readJson('json/cases/case-index.json');
-if (Number(caseManifest.meta?.caseCount) !== 14) fail('expected 14 long-form cases');
-if (Number(caseManifest.meta?.questionCount) !== 42) fail('expected 42 long-form questions');
+if (Number(caseManifest.meta?.caseCount) !== 16) fail('expected 16 long-form cases');
+if (Number(caseManifest.meta?.questionCount) !== 48) fail('expected 48 long-form questions');
 const cases = (caseManifest.files || []).flatMap(item => readJson(item.file).cases || []);
-if (cases.length !== 14) fail(`case manifest expands to ${cases.length}, expected 14`);
+if (cases.length !== 16) fail(`case manifest expands to ${cases.length}, expected 16`);
 
 const curriculum = readJson('json/curriculum/ap-2026-map.json');
 if ((curriculum.studyUnits || []).length !== 13) fail('curriculum must have 13 study units');
 if ((curriculum.middleCategories || []).length !== 23) fail('curriculum must have 23 middle categories');
 
 const html = readText('html/progress.html');
-for (const required of ['../css/progress.css','../js/practice-data.js','../js/case-data.js','../js/progress.js','progress-unit-grid','progress-middle-body','progress-next','cases.html','14本/42設問']) {
+for (const required of ['../css/progress.css','../js/practice-data.js','../js/case-data.js','../js/progress.js','progress-unit-grid','progress-middle-body','progress-next','cases.html','16本/48設問','mock.html','150分模試']) {
   if (!html.includes(required)) fail(`progress.html missing ${required}`);
 }
 
@@ -40,6 +40,7 @@ for (const required of [
   'ap-study-lesson-progress-v1',
   'ap-study-practice-history-v1',
   'ap-study-case-history-v1',
+  'ap-study-mock-history-v1',
   'APPracticeData.load',
   'APCaseData.load',
   'json/lessons/lesson-index.json',
@@ -47,7 +48,9 @@ for (const required of [
   'middleCategories',
   'practice.html?unit=',
   'cases.html?unit=',
-  'lesson.html?id='
+  'lesson.html?id=',
+  'mock.html',
+  'FULL MOCK'
 ]) {
   if (!js.includes(required)) fail(`progress.js missing ${required}`);
 }
@@ -57,7 +60,7 @@ if (js.includes("fetchJson('json/cases/ap-subject-b-cases-v1.json')")) fail('pro
 const shell = readText('js/shell.js');
 if (!shell.includes("['progress','📈 学習進捗','progress.html']")) fail('canonical navigation missing progress dashboard');
 if (!shell.includes("if (page === 'progress.html') return 'progress'")) fail('progress page cannot become active in navigation');
-if (!shell.includes("const BUILD = '2026.08.30-r14'")) fail('shell BUILD is not r14');
+if (!shell.includes("const BUILD = '2026.08.30-r15'")) fail('shell BUILD is not r15');
 
 const lessonUnits = new Set(lessons.map(item => item.unitId));
 const practiceUnits = new Set(questions.map(item => item.unitId));
@@ -77,4 +80,4 @@ for (let code = 1; code <= 23; code += 1) {
   if (!caseMiddle.has(code)) fail(`middle ${code}: no long-form case coverage`);
 }
 
-console.log(`[progress] OK: dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases across 13/13 units and 23/23 middle categories.`);
+console.log(`[progress] OK: dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases + mock history across 13/13 units and 23/23 middle categories.`);
