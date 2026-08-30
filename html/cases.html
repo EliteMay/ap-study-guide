@@ -14,11 +14,16 @@
 <header class="cases-hero"><div class="container">
 <p class="eyebrow">SUBJECT B STYLE / ORIGINAL CASE PRACTICE</p>
 <h1>長文Case演習</h1>
-<p class="lead">公式問題文の転載ではなく、複数の情報を読み、原因・計算・対策・判断を自分の言葉で説明する練習です。6Case・18設問を用意しています。</p>
+<p class="lead">公式問題文の転載ではなく、複数の情報を読み、原因・計算・対策・判断を自分の言葉で説明する練習です。<strong>14Case・42設問</strong>で13学習ユニットすべてをCoverし、IPA中分類1〜23を横断します。</p>
 <div class="cases-actions"><a href="practice.html">短問総合演習91問</a><a href="progress.html">学習進捗</a></div>
 </div></header>
 <main>
 <section class="section"><div class="container">
+<div class="cases-toolbar">
+<label>学習ユニット<select id="cases-unit"><option value="all">全ユニット</option></select></label>
+<label>学習状況<select id="cases-status"><option value="all">すべて</option><option value="unattempted">未挑戦</option><option value="retry">途中・要復習</option><option value="mastered">理解済み</option></select></label>
+<button type="button" id="cases-random">条件内からランダム</button>
+</div>
 <div id="cases-summary" class="cases-summary" aria-live="polite"><span>Caseを読み込み中...</span></div>
 <div class="cases-layout">
 <aside class="cases-list-panel"><div id="cases-list" class="cases-list"></div></aside>
@@ -26,8 +31,9 @@
 </div>
 </div></section>
 </main>
-<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">長文Caseの自己採点履歴はこのブラウザに保存されます。</p></div></footer>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">長文Case 14本・42設問 · 自己採点履歴はこのブラウザに保存されます。</p></div></footer>
 <script src="../js/shell.js" defer></script>
+<script src="../js/case-data.js" defer></script>
 <script src="../js/cases.js" defer></script>
 </body>
 </html>
