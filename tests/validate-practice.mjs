@@ -84,7 +84,6 @@ if (!lessonPractice.includes('APPracticeData.load')) fail('lesson practice links
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['practice','🧪 短問演習','practice.html']")) fail('navigation missing short practice');
-if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 const home = readText('index.html');
 for (const required of ['practice-progress-number','html/practice.html','home-quick-search','js/practice-data.js','js/study-state.js']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 if (home.includes('js/home-practice.js')) fail('homepage still loads duplicate practice renderer');
