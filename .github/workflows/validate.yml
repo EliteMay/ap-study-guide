@@ -35,6 +35,8 @@ jobs:
         run: node tests/validate-practice.mjs
       - name: Validate Subject B case practice
         run: node tests/validate-cases.mjs
+      - name: Validate full-length mock exam
+        run: node tests/validate-mock.mjs
       - name: Validate latest public official AP exam mapping
         run: node tests/validate-official-past.mjs
       - name: Validate past-question lesson mapping
