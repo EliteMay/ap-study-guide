@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.08.30-v1",
+    "title": "科目A模試専用 追加4択問題",
+    "questionCount": 23,
+    "policy": "既存91短問のchoice57問と結合し、科目Aの80問4択構成を満たす。公式問題の転載・再現ではない。"
+  },
+  "questions": [
+    {"id":"M-A-FND-01","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"情報量","prompt":"独立に発生し、出現確率が1/8である事象の自己情報量は何bitか。","options":["1bit","2bit","3bit","8bit"],"answerIndex":2,"explanation":"自己情報量は-log2(p)。p=1/8=2^-3なので3bit。","lessonRefs":["FND-05"]},
+    {"id":"M-A-FND-02","unitId":"foundation-theory","middleCodes":[1],"type":"choice","difficulty":3,"title":"標準偏差","prompt":"データの各値に一律10を加えたとき、元のデータと比べた標準偏差はどうなるか。","options":["10増える","10倍になる","変わらない","0になる"],"answerIndex":2,"explanation":"全値へ同じ定数を加えると平均は移動するが、平均からの偏差は変わらないため標準偏差も変わらない。","lessonRefs":["FND-04"]},
+
+    {"id":"M-A-ALG-01","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":3,"title":"Stack利用","prompt":"深さ優先探索を再帰ではなく明示的なデータ構造で実装するとき、基本的に利用するものはどれか。","options":["Queue","Stack","Hash表だけ","Heapだけ"],"answerIndex":1,"explanation":"DFSは直前に見つけた未探索Nodeへ深く進むLIFOの動作なのでStackと対応する。","lessonRefs":["ALG-04","ALG-10"]},
+    {"id":"M-A-ALG-02","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":3,"title":"Stable Sort","prompt":"同じKey値をもつ要素の元の相対順序を保つ性質を何というか。","options":["安定性","完全性","閉包性","局所性"],"answerIndex":0,"explanation":"同値要素の相対順序を維持するSortをStable Sortという。","lessonRefs":["ALG-07"]},
+
+    {"id":"M-A-CMP-01","unitId":"computer-systems","middleCodes":[3],"type":"choice","difficulty":3,"title":"Pipeline Hazard","prompt":"分岐命令の結果が確定するまで次に実行すべき命令が分からず、Pipelineが停止・破棄される原因となるHazardはどれか。","options":["Data Hazard","Control Hazard","Structural Hazardだけ","Cache Coherence"],"answerIndex":1,"explanation":"Branchなど制御Flowが未確定なことによるHazardはControl Hazard。","lessonRefs":["CMP-03"]},
+    {"id":"M-A-CMP-02","unitId":"computer-systems","middleCodes":[4,5],"type":"choice","difficulty":3,"title":"Page Fault","prompt":"Page Fault発生時の処理として最も適切なのはどれか。","options":["必ずProcessを異常終了する","必要Pageを補助記憶から主記憶へ読み込む","Cacheを全て無効化する","CPU Clockを下げる"],"answerIndex":1,"explanation":"要求Pageが主記憶にないとPage Faultとなり、OSが補助記憶からPageを読み込んでPage Tableを更新する。","lessonRefs":["CMP-04","CMP-06"]},
+
+    {"id":"M-A-UIM-01","unitId":"ui-media","middleCodes":[7,8],"type":"choice","difficulty":2,"title":"Vector画像","prompt":"Logoのように拡大縮小しても輪郭を滑らかに保ちやすい画像表現はどれか。","options":["Vector形式","PCM","Bitmapだけ","Delta符号化"],"answerIndex":0,"explanation":"Vector画像は図形を数式・座標として表すため、解像度依存が小さく拡大縮小に向く。","lessonRefs":["MED-01"]},
+
+    {"id":"M-A-DB-01","unitId":"database","middleCodes":[9],"type":"choice","difficulty":3,"title":"Isolation Level","prompt":"同一Transaction内で同じ行を2回読み、その間に別Transactionが更新・Commitしたため値が変わって見える現象はどれか。","options":["Dirty Read","Non-repeatable Read","Phantom Readだけ","Lost Updateだけ"],"answerIndex":1,"explanation":"同じ行の再読で値が変化するのはNon-repeatable Read。","lessonRefs":["DB-09"]},
+    {"id":"M-A-DB-02","unitId":"database","middleCodes":[9],"type":"choice","difficulty":3,"title":"B-tree Index","prompt":"B-tree系Indexが一般に向いている検索はどれか。","options":["等価検索と範囲検索","画像の意味理解だけ","暗号Hash衝突検出だけ","動画圧縮だけ"],"answerIndex":0,"explanation":"B-treeはKey順序を保つため、等価検索に加えて範囲検索やOrder処理にも利用しやすい。","lessonRefs":["DB-11"]},
+
+    {"id":"M-A-NET-01","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"Longest Prefix Match","prompt":"Routing Tableに10.0.0.0/8と10.1.0.0/16があり、宛先が10.1.2.3のとき通常選ばれるRouteはどれか。","options":["10.0.0.0/8","10.1.0.0/16","常にDefault Route","両方同時"],"answerIndex":1,"explanation":"複数Routeが一致する場合、Prefix長が最も長い/16が優先される。","lessonRefs":["NET-06"]},
+    {"id":"M-A-NET-02","unitId":"network","middleCodes":[10],"type":"choice","difficulty":3,"title":"DNS TTL","prompt":"DNS RecordのTTLを短くする主な効果として適切なのはどれか。","options":["Cache更新を早めやすいがQuery数は増えやすい","通信内容を自動暗号化する","TCP再送を無効化する","IP Addressを不要にする"],"answerIndex":0,"explanation":"TTL短縮はCache保持時間を短くし変更反映を早める一方、権威DNSへのQuery増加につながる。","lessonRefs":["NET-08"]},
+
+    {"id":"M-A-SEC-01","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"Digital Signature","prompt":"Digital Signatureで主に確認できる組合せとして最も適切なのはどれか。","options":["機密性と可用性","改ざん検知と署名者確認","圧縮率と通信速度","物理耐震性と冗長性"],"answerIndex":1,"explanation":"電子署名はMessage Digestと公開鍵暗号を利用し、完全性と署名者の真正性確認に用いる。","lessonRefs":["SEC-02","SEC-03"]},
+    {"id":"M-A-SEC-02","unitId":"security","middleCodes":[11],"type":"choice","difficulty":3,"title":"CSRF対策","prompt":"Login済みUserのBrowserを悪用して意図しない更新Requestを送らせるCSRFへの代表的対策はどれか。","options":["CSRF Tokenの検証","SQL Index追加","DNS TTL延長だけ","RAID5化"],"answerIndex":0,"explanation":"予測困難なCSRF TokenやSameSite Cookie等で、正規画面由来のRequestかを確認する。","lessonRefs":["SEC-05"]},
+
+    {"id":"M-A-SYS-01","unitId":"system-development","middleCodes":[12],"type":"choice","difficulty":3,"title":"Traceability","prompt":"要件変更時に影響する設計・実装・Test Caseを追跡するために最も役立つものはどれか。","options":["Traceability Matrix","Color Palette","DNS Zone File","RAID構成表だけ"],"answerIndex":0,"explanation":"RequirementとDesign/Code/Testの対応をTraceabilityで管理すると変更影響を追いやすい。","lessonRefs":["SYS-02"]},
+    {"id":"M-A-SYS-02","unitId":"system-development","middleCodes":[12,13],"type":"choice","difficulty":3,"title":"Continuous Integration","prompt":"CIの説明として最も適切なのはどれか。","options":["変更を頻繁に統合しBuild/Testを自動実行する","本番変更を無審査で直接行う","要件定義を省略する","Backupを一切取らない"],"answerIndex":0,"explanation":"CIは小さな変更を頻繁に統合し、自動Build/Testで統合不具合を早期検知する。","lessonRefs":["SYS-06"]},
+
+    {"id":"M-A-PM-01","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":3,"title":"Communication Channels","prompt":"Project Memberが8人いるとき、全員が相互に直接Communicationすると仮定したChannel数はいくつか。","options":["8","16","28","56"],"answerIndex":2,"explanation":"n(n-1)/2=8×7/2=28。","lessonRefs":["PM-06"]},
+    {"id":"M-A-PM-02","unitId":"project-management","middleCodes":[14],"type":"choice","difficulty":3,"title":"Risk Response","prompt":"発生確率は低いが影響が大きいRiskに対し、発生時に実施する具体的対応Planと予備費を準備する考え方に最も近いものはどれか。","options":["Contingency計画","Scope Creep","Gold Plating","無条件にRiskを無視"],"answerIndex":0,"explanation":"Riskが顕在化した際の対応手順や予備資源を事前に用意するのがContingency planning。","lessonRefs":["PM-05"]},
+
+    {"id":"M-A-SVC-01","unitId":"service-audit","middleCodes":[15],"type":"choice","difficulty":3,"title":"Problem Management","prompt":"同じ障害が繰り返され、毎回再起動で一時復旧している。次に優先すべき活動はどれか。","options":["根本原因分析と恒久対策","Incident記録を削除する","SLA測定をやめる","Changeを無記録で即実施する"],"answerIndex":0,"explanation":"繰返しIncidentはProblemとして根本原因を分析し、恒久対策・Known Error管理へつなげる。","lessonRefs":["SVC-01","SVC-02"]},
+    {"id":"M-A-SVC-02","unitId":"service-audit","middleCodes":[16],"type":"choice","difficulty":3,"title":"Audit Independence","prompt":"内部監査人の独立性を損ないやすい状況はどれか。","options":["自分が設計・運用したControlを自分で監査する","監査Evidenceを複数Sourceで確認する","Sample抽出条件を記録する","監査Scopeを事前定義する"],"answerIndex":0,"explanation":"自己レビューは客観性を損なうため、監査対象業務からの独立性が重要。","lessonRefs":["AUD-01"]},
+
+    {"id":"M-A-STR-01","unitId":"strategy-planning","middleCodes":[17,18],"type":"choice","difficulty":3,"title":"PoCとPilot","prompt":"技術的に実現可能かを小規模に検証するPoCの後、本番に近い一部組織で運用・業務効果まで確認する段階はどれか。","options":["Pilot導入","廃棄","監査証拠破棄","Full Backup"],"answerIndex":0,"explanation":"PoCは技術可能性中心、Pilotは限定範囲で実運用・業務効果まで確認する。","lessonRefs":["STR-05"]},
+
+    {"id":"M-A-BUS-01","unitId":"business-accounting","middleCodes":[19],"type":"choice","difficulty":3,"title":"SWOT","prompt":"SWOT分析で『競合他社の低価格新Service参入』は通常どれに分類するか。","options":["Strength","Weakness","Opportunity","Threat"],"answerIndex":3,"explanation":"自社外部の不利な環境要因なのでThreat。","lessonRefs":["BUS-01"]},
+    {"id":"M-A-BUS-02","unitId":"business-accounting","middleCodes":[22],"type":"choice","difficulty":3,"title":"損益分岐点","prompt":"固定費600万円、販売単価5万円、単位当たり変動費3万円の製品の損益分岐点販売数量は何個か。","options":["120個","200個","300個","600個"],"answerIndex":2,"explanation":"限界利益=5-3=2万円。600万円/2万円=300個。","lessonRefs":["BUS-09"]},
+
+    {"id":"M-A-LAW-01","unitId":"law-standards","middleCodes":[23],"type":"choice","difficulty":3,"title":"OSS License","prompt":"OSSを製品へ組み込む際の対応として最も適切なのはどれか。","options":["無料なのでLicense条件確認は不要","利用・配布形態に応じてLicense義務を確認する","Copyright表示は必ず削除する","Source Codeを常に非公開にすれば全Licenseに適合する"],"answerIndex":1,"explanation":"OSSは無料かどうかとは別にLicense条件があり、表示・Source提供・派生物条件等を利用形態に応じて確認する。","lessonRefs":["LAW-02"]}
+  ]
+}
