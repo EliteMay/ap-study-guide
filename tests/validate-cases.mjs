@@ -7,7 +7,7 @@ const readJson = relative => JSON.parse(readText(relative));
 const exists = relative => fs.existsSync(path.join(root, relative));
 const fail = message => { throw new Error(`[cases] ${message}`); };
 
-for (const file of ['json/cases/case-index.json','json/cases/ap-subject-b-cases-v1.json','json/cases/ap-subject-b-cases-expansion-v1.json','html/cases.html','js/case-data.js','js/cases.js','css/cases.css']) {
+for (const file of ['json/cases/case-index.json','json/cases/ap-subject-b-cases-v1.json','json/cases/ap-subject-b-cases-expansion-v1.json','json/cases/ap-subject-b-cases-mock-support-v1.json','html/cases.html','js/case-data.js','js/cases.js','css/cases.css']) {
   if (!exists(file)) fail(`missing ${file}`);
 }
 
@@ -20,9 +20,9 @@ const unitIds = new Set((curriculum.studyUnits || []).map(item => item.id));
 const validMiddle = new Set((curriculum.middleCategories || []).map(item => Number(item.code)));
 const files = Array.isArray(manifest.files) ? manifest.files : [];
 
-if (Number(manifest.meta?.caseCount) !== 14) fail(`manifest caseCount must be 14, got ${manifest.meta?.caseCount}`);
-if (Number(manifest.meta?.questionCount) !== 42) fail(`manifest questionCount must be 42, got ${manifest.meta?.questionCount}`);
-if (files.length !== 2) fail(`expected base + expansion case files, got ${files.length}`);
+if (Number(manifest.meta?.caseCount) !== 16) fail(`manifest caseCount must be 16, got ${manifest.meta?.caseCount}`);
+if (Number(manifest.meta?.questionCount) !== 48) fail(`manifest questionCount must be 48, got ${manifest.meta?.questionCount}`);
+if (files.length !== 3) fail(`expected 3 case files, got ${files.length}`);
 
 const payloads = files.map(entry => {
   if (!exists(entry.file)) fail(`missing case file ${entry.file}`);
@@ -33,7 +33,7 @@ const payloads = files.map(entry => {
   return cases;
 });
 const cases = payloads.flat();
-if (cases.length !== 14) fail(`expected 14 cases, got ${cases.length}`);
+if (cases.length !== 16) fail(`expected 16 cases, got ${cases.length}`);
 
 const caseIds = new Set();
 const questionIds = new Set();
@@ -66,12 +66,13 @@ for (const item of cases) {
     if (!Array.isArray(q.points) || q.points.length < 2) fail(`${q.id}: scoring points too few`);
   }
 }
-if (questionCount !== 42) fail(`expected 42 case questions, got ${questionCount}`);
+if (questionCount !== 48) fail(`expected 48 case questions, got ${questionCount}`);
 for (const unit of unitIds) if (!coveredUnits.has(unit)) fail(`missing long-form case for unit ${unit}`);
 for (const code of validMiddle) if (!coveredMiddle.has(code)) fail(`IPA middle category ${code} has no long-form case coverage`);
+for (const requiredId of ['CASE-EMB-01','CASE-AUD-01']) if (!caseIds.has(requiredId)) fail(`missing ${requiredId}`);
 
 const html = readText('html/cases.html');
-for (const required of ['../css/cases.css','../js/case-data.js','../js/cases.js','cases-summary','cases-list','case-main','cases-unit','cases-status','cases-random','14Case','42設問']) {
+for (const required of ['../css/cases.css','../js/case-data.js','../js/cases.js','cases-summary','cases-list','case-main','cases-unit','cases-status','cases-random','16Case','48設問','mock.html']) {
   if (!html.includes(required)) fail(`cases.html missing ${required}`);
 }
 
@@ -88,6 +89,6 @@ if (js.includes("fetchJson('json/cases/ap-subject-b-cases-v1.json')")) fail('cas
 const shell = readText('js/shell.js');
 if (!shell.includes("['cases','📚 長文Case','cases.html']")) fail('canonical navigation missing cases');
 if (!shell.includes("if (page === 'cases.html') return 'cases'")) fail('cases page cannot become active in navigation');
-if (!shell.includes("const BUILD = '2026.08.30-r14'")) fail('shell BUILD is not r14');
+if (!shell.includes("const BUILD = '2026.08.30-r15'")) fail('shell BUILD is not r15');
 
 console.log(`[cases] OK: ${cases.length} cases / ${questionCount} written questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories.`);
