@@ -2,60 +2,80 @@
 
 応用情報技術者試験（AP）の個人学習用・静的Webアプリです。
 
-**BUILD `2026.08.30-r15`**
+**BUILD `2026.08.30-r16`**
 
 - 正本: GitHub `EliteMay/ap-study-notes`
 - GitHub Pages: `https://elitemay.github.io/ap-study-notes/`
 - 基準: IPA「応用情報技術者試験 シラバス Ver.7.2」
 - 技術: HTML / CSS / JavaScript / JSON / PDF
-- Server必須機能・秘密情報なし
+- APIキー・Server必須機能なし
 
 ## 目的
 
-APの知識を **範囲把握 → Lesson理解 → 直後確認 → 短問 → 長文Case → 150分模試 → 公式公開問題 → 弱点復習** まで一つのサイトでつなげます。
+AP学習を **範囲把握 → Lesson理解 → 直後確認 → 短問 → 長文Case → 150分模試 → 公開公式問題 → 弱点復習** まで一つのサイトでつなげます。
 
-制作優先順位は **操作性 → 分かりやすさ → 軽量性 → 保守性 → 見た目** です。
+優先順位は **操作性 → 分かりやすさ → 軽量性 → 保守性 → 見た目** です。
 
 ## 現在の状態
 
 | 項目 | 状態 |
 |---|---:|
-| IPA大分類 | **9 / 9** |
-| IPA中分類 Lesson Coverage | **23 / 23** |
-| 学習ユニット | **13 / 13** |
-| 構造化Lesson | **118本** |
-| 短問総合演習 | **91問** |
-| 短問 中分類Coverage | **23 / 23** |
-| 長文Case | **16本 / 48設問** |
-| 長文Case Unit Coverage | **13 / 13** |
-| 長文Case 中分類Coverage | **23 / 23** |
-| 科目Aオリジナル模試 | **80問4択 / 150分** |
-| 科目Bオリジナル模試 | **11問提示 → 5問解答 / 150分** |
-| 最新公開公式問題Mapping | **2025春・秋 午後22大問** |
-| 旧教材監査 | **1,422 / 1,422語** |
-| 既存Security過去問Mapping | **7 / 7** |
+| IPA大分類 | 9 / 9 |
+| IPA中分類 Lesson Coverage | 23 / 23 |
+| 学習ユニット | 13 / 13 |
+| 構造化Lesson | 118本 |
+| 短問総合演習 | 91問 |
+| 長文Case | 16本 / 48設問 |
+| 科目Aオリジナル模試 | 80問4択 / 150分 |
+| 科目Bオリジナル模試 | 11問提示 → 5問解答 / 150分 |
+| 2025春・秋 公開午後問題Mapping | 22 / 22大問 |
+| 旧教材監査 | 1,422 / 1,422語 |
+| 既存Security過去問Mapping | 7 / 7 |
 
-「23/23」は全中分類に学習・演習の入口があるという意味で、公式過去問量や各Lessonの深度まで完成したという意味ではありません。
+`23/23` は「全中分類に教材・演習の入口がある」という意味で、各小項目や過去問Coverageまで完全という意味ではありません。
 
-## 2026年度CBTと公式問題の扱い
+## r16で変えた重要仕様
 
-2026年度からAPはCBT方式です。
+### 習得判定
 
-- 従来の「午前」→ **科目A**
-- 従来の「午後」→ **科目B**
-- 科目A: 80問解答 / 150分
-- 科目B: 11問提示、5問解答 / 150分
-- **2026年度CBTの実際の試験問題は非公開**
+以前の「一度正解すれば永久に理解済み」「Lessonを全問クリックすれば完了」を廃止しました。
 
-そのため、本サイトは2026実問題を再現したとは扱いません。最新の公開済みフル公式問題である2025年度春期・秋期をLessonへ接続し、模試は問題数・解答数・試験時間を公開仕様へ合わせた**オリジナル問題**として提供します。
+- Lesson: 全確認問題回答 + **75%以上**で理解確認。
+- 4択短問: 最新結果を重視し、最近の結果から状態を判定。
+- 記述短問: **12文字以上**回答しないと模範解答を開けない。
+- 長文Case: **20文字以上**回答しないと模範解答を開けない。
+- 理解確認後 **14日**を目安に復習期限として扱う。
+- Best Scoreは履歴として保持するが、現在の理解状態とは分離する。
 
-公式公開問題Mapping:
+共通判定: `js/study-state.js`
 
-- Data: `json/past/ap-public-exams.json`
-- Page: `html/official-past.html`
-- Lesson逆引き: `js/lesson-official-past.js`
+### 13ユニットの入口統一
 
-2025春・秋の旧「午後」22大問について、問題全文は転載せず、問番号・分野・テーマ要約・関連Lessonだけを保持します。実問題はIPA公式PDFを開いて利用します。MappingはAP Study Notes独自分析です。
+全13ユニットの通常学習入口を以下へ統一しました。
+
+`html/unit.html?unit=<UNIT_ID>`
+
+旧 `security.html` / `network.html` / `database.html` / `algorithm.html` / `system.html` / `management.html` などは削除せず、旧用語検索・Bookmark・既存進捗互換用の辞書として残します。
+
+### Loader統一
+
+- Lesson: `js/lesson-data.js`
+- Practice: `js/practice-data.js`
+- Case: `js/case-data.js`
+- Mock: `js/mock-data.js`
+
+旧37問SnapshotをRuntimeから直接読まず、Manifestを正本として読みます。同一画面での重複Fetchを避けるためLoader内でmemoizeします。
+
+### 学習データBackup / Restore
+
+`html/data.html`
+
+- 学習履歴をJSON Export
+- AP Study Notes Backup JSONをImport
+- 認識済みlocalStorage Keyのみ復元
+- 全学習データ削除は二重確認
+
+Browser Data削除や別環境への移行に備えられます。
 
 ## 13学習ユニット
 
@@ -73,7 +93,8 @@ APの知識を **範囲把握 → Lesson理解 → 直後確認 → 短問 → �
 12. 経営・会計・ビジネス
 13. 法務・標準化
 
-正式分類は `json/curriculum/ap-2026-map.json`、教材整備状況は `json/curriculum/ap-2026-coverage.json` で分離管理します。
+公式分類正本: `json/curriculum/ap-2026-map.json`  
+教材Coverage Overlay: `json/curriculum/ap-2026-coverage.json`
 
 ## 構造化Lesson
 
@@ -81,13 +102,11 @@ APの知識を **範囲把握 → Lesson理解 → 直後確認 → 短問 → �
 
 `html/lesson.html?id=<LESSON_ID>`
 
-Index:
+- Base: `json/lessons/lesson-index.json` — 87本
+- Expansion: `json/lessons/lesson-index-expansion.json` — 31本
+- 合計: **118本**
 
-- `json/lessons/lesson-index.json` — Base 87本
-- `json/lessons/lesson-index-expansion.json` — Expansion 31本
-- 合計 **118本**
-
-主な教材形式:
+主なsection type:
 
 - text
 - comparison
@@ -97,155 +116,106 @@ Index:
 - steps
 - mistakes
 
-計算、状態遷移、構成図、SQL結果、擬似言語Trace、障害切り分け、Security Case、会計/NPVなど、内容に適した形式を使います。
-
 Lesson進捗: `ap-study-lesson-progress-v1`
 
 ## 短問総合演習
 
 - Page: `html/practice.html`
 - Runtime正本: `json/practice/practice-index.json`
-- 基本65問 + Expansion26問 = **91問**
-- 内訳: **4択57問 + 記述34問**
+- 91問
+- 4択57問 + 記述34問
 - 13/13 Unit、23/23中分類Coverage
-- 各Unit 7問以上
-- Unit / Type / Difficulty / Status Filter
-- Random出題
-- Lesson → 関連問題Direct Link
+- 履歴: `ap-study-practice-history-v1`
 
-履歴: `ap-study-practice-history-v1`
-
-旧37問JSONは移行前Snapshotとして残しますがRuntimeから直接読みません。
+旧37問JSONは移行前Snapshotとして残しますが、通常Runtimeから直接読みません。
 
 ## 長文Case
 
 - Page: `html/cases.html`
 - Runtime正本: `json/cases/case-index.json`
-- Base 6Case / 18設問
-- Expansion 8Case / 24設問
-- 模試分野補完 2Case / 6設問
-- 合計 **16Case / 48設問**
-- **13/13 Unit、23/23中分類Coverage**
-
-追加の模試分野補完Case:
-
-- `CASE-EMB-01` — 組込みシステム開発
-- `CASE-AUD-01` — システム監査
-
-各Caseは状況文 + 3設問。通常Case演習では自分で回答した後にModel Answerと採点観点を開き、自己評価します。
-
-履歴: `ap-study-case-history-v1`
+- 16Case / 48記述設問
+- 13/13 Unit、23/23中分類Coverage
+- 履歴: `ap-study-case-history-v1`
 
 ## 150分オリジナル模試
 
 Page: `html/mock.html`
 
-設定正本:
-
-- `json/mock/mock-config.json`
-- `json/mock/subject-a-extra.json`
-- Loader: `js/mock-data.js`
-- Runtime: `js/mock.js`
-- Style: `css/mock.css`
-
 ### 科目A
 
-- **80問 / 80問解答 / 150分**
-- 既存短問の4択57問 + 模試専用4択23問 = 80問
-- 開始時に問題順をRandom化し、Session中は固定
-- 80問Navigator
-- 回答済み表示
-- Flag
-- Reload後も残り時間・回答・現在位置を維持
-- 手動提出 / 時間切れ自動提出
-- 提出後に自動採点、誤答解説、関連Lessonを表示
+- 80問 / 80問解答 / 150分
+- 既存Practice choice 57 + 模試専用23 = 80問
+- Navigator / Flag / 自動保存 / Reload復帰 / 時間切れ自動提出
 
 ### 科目B
 
-- **11問提示 / 5問解答 / 150分**
-- 情報セキュリティ1問必須
-- 次の10分野から4問選択:
-  - 経営戦略
-  - プログラミング
-  - システムアーキテクチャ
-  - ネットワーク
-  - データベース
-  - 組込みシステム開発
-  - 情報システム開発
-  - プロジェクトマネジメント
-  - サービスマネジメント
-  - システム監査
-- 試験中はModel Answer非表示
-- 提出後に2 / 1 / 0の自己採点
+- 11問提示 / 5問解答 / 150分
+- Security 1問必須
+- 10選択分野から4問選択
 - 5Case × 3設問 = 15記述設問
-- Case Flag、回答自動保存、時間切れ自動提出対応
-
-模試は公開試験仕様の**問題数・解答数・時間配分練習**を目的とした独自問題であり、出題比率や得点をIPA公式試験と同等と主張しません。
+- 試験中Model Answer非表示
+- 提出後に自己採点
 
 保存:
 
-- 履歴 `ap-study-mock-history-v1`
-- 科目A進行中 `ap-study-mock-active-a-v1`
-- 科目B進行中 `ap-study-mock-active-b-v1`
+- `ap-study-mock-history-v1`
+- `ap-study-mock-active-a-v1`
+- `ap-study-mock-active-b-v1`
+
+この模試は公開仕様の問題数・時間配分を使った独自教材で、IPA公式問題の再現ではありません。
+
+## 2026年度CBTと公開問題
+
+2026年度からAPはCBT方式です。
+
+- 旧「午前」→ 科目A
+- 旧「午後」→ 科目B
+- 2026年度CBTの実問題は非公開
+
+そのため本サイトでは最新公開済みフル問題として2025年度春期・秋期を扱います。
+
+- Data: `json/past/ap-public-exams.json`
+- Page: `html/official-past.html`
+- Lesson逆引き: `js/lesson-official-past.js`
+- 2025春・秋 午後22大問をLessonへMapping
+
+問題全文はRepoへ転載せず、IPA公式PDFへリンクします。
 
 ## 学習進捗Dashboard
 
 `html/progress.html`
 
-118Lesson・91短問・16Case・模試履歴を統合して、
+表示:
 
-- Lesson完了率
-- 短問の挑戦 / 理解済み / 要復習
-- 長文Case理解済み
-- 13Unit別3系統進捗
-- 23中分類別Coverage / 完了状態
-- 模試実施回数・最新結果
+- 現在のLesson理解確認数
+- 短問の理解済み / 要復習 / 復習期限
+- 長文Caseの理解済み / 要復習 / 復習期限
+- 13Unit別進捗
+- 23中分類別進捗
+- 模試履歴
 - Next Action
 
-を表示します。
+Next Actionは、復習期限・要復習を未着手より優先します。
 
-Next Actionは概ね、**途中Case → 要復習短問 → 未完了Lesson → 150分模試** の順です。
+## Home / Navigation
 
-## 旧1,422語の監査
+Homeは「機能一覧」ではなく、次の3層へ整理しています。
 
-| 旧教材 | 語数 | 状態 |
-|---|---:|---|
-| Algorithm | 65 | 65/65 |
-| Database | 229 | 229/229 |
-| Network | 480 | 480/480 |
-| Security | 501 | 501/501 |
-| System | 75 | 75/75 |
-| Management | 72 | 72/72 |
-| **合計** | **1,422** | **1,422/1,422** |
+1. 今日やること
+2. 13ユニット
+3. 演習・本番・管理
 
-旧用語Pageは削除せず、検索・☆復習・既存localStorageとの互換索引として維持します。
+Sidebarも「学習 / 演習 / 本番・管理」にグループ化しました。
 
-## 過去問
-
-### 最新公開公式問題
-
-`html/official-past.html`
-
-2025春・秋の午後22大問を118LessonへテーマMapping済み。
-
-### 既存Security過去問
-
-`html/security-past.html`
-
-既存7問を `json/past/lesson-past-map.json` でLessonへ7/7 Mapping済み。
+Mobile Drawerでは閉じたNavigationを `inert` + `aria-hidden` にし、Escapeで閉じてMenu buttonへFocusを戻します。Skip Linkも実装しています。
 
 ## 保存方法
 
-教材DataはGitHub上のJSON。個人履歴はBrowser localStorageです。
+教材DataはGitHub上のJSON、個人履歴はBrowser localStorageです。
 
-主なKey:
+主要Key:
 
-- `security-terms-checked`
-- `network-terms-checked`
-- `database-terms-checked`
-- `algorithm-terms-checked`
-- `system-terms-checked`
-- `management-terms-checked`
+- 旧6分野の `*-terms-checked`
 - `ap-study-bookmarks-v1`
 - `ap-study-recent-v1`
 - `ap-study-test-history-v1`
@@ -257,26 +227,27 @@ Next Actionは概ね、**途中Case → 要復習短問 → 未完了Lesson → 
 - `ap-study-mock-active-b-v1`
 - `ap-study-theme`
 
+Backupは `html/data.html` から行います。
+
 ## 崩してはいけない仕様
 
 - 既存用語IDを不用意に変更・削除しない。
 - localStorage Key変更時は移行処理を用意する。
 - 過去問PDF / 問題JSON / 解説JSONの対応を壊さない。
 - GitHub Pagesで動く相対Pathを維持する。
-- API Key・Password・秘密情報を公開Repoへ入れない。
-- 監査済みIDとLesson割当を根拠なく変更しない。
-- LessonはBase/Expansion indexをRuntimeとCIの双方で結合する。
-- Practiceは`practice-index.json`をRuntime正本とする。
-- Caseは`case-index.json`をRuntime正本とする。
-- Mockの問題数・時間・選択分野は`mock-config.json`を正本とする。
-- 2026 CBTの非公開実問題を再現・転載したものとして扱わない。
-- 2025「午後」と現在の「科目B」の名称差を明示する。
-- 模試正答率をIPA公式得点や合否判定へ直接換算しない。
-- 「23/23に教材あり」を「試験対策として完全」と表現しない。
+- 秘密情報を公開Repoへ入れない。
+- Practiceは`practice-index.json`、Caseは`case-index.json`をRuntime正本とする。
+- Lesson Indexは`APLessonData`経由でBase + Expansionを結合する。
+- 習得判定は`APStudyState`を正本とする。
+- 13ユニットの通常入口は`unit.html?unit=...`に統一する。
+- 旧用語ページは互換辞書として維持する。
+- 2026 CBT非公開問題を再現・転載したものとして扱わない。
+- 模試正答率をIPA公式得点へ直接換算しない。
+- `23/23`を試験対策の完全性と表現しない。
 
 ## 自動検証
 
-`.github/workflows/validate.yml`
+Workflow: `.github/workflows/validate.yml`
 
 主Validator:
 
@@ -291,43 +262,36 @@ Next Actionは概ね、**途中Case → 要復習短問 → 未完了Lesson → 
 - `tests/validate-official-past.mjs`
 - `tests/validate-past-lesson-map.mjs`
 - `tests/validate-progress.mjs`
+- `tests/validate-runtime-quality.mjs`
 
-主な保証:
+さらにPlaywright Chromiumによる `tests/e2e-smoke.mjs` を実行します。
 
-- 旧1,422語監査整合
-- 118Lesson
-- Lesson 23/23中分類Coverage
-- 91短問 / 13Unit / 23中分類Coverage
-- 16Case / 48設問 / 13Unit / 23中分類Coverage
-- 科目A 57+23=80問 / 150分
-- 科目B Security必須1 + 選択10分野、5問解答 / 150分
-- 2025春秋22公開大問のLesson Mapping
-- 2026 CBT実問題を非公開として扱うMetadata
-- Security過去問7/7 Mapping
-- Progress Dashboard Data接続
+Smoke対象:
+
+- Home
+- 13Unit Hub
+- Lessonの誤答時にMasteredにならないこと
+- 短問記述の空欄Guard
+- Case記述の空欄Guard
+- Mobile Drawer / inert / Escape
+- Backup / Import page
+
+これは全118Lesson・全91問・150分実時間の総当たりではありません。
 
 ## GitHub Pages
 
-`https://elitemay.github.io/ap-study-notes/`
+静的構成のためGitHub Pagesで利用できます。ローカルで直接`file://`を開くのではなく、GitHub PagesまたはHTTP Server経由を推奨します。
 
-静的構成のためURLを開くだけで利用できます。
+## 既知の不足
 
-## 既知の未完了
-
-- 2025午前80問まで含む公式問題単位の詳細Mappingは未実装。
-- 2024以前の公開問題を体系的に118LessonへMappingしていない。
-- 118Lessonすべての演習密度は均一ではない。
-- 模試は問題数・解答数・時間を合わせているが、IPA公式の出題比率・難易度分布を完全再現するものではない。
-- 旧用語Pageの生成詳細は互換層として残っている。
-- PC / Mobile / Dark Mode / 118Lesson / 91短問 / 48Case設問 / 模試のReload・Timer・自動提出 / 公式問題対応画面の実Browser総当たりE2Eは未実施。
+- 118Lesson中、91短問が直接参照するLessonはまだ全件ではない。
+- 118Lessonの確認4択には難易度再監査が必要なものが残る。
+- 旧用語辞書は大規模DOMを生成する互換層が残る。
+- 模試問題の多くは通常演習Bankと共有しており、独立Formを増やす余地がある。
+- 23中分類より細かい小分類・学習項目単位Coverageは未実装。
+- 2025午前および2024以前の公式公開問題Mappingは未完了。
+- Playwright Smokeは主要導線のみで、全画面総当たりではない。
 
 ## 完成条件
 
-- 23中分類をLesson / Short Practice / Long Caseから追跡できる。
-- 主教材でテンプレ文章水増しを使わない。
-- 計算 / 図 / Code / SQL / Network / Security / Business Caseがある。
-- 弱点から再学習へ戻れる。
-- 150分の科目A/B模試で時間配分を練習できる。
-- 最新公開公式問題へ体系的に接続できる。
-- CI / Pagesが通る。
-- 重大な既知不具合なく通常利用できる。
+要求された主要機能が実装され、README / 仕様書 / 作業報告が同期し、CI・主要Browser Smoke・GitHub Pagesが成功し、通常利用を妨げる重大な既知不具合がない状態を完成扱いとします。
