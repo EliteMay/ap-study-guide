@@ -1,12 +1,159 @@
 # AP Study Notes tests
 
-品質確認をサイト本体から分離して管理するフォルダです。
+品質確認をサイト本体から分離して管理するフォルダ。
 
-CIは構文・JSON・ID・参照・Coverage・Runtime配線を検証します。**実Browserの見た目・全Click・Mobile/Dark Modeを完全保証するものではありません。**
+CIは構文・Data・内部参照・Coverageを保証する。実Browserの見た目や全Clickを完全保証するものではない。
 
-## GitHub Actions 実行順
+## `validate.mjs`
+
+基本Data / 既存機能検証。
+
+主な検査:
+
+- 全JSON構文
+- 旧6教材manifest / JSON件数
+- 用語ID / category / required fields
+- terms-details対応
+- Security過去問target
+- 主要HTML参照
+- IPA大分類9 / 中分類23 / 学習Unit13
+- Base Lesson構造
+- Algorithm 65/65割当
+
+## `validate-audits.mjs`
+
+旧教材監査と実Lesson移行。
+
+対象:
+
+- System 75/75
+- Management 72/72
+- Database 229/229
+- Network 480/480
+
+`legacyTermRanges`を展開し、missing / duplicate / extra IDを検出する。
+
+## `validate-security-audit.mjs`
+
+Security 501語のCross-domain再分類専用。
+
+期待:
+
+- Security 369
+- Network 104
+- Computer Systems 13
+- Law 10
+- System Development 2
+- Service / Audit 3
+- Total 501
+
+## `validate-computer-systems.mjs`
+
+CMP-01〜12と中分類3〜6のCoverageを検証する。
+
+## `validate-curriculum-expansion.mjs`
+
+118Lessonと23中分類Coverage。
+
+期待:
+
+- Base: 87
+- Expansion: 31
+- Total: **118**
+- 13学習Unitに有効Hub
+- IPA中分類1〜23すべてにLesson
+
+## `validate-practice.mjs`
+
+短問総合演習専用。
+
+Runtime正本:
+
+`json/practice/practice-index.json`
+
+期待:
+
+- **91問**
+- 13 / 13学習Unit
+- 各Unit 7問以上
+- 23 / 23 IPA中分類
+- Choice / Written両方
+- 関連Lesson実在
+- Practice画面 / Filter / Random / Direct Link整合
+- BUILD r13
+
+旧37問JSONはSnapshotとして維持し、Runtimeから直接読まないことも検証する。
+
+## `validate-cases.mjs`
+
+長文Case専用。
+
+Runtime正本:
+
+`json/cases/case-index.json`
+
+期待:
+
+- Base 6Case
+- Expansion 8Case
+- **Total 14Case**
+- **42 Written questions**
+- **13 / 13学習Unit Coverage**
+- **23 / 23 IPA中分類Coverage**
+
+検査:
+
+- Manifest count
+- Case / Question ID重複
+- Scenario長
+- estimatedMinutes
+- 1Case 3設問
+- Model Answer
+- 採点観点
+- 関連Lesson実在
+- Unit / Status Filter
+- Random Case
+- `ap-study-case-history-v1`
+- BUILD r13
+
+## `validate-past-lesson-map.mjs`
+
+既存Security過去問7問をLessonへ対応付けるMappingを検証。
+
+期待:
+
+- 7 / 7 past question Mapping
+- 関連Lesson実在
+- Lesson → 過去問direct Link
+- 過去問Page → target card open
+
+## `validate-progress.mjs`
+
+学習進捗Dashboard専用。
+
+接続対象:
+
+- 118Lesson
+- 91短問
+- 14長文Case
+- 13学習Unit
+- 23中分類
+
+検査:
+
+- Lesson / Practice / Case Data loader
+- 3種類のlocalStorage Key
+- 13 / 13 UnitにLesson・短問・Caseあり
+- 23 / 23中分類にLesson・短問・Caseあり
+- Unit別Link
+- Next Action
+- BUILD r13
+
+## GitHub Actions
 
 `.github/workflows/validate.yml`
+
+現在の実行順:
 
 1. JavaScript syntax
 2. `validate.mjs`
@@ -19,169 +166,22 @@ CIは構文・JSON・ID・参照・Coverage・Runtime配線を検証します。
 9. `validate-past-lesson-map.mjs`
 10. `validate-progress.mjs`
 
-## `validate.mjs`
+## CIで保証しないもの
 
-基本Data / Legacy機能 / Base Lesson検証。
+以下は実Browser E2Eが別途必要。
 
-- 全JSON parse
-- 旧6教材manifest / 件数
-- 用語ID / category / required field
-- Security / Network / Database terms-details
-- 主要HTML参照
-- IPA 9大分類 / 23中分類 / 13 Unit
-- Base Lesson section / diagram / checks / next
-- Algorithm 65/65割当
-
-## `validate-audits.mjs`
-
-旧教材監査と実Lesson移行。
-
-- System 75/75
-- Management 72/72
-- Database 229/229
-- Network 480/480
-- `legacyTermRanges`展開
-- missing / duplicate / extra ID禁止
-
-## `validate-security-audit.mjs`
-
-Security 501語Cross-domain再分類。
-
-期待:
-
-- Security 369
-- Network 104
-- Computer Systems 13
-- Law 10
-- System Development 2
-- Service/Audit 3
-- Total 501
-
-## `validate-computer-systems.mjs`
-
-CMP-01〜12、中分類3〜6Coverage、Computer Hub linkを検証。
-
-## `validate-curriculum-expansion.mjs`
-
-期待:
-
-- Base 87
-- Expansion 31
-- Total **118Lesson**
-
-検査:
-
-- ID/order duplicate禁止
-- Lesson JSON / meta / unit / middle整合
-- Expansion最低教材密度
-- RuntimeがBase+Expansionを結合
-- 13 Unitに有効Hub
-- IPA中分類1〜23すべてにLessonあり
-
-## `validate-practice.mjs`
-
-Runtime正本:
-
-`json/practice/practice-index.json`
-
-期待:
-
-- 13 Unit file × 5 = 65問
-- Expansion 26問
-- Total **91問**
-- 各Unit **7問以上**
-- 13/13 Unit Coverage
-- 23/23 Middle Category Coverage
-
-検査:
-
-- Manifest file/count
-- Question ID duplicate禁止
-- valid unitId / middleCodes / difficulty
-- Choice options / answerIndex / explanation
-- Written modelAnswer / scoring points
-- lessonRefs実在
-- `practice-data.js` Manifest読込
-- Filter / history / direct `question=`
-- Lesson↔Practice link
-- Home Practice progress
-- Legacy 37問Snapshot維持
-- BUILD r12
-
-## `validate-cases.mjs`
-
-Subject B型Long Case専用。
-
-期待:
-
-- **6 Case**
-- **18 written questions**
-- 各Case 3設問
-- Security / Network / Database / System Development / Project / BusinessをCoverage
-
-検査:
-
-- Case/Question ID duplicate禁止
-- scenario 2段落以上
-- 20分以上の想定時間
-- valid unitId / middleCodes
-- lessonRefs実在
-- Model Answer / scoring points
-- Case history key
-- HTML / CSS / JS
-- Canonical Navに `📚 長文Case`
-- BUILD r12
-
-## `validate-past-lesson-map.mjs`
-
-既存Security過去問7問:
-
-- 7/7 Mapping
-- lessonRefs実在
-- Lesson→Past direct link
-- Past `id=` direct open
-
-## `validate-progress.mjs`
-
-学習進捗Dashboard専用。
-
-Input:
-
-- 118Lesson
-- Short Practice 91問
-- Long Case 6本
-- 13 Unit / 23 Middle Category
-
-検査:
-
-- `html/progress.html` / CSS / JS
-- Lesson/Practice/Case localStorage key
-- Practice Manifest
-- Case Bank
-- 13 UnitすべてにLesson + Short Practice
-- 23 Middle CategoryすべてにLesson + Short Practice
-- Case retry / Practice retry / Lesson continue links
-- Canonical Navigationに `📈 学習進捗`
-- BUILD r12
-
-## Browser検査
-
-`tests/data-integrity.test.html` は旧6教材中心のBrowser検査として残す。
-
-CIとは別途、実Browserで次を確認する必要がある。
-
-- PC / Mobile
+- PC表示
+- Mobile表示
 - Dark Mode
 - 118Lesson全表示
-- 全Lesson確認問題
+- 全Lesson check button
 - Table / Diagram horizontal scroll
-- 13 Unit Hub
-- Short Practice 91問全操作
-- Written self-grade
-- Long Case 6本 / 18設問
-- Lesson ↔ Practice direct link
-- Lesson ↔ Past direct link
-- Progress Dashboard
-- Canonical Navigation
+- 13Unit Hub
+- Practice 91問全操作
+- Written自己採点
+- Case 14本 / 42設問全操作
+- Case Filter / Random
+- Navigation drawer
+- GitHub Pages上での実操作
 
-未確認項目をCI successだけで「確認済み」としない。
+CI successだけでこれらを「確認済み」と扱わない。
