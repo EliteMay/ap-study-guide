@@ -79,6 +79,6 @@ for (const required of ['json/past/ap-public-exams.json','officialQuestionPdfUrl
 const shell = readText('js/shell.js');
 if (!shell.includes("['official-past','🎯 公式問題対応','official-past.html']")) fail('canonical navigation missing official public exam map');
 if (!shell.includes("if (page === 'official-past.html') return 'official-past'")) fail('official-past cannot become active in nav');
-if (!shell.includes("const BUILD = '2026.08.30-r14'")) fail('shell BUILD is not r14');
+if (!shell.includes("const BUILD = '2026.08.30-r15'")) fail('shell BUILD is not r15');
 
 console.log(`[official-past] OK: ${count} latest public 2025 afternoon questions mapped to ${mappedLessons.size}/118 lessons; 2026 CBT correctly marked non-public.`);
