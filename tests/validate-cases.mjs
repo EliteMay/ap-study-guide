@@ -17,7 +17,6 @@ const validMiddle = new Set((curriculum.middleCategories || []).map(item => Numb
 const files = Array.isArray(manifest.files) ? manifest.files : [];
 if (Number(manifest.meta?.caseCount) !== 16 || Number(manifest.meta?.questionCount) !== 48) fail('manifest must be 16 cases / 48 questions');
 if (files.length !== 3) fail(`expected 3 case files, got ${files.length}`);
-
 const cases = files.flatMap(entry => {
   if (!exists(entry.file)) fail(`missing ${entry.file}`);
   const payload = readJson(entry.file);
@@ -69,9 +68,7 @@ const js = readText('js/cases.js');
 for (const required of ['APStudyState','CASE_MIN_CHARS','case-answer-help','latestAnswer','appendRecentScore']) if (!js.includes(required)) fail(`cases.js missing ${required}`);
 const html = readText('html/cases.html');
 for (const required of ['../js/study-state.js','../js/case-data.js','16Case','48設問']) if (!html.includes(required)) fail(`cases.html missing ${required}`);
-
 const shell = readText('js/shell.js');
 if (!shell.includes("['cases','📚 長文Case','cases.html']")) fail('navigation missing cases');
-if (!shell.includes("const BUILD = '2026.08.30-r16'")) fail('shell BUILD is not r16');
-
+if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 console.log(`[cases] OK: ${cases.length} cases / ${questionCount} written questions / ${coveredUnits.size}/13 units / ${coveredMiddle.size}/23 middle categories / non-empty answer gate enabled.`);
