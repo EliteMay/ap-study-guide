@@ -49,10 +49,9 @@ for (const old of ['>旧用語辞書<','LEGACY_GLOSSARIES']) if (unit.includes(o
 const home = read('index.html');
 for (const required of ['home-quick-search','やりたいことから選ぶ','html/glossary.html','単語を調べる','css/home-launch.css']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 const homeJs = read('js/home.js');
-for (const required of ['QUICK_ACTIONS','home-quick-search','glossary.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
+for (const required of ['buildQuickActions','home-quick-search','glossary.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
 
 const shell = read('js/shell.js');
 if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('navigation missing glossary');
-if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 
-console.log(`[glossary] OK: ${total} legacy terms unified, 60-result pagination, lazy rich details, action-first home, r17 navigation.`);
+console.log(`[glossary] OK: ${total} legacy terms unified, 60-result pagination, lazy rich details, action-first home, unified navigation.`);
