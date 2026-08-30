@@ -4,6 +4,7 @@
   const LESSON_KEY = 'ap-study-lesson-progress-v1';
   const PRACTICE_KEY = 'ap-study-practice-history-v1';
   const CASE_KEY = 'ap-study-case-history-v1';
+  const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 
@@ -33,6 +34,13 @@
     } catch { return {}; }
   }
 
+  function readArray(key) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch { return []; }
+  }
+
   function isPracticeMastered(question, record) {
     if (!record) return false;
     return question.type === 'choice' ? Number(record.bestScore) >= 1 : Number(record.bestScore) >= 2;
@@ -56,7 +64,7 @@
     return ['未着手','idle'];
   }
 
-  function renderSummary(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory) {
+  function renderSummary(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory) {
     const lessonDone = lessons.filter(item => lessonProgress[item.id]?.completed).length;
     const attempted = questions.filter(q => practiceHistory[q.id]).length;
     const mastered = questions.filter(q => isPracticeMastered(q, practiceHistory[q.id])).length;
@@ -68,7 +76,8 @@
       <div><strong>${attempted}/${questions.length}</strong><span>短問挑戦</span></div>
       <div><strong>${mastered}</strong><span>短問理解済み</span></div>
       <div><strong>${retry}</strong><span>短問要復習</span></div>
-      <div><strong>${caseDone}/${cases.length}</strong><span>長文Case理解済み</span></div>`;
+      <div><strong>${caseDone}/${cases.length}</strong><span>長文Case理解済み</span></div>
+      <div><strong>${mockHistory.length}</strong><span>150分模試実施</span></div>`;
   }
 
   function renderUnits(curriculum, lessons, questions, cases, lessonProgress, practiceHistory, caseHistory) {
@@ -116,7 +125,7 @@
     $('progress-middle-body').innerHTML = rows.join('');
   }
 
-  function renderNext(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory) {
+  function renderNext(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory) {
     const caseRetry = cases.filter(item => isCaseAttempted(caseHistory[item.id]) && !isCaseMastered(item, caseHistory[item.id]));
     const retry = questions
       .filter(q => practiceHistory[q.id] && !isPracticeMastered(q, practiceHistory[q.id]))
@@ -128,6 +137,9 @@
     caseRetry.slice(0,2).forEach(item => cards.push(`<a class="progress-next-card retry" href="cases.html?unit=${encodeURIComponent(item.unitId)}&case=${encodeURIComponent(item.id)}"><small>CASE RETRY</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.title)}</strong><span>途中または要復習の長文Case</span></a>`));
     retry.slice(0,Math.max(0,3 - cards.length)).forEach(q => cards.push(`<a class="progress-next-card retry" href="practice.html?unit=${encodeURIComponent(q.unitId)}&question=${encodeURIComponent(q.id)}"><small>SHORT RETRY</small><strong>${escapeHtml(q.id)} ${escapeHtml(q.title)}</strong><span>前回の要復習問題を再挑戦</span></a>`));
     incomplete.slice(0,Math.max(0,5 - cards.length)).forEach(item => cards.push(`<a class="progress-next-card" href="lesson.html?id=${encodeURIComponent(item.id)}"><small>NEXT LESSON</small><strong>${escapeHtml(item.id)} ${escapeHtml(item.title)}</strong><span>未完了Lessonを進める</span></a>`));
+    const latestA = mockHistory.find(item => item.subject === 'A');
+    const latestB = mockHistory.find(item => item.subject === 'B');
+    cards.push(`<a class="progress-next-card" href="mock.html"><small>FULL MOCK</small><strong>150分模試で時間配分を確認</strong><span>${latestA ? `科目A 最新 ${Number(latestA.score || 0)}/${Number(latestA.maxScore || latestA.total || 80)}` : '科目A 未実施'} · ${latestB ? `科目B 最新 ${Number(latestB.score || 0)}/${Number(latestB.maxScore || 30)}` : '科目B 未実施'}</span></a>`);
     $('progress-next').innerHTML = cards.length ? cards.join('') : '<div class="progress-complete-message">登録済みLesson・短問・長文Caseはすべて完了しています。</div>';
   }
 
@@ -147,14 +159,15 @@
     const lessonProgress = readObject(LESSON_KEY);
     const practiceHistory = readObject(PRACTICE_KEY);
     const caseHistory = readObject(CASE_KEY);
-    renderSummary(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory);
+    const mockHistory = readArray(MOCK_KEY);
+    renderSummary(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory);
     renderUnits(curriculum, lessons, questions, cases, lessonProgress, practiceHistory, caseHistory);
     renderMiddle(curriculum, lessons, questions, cases, lessonProgress, practiceHistory, caseHistory);
-    renderNext(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory);
+    renderNext(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory);
   }
 
   window.addEventListener('storage', event => {
-    if ([LESSON_KEY, PRACTICE_KEY, CASE_KEY].includes(event.key)) init().catch(console.error);
+    if ([LESSON_KEY, PRACTICE_KEY, CASE_KEY, MOCK_KEY].includes(event.key)) init().catch(console.error);
   });
   document.addEventListener('DOMContentLoaded', () => init().catch(error => {
     console.error(error);
