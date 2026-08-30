@@ -15,6 +15,14 @@
     return response.json();
   }
 
+  async function loadPracticeBanks() {
+    const [base, expansion] = await Promise.all([
+      fetchJson('json/practice/ap-original-practice-v1.json'),
+      fetchJson('json/practice/ap-original-practice-expansion-v1.json')
+    ]);
+    return [...(base.questions || []), ...(expansion.questions || [])];
+  }
+
   function readHistory() {
     try {
       const value = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
@@ -236,11 +244,11 @@
   }
 
   async function init() {
-    const [bank, curriculum] = await Promise.all([
-      fetchJson('json/practice/ap-original-practice-v1.json'),
+    const [allQuestions, curriculum] = await Promise.all([
+      loadPracticeBanks(),
       fetchJson('json/curriculum/ap-2026-map.json')
     ]);
-    questions = Array.isArray(bank.questions) ? bank.questions : [];
+    questions = allQuestions;
     units = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order) - Number(b.order));
     $('practice-unit').insertAdjacentHTML('beforeend', units.map(unit => `<option value="${escapeHtml(unit.id)}">${escapeHtml(unit.title)}</option>`).join(''));
     currentId = questions[0]?.id || '';
