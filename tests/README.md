@@ -2,175 +2,168 @@
 
 品質確認をサイト本体から分離して管理するフォルダです。
 
-CIは構文・Data・内部参照を保証します。実Browserの見た目や全Clickを完全保証するものではありません。
+CIは構文・JSON・ID・参照・Coverage・Runtime配線を検証します。**実Browserの見た目・全Click・Mobile/Dark Modeを完全保証するものではありません。**
 
-## `validate.mjs`
+## 実行
 
-基本Data / 既存機能検証。
+主要検証はGitHub Actions `.github/workflows/validate.yml` でmain/PRごとに実行する。
+
+ローカル例:
 
 ```bash
 node tests/validate.mjs
+node tests/validate-audits.mjs
+node tests/validate-security-audit.mjs
+node tests/validate-computer-systems.mjs
+node tests/validate-curriculum-expansion.mjs
+node tests/validate-practice.mjs
+node tests/validate-past-lesson-map.mjs
+node tests/validate-progress.mjs
 ```
 
-主な検査:
+## `validate.mjs`
 
-- 全JSON構文
-- 旧6教材manifest / JSON件数
-- 用語ID / category / required fields
-- Security / Network / Database terms-details対応
-- Security過去問target
+基本Data / Legacy機能 / Base Lesson検証。
+
+- 全JSON parse
+- 旧6教材manifest / 件数
+- 用語ID / category / required field
+- Security / Network / Database terms-details
 - 主要HTML参照
-- IPA大分類9 / 中分類23 / 学習Unit13
-- Base Lessonのsection / diagram / checks / next
+- IPA 9大分類 / 23中分類 / 13 Unit
+- Base Lesson section / diagram / checks / next
 - Algorithm 65/65割当
 
 ## `validate-audits.mjs`
 
-旧教材監査と実Lesson移行の厳格検証。
-
-```bash
-node tests/validate-audits.mjs
-```
-
-対象:
+旧教材監査と実Lesson移行。
 
 - System 75/75
 - Management 72/72
 - Database 229/229
 - Network 480/480
-
-`legacyTermRanges` も展開し、未割当 / 重複 / extra IDを検出する。
+- `legacyTermRanges`展開
+- missing / duplicate / extra ID禁止
 
 ## `validate-security-audit.mjs`
 
-Security 501語のcross-domain再分類専用。
-
-```bash
-node tests/validate-security-audit.mjs
-```
-
-期待集計:
-
-| 移行先 | 語数 |
-|---|---:|
-| Security | 369 |
-| Network | 104 |
-| Computer Systems | 13 |
-| Law / Standards | 10 |
-| System Development | 2 |
-| Service / Audit | 3 |
-| 合計 | 501 |
-
-検査:
-
-- sec-001〜501
-- duplicate / missing / extra禁止
-- Security 369語とSEC Lesson meta一致
-- Cross-domain移動先Lesson実在
-- unitId / IPA中分類一致
-
-## `validate-computer-systems.mjs`
-
-CMP-01〜12専用。
-
-```bash
-node tests/validate-computer-systems.mjs
-```
-
-検査:
-
-- CMP-01〜12が実在
-- JSON / index / meta / unit一致
-- objectives / sections / checks
-- 中分類3 / 4 / 5 / 6 Coverage
-- `html/computer.html` から全LessonへLink
-
-## `validate-curriculum-expansion.mjs`
-
-118Lessonと23中分類Coverageを検証。
-
-```bash
-node tests/validate-curriculum-expansion.mjs
-```
+Security 501語Cross-domain再分類。
 
 期待:
 
-- Base index: **87**
-- Expansion index: **31**
-- Total: **118**
+- Security 369
+- Network 104
+- Computer Systems 13
+- Law 10
+- System Development 2
+- Service/Audit 3
+- Total 501
+
+移動先Lesson / Unit / IPA中分類まで検査する。
+
+## `validate-computer-systems.mjs`
+
+CMP-01〜12と中分類3〜6Coverage、Computer Hub linkを検査する。
+
+## `validate-curriculum-expansion.mjs`
+
+構造化Lesson全体。
+
+期待:
+
+- Base 87
+- Expansion 31
+- Total **118**
 
 検査:
 
-- ID重複なし
-- order重複なし
-- Expansion Lesson JSON実在
-- index / meta / unit / middle code整合
-- Expansion各Lessonの最低教材密度
-- RuntimeがBase + Expansionを読む
-- 13学習Unitに有効Hubあり
-- **IPA中分類1〜23すべてに構造化Lessonあり**
+- ID/order duplicate禁止
+- Lesson JSON / meta / unit / middle整合
+- Expansion最低教材密度
+- RuntimeがBase+Expansionを結合
+- 13 Unitに有効Hub
+- **IPA中分類1〜23すべてにLessonあり**
 
 ## `validate-practice.mjs`
 
-オリジナル総合演習専用。
+オリジナル総合演習。
 
-```bash
-node tests/validate-practice.mjs
-```
+Runtime正本:
 
-現在の期待:
+`json/practice/practice-index.json`
 
-- **37問**
-- **13 / 13学習Unit Coverage**
-- **23 / 23 IPA中分類Coverage**
+期待:
+
+- 13 Unit file × 5 = 65問
+- Expansion = 26問
+- Total = **91問**
+- 各Unit **7問以上**
+- **13/13 Unit Coverage**
+- **23/23 Middle Category Coverage**
 
 検査:
 
-- `meta.questionCount` と実数一致
-- Question ID重複なし
-- valid unitId / middleCodes
-- difficulty 2/3/4
-- Choice: 4択以上 / answerIndex / explanation
-- Written: modelAnswer / 採点観点2件以上
-- `lessonRefs[]` が実Lessonを参照
-- Practice HTMLがCSS / JS / status filterを持つ
-- canonical Shellに総合演習が存在
-- BUILD r10
-- Practice localStorage / Filter / Lesson link / Next control
+- Manifest file/count
+- Question ID duplicate禁止
+- valid unitId / middleCodes / difficulty
+- Choice options / answerIndex / explanation
+- Written modelAnswer / 採点観点
+- lessonRefs実在
+- `practice-data.js` Manifest読込
+- Practice Filter / history / direct `question=`
+- Lesson↔Practice direct link
+- Home Practice progress
+- Legacy 37問Snapshotが保持されていること
+- BUILD r11
 
-今後、Lesson→`question=` direct linkとHome Practice progressもこのValidatorへ追加して固定する。
+## `validate-past-lesson-map.mjs`
 
-## `data-integrity.test.html`
+既存Security過去問7問を検証。
 
-GitHub PagesまたはLive Serverで開くBrowser検査。
+- 7/7 Mapping
+- lessonRefs実在
+- Lesson→過去問direct link
+- 過去問`id=` direct open
 
-旧6教材のterms/details/過去問Dataを中心に確認する。
+## `validate-progress.mjs`
 
-## GitHub Actions
+学習進捗Dashboard専用。
 
-`.github/workflows/validate.yml`
+期待:
 
-現在の実行順:
+- 118Lesson
+- Practice 91問
+- 13 Unit
+- 23 Middle Category
 
-1. JavaScript syntax
-2. `validate.mjs`
-3. `validate-audits.mjs`
-4. `validate-security-audit.mjs`
-5. `validate-computer-systems.mjs`
-6. `validate-curriculum-expansion.mjs`
-7. `validate-practice.mjs`
+検査:
 
-## E2Eとして別途必要な確認
+- `html/progress.html` / CSS / JS
+- Lesson/Practice localStorage key
+- Practice Manifest読込
+- 13 UnitすべてにLesson + Practice
+- 23中分類すべてにLesson + Practice
+- 教材/演習/Continue link
+- Canonical Navigationに `📈 学習進捗`
+- BUILD r11
+
+## Browser検査
+
+`tests/data-integrity.test.html` は旧6教材中心のBrowser検査として残す。
+
+CIとは別途、次を実Browserで確認する必要がある。
 
 - PC / Mobile
 - Dark Mode
 - 118Lesson全表示
-- 全Lesson check button
+- 全Lesson確認問題
 - Table / Diagram horizontal scroll
-- 13Unit Hub
-- Practice 37問全操作
-- Practice written self-grade
+- 13 Unit Hub
+- Practice 91問全操作
+- Written self-grade
 - Lesson ↔ Practice direct link
-- GitHub Pages上のcanonical Navigation
+- Lesson ↔ Past direct link
+- Progress Dashboard
+- Canonical Navigation
 
 未確認項目をCI successだけで「確認済み」としない。
