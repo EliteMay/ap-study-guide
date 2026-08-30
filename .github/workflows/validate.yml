@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '22'
       - name: Check JavaScript syntax
-        run: find js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+        run: find js tests -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
       - name: Validate JSON and references
         run: node tests/validate.mjs
       - name: Validate domain audits
@@ -29,7 +29,7 @@ jobs:
         run: node tests/validate-security-audit.mjs
       - name: Validate Computer Systems coverage
         run: node tests/validate-computer-systems.mjs
-      - name: Validate curriculum expansion and 23-middle coverage
+      - name: Validate curriculum expansion and unified hubs
         run: node tests/validate-curriculum-expansion.mjs
       - name: Validate original practice bank
         run: node tests/validate-practice.mjs
@@ -41,5 +41,15 @@ jobs:
         run: node tests/validate-official-past.mjs
       - name: Validate past-question lesson mapping
         run: node tests/validate-past-lesson-map.mjs
-      - name: Validate learning progress dashboard
+      - name: Validate current mastery dashboard
         run: node tests/validate-progress.mjs
+      - name: Validate runtime quality architecture
+        run: node tests/validate-runtime-quality.mjs
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Browser smoke test
+        run: |
+          python3 -m http.server 4173 >/tmp/ap-study-http.log 2>&1 &
+          node tests/e2e-smoke.mjs
