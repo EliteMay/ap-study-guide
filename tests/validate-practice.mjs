@@ -19,7 +19,6 @@ const files = Array.isArray(manifest.files) ? manifest.files : [];
 
 if (Number(manifest.meta?.questionCount) !== 91) fail(`manifest questionCount must be 91, got ${manifest.meta?.questionCount}`);
 if (files.length !== 14) fail(`expected 14 practice files, got ${files.length}`);
-
 const questions = files.flatMap(entry => {
   if (!exists(entry.file)) fail(`missing ${entry.file}`);
   const payload = readJson(entry.file);
@@ -71,16 +70,13 @@ for (const file of ['js/study-state.js','js/practice-data.js','js/practice.js','
 const loader = readText('js/practice-data.js');
 if (!loader.includes('practice-index.json') || !loader.includes('cache = new Map()')) fail('practice loader is not manifest+memoized');
 if (loader.includes("cache:'no-store'") || loader.includes('cache: \'no-store\'')) fail('practice loader disables browser cache');
-
 const state = readText('js/study-state.js');
 for (const required of ['REVIEW_AFTER_DAYS = 14','WRITTEN_MIN_CHARS = 12','appendRecentScore','practiceState']) if (!state.includes(required)) fail(`study-state missing ${required}`);
 const js = readText('js/practice.js');
 for (const required of ['APStudyState','appendRecentScore','recentScores','WRITTEN_MIN_CHARS','practice-reveal','latestAnswer']) if (!js.includes(required)) fail(`practice.js missing ${required}`);
 if (js.includes('ap-original-practice-v1.json')) fail('practice.js reads legacy 37-question snapshot directly');
-
 const html = readText('html/practice.html');
 for (const required of ['../js/study-state.js','../js/practice-data.js','../js/practice.js','91問']) if (!html.includes(required)) fail(`practice.html missing ${required}`);
-
 const lessonJs = readText('js/lesson.js');
 if (lessonJs.includes('ap-original-practice-v1.json')) fail('lesson.js still reads legacy practice snapshot');
 const lessonPractice = readText('js/lesson-practice.js');
@@ -88,12 +84,10 @@ if (!lessonPractice.includes('APPracticeData.load')) fail('lesson practice links
 
 const shell = readText('js/shell.js');
 if (!shell.includes("['practice','🧪 短問演習','practice.html']")) fail('navigation missing short practice');
-if (!shell.includes("const BUILD = '2026.08.30-r16'")) fail('shell BUILD is not r16');
-
+if (!shell.includes("const BUILD = '2026.08.30-r17'")) fail('shell BUILD is not r17');
 const home = readText('index.html');
-for (const required of ['practice-progress-number','html/practice.html?status=retry','js/practice-data.js','js/study-state.js']) if (!home.includes(required)) fail(`homepage missing ${required}`);
+for (const required of ['practice-progress-number','html/practice.html','home-quick-search','js/practice-data.js','js/study-state.js']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 if (home.includes('js/home-practice.js')) fail('homepage still loads duplicate practice renderer');
-
 const legacy = readJson('json/practice/ap-original-practice-v1.json');
 if (!Array.isArray(legacy.questions) || legacy.questions.length !== 37) fail('legacy snapshot should remain compatibility-only 37 questions');
 
