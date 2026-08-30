@@ -10,19 +10,19 @@
 <link href="../css/practice.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li><li><a href="practice.html" class="unit-nav-link is-current" aria-current="page">🧪 総合演習</a></li></ul></div></nav>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li></ul></div></nav>
 <header class="practice-hero"><div class="container">
 <p class="eyebrow">ORIGINAL AP PRACTICE / 13 UNITS / 23 MIDDLE CATEGORIES</p>
-<h1>総合演習</h1>
-<p class="lead">IPA公式過去問の問題文を転載せず、シラバスVer.7.2と本サイトLessonを基に作ったオリジナル問題です。13学習ユニットの基本65問と追加26問を合わせた<strong>91問</strong>でIPA中分類1〜23を横断し、選択式は自動採点、記述式は自分で答えてから模範観点と照合します。</p>
+<h1>短問総合演習</h1>
+<p class="lead">91問でIPA中分類1〜23を横断します。4択は一度の正解だけで理解済みにせず、最近の正答状況を使います。記述式は自分の回答を書いてから模範観点を開き、自己評価します。理解確認後も14日で再確認対象になります。</p>
 </div></header>
-<main>
+<main id="main-content">
 <section class="section"><div class="container">
 <div class="practice-toolbar">
 <label>学習ユニット<select id="practice-unit"><option value="all">全ユニット</option></select></label>
 <label>問題形式<select id="practice-type"><option value="all">すべて</option><option value="choice">選択式</option><option value="written">記述式</option></select></label>
 <label>難易度<select id="practice-difficulty"><option value="all">すべて</option><option value="2">標準</option><option value="3">応用</option><option value="4">やや難</option></select></label>
-<label>学習状況<select id="practice-status"><option value="all">すべて</option><option value="unattempted">未挑戦</option><option value="retry">要復習</option><option value="mastered">理解済み</option></select></label>
+<label>学習状況<select id="practice-status"><option value="all">すべて</option><option value="unattempted">未挑戦</option><option value="retry">要復習・確認中</option><option value="mastered">理解済み</option></select></label>
 <button type="button" id="practice-random">条件内からランダム</button>
 </div>
 <div id="practice-summary" class="practice-summary" aria-live="polite"></div>
@@ -33,6 +33,7 @@
 </div></section>
 </main>
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">オリジナル総合演習 91問 · 履歴はこのブラウザに保存</p></div></footer>
+<script src="../js/study-state.js" defer></script>
 <script src="../js/shell.js" defer></script>
 <script src="../js/practice-data.js" defer></script>
 <script src="../js/practice.js" defer></script>
