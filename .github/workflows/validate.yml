@@ -35,3 +35,5 @@ jobs:
         run: node tests/validate-practice.mjs
       - name: Validate past-question lesson mapping
         run: node tests/validate-past-lesson-map.mjs
+      - name: Validate learning progress dashboard
+        run: node tests/validate-progress.mjs
