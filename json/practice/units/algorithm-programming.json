@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"algorithm-programming","questionCount":5},
+  "questions":[
+    {"id":"P-ALG-01","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":3,"title":"Loopの計算量","prompt":"外側Loopがn回、内側Loopが常に20回実行される処理の時間計算量として最も適切なのはどれか。","options":["O(1)","O(log n)","O(n)","O(n²)"],"answerIndex":2,"explanation":"実行回数は20nで、定数係数を無視するとO(n)。二重Loopだから必ずO(n²)ではない。","lessonRefs":["ALG-02"]},
+    {"id":"P-ALG-02","unitId":"algorithm-programming","middleCodes":[2],"type":"written","difficulty":3,"title":"連結Listの挿入","prompt":"『連結Listの途中挿入はO(1)である』という説明が条件付きでしか正しくない理由を説明してください。","modelAnswer":"挿入位置のNode参照を既に持っていればPointer変更はO(1)だが、先頭から挿入位置を探索する必要がある場合は探索にO(n)かかるため。","points":["参照変更自体はO(1)と述べる","挿入位置の探索がO(n)になり得ると述べる"],"lessonRefs":["ALG-03"]},
+    {"id":"P-ALG-03","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":3,"title":"二分探索の前提","prompt":"配列に対して二分探索を正しく適用するための最も重要な前提はどれか。","options":["要素が昇順または降順に整列されている","要素数が必ず偶数である","重複要素が存在しない","配列長が2の累乗である"],"answerIndex":0,"explanation":"二分探索は中間値との大小関係で探索範囲を半分へ絞るため、対象範囲が同じ順序で整列されている必要がある。","lessonRefs":["ALG-06"]},
+    {"id":"P-ALG-04","unitId":"algorithm-programming","middleCodes":[2],"type":"choice","difficulty":2,"title":"StackとQueue","prompt":"A,B,Cの順にDataを格納した後、最初に取り出されるDataがCになるData構造はどれか。","options":["Stack","Queue","単方向Listなら必ずA","Hash Table"],"answerIndex":0,"explanation":"StackはLIFOで最後にpushしたCが最初にpopされる。QueueはFIFOなのでAが先。","lessonRefs":["ALG-04"]},
+    {"id":"P-ALG-05","unitId":"algorithm-programming","middleCodes":[2],"type":"written","difficulty":3,"title":"値渡しと参照の影響","prompt":"関数へDataを渡したとき、呼出し元の値が変更されるかを判断する際に『引数名が同じか』ではなく何を確認すべきか説明してください。","modelAnswer":"言語の引数渡し方式と、渡される値が値そのものかObjectへの参照か、さらに関数内で再代入するのか参照先Objectを変更するのかを確認する。変数名の一致は本質ではない。","points":["値渡し/参照または参照値の扱いを確認すると述べる","再代入と参照先変更を区別する","変数名の一致は本質でないと述べる"],"lessonRefs":["PROG-02"]}
+  ]
+}
