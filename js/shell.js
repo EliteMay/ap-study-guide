@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const BUILD = '2026.08.30-r10';
+  const BUILD = '2026.08.30-r11';
   const THEME_KEY = 'ap-study-theme';
   const RECENT_KEY = 'ap-study-recent-v1';
   const BOOKMARK_KEY = 'ap-study-bookmarks-v1';
@@ -10,6 +10,7 @@
   const NAV_ITEMS = [
     ['home','🏠 ホーム','index.html'],
     ['roadmap','🧭 学習マップ','roadmap.html'],
+    ['progress','📈 学習進捗','progress.html'],
     ['foundation-theory','∑ 基礎理論','unit.html?unit=foundation-theory'],
     ['algorithm-programming','⚙️ アルゴリズム・プログラミング','algorithm.html'],
     ['computer-systems','🧩 コンピュータシステム','computer.html'],
@@ -144,6 +145,7 @@
     const page = location.pathname.split('/').pop() || 'index.html';
     if (page === 'index.html' || !page) return 'home';
     if (page === 'roadmap.html') return 'roadmap';
+    if (page === 'progress.html') return 'progress';
     if (page === 'practice.html') return 'practice';
     if (page === 'security-past.html') return 'past';
     if (page === 'test.html') return 'test';
