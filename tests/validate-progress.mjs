@@ -21,12 +21,16 @@ const practiceFiles = practiceManifest.files || [];
 const questions = practiceFiles.flatMap(item => readJson(item.file).questions || []);
 if (questions.length !== 91) fail(`practice manifest expands to ${questions.length}, expected 91`);
 
+const caseBank = readJson('json/cases/ap-subject-b-cases-v1.json');
+const cases = Array.isArray(caseBank.cases) ? caseBank.cases : [];
+if (cases.length !== 6) fail(`expected 6 cases, got ${cases.length}`);
+
 const curriculum = readJson('json/curriculum/ap-2026-map.json');
 if ((curriculum.studyUnits || []).length !== 13) fail('curriculum must have 13 study units');
 if ((curriculum.middleCategories || []).length !== 23) fail('curriculum must have 23 middle categories');
 
 const html = readText('html/progress.html');
-for (const required of ['../css/progress.css','../js/practice-data.js','../js/progress.js','progress-unit-grid','progress-middle-body','progress-next']) {
+for (const required of ['../css/progress.css','../js/practice-data.js','../js/progress.js','progress-unit-grid','progress-middle-body','progress-next','cases.html','長文Case']) {
   if (!html.includes(required)) fail(`progress.html missing ${required}`);
 }
 
@@ -34,11 +38,14 @@ const js = readText('js/progress.js');
 for (const required of [
   'ap-study-lesson-progress-v1',
   'ap-study-practice-history-v1',
+  'ap-study-case-history-v1',
   'APPracticeData.load',
   'json/lessons/lesson-index.json',
   'json/lessons/lesson-index-expansion.json',
+  'json/cases/ap-subject-b-cases-v1.json',
   'middleCategories',
   'practice.html?unit=',
+  'cases.html?case=',
   'lesson.html?id='
 ]) {
   if (!js.includes(required)) fail(`progress.js missing ${required}`);
@@ -64,4 +71,4 @@ for (let code = 1; code <= 23; code += 1) {
   if (!practiceMiddle.has(code)) fail(`middle ${code}: no practice coverage`);
 }
 
-console.log(`[progress] OK: dashboard connects ${lessons.length} lessons + ${questions.length} practice questions across 13 units / 23 middle categories.`);
+console.log(`[progress] OK: dashboard connects ${lessons.length} lessons + ${questions.length} short questions + ${cases.length} long cases across 13 units / 23 middle categories.`);
