@@ -112,15 +112,15 @@
   }
 
   async function init() {
-    const [curriculum, base, expansion, practiceBase, practiceExpansion] = await Promise.all([
+    if (!window.APPracticeData?.load) throw new Error('practice-data.js が読み込まれていません。');
+    const [curriculum, base, expansion, practiceBank] = await Promise.all([
       fetchJson('json/curriculum/ap-2026-map.json'),
       fetchJson('json/lessons/lesson-index.json'),
       fetchJson('json/lessons/lesson-index-expansion.json'),
-      fetchJson('json/practice/ap-original-practice-v1.json'),
-      fetchJson('json/practice/ap-original-practice-expansion-v1.json')
+      window.APPracticeData.load('../')
     ]);
     const lessons = [...(base.lessons || []), ...(expansion.lessons || [])].sort((a,b) => Number(a.order) - Number(b.order));
-    const questions = [...(practiceBase.questions || []), ...(practiceExpansion.questions || [])];
+    const questions = Array.isArray(practiceBank.questions) ? practiceBank.questions : [];
     const lessonProgress = readObject(LESSON_KEY);
     const practiceHistory = readObject(PRACTICE_KEY);
     renderSummary(lessons, questions, lessonProgress, practiceHistory);
