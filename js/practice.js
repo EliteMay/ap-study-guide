@@ -93,6 +93,7 @@
     }).join('');
     $('practice-list').querySelectorAll('[data-question-id]').forEach(button => button.addEventListener('click', () => {
       currentId = button.dataset.questionId;
+      updateUrl();
       renderList();
       renderQuestion();
     }));
@@ -102,6 +103,7 @@
     if (!filtered.length) return;
     const index = filtered.findIndex(q => q.id === currentId);
     currentId = filtered[(index + 1 + filtered.length) % filtered.length].id;
+    updateUrl();
     renderList();
     renderQuestion();
     $('practice-question')?.scrollIntoView({ behavior:'smooth', block:'start' });
@@ -188,6 +190,7 @@
       ['status',$('practice-status').value]
     ];
     pairs.forEach(([key,value]) => { if (value && value !== 'all') params.set(key,value); });
+    if (currentId) params.set('question', currentId);
     history.replaceState(null,'',`${location.pathname}${params.toString() ? `?${params}` : ''}`);
   }
 
@@ -196,9 +199,9 @@
     const type = $('practice-type').value;
     const difficulty = $('practice-difficulty').value;
     const status = $('practice-status').value;
-    const history = readHistory();
+    const savedHistory = readHistory();
     filtered = questions.filter(q => {
-      const record = history[q.id];
+      const record = savedHistory[q.id];
       const statusMatch = status === 'all' ||
         (status === 'unattempted' && !record) ||
         (status === 'retry' && record && !isMastered(q, record)) ||
@@ -228,6 +231,8 @@
       const select = $(id);
       if (value && [...select.options].some(option => option.value === value)) select.value = value;
     });
+    const requested = params.get('question');
+    if (requested && questions.some(question => question.id === requested)) currentId = requested;
   }
 
   async function init() {
@@ -238,16 +243,17 @@
     questions = Array.isArray(bank.questions) ? bank.questions : [];
     units = [...(curriculum.studyUnits || [])].sort((a,b) => Number(a.order) - Number(b.order));
     $('practice-unit').insertAdjacentHTML('beforeend', units.map(unit => `<option value="${escapeHtml(unit.id)}">${escapeHtml(unit.title)}</option>`).join(''));
+    currentId = questions[0]?.id || '';
     applyInitialParams();
     ['practice-unit','practice-type','practice-difficulty','practice-status'].forEach(id => $(id).addEventListener('change', applyFilters));
     $('practice-random').addEventListener('click', () => {
       if (!filtered.length) return;
       currentId = filtered[Math.floor(Math.random() * filtered.length)].id;
+      updateUrl();
       renderList();
       renderQuestion();
     });
     filtered = [...questions];
-    currentId = filtered[0]?.id || '';
     applyFilters();
   }
 
