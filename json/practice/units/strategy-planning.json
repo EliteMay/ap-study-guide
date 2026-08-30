@@ -1,0 +1,10 @@
+{
+  "meta":{"schemaVersion":1,"unitId":"strategy-planning","questionCount":5},
+  "questions":[
+    {"id":"P-STR-01","unitId":"strategy-planning","middleCodes":[17,18],"type":"choice","difficulty":3,"title":"BPR","prompt":"紙の申請書をそのままWeb Formへ置換したが、承認7段階や重複入力は残った。次に行うべき活動として最も適切なのはどれか。","options":["業務Process自体を分析しBPR/BPMの観点で見直す","Formの色だけ変更","Server Clockを上げる","項目を全て必須にする"],"answerIndex":0,"explanation":"悪いProcessをそのままDigital化しただけなら、待ち・重複・Controlを再設計する必要がある。","lessonRefs":["STR-03"]},
+    {"id":"P-STR-02","unitId":"strategy-planning","middleCodes":[17],"type":"written","difficulty":3,"title":"IT戦略Alignment","prompt":"『競合が生成AIを導入したので自社も導入する』だけではIT戦略として弱い理由を説明してください。","modelAnswer":"技術導入自体が目的化しており、自社の経営目標・業務課題・必要Capability・期待効果・KPIとの因果が示されていないため。","points":["技術導入が目的化していると述べる","経営目標/業務課題との整合が必要と述べる","効果/KPIの必要性に触れる"],"lessonRefs":["STR-02"]},
+    {"id":"P-STR-03","unitId":"strategy-planning","middleCodes":[18],"type":"choice","difficulty":3,"title":"RFPの役割","prompt":"複数Vendorから比較可能な提案を得たい。RFPへ記載すべき内容として最も適切なのはどれか。","options":["目的・要求事項・制約・評価条件","採用Vendorの内部Source Codeだけ","利用者のPassword一覧","提案後に初めて伝える必須要件"],"answerIndex":0,"explanation":"RFPは提案条件をそろえ、目的・要求・制約・評価観点等を明確にして比較可能な提案を求めるために使う。","lessonRefs":["STR-01"]},
+    {"id":"P-STR-04","unitId":"strategy-planning","middleCodes":[17],"type":"written","difficulty":3,"title":"OutsourcingのGovernance","prompt":"業務を外部委託すれば発注側の責任がなくなるわけではない理由を説明してください。","modelAnswer":"委託しても事業上のAccountability、Service Level、Security、法令遵守、Vendor Risk等の管理責任は発注側に残るため。役割分担・SLA・監視・Exit PlanなどのGovernanceが必要。","points":["委託しても発注側の管理責任が残ると述べる","SLA/Security/Vendor Risk等の具体例を挙げる","GovernanceやExit Planに触れる"],"lessonRefs":["STR-04"]},
+    {"id":"P-STR-05","unitId":"strategy-planning","middleCodes":[17],"type":"choice","difficulty":3,"title":"PoCとPilot","prompt":"新技術が技術的に成立するか小規模環境で検証した後、実利用者・実業務に近い範囲で運用面も確認したい。後者に近い活動はどれか。","options":["Pilot導入","PoCだけを繰り返す","本番全社展開を即実施","要件を定義しない"],"answerIndex":0,"explanation":"PoCは主に実現可能性を検証し、Pilotは限定範囲で実運用に近い条件の受容性・運用性等を確認する。","lessonRefs":["STR-05"]}
+  ]
+}
