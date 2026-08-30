@@ -6,7 +6,7 @@
   const CASE_KEY = 'ap-study-case-history-v1';
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const normalize = value => String(value || '').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ');
   let finderCatalog = [];
   let finderBound = false;
@@ -46,7 +46,7 @@
     if (!units.length) {
       root.replaceChildren();
       const empty = document.createElement('div');
-      empty.className = 'unit-hub-empty';
+      empty.className = 'dashboard-card';
       empty.textContent = '学習ユニットがありません。教材データを確認してください。';
       root.appendChild(empty);
       return;
@@ -117,7 +117,7 @@
     if (root) {
       root.replaceChildren();
       const box = document.createElement('div');
-      box.className = 'unit-hub-empty';
+      box.className = 'dashboard-card';
       const text = document.createElement('p');
       text.textContent = '13ユニットを読み込めませんでした。';
       const retry = document.createElement('a');
