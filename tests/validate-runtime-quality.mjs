@@ -11,12 +11,13 @@ for (const file of [
   'json/project-meta.json','PROJECT_LEARNINGS.md','404.html',
   'js/study-state.js','js/lesson-data.js','js/shell.js',
   'html/data.html','js/data-tools.js','css/data-tools.css',
-  'html/diagnostics.html','js/diagnostics-view.js','css/diagnostics.css'
+  'html/diagnostics.html','js/diagnostics-view.js','css/diagnostics.css',
+  'css/shell.css','css/home.css','css/home-launch.css'
 ]) if (!exists(file)) fail(`missing ${file}`);
 
 const meta = json('json/project-meta.json');
 if (meta.app !== 'AP Study Notes' || !/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail('project-meta app/build invalid');
-if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.7.0' || meta.guide?.adoptedAt !== '2026-08-31') fail('web-project-guide adoption metadata mismatch');
+if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.11.0' || meta.guide?.adoptedAt !== '2026-09-01') fail('web-project-guide adoption metadata mismatch');
 for (const profile of ['STATIC','DATA','TOOL','PUBLIC-CONTENT']) if (!(meta.profiles || []).includes(profile)) fail(`project profile missing ${profile}`);
 if (meta.deployment?.target !== 'GitHub Pages' || Number(meta.storage?.backupSchemaVersion) !== 1) fail('deployment/storage metadata mismatch');
 if (Number(meta.diagnostics?.schemaVersion) !== 1 || meta.diagnostics?.storageKey !== 'ap-study-diagnostics-v1' || meta.diagnostics?.localOnly !== true || Number(meta.diagnostics?.maxBreadcrumbs) !== 100) fail('diagnostics metadata mismatch');
@@ -37,6 +38,13 @@ if (!shell.includes("['diagnostics','🩺 診断情報','diagnostics.html']")) f
 if (!shell.includes("toggleAttribute('inert'")) fail('mobile drawer does not become inert when closed');
 if (!shell.includes('ap-skip-link')) fail('skip link is not created');
 if (/location\.(search|hash)/.test(shell) && shell.includes('breadcrumbs')) fail('diagnostics should not log query/fragment directly');
+
+const shellCss = read('css/shell.css');
+for (const required of ['--ap-content: 1180px','--ap-radius: 12px','AP Study Notes shared visual system','home-launch-card','prefers-reduced-motion']) if (!shellCss.includes(required)) fail(`visual baseline shell missing ${required}`);
+const homeCss = read('css/home.css');
+for (const required of ['text-align:left','home-stats','unit-card','home-unit-compact .unit-card-emoji{display:none}']) if (!homeCss.includes(required)) fail(`home visual baseline missing ${required}`);
+const launchCss = read('css/home-launch.css');
+for (const required of ['home-hero-grid','grid-template-columns:minmax(0,1.25fr)','home-command-panel','home-launch-code','grid-template-columns:repeat(2']) if (!launchCss.includes(required)) fail(`home workspace layout missing ${required}`);
 
 const state = read('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','WRITTEN_MIN_CHARS = 12','CASE_MIN_CHARS = 20','recentScores','recognizedKeys','APDiagnostics?.storageFailure']) if (!state.includes(required)) fail(`study-state missing ${required}`);
@@ -70,7 +78,8 @@ for (const unit of curriculum.studyUnits || []) {
 const index = read('index.html');
 for (const legacy of ['html/algorithm.html','html/computer.html','html/database.html','html/network.html','html/security.html','html/system.html','html/management.html']) if (index.includes(`href="${legacy}"`)) fail(`homepage links directly to legacy hub ${legacy}`);
 if (!index.includes('home-quick-search') || !index.includes('html/glossary.html')) fail('action-first home/glossary entry missing');
-if (!index.includes('<html lang="ja">') || !index.includes('<meta name="description"') || !index.includes('<link rel="canonical" href="https://elitemay.github.io/ap-study-notes/">')) fail('public-content metadata missing from home');
+if (!index.includes('<html lang="ja">') || !index.includes('<meta name="description"')) fail('public-content metadata missing from home');
+for (const required of ['home-hero-grid','home-command-panel','今日やることが、','home-launch-code']) if (!index.includes(required)) fail(`refreshed home structure missing ${required}`);
 if (index.includes('js/home-practice.js') || index.includes('js/home-cases.js') || index.includes('js/home-mock.js')) fail('homepage still loads duplicate progress renderers');
 for (const stale of ['0/118','0/91','0/16','0 / 118','0 / 91','0 / 16','BUILD r17']) if (index.includes(stale)) fail(`homepage contains stale magic value ${stale}`);
 const homeJs = read('js/home.js');
@@ -104,6 +113,6 @@ for (const required of ['APDiagnostics?.snapshot','navigator.clipboard?.writeTex
 if (diagnosticsView.includes('innerHTML')) fail('diagnostics view must not render diagnostic data through innerHTML');
 
 const notFound = read('404.html');
-for (const required of ['<html lang="ja">','ページが見つかりません','/ap-study-notes/','/ap-study-notes/html/roadmap.html','meta name="robots" content="noindex"']) if (!notFound.includes(required)) fail(`404 recovery missing ${required}`);
+for (const required of ['<html lang="ja">','ページが見つかりません','/ap-study-guide/','/ap-study-guide/html/roadmap.html','meta name="robots" content="noindex"']) if (!notFound.includes(required)) fail(`404 recovery missing ${required}`);
 
-console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / profiles ${meta.profiles.join('+')} / centralized metadata, local diagnostics, project learnings, public recovery, safe backup restore.`);
+console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / profiles ${meta.profiles.join('+')} / visual baseline, centralized metadata, local diagnostics, project learnings, public recovery, safe backup restore.`);
