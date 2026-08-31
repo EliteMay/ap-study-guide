@@ -66,6 +66,26 @@
 - Guide candidate: yes
 - Guide note: Final-state Validation / Oracle-driven Testの具体例。
 
+### PL-F-004 AI Template感を消すために親しみやすさまで削らない
+
+- Date: 2026-09-01
+- Status: resolved
+- Severity: medium
+- Cost: medium
+- Symptom: r22でCard / Teal / Emoji /柔らかいSurfaceを大きく削り、Technical Console方向へ寄せた結果、ユーザー評価が旧r21の40点から30点へ低下した。
+- Expected: 元の分かりやすさを保ちながらVisual品質を上げる。
+- Actual: 「AI Template Lookを避ける」を強く解釈しすぎ、クリック対象の分かりやすさ・学習サイトらしい親しみやすさ・色のIdentityまで弱くした。
+- Trigger / Reproduction: r22 Home / LessonのScreenshotをr21の方向性と比較し、ユーザーから明確な低評価Feedbackを受ける。
+- Root Cause: Anti-pattern除去を目的化し、Project固有のAudience / Task /既存の良さより「Cardを減らす」「硬いConsoleへ寄せる」を優先した。
+- Final Fix: r23でTeal Hero、明確なAction Card、柔らかいToday、Teal current stateを復活。元のままRollbackせず、Hero高さ・Shadow・Radius・Spacingだけ整理した。
+- Affected files / systems: `css/shell.css`, `css/home.css`, `css/home-launch.css`, Home / Lesson Visual System
+- Detection method: User feedback + CI Screenshot Visual Review
+- Regression Guard: `project-meta.visual.direction = friendly-study-dashboard`、PlaywrightでTeal Gradient / 14px Action Card / Shadow / 224px Sidebar / 12px Lesson Surfaceを確認。
+- Prevention: Visual改善では「削ること」ではなく、元UIでユーザーが価値を感じていた要素を先に列挙し、それを壊さずにHierarchy / Spacing / Consistencyを改善する。
+- Related Issue / PR / Commit: PR #5 / r23
+- Guide candidate: yes
+- Guide note: Anti-Pattern回避はPattern自体の禁止ではなく、Projectとの理由を確認するためのものとして扱う。
+
 ---
 
 ## Success
@@ -103,4 +123,5 @@
 | ID | Type | Summary | Evidence | Next action |
 |---|---|---|---|---|
 | PL-F-002 | failure | Coverageは分類単位と利用導線単位を分けて検証する | 70/118 → 118/118 | 他の学習Projectでも同型事故があるか確認 |
+| PL-F-004 | failure | AI Template回避でProject固有の親しみやすさまで削らない | r21 40点 → r22 30点 → r23で方向修正 | 他ProjectのVisual Reviewでも「残すべき既存価値」を先に確認 |
 | PL-S-002 | success | Legacy互換層と通常導線の分離 | 旧URL維持 + Unified Hub | 複数Projectで再利用後に共通化判断 |

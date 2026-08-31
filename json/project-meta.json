@@ -1,6 +1,6 @@
 {
   "app": "AP Study Notes",
-  "build": "2026.09.01-r22",
+  "build": "2026.09.01-r23",
   "guide": {
     "repository": "EliteMay/web-project-guide",
     "version": "1.11.0",
@@ -27,7 +27,7 @@
   },
   "visual": {
     "ambition": "high",
-    "direction": "study-console-handbook",
+    "direction": "friendly-study-dashboard",
     "baseline": "web-project-guide/docs/17-visual-quality-baseline.md"
   }
 }
