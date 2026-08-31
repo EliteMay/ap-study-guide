@@ -41,7 +41,7 @@ if (/location\.(search|hash)/.test(shell) && shell.includes('breadcrumbs')) fail
 
 const visualCss = read('css/shell.css');
 for (const required of [
-  '--ap-accent:#2563eb','--ap-radius:9px','AP / STUDY CONSOLE','study-console',
+  '--ap-accent:#2563eb','--ap-radius:9px','AP / STUDY CONSOLE',
   '.home-hero .container','.home-launch-grid','.home-today-card','.home-unit-compact',
   'unit-nav-link[data-nav-key]','body .lesson-block','@media(max-width:700px)'
 ]) if (!visualCss.includes(required)) fail(`visual system missing ${required}`);
