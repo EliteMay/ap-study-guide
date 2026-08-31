@@ -1,6 +1,8 @@
+import fs from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const base = process.env.AP_BASE_URL || 'http://127.0.0.1:4173';
+await fs.mkdir('artifacts', { recursive:true });
 const browser = await chromium.launch({ headless:true });
 const page = await browser.newPage({ viewport:{ width:1280, height:900 } });
 const errors = [];
@@ -19,16 +21,38 @@ async function assertNoHorizontalOverflow(label) {
 try {
   const projectMeta = await (await fetch(`${base}/json/project-meta.json`)).json();
   if (!projectMeta?.build) throw new Error('project-meta build missing');
-  if (projectMeta?.guide?.version !== '1.7.0') throw new Error('latest guide version not adopted');
+  if (projectMeta?.guide?.version !== '1.11.0') throw new Error('latest guide version not adopted');
+  if (projectMeta?.visual?.direction !== 'study-console-handbook') throw new Error('visual direction metadata missing');
 
   await goto('index.html');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => { localStorage.clear(); localStorage.setItem('ap-study-theme','light'); });
   await page.reload({ waitUntil:'networkidle' });
   if (!await page.getByRole('heading', { name:'何をするか選ぶだけ。' }).isVisible()) throw new Error('action-first homepage heading missing');
   if (await page.locator('#home-unit-grid .unit-card').count() !== 13) throw new Error('homepage must render 13 unit cards');
   if (await page.locator('.home-launch-card').count() !== 8) throw new Error('homepage must expose 8 main actions');
   await page.waitForFunction(expected => document.querySelector('[data-ap-build]')?.textContent?.includes(expected), projectMeta.build);
   if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
+
+  const visualContract = await page.evaluate(() => {
+    const hero = getComputedStyle(document.querySelector('.home-hero'));
+    const heroGrid = getComputedStyle(document.querySelector('.home-hero .container'));
+    const launch = getComputedStyle(document.querySelector('.home-launch-grid'));
+    const launchCard = getComputedStyle(document.querySelector('.home-launch-card'));
+    const sidebar = getComputedStyle(document.querySelector('.unit-nav'));
+    return {
+      heroBackground:hero.backgroundColor,
+      heroGrid:heroGrid.display,
+      launchGrid:launch.display,
+      cardRadius:launchCard.borderRadius,
+      cardShadow:launchCard.boxShadow,
+      sidebarWidth:sidebar.width
+    };
+  });
+  if (visualContract.heroGrid !== 'grid' || visualContract.launchGrid !== 'grid') throw new Error('r22 visual layout contract not applied');
+  if (visualContract.cardRadius !== '0px' || visualContract.cardShadow !== 'none') throw new Error('quick start regressed to card-heavy visual');
+  if (visualContract.sidebarWidth !== '248px') throw new Error(`desktop study rail width mismatch: ${visualContract.sidebarWidth}`);
+  await page.screenshot({ path:'artifacts/home-desktop.png', fullPage:true });
+
   await page.locator('#home-quick-search').fill('OAuth');
   if (!await page.locator('#home-quick-results').isVisible()) throw new Error('homepage quick finder did not open');
   if (!(await page.locator('#home-quick-results').textContent())?.includes('単語辞書')) throw new Error('homepage quick finder does not route unknown term to glossary');
@@ -75,6 +99,9 @@ try {
   const directPractice = page.locator('a[href="practice.html?unit=algorithm-programming&question=PC-ALG-01"]');
   await directPractice.waitFor({ state:'visible' });
   if (await page.locator('[data-practice-fallback="true"]').count()) throw new Error('covered lesson unexpectedly rendered practice fallback');
+  const lessonBlockStyle = await page.locator('.lesson-block').first().evaluate(node => ({ radius:getComputedStyle(node).borderRadius, shadow:getComputedStyle(node).boxShadow }));
+  if (lessonBlockStyle.radius !== '7px' || lessonBlockStyle.shadow !== 'none') throw new Error('lesson handbook visual contract missing');
+  await page.screenshot({ path:'artifacts/lesson-desktop.png', fullPage:true });
   await directPractice.click();
   await page.waitForSelector('#practice-question');
   if (!(await page.locator('#practice-question').textContent())?.includes('擬似言語のトレース')) throw new Error('direct lesson practice did not open PC-ALG-01');
@@ -110,6 +137,7 @@ try {
   await page.setViewportSize({ width:320, height:700 });
   await goto('index.html');
   await assertNoHorizontalOverflow('home 320px');
+  await page.screenshot({ path:'artifacts/home-mobile.png', fullPage:true });
   const menu = page.locator('.ap-mobile-menu');
   const nav = page.locator('.unit-nav');
   if ((await nav.getAttribute('inert')) === null) throw new Error('closed mobile nav must be inert');
@@ -170,10 +198,10 @@ try {
 
   await goto('404.html');
   if (!await page.getByRole('heading', { name:'ページが見つかりません。' }).isVisible()) throw new Error('404 recovery page missing');
-  if ((await page.getByRole('link', { name:'ホームへ戻る' }).getAttribute('href')) !== '/ap-study-notes/') throw new Error('404 home recovery path mismatch');
+  if ((await page.getByRole('link', { name:'ホームへ戻る' }).getAttribute('href')) !== '/ap-study-guide/') throw new Error('404 home recovery path mismatch');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e] OK: ${projectMeta.build}, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
+  console.log(`[e2e] OK: ${projectMeta.build}, r22 visual contract/screenshots, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
 } finally {
   await browser.close();
 }
