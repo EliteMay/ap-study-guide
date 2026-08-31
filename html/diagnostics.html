@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<meta name="robots" content="noindex">
+<title>診断情報 | AP Study Notes</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/data-tools.css" rel="stylesheet">
+<link href="../css/diagnostics.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">🏠 ホーム</a></li></ul></div></nav>
+<header class="data-hero"><div class="container"><p class="eyebrow">LOCAL DEVELOPMENT DIAGNOSTICS</p><h1>診断情報</h1><p class="lead">直前操作・Runtime Error・Network Failure・Build・保存状態を端末内だけで確認します。学習回答本文、Backup内容、Tokenや秘密情報は診断ログへ保存しません。</p></div></header>
+<main id="main-content">
+<section class="section"><div class="container">
+<div id="diagnostics-status" class="diagnostics-notice" aria-live="polite">診断情報を読み込んでいます。</div>
+<div class="data-grid diagnostics-summary-grid">
+<article class="data-card"><h2>Runtime</h2><div class="data-summary"><strong id="diagnostics-build">BUILD ?</strong><span id="diagnostics-runtime">確認中...</span><span id="diagnostics-environment">環境を確認中...</span></div></article>
+<article class="data-card"><h2>Session</h2><div class="data-summary"><strong id="diagnostics-session">...</strong><span id="diagnostics-route">...</span></div></article>
+<article class="data-card"><h2>Storage</h2><div class="data-summary"><strong id="diagnostics-storage">確認中...</strong><span id="diagnostics-storage-detail">...</span></div></article>
+</div>
+<div class="diagnostics-actions"><button type="button" id="diagnostics-export" class="data-primary">診断JSONを書き出す</button><button type="button" id="diagnostics-copy" class="data-primary">診断情報をコピー</button><button type="button" id="diagnostics-clear" class="data-danger">診断履歴を消去</button></div>
+</div></section>
+<section class="section section-alt"><div class="container diagnostics-columns">
+<article class="data-card"><h2>Runtime Error</h2><ul id="diagnostics-errors" class="diagnostics-list"></ul></article>
+<article class="data-card"><h2>Network Failure</h2><ul id="diagnostics-network" class="diagnostics-list"></ul></article>
+<article class="data-card"><h2>Recent Breadcrumb</h2><ul id="diagnostics-breadcrumbs" class="diagnostics-list"></ul></article>
+</div></section>
+<section class="section"><div class="container"><div class="data-notes"><p><strong>Local-first:</strong> 診断履歴はこのブラウザの `ap-study-diagnostics-v1` に上限付きで保存します。外部Serverへ自動送信しません。</p><p><strong>Export:</strong> 学習データ本体や入力欄の文章は含めず、Build・Route・環境概要・失敗情報・件数Summaryだけを書き出します。</p></div></div></section>
+</main>
+<footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">Development diagnostics / <span data-ap-build>BUILD ?</span></p></div></footer>
+<script src="../js/study-state.js" defer></script>
+<script src="../js/shell.js" defer></script>
+<script src="../js/diagnostics-view.js" defer></script>
+</body>
+</html>

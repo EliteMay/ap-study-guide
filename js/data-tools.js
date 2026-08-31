@@ -4,12 +4,25 @@
   const $ = id => document.getElementById(id);
   let pendingBackup = null;
 
+  function diagBreadcrumb(action, detail) { window.APDiagnostics?.breadcrumb?.(action, detail); }
+  function diagError(code, error) { window.APDiagnostics?.error?.(code, error, 'data-tools'); }
+  function diagStorage(operation, key, error) { window.APDiagnostics?.storageFailure?.(operation, key, error); }
+
   function keys() {
     return window.APStudyState?.recognizedKeys?.() || [];
   }
 
   function existingEntries() {
-    return keys().map(key => [key, localStorage.getItem(key)]).filter(([,value]) => value !== null);
+    const entries = [];
+    for (const key of keys()) {
+      try {
+        const value = localStorage.getItem(key);
+        if (value !== null) entries.push([key,value]);
+      } catch (error) {
+        diagStorage('backup-read', key, error);
+      }
+    }
+    return entries;
   }
 
   function expectedSchemaVersion() {
@@ -48,10 +61,7 @@
 
   function makeBackup() {
     const storage = {};
-    for (const key of keys()) {
-      const value = localStorage.getItem(key);
-      if (value !== null) storage[key] = value;
-    }
+    for (const [key,value] of existingEntries()) storage[key] = value;
     return {
       schemaVersion:expectedSchemaVersion(),
       app:'AP Study Notes',
@@ -115,26 +125,36 @@
   }
 
   function restoreBackup(backup) {
-    const previous = new Map(backup.recognized.map(([key]) => [key,localStorage.getItem(key)]));
+    const previous = new Map();
+    for (const [key] of backup.recognized) {
+      try { previous.set(key,localStorage.getItem(key)); }
+      catch (error) { diagStorage('restore-read-current', key, error); throw error; }
+    }
     try {
       for (const [key,value] of backup.recognized) localStorage.setItem(key, value);
     } catch (error) {
+      diagStorage('restore-write', 'recognized-keys', error);
       let rollbackFailed = false;
       for (const [key,value] of previous) {
         try { if (value === null) localStorage.removeItem(key); else localStorage.setItem(key,value); }
-        catch { rollbackFailed = true; }
+        catch (rollbackError) { rollbackFailed = true; diagStorage('restore-rollback', key, rollbackError); }
       }
       throw new Error(rollbackFailed ? `復元に失敗し、Rollbackも一部失敗しました: ${error.message}` : `復元に失敗したため変更を元に戻しました: ${error.message}`);
     }
   }
 
   function resetAll() {
-    for (const key of keys()) localStorage.removeItem(key);
+    for (const key of keys()) {
+      try { localStorage.removeItem(key); }
+      catch (error) { diagStorage('reset-remove', key, error); throw error; }
+    }
   }
 
   function bind() {
     $('data-export').addEventListener('click', () => {
-      downloadJson(makeBackup());
+      const backup = makeBackup();
+      downloadJson(backup);
+      diagBreadcrumb('backup.export', { keyCount:Object.keys(backup.storage).length });
       window.APStudyUI?.toast?.('バックアップJSONを書き出しました');
     });
 
@@ -146,8 +166,11 @@
       try {
         pendingBackup = await loadFile(file);
         previewBackup(pendingBackup);
+        diagBreadcrumb('backup.validate', { status:'success', keyCount:pendingBackup.recognized.length });
       } catch (error) {
         $('data-import-preview').textContent = `読み込み失敗: ${error.message}`;
+        diagError('DATA-IMPORT-VALIDATE', error);
+        diagBreadcrumb('backup.validate', { status:'failure' });
       }
     });
 
@@ -158,9 +181,12 @@
         if (existingEntries().length) downloadJson(makeBackup(),'ap-study-before-restore');
         restoreBackup(pendingBackup);
         renderExportSummary();
+        diagBreadcrumb('backup.restore', { status:'success', keyCount:pendingBackup.recognized.length });
         window.APStudyUI?.toast?.('学習データを復元しました');
       } catch (error) {
         $('data-import-preview').textContent = error.message;
+        diagError('DATA-RESTORE-001', error);
+        diagBreadcrumb('backup.restore', { status:'failure' });
         window.APStudyUI?.toast?.('学習データを復元できませんでした');
       }
     });
@@ -168,19 +194,26 @@
     $('data-reset').addEventListener('click', () => {
       if (!confirm('このブラウザのAP Study Notes学習データをすべて削除します。バックアップなしでは元に戻せません。続けますか？')) return;
       if (!confirm('最終確認：本当に学習履歴・模試履歴・復習リスト・旧用語チェックを削除しますか？')) return;
-      resetAll();
-      pendingBackup = null;
-      $('data-import-file').value = '';
-      $('data-import').disabled = true;
-      $('data-import-preview').textContent = 'ファイル未選択';
-      renderExportSummary();
-      window.APStudyUI?.toast?.('学習データを削除しました');
+      try {
+        resetAll();
+        pendingBackup = null;
+        $('data-import-file').value = '';
+        $('data-import').disabled = true;
+        $('data-import-preview').textContent = 'ファイル未選択';
+        renderExportSummary();
+        diagBreadcrumb('learning-data.reset', { status:'success' });
+        window.APStudyUI?.toast?.('学習データを削除しました');
+      } catch (error) {
+        diagError('DATA-RESET-001', error);
+        window.APStudyUI?.toast?.('学習データを削除できませんでした');
+      }
     });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!window.APStudyState) {
       $('data-export-summary').textContent = 'study-state.js の読み込みに失敗しました。';
+      diagError('DATA-STATE-MISSING', 'study-state.js missing');
       return;
     }
     renderExportSummary();
