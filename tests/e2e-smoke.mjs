@@ -22,7 +22,7 @@ try {
   const projectMeta = await (await fetch(`${base}/json/project-meta.json`)).json();
   if (!projectMeta?.build) throw new Error('project-meta build missing');
   if (projectMeta?.guide?.version !== '1.11.0') throw new Error('latest guide version not adopted');
-  if (projectMeta?.visual?.direction !== 'study-console-handbook') throw new Error('visual direction metadata missing');
+  if (projectMeta?.visual?.direction !== 'friendly-study-dashboard') throw new Error('r23 visual direction metadata missing');
 
   await goto('index.html');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('ap-study-theme','light'); });
@@ -35,22 +35,22 @@ try {
 
   const visualContract = await page.evaluate(() => {
     const hero = getComputedStyle(document.querySelector('.home-hero'));
-    const heroGrid = getComputedStyle(document.querySelector('.home-hero .container'));
     const launch = getComputedStyle(document.querySelector('.home-launch-grid'));
     const launchCard = getComputedStyle(document.querySelector('.home-launch-card'));
     const sidebar = getComputedStyle(document.querySelector('.unit-nav'));
     return {
-      heroBackground:hero.backgroundColor,
-      heroGrid:heroGrid.display,
+      heroBackgroundImage:hero.backgroundImage,
+      heroTextAlign:hero.textAlign,
       launchGrid:launch.display,
       cardRadius:launchCard.borderRadius,
       cardShadow:launchCard.boxShadow,
       sidebarWidth:sidebar.width
     };
   });
-  if (visualContract.heroGrid !== 'grid' || visualContract.launchGrid !== 'grid') throw new Error('r22 visual layout contract not applied');
-  if (visualContract.cardRadius !== '0px' || visualContract.cardShadow !== 'none') throw new Error('quick start regressed to card-heavy visual');
-  if (visualContract.sidebarWidth !== '248px') throw new Error(`desktop study rail width mismatch: ${visualContract.sidebarWidth}`);
+  if (visualContract.heroTextAlign !== 'center' || !visualContract.heroBackgroundImage.includes('linear-gradient')) throw new Error('r23 friendly hero visual contract not applied');
+  if (visualContract.launchGrid !== 'grid') throw new Error('r23 quick start grid missing');
+  if (visualContract.cardRadius !== '14px' || visualContract.cardShadow === 'none') throw new Error('r23 quick actions must remain clearly grouped and clickable');
+  if (visualContract.sidebarWidth !== '224px') throw new Error(`friendly sidebar width mismatch: ${visualContract.sidebarWidth}`);
   await page.screenshot({ path:'artifacts/home-desktop.png', fullPage:true });
 
   await page.locator('#home-quick-search').fill('OAuth');
@@ -100,7 +100,7 @@ try {
   await directPractice.waitFor({ state:'visible' });
   if (await page.locator('[data-practice-fallback="true"]').count()) throw new Error('covered lesson unexpectedly rendered practice fallback');
   const lessonBlockStyle = await page.locator('.lesson-block').first().evaluate(node => ({ radius:getComputedStyle(node).borderRadius, shadow:getComputedStyle(node).boxShadow }));
-  if (lessonBlockStyle.radius !== '7px' || lessonBlockStyle.shadow !== 'none') throw new Error('lesson handbook visual contract missing');
+  if (lessonBlockStyle.radius !== '12px' || lessonBlockStyle.shadow === 'none') throw new Error('r23 friendly lesson surface contract missing');
   await page.screenshot({ path:'artifacts/lesson-desktop.png', fullPage:true });
   await directPractice.click();
   await page.waitForSelector('#practice-question');
@@ -201,7 +201,7 @@ try {
   if ((await page.getByRole('link', { name:'ホームへ戻る' }).getAttribute('href')) !== '/ap-study-guide/') throw new Error('404 home recovery path mismatch');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e] OK: ${projectMeta.build}, r22 visual contract/screenshots, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
+  console.log(`[e2e] OK: ${projectMeta.build}, r23 friendly visual contract/screenshots, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
 } finally {
   await browser.close();
 }
