@@ -20,7 +20,7 @@ if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.versi
 for (const profile of ['STATIC','DATA','TOOL','PUBLIC-CONTENT']) if (!(meta.profiles || []).includes(profile)) fail(`project profile missing ${profile}`);
 if (meta.deployment?.target !== 'GitHub Pages' || Number(meta.storage?.backupSchemaVersion) !== 1) fail('deployment/storage metadata mismatch');
 if (Number(meta.diagnostics?.schemaVersion) !== 1 || meta.diagnostics?.storageKey !== 'ap-study-diagnostics-v1' || meta.diagnostics?.localOnly !== true || Number(meta.diagnostics?.maxBreadcrumbs) !== 100) fail('diagnostics metadata mismatch');
-if (meta.visual?.ambition !== 'high' || meta.visual?.direction !== 'study-console-handbook' || !String(meta.visual?.baseline || '').includes('17-visual-quality-baseline')) fail('visual direction metadata mismatch');
+if (meta.visual?.ambition !== 'high' || meta.visual?.direction !== 'friendly-study-dashboard' || !String(meta.visual?.baseline || '').includes('17-visual-quality-baseline')) fail('visual direction metadata mismatch');
 
 const learnings = read('PROJECT_LEARNINGS.md');
 for (const required of ['# PROJECT LEARNINGS','## Failure','## Success','PL-F-001','PL-S-001','Regression Guard','Guide Feedback Queue']) if (!learnings.includes(required)) fail(`PROJECT_LEARNINGS missing ${required}`);
@@ -41,11 +41,12 @@ if (/location\.(search|hash)/.test(shell) && shell.includes('breadcrumbs')) fail
 
 const visualCss = read('css/shell.css');
 for (const required of [
-  '--ap-accent:#2563eb','--ap-radius:9px','AP / STUDY CONSOLE',
-  '.home-hero .container','.home-launch-grid','.home-today-card','.home-unit-compact',
-  'unit-nav-link[data-nav-key]','body .lesson-block','@media(max-width:700px)'
-]) if (!visualCss.includes(required)) fail(`visual system missing ${required}`);
-if (visualCss.includes('linear-gradient(135deg,rgba(5,76,99') || visualCss.includes('border-radius:999px;background:#0f766e')) fail('old teal-template visual pattern reintroduced in shell visual system');
+  '--ap-accent: #0f766e','--ap-radius: 12px','Applied Information',
+  '.unit-nav-link.is-current','body .lesson-block','@media (max-width: 920px)'
+]) if (!visualCss.includes(required)) fail(`friendly visual system missing ${required}`);
+if (visualCss.includes('AP / STUDY CONSOLE') || visualCss.includes('--ap-accent:#2563eb')) fail('rejected technical-console visual direction reintroduced');
+const homeVisualCss = `${read('css/home.css')}\n${read('css/home-launch.css')}`;
+for (const required of ['linear-gradient(135deg,#075b66','.home-launch-card.is-primary','border-radius:14px','.home-today-card','grid-template-columns:repeat(3,minmax(0,1fr))']) if (!homeVisualCss.includes(required)) fail(`r23 home visual missing ${required}`);
 
 const state = read('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','WRITTEN_MIN_CHARS = 12','CASE_MIN_CHARS = 20','recentScores','recognizedKeys','APDiagnostics?.storageFailure']) if (!state.includes(required)) fail(`study-state missing ${required}`);
