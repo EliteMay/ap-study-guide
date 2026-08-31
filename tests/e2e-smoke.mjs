@@ -19,6 +19,7 @@ async function assertNoHorizontalOverflow(label) {
 try {
   const projectMeta = await (await fetch(`${base}/json/project-meta.json`)).json();
   if (!projectMeta?.build) throw new Error('project-meta build missing');
+  if (projectMeta?.guide?.version !== '1.7.0') throw new Error('latest guide version not adopted');
 
   await goto('index.html');
   await page.evaluate(() => localStorage.clear());
@@ -31,6 +32,19 @@ try {
   await page.locator('#home-quick-search').fill('OAuth');
   if (!await page.locator('#home-quick-results').isVisible()) throw new Error('homepage quick finder did not open');
   if (!(await page.locator('#home-quick-results').textContent())?.includes('単語辞書')) throw new Error('homepage quick finder does not route unknown term to glossary');
+
+  const diagnostics = await page.evaluate(async expectedBuild => {
+    window.APDiagnostics?.error?.('E2E-SYNTHETIC', new Error('synthetic runtime error'), 'e2e');
+    window.APDiagnostics?.networkFailure?.({ method:'GET', path:'/diagnostic-e2e?secret=must-not-log', status:599, error:'synthetic network failure' });
+    window.APDiagnostics?.breadcrumb?.('e2e.marker', { phase:'home' });
+    await window.APStudyUI?.ready;
+    return window.APDiagnostics?.snapshot?.('e2e-smoke');
+  }, projectMeta.build);
+  if (!diagnostics || diagnostics.project.build !== projectMeta.build) throw new Error('diagnostics build metadata mismatch');
+  if (!diagnostics.errors.some(item => item.code === 'E2E-SYNTHETIC')) throw new Error('diagnostics did not persist runtime error');
+  if (!diagnostics.networkFailures.some(item => item.path === '/diagnostic-e2e' && item.status === 599)) throw new Error('diagnostics did not persist sanitized network failure');
+  if (JSON.stringify(diagnostics).includes('must-not-log')) throw new Error('diagnostics leaked URL query data');
+  if ((diagnostics.breadcrumbs || []).length > 100) throw new Error('diagnostics breadcrumb ring buffer exceeded limit');
 
   await goto('html/glossary.html?q=OAuth');
   await page.waitForFunction(() => document.querySelectorAll('.glossary-card').length > 0);
@@ -106,6 +120,9 @@ try {
   await goto('html/glossary.html?q=OAuth');
   await page.waitForFunction(() => document.querySelectorAll('.glossary-card').length > 0);
   await assertNoHorizontalOverflow('glossary 320px');
+  await goto('html/diagnostics.html');
+  await page.waitForFunction(() => document.querySelector('#diagnostics-build')?.textContent?.includes('2026.'));
+  await assertNoHorizontalOverflow('diagnostics 320px');
 
   await page.setViewportSize({ width:1280, height:900 });
   await goto('html/data.html');
@@ -122,6 +139,8 @@ try {
   await page.locator('#data-import-file').setInputFiles({ name:'bad-backup.json', mimeType:'application/json', buffer:Buffer.from(JSON.stringify(badBackup)) });
   await page.waitForFunction(() => document.querySelector('#data-import-preview')?.textContent?.includes('読み込み失敗'));
   if (!(await page.locator('#data-import').isDisabled())) throw new Error('malformed recognized storage must not enable restore');
+  const importDiagnostic = await page.evaluate(async () => window.APDiagnostics.snapshot('after-bad-import'));
+  if (!importDiagnostic.errors.some(item => item.code === 'DATA-IMPORT-VALIDATE')) throw new Error('bad import was not captured by diagnostics');
 
   const validBuildText = '<img src=x onerror=window.__backupXss=1>';
   const validBackup = {
@@ -140,9 +159,21 @@ try {
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']);
   const imported = await page.evaluate(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']?.latestCorrect);
   if (imported !== 1) throw new Error('validated backup restore failed');
+  const restoreDiagnostic = await page.evaluate(async () => window.APDiagnostics.snapshot('after-restore'));
+  if (!restoreDiagnostic.breadcrumbs.some(item => item.action === 'backup.restore' && item.detail?.status === 'success')) throw new Error('successful restore was not captured by diagnostics');
+
+  await goto('html/diagnostics.html');
+  await page.waitForFunction(expected => document.querySelector('#diagnostics-build')?.textContent === expected, projectMeta.build);
+  if (!await page.getByRole('button', { name:'診断JSONを書き出す' }).isVisible()) throw new Error('diagnostics export button missing');
+  if (!(await page.locator('#diagnostics-errors').textContent())?.includes('DATA-IMPORT-VALIDATE')) throw new Error('diagnostics view does not render captured import error');
+  if (!(await page.locator('#diagnostics-network').textContent())?.includes('/diagnostic-e2e')) throw new Error('diagnostics view does not render sanitized network record');
+
+  await goto('404.html');
+  if (!await page.getByRole('heading', { name:'ページが見つかりません。' }).isVisible()) throw new Error('404 recovery page missing');
+  if ((await page.getByRole('link', { name:'ホームへ戻る' }).getAttribute('href')) !== '/ap-study-notes/') throw new Error('404 home recovery path mismatch');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e] OK: ${projectMeta.build}, action home, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
+  console.log(`[e2e] OK: ${projectMeta.build}, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
 } finally {
   await browser.close();
 }

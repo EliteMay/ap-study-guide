@@ -26,25 +26,38 @@
     'algorithm-terms-checked','system-terms-checked','management-terms-checked'
   ];
 
+  function reportStorageFailure(operation, key, error) {
+    window.APDiagnostics?.storageFailure?.(operation, key, error);
+  }
+
   function readObject(key) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || '{}');
       return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
-    } catch { return {}; }
+    } catch (error) {
+      reportStorageFailure('read-object', key, error);
+      return {};
+    }
   }
 
   function readArray(key) {
     try {
       const value = JSON.parse(localStorage.getItem(key) || '[]');
       return Array.isArray(value) ? value : [];
-    } catch { return []; }
+    } catch (error) {
+      reportStorageFailure('read-array', key, error);
+      return [];
+    }
   }
 
   function writeJson(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
       return true;
-    } catch { return false; }
+    } catch (error) {
+      reportStorageFailure('write-json', key, error);
+      return false;
+    }
   }
 
   function isStale(updatedAt, now = Date.now()) {
