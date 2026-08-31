@@ -55,6 +55,7 @@ AP Study NotesはMarketing Siteではなく、長時間繰り返し使う学習T
 - System fontのみで外部依存なし
 - Japanese bodyの可読性を優先
 - Mono fontはBuild / Unit number / Eyebrow等の局所Labelに限定
+- Homeの大見出しは日本語の孤立1文字折返しを避け、「何をするか / 選ぶだけ。」の意味境界で折り返す
 
 ### Spacing / alignment
 
@@ -80,12 +81,38 @@ AP Study NotesはMarketing Siteではなく、長時間繰り返し使う学習T
 - 既存Skip Link / `focus-visible` / inert drawer / reduced-motionを維持
 - Accent色だけで重要Stateを表現しない
 - Navigation labelはEmojiだけに依存しない
+- 濃紺Home HeroのHeading / Leadを高コントラストの白・淡色Textへ修正
 
 ## Anti-pattern review
 
 - AP-026 Palette-Swap Clone: **回避** — Palette変更だけでなくHome composition / navigation density / card semanticsを変更
 - AP-027 Decorative Cardification: **改善** — Quick Startと主要本文のCard依存を削減
 - AP-028 AI Landing Page Default: **改善** — Gradient巨大Hero + equal cards構成を廃止
+
+## Screenshot review findings
+
+最終PRでGitHub Actions Artifact `visual-review` のHome Desktop / Home Mobile / Lesson Desktopを確認した。
+
+### Finding 1 — Home Hero contrast
+
+- Severity: **Blocking**
+- Initial state: 濃紺Heroに対してHeading / Leadが暗く、可読性が不足していた。
+- Fix: Home Hero専用の高Specificity color ruleを追加し、Headingを白、Leadを淡いBlue-grayへ変更。
+- Final: **resolved**
+
+### Finding 2 — Empty search result surface
+
+- Severity: **Major**
+- Initial state: `hidden` な `.home-quick-results` に `display:grid` が勝ち、検索欄下へ空の白い細線が見えていた。
+- Fix: `.home-quick-results[hidden]{display:none!important}` を追加。
+- Final: **resolved**
+
+### Finding 3 — Japanese heading orphan wrap
+
+- Severity: **Minor**
+- Initial state: Desktop / Mobileで「選ぶだ / け。」のように1文字だけ孤立する折返しが発生。
+- Fix: `word-break:keep-all` と `wbr` を使い、意味境界「何をするか / 選ぶだけ。」で折り返す。
+- Final: **resolved**
 
 ## Verification
 
@@ -97,7 +124,14 @@ Automated acceptance:
 - 320px overflowを確認
 - Home desktop / Home mobile / Lesson desktopのScreenshotをGitHub Actions Artifact `visual-review` として保存
 
-Manual visual reviewはScreenshot Artifactを最終PR HEADで確認して記録する。
+Manual review:
+
+- Desktop Home: reviewed
+- Mobile Home: reviewed
+- Desktop Lesson: reviewed
+- Blocking findings: **0 unresolved**
+- Major findings: **0 unresolved**
+- Visual Review Result: **PASS**
 
 ## Compatibility
 
@@ -112,7 +146,9 @@ Manual visual reviewはScreenshot Artifactを最終PR HEADで確認して記録�
 
 ## Visual review status
 
-- Functional / Static validation: pending PR CI
-- Browser validation: pending PR CI
-- Screenshot visual review: pending artifact inspection
-- User validation: pending
+- Functional / Static validation: **passed on PR HEAD before documentation-only finalization**
+- Browser validation: **passed on PR HEAD before documentation-only finalization**
+- Screenshot visual review: **PASS**
+- User validation: **pending**
+
+最終Documentation Commit後も同一PRでStatic / Browser / Screenshot Artifactを再実行し、最終HEADの結果を完成判定に使用する。
