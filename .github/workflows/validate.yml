@@ -55,3 +55,11 @@ jobs:
         run: |
           python3 -m http.server 4173 >/tmp/ap-study-http.log 2>&1 &
           node tests/e2e-smoke.mjs
+      - name: Upload visual review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-review
+          path: artifacts/*.png
+          if-no-files-found: ignore
+          retention-days: 14
