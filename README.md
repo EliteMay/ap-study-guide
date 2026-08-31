@@ -9,12 +9,13 @@
 - Server必須機能・秘密情報なし
 - Build / Project Profile正本: `json/project-meta.json`
 - 制作Guide: `EliteMay/web-project-guide`
+- Project Memory: `PROJECT_LEARNINGS.md`
 
 ## Project Profile
 
 `STATIC + DATA + TOOL + PUBLIC-CONTENT`
 
-このサイトでは、GitHub Pages相対Path、大量教材JSONのManifest/ID/Lazy Load、localStorageの保存互換・Backup、公開教材の出典と安全性を重点確認します。
+このサイトでは、GitHub Pages相対Path、大量教材JSONのManifest / ID / Lazy Load、localStorageの保存互換・Backup、公開教材の出典と安全性、Interactive Runtimeのローカル診断を重点確認します。
 
 ## 目的
 
@@ -74,6 +75,8 @@ Home上部の検索欄は、機能名・分野名・用語検索の入口を兼�
 | 公式公開問題 | `html/official-past.html` |
 | 学習進捗 | `html/progress.html` |
 | Backup / Restore | `html/data.html` |
+| Development Diagnostics | `html/diagnostics.html` |
+| 404 Recovery | `404.html` |
 
 ## Dataの正本
 
@@ -86,6 +89,7 @@ Home上部の検索欄は、機能名・分野名・用語検索の入口を兼�
 - Project Profile
 - Deployment
 - Backup Schema Version
+- Diagnostics Schema / Storage Key / Buffer上限
 
 表示BuildをHTMLや各Validatorへ個別に直書きしません。
 
@@ -162,7 +166,50 @@ Restoreでは次を行います。
 
 Import JSONの文字列をraw `innerHTML`へ入れません。
 
-## GitHub Pages
+## Development Diagnostics / Project Memory
+
+最新 `web-project-guide` のInteractive Project方針に合わせ、原因調査用のDiagnosticsを**Local-first**で持ちます。本番AnalyticsやTelemetryではありません。
+
+### Runtime Diagnostics
+
+Core: `js/shell.js`  
+View: `html/diagnostics.html` / `js/diagnostics-view.js`  
+Storage Key: `json/project-meta.json` の `diagnostics.storageKey`
+
+記録対象:
+
+- App Build / Backup Schema
+- Session開始時刻 / Current route
+- Viewport / Online状態 / 最小限のPlatform情報
+- 主要初期化Step
+- JavaScript Error / Unhandled Promise Rejection
+- Fetch / Network Failure
+- Storage read / write Failure
+- Import / Restore結果
+- Link / Button等の重要操作Breadcrumb
+
+Breadcrumbは最大100件のRing Bufferとして保持します。Error / Network / Initializationにも個別上限があります。
+
+### 記録しないもの
+
+- Password / API Key / Token / Authorization Header
+- 学習回答・記述問題の入力本文
+- Backup JSON本体
+- File本文
+- URL Query / Fragment
+- 学習localStorageの全dump
+
+`html/diagnostics.html` から、Sanitize済み診断情報のJSON Export / Copy / Clearができます。外部Serverへ自動送信しません。
+
+Diagnostics Storageは学習Backupの`recognizedKeys()`とは分離し、通常のBackup / Restore / 学習履歴初期化で診断履歴まで混ぜません。
+
+### Project Learnings
+
+長期的な失敗・成功・Regression GuardはRepository Rootの `PROJECT_LEARNINGS.md` を正本とします。
+
+作業報告は「その回で何を変更したか」、Project Learningsは「次回も使うべき知識」を記録します。
+
+## GitHub Pages / PUBLIC-CONTENT
 
 静的構成のためGitHub Pagesでそのまま利用します。
 
@@ -170,6 +217,10 @@ Import JSONの文字列をraw `innerHTML`へ入れません。
 - `localhost` / PC固有絶対Pathへ依存しない
 - `fetch()`を使うため正式利用はGitHub PagesまたはHTTP Server経由
 - 公開HTML / JS / JSONへ秘密情報を入れない
+- Homeは `lang=ja`、意味の分かる`title`、description、canonicalを持つ
+- `404.html` からHome / 13Unit / Glossaryへ復帰できる
+- Analytics / Form / Third-party Telemetryは現在使用しない
+- Diagnosticsは端末内だけに保存し、自動送信しない
 
 ## Navigation / Accessibility
 
@@ -183,6 +234,7 @@ Shared Shell: `js/shell.js`
 - `:focus-visible`
 - `prefers-reduced-motion`
 - Dark Mode
+- Development Diagnosticsへの管理導線
 
 Homeは全機能説明を並べるDashboardではなく、今やる行動を選ぶLauncherとして扱います。詳細な学習分析は `progress.html` の責務です。
 
@@ -201,6 +253,9 @@ Homeは全機能説明を並べるDashboardではなく、今やる行動を選�
 - 模試得点をIPA公式得点へ直接換算しない。
 - `23/23`や`118/118`を試験対策の完全性と表現しない。
 - Lesson Coverage用4択を、意図せず150分模試の科目A Poolへ混入させない。
+- Diagnosticsへ秘密情報・学習回答本文・URL Query / Fragmentを保存しない。
+- Diagnostics自身を無制限保存しない。
+- Development Diagnosticsを学習Backup本体へ無断で混ぜない。
 
 ## 自動検証
 
@@ -218,17 +273,27 @@ Workflow: `.github/workflows/validate.yml`
 - Runtime architecture
 - Glossary
 - Project metadata / Guide Profile
+- `PROJECT_LEARNINGS.md`
+- Local Diagnostics Contract / Privacy / Buffer上限
+- PUBLIC-CONTENT Metadata / 404 Recovery
 - Playwright Chromium Smoke
 
-Browser Smokeでは主要導線に加えて、Lesson→Coverage問題への実遷移、320px幅の横overflow、壊れたBackupの拒否、安全なImport Preview、検証済みBackupのRestoreも確認します。
+Browser Smokeでは主要導線に加えて、Lesson→Coverage問題への実遷移、DiagnosticsのError / Network / Import / Restore記録、Query Sanitization、320px幅の横overflow、壊れたBackupの拒否、安全なImport Preview、検証済みBackupのRestore、404復帰ページも確認します。
 
 ## Documentation
 
 - 現在仕様: `README.md` / `docs/仕様書.md`
 - 変更履歴・今回作業: `docs/作業報告書.md`
+- 長期Project Memory: `PROJECT_LEARNINGS.md`
 - Test説明: `tests/README.md`
 
 READMEへVersionごとの長い作業履歴を積み上げません。
+
+## 最新Guide適用方針
+
+採用Guide Versionは `json/project-meta.json` を正本とします。
+
+Guide 1.7.0ではVisual Design ReviewやAI Agent向け`AGENTS.md`も拡張されましたが、既存ProjectへVisual Layout変更や`AGENTS.md`追加を強制しないCompatibility方針があります。そのためr21では既存UIを全面変更せず、このProjectに直接必要なDiagnostics / Project Memory / PUBLIC-CONTENT / Final-state Validationを適用しています。
 
 ## 既知の不足
 
@@ -236,11 +301,12 @@ READMEへVersionごとの長い作業履歴を積み上げません。
 - IPA小分類 / 学習項目単位Coverageの可視化は未完了。
 - 2025午前および2024以前の公式公開問題Mappingは未完了。
 - Legacy用語ページ自体は大規模DOMの旧構造を残す。通常導線では使用しない。
-- Browser Smokeは主要導線のみで、全Lesson・全139問・150分実時間の総当たりではない。
+- Browser SmokeはChromium主要導線のみで、全Lesson・全139問・150分実時間・Firefoxの総当たりではない。
+- Diagnosticsは`js/shell.js`が起動した後のRuntime失敗を対象とし、Shell自体の構文エラー等はStatic CI / Browser Console確認で補う。
 - 実利用者による長時間のUser Validationは自動CIでは代替しない。
 
 ## 完成の考え方
 
 「コードを書いた」「Static CIが通った」だけでは完成扱いにしません。
 
-主要機能が通常利用でき、保存互換を壊さず、重大な既知バグがなく、README / 仕様 / 作業報告が現行実装と一致し、必要なBrowser SmokeとGitHub Pages公開が同一最終HEADで成功し、未確認事項が明記されている状態を完成基準とします。
+主要機能が通常利用でき、保存互換を壊さず、重大な既知バグがなく、README / 仕様 / 作業報告 / Project Learningsが現行実装と一致し、必要なBrowser SmokeとGitHub Pages公開が同一最終HEADで成功し、未確認事項が明記されている状態を完成基準とします。

@@ -56,6 +56,7 @@
         const details = Object.entries(item.detail || {}).map(([key,value]) => `${key}=${value}`).join(' ');
         return `${item.action}${details ? ` · ${details}` : ''}`;
       }, 'Breadcrumbはまだありません。');
+      $('diagnostics-status').textContent = 'このブラウザに保存されたLocal Diagnosticsを表示しています。';
     } catch (error) {
       $('diagnostics-status').textContent = `診断情報を読み込めませんでした: ${error.message}`;
     }

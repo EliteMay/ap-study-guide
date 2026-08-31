@@ -1,6 +1,6 @@
 # AP Study Notes tests
 
-CIは **Data整合・Runtime構造・保存安全性・主要Browser操作** を検証します。
+CIは **Data整合・Runtime構造・保存安全性・Development Diagnostics・主要Browser操作** を検証します。
 
 Buildの正本は `json/project-meta.json` です。Test READMEや各ValidatorへBuild文字列を重複して持ちません。
 
@@ -113,12 +113,9 @@ Web Project Guideで再発コストが高い項目を、このサイトに必要
 
 検証:
 
-- `json/project-meta.json` が存在する
-- Build形式
-- Guide Repository / Version
+- `json/project-meta.json` のBuild / Guide 1.7.0 / Profile / Deployment / Backup / Diagnostics Metadata
+- `PROJECT_LEARNINGS.md` のFailure / Success / Regression Guard構造
 - `STATIC + DATA + TOOL + PUBLIC-CONTENT`
-- GitHub Pages target
-- Backup Schema Version
 - `js/shell.js` に固定BUILDが再混入していない
 - Central Loader
 - Strict Mastery / Review Due / Written Guard
@@ -133,6 +130,13 @@ Web Project Guideで再発コストが高い項目を、このサイトに必要
 - Restore失敗時Rollback
 - Import Previewをraw `innerHTML`へ入れない
 - Accessible Mobile Drawer
+- Diagnostics Storage Key / Ring Buffer上限
+- JavaScript `error` / `unhandledrejection`捕捉
+- Fetch / Storage Failure記録
+- Diagnostic ExportのSanitize前提
+- Diagnostics Viewでraw `innerHTML`を使わない
+- Homeの`lang` / description / canonical
+- Self-contained `404.html` Recovery
 
 ### `validate-glossary.mjs`
 
@@ -163,27 +167,50 @@ Playwright Chromiumで実ブラウザ操作する。
 現在の対象:
 
 1. Action-first Homeを開く
-2. `project-meta.json` のBuild表示を確認
+2. `project-meta.json` のBuild / Guide 1.7.0確認
 3. Homeの教材件数がLoading状態から実Dataへ更新される
 4. 13Unit Card / 主要8Action確認
 5. Home Search→Glossary
-6. Glossary検索 / Lazy Detail
-7. Security Generic Hub→Domain指定Glossary
-8. **Practice ManifestをBrowserから読み、118 Lessonすべてに直接参照があることを確認**
-9. **ALG-01 LessonからPC-ALG-01へ実際に遷移し問題表示を確認**
-10. Lessonを全問誤答しMasteredにならないこと
-11. Written Practiceの空欄Guard
-12. Long Caseの空欄Guard
-13. 320px Homeでページ全体の横overflowなし
-14. Mobile Drawerの`inert` / Open / Escape Close
-15. 320px Glossaryでページ全体の横overflowなし
-16. Backup Export / Import UI
-17. 壊れた認識済みStorage JSONをImport拒否
-18. Import JSON内のHTML文字列をDOMとして実行しない
-19. Validation済みBackupを実際にRestoreできる
-20. Browser console / page errorがないこと
+6. DiagnosticsへSynthetic Runtime Error / Network Failure / Breadcrumbを記録
+7. Diagnostic SnapshotのBuild一致
+8. URL QueryがNetwork Diagnosticへ残らないこと
+9. Breadcrumbが100件上限を超えないこと
+10. Glossary検索 / Lazy Detail
+11. Security Generic Hub→Domain指定Glossary
+12. **Practice ManifestをBrowserから読み、118 Lessonすべてに直接参照があることを確認**
+13. **ALG-01 LessonからPC-ALG-01へ実際に遷移し問題表示を確認**
+14. Lessonを全問誤答しMasteredにならないこと
+15. Written Practiceの空欄Guard
+16. Long Caseの空欄Guard
+17. 320px Homeでページ全体の横overflowなし
+18. Mobile Drawerの`inert` / Open / Escape Close
+19. 320px Glossaryでページ全体の横overflowなし
+20. 320px Diagnosticsでページ全体の横overflowなし
+21. Backup Export / Import UI
+22. 壊れた認識済みStorage JSONをImport拒否
+23. Import Validation FailureがDiagnosticsへ残る
+24. Import JSON内のHTML文字列をDOMとして実行しない
+25. Validation済みBackupを実際にRestoreできる
+26. Restore successがBreadcrumbへ残る
+27. Diagnostics Viewで記録済みError / Network Failureが見える
+28. `404.html` の復帰導線
+29. Browser console / page errorがないこと
 
 Backup Restore Smokeは、既存保存Dataがある状態で実行するため、復元直前BackupのDownload経路も通る。
+
+## Diagnostics Test Policy
+
+Diagnosticsは本番Analyticsではなく、Local-firstの原因調査用機能として扱う。
+
+Testで守るContract:
+
+- 学習回答本文をLogへ保存しない
+- Backup本文をLogへ保存しない
+- URL Query / FragmentをLogへ保存しない
+- Secret / Tokenを保存する設計を追加しない
+- Ring Buffer上限を維持する
+- Diagnostics Storageを学習Backup Schemaへ暗黙追加しない
+- Diagnostic Viewは`textContent` / DOM Nodeで描画する
 
 ## GitHub Actions
 
@@ -203,7 +230,7 @@ Backup Restore Smokeは、既存保存Dataがある状態で実行するため�
 10. Official Public Mapping
 11. Security Past Mapping
 12. Progress
-13. Runtime Quality / Guide Profile / Backup Safety
+13. Runtime Quality / Guide Profile / Backup Safety / Diagnostics / Public Content
 14. Unified Glossary / Action Home
 15. Install Playwright Chromium
 16. Browser Smoke
@@ -219,7 +246,9 @@ Backup Restore Smokeは、既存保存Dataがある状態で実行するため�
 - Dark Mode全画面
 - Legacy互換ページ全用語Card
 - すべての外部IPA PDF Link
+- Firefox実ブラウザ総合Smoke
 - 長時間利用時の全Performance
+- Shell自身が構文Errorで起動不能になる場合のRuntime Diagnostic捕捉
 - 実利用者によるUser Validation
 
 `118/118` はLesson→短問の参照整合を保証するもので、全問題の難易度・本番類似度を保証する値ではない。
@@ -231,6 +260,7 @@ Backup Restore Smokeは、既存保存Dataがある状態で実行するため�
 - Implemented
 - Static Validated
 - Browser Validated
+- Visual Reviewed
 - GitHub Pages Validated
 - User Validated
 - Known Limitation
