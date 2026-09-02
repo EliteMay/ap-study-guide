@@ -1,4 +1,8 @@
 /* r24 compatibility + very-wide layout rules. Main styling lives in home.css. */
 .home-hero{background:linear-gradient(135deg,#075b66 0%,#0f766e 58%,#0d9488 100%)!important}
 .home-today-card{border-radius:18px}
+/* Keep the accessibility skip link fully off-screen until it receives keyboard focus. */
+.ap-skip-link:not(:focus){top:-80px!important;transform:none!important}
+.ap-skip-link:focus{top:10px!important;transform:none!important}
+@media(max-width:920px){.ap-skip-link:focus{top:62px!important}}
 @media(min-width:1500px){.home-unit-compact{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
