@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0a1020">
+<meta name="theme-color" content="#0f766e">
 <meta name="description" content="応用情報技術者試験（AP）をLesson、短問、長文Case、模試、公式公開問題、単語辞書、進捗管理まで1つにつなげて学ぶ個人学習サイトです。">
 <link rel="canonical" href="https://elitemay.github.io/ap-study-guide/">
 <title>AP Study Notes | 応用情報技術者試験 学習サイト</title>
@@ -13,50 +13,63 @@
 <link href="css/shell.css" rel="stylesheet">
 </head>
 <body>
-<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="index.html" class="unit-nav-link is-current">ホーム</a></li></ul></div></nav>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY NOTES</span><ul class="unit-nav-list"><li><a href="index.html" class="unit-nav-link is-current">🏠 ホーム</a></li></ul></div></nav>
+
 <header class="home-hero home-launch-hero"><div class="container">
-<p class="eyebrow">AP STUDY NOTES / START HERE</p>
-<h1 style="word-break:keep-all">何をするか<wbr>選ぶだけ。</h1>
-<p class="lead">勉強する、問題を解く、単語を調べる、模試をする。目的からすぐ開けるホームです。迷った場合は「今日の優先項目」から続けられます。</p>
-<div class="home-finder" role="search"><label for="home-quick-search">サイト内の機能・分野・単語を探す</label><input id="home-quick-search" type="search" placeholder="例: セキュリティ / OAuth / 模試 / データベース" autocomplete="off"><div id="home-quick-results" class="home-quick-results" hidden></div></div>
-<div class="home-actions home-primary-actions"><a href="html/lesson.html?id=FND-01" class="home-action-btn" id="continue-hero">今日の優先項目を続ける</a><a href="html/glossary.html" class="home-action-btn secondary">単語を調べる</a></div>
-<div class="home-stats">
+<p class="eyebrow">AP STUDY NOTES / HOME</p>
+<h1>何をするか選ぶだけ。</h1>
+<p class="lead">次のLessonへ進む、問題を解く、分からない用語を調べる。毎日の学習をここから始めます。</p>
+<div class="home-finder" role="search">
+<label for="home-quick-search">機能・分野・単語を検索</label>
+<input id="home-quick-search" type="search" placeholder="例: セキュリティ / OAuth / 模試 / データベース" autocomplete="off">
+<div id="home-quick-results" class="home-quick-results" hidden></div>
+</div>
+</div></header>
+
+<main id="main-content">
+<section class="home-dashboard"><div class="container home-dashboard-grid">
+<article class="home-focus-card" id="continue-card">
+<div>
+<p class="home-focus-label" id="continue-kicker">NEXT</p>
+<h2 id="continue-title">学習状態を確認中...</h2>
+<p id="continue-meta">保存済み履歴から、次に取り組む内容を選んでいます。</p>
+<div class="home-mini-status">
+<span><strong id="lesson-progress-number">0 / …</strong> Lesson</span>
+<span id="practice-progress-meta">短問を集計中...</span>
+<span id="case-progress-meta">Caseを集計中...</span>
+</div>
+</div>
+<a id="continue-link" class="home-focus-action" href="html/lesson.html?id=FND-01">学習を続ける →</a>
+</article>
+
+<div class="home-overview" aria-label="学習進捗の概要">
 <div class="home-stat"><div class="home-stat-num" id="hero-lesson">0/…</div><div class="home-stat-label">Lesson理解確認</div></div>
 <div class="home-stat"><div class="home-stat-num" id="hero-practice">0/…</div><div class="home-stat-label">短問理解済み</div></div>
 <div class="home-stat"><div class="home-stat-num" id="hero-case">0/…</div><div class="home-stat-label">Case理解済み</div></div>
 <div class="home-stat"><div class="home-stat-num" id="mock-progress-number">0 回</div><div class="home-stat-label">模試実施</div></div>
-</div></div></header>
-<main id="main-content">
-<section class="home-launch-section"><div class="container">
-<div class="dashboard-heading"><div><p class="dashboard-eyebrow">QUICK START</p><h2>やりたいことから選ぶ</h2></div><p>説明を読まなくても、ここから主要機能へ直接入れます。</p></div>
-<div class="home-launch-grid">
-<a class="home-launch-card is-primary" href="html/roadmap.html"><span class="home-launch-icon">📘</span><div><strong>Lessonで学ぶ</strong><small>13分野から体系的に理解する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/glossary.html"><span class="home-launch-icon">🔎</span><div><strong>単語を調べる</strong><small>旧用語資産を6分野まとめて検索する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/practice.html"><span class="home-launch-icon">🧪</span><div><strong>短問を解く</strong><small><span id="practice-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/cases.html"><span class="home-launch-icon">📚</span><div><strong>長文Caseを解く</strong><small><span id="case-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/mock.html"><span class="home-launch-icon">⏱️</span><div><strong>150分模試をする</strong><small>科目A / 科目Bの時間配分を練習する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/official-past.html"><span class="home-launch-icon">🎯</span><div><strong>公式問題へ進む</strong><small>IPA公開問題をLessonと往復する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/progress.html"><span class="home-launch-icon">📈</span><div><strong>進捗・弱点を見る</strong><small>復習期限と現在の理解状態を確認する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/data.html"><span class="home-launch-icon">💾</span><div><strong>学習データを管理</strong><small>Backup / 復元 / 学習履歴の保護</small></div><span>→</span></a>
 </div>
 </div></section>
 
-<section class="home-today-section section-alt"><div class="container">
-<div class="dashboard-heading"><div><p class="dashboard-eyebrow">TODAY</p><h2>今日の優先項目</h2></div><p>復習期限・要復習を新しいLessonより先に出します。</p></div>
-<article class="home-today-card" id="continue-card"><div><span class="dashboard-kicker" id="continue-kicker">NEXT</span><h3 id="continue-title">学習状態を確認中...</h3><p id="continue-meta">保存済み履歴から優先項目を選んでいます。</p></div><a id="continue-link" class="home-today-action" href="html/lesson.html?id=FND-01">続ける →</a></article>
-<div class="home-mini-status"><span><strong id="lesson-progress-number">0 / …</strong> Lesson</span><span id="practice-progress-meta">短問を集計中...</span><span id="case-progress-meta">Caseを集計中...</span></div>
+<section class="home-launch-section"><div class="container">
+<div class="dashboard-heading"><div><p class="dashboard-eyebrow">STUDY MENU</p><h2>やりたいことから選ぶ</h2></div><p>上段は学習・演習、下段は調べる・確認・管理です。</p></div>
+<div class="home-launch-grid">
+<a class="home-launch-card is-primary" href="html/roadmap.html"><span class="home-launch-icon">L</span><div><strong>Lessonで学ぶ</strong><small>13分野を順番に理解する</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/practice.html"><span class="home-launch-icon">問</span><div><strong>短問を解く</strong><small><span id="practice-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/cases.html"><span class="home-launch-icon">B</span><div><strong>長文Caseを解く</strong><small><span id="case-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/mock.html"><span class="home-launch-icon">模</span><div><strong>150分模試をする</strong><small>科目A / 科目Bの時間配分を練習</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/glossary.html"><span class="home-launch-icon">辞</span><div><strong>単語を調べる</strong><small>旧用語資産をまとめて検索</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/official-past.html"><span class="home-launch-icon">公</span><div><strong>公式問題へ進む</strong><small>IPA公開問題とLessonを往復</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/progress.html"><span class="home-launch-icon">進</span><div><strong>進捗・弱点を見る</strong><small>復習期限と現在の理解状態を確認</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/data.html"><span class="home-launch-icon">保</span><div><strong>学習データを管理</strong><small>Backup / 復元 / 学習履歴の保護</small></div><span>→</span></a>
+</div>
 </div></section>
 
 <section class="units-section"><div class="container">
-<div class="dashboard-heading"><div><p class="dashboard-eyebrow">BY SUBJECT</p><h2>分野から選ぶ</h2></div><p>APの13学習ユニット。どこから始めても同じ形式のUnit Hubへ入ります。</p></div>
+<div class="dashboard-heading"><div><p class="dashboard-eyebrow">13 STUDY UNITS</p><h2>分野から学ぶ</h2></div><p>苦手な分野へ直接入ることも、上から順に進めることもできます。</p></div>
 <div id="home-unit-grid" class="units-grid home-unit-compact"><p>ユニットを読み込み中...</p></div>
 </div></section>
-
-<section class="home-reference-section section-alt"><div class="container"><div class="home-reference-grid">
-<div><p class="dashboard-eyebrow">REFERENCE</p><h2>昔の単語教材は「辞書」へ</h2><p>旧用語資産は削除していません。1ページから横断検索でき、既存のチェック・☆復習・詳細解説も引き継ぎます。</p></div>
-<a class="home-reference-button" href="html/glossary.html">単語辞書を開く <span>→</span></a>
-</div></div></section>
 </main>
+
 <footer class="site-footer"><div class="container"><p>AP Study Notes</p><p class="small">IPAシラバスVer.7.2基準 / <span data-ap-build>BUILD ?</span></p></div></footer>
 <script src="js/study-state.js" defer></script>
 <script src="js/lesson-data.js" defer></script>
