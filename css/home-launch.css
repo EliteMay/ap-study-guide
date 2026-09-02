@@ -1,1 +1,4 @@
-/* r24: home layout and component styling live in home.css. */
+/* r24 compatibility + very-wide layout rules. Main styling lives in home.css. */
+.home-hero{background:linear-gradient(135deg,#075b66 0%,#0f766e 58%,#0d9488 100%)!important}
+.home-today-card{border-radius:18px}
+@media(min-width:1500px){.home-unit-compact{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
