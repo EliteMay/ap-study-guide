@@ -2,7 +2,7 @@
   'use strict';
 
   const LESSON_PROGRESS_KEY = 'ap-study-lesson-progress-v1';
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const params = new URLSearchParams(location.search);
   const unitId = params.get('unit') || '';
   const GLOSSARY_DOMAINS = {
