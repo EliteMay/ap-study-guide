@@ -61,11 +61,12 @@
     }) || lessons[0];
     document.title = `${unit.title} | AP Study Notes`;
     const glossaryDomain = GLOSSARY_DOMAINS[unit.id];
+    const middleLabel = (unit.officialMiddleCodes || []).map(code => `IPA 中分類 ${code}`).join('・');
     document.getElementById('unit-hero').innerHTML = `
       <p class="unit-breadcrumb"><a href="roadmap.html">13ユニット</a><span>/</span><span>${escapeHtml(unit.title)}</span></p>
-      <p class="eyebrow">CURRICULUM UNIT / ${(unit.officialMiddleCodes || []).map(code => `IPA ${code}`).join(' · ')}</p>
+      <p class="eyebrow">学習ユニット${middleLabel ? ` / ${escapeHtml(middleLabel)}` : ''}</p>
       <h1>${escapeHtml(unit.title)}</h1>
-      <p class="lead">${escapeHtml(unit.auditNote || 'Lessonを上から順に進め、理解確認と演習へつなげます。')}</p>
+      <p class="lead">この分野は${lessons.length}本のLessonで学びます。上から順に理解し、短問と長文Caseで知識を使えるか確認していきます。</p>
       <div class="unit-hero-status"><span><strong>${mastered}</strong> / ${lessons.length} Lesson理解確認</span>${due ? `<span class="is-due">復習期限 ${due}</span>` : '<span>復習期限なし</span>'}</div>
       <div class="unit-hero-actions">
         ${next ? `<a class="unit-action is-primary" href="lesson.html?id=${encodeURIComponent(next.id)}">${due ? '復習から続ける' : mastered ? '次のLessonへ' : '最初のLessonから始める'} <span>→</span></a>` : ''}
@@ -113,7 +114,7 @@
       const description = (middle?.small || []).map(escapeHtml).join(' / ');
       return `<section class="unit-hub-group">
         <div class="unit-hub-heading">
-          <div><p class="unit-hub-kicker">IPA MIDDLE ${escapeHtml(code)}</p><h2>${escapeHtml(middle?.title || `中分類${code}`)}</h2>${description ? `<p class="unit-hub-description">${description}</p>` : ''}</div>
+          <div><p class="unit-hub-kicker">IPA 中分類 ${escapeHtml(code)}</p><h2>${escapeHtml(middle?.title || `中分類${code}`)}</h2>${description ? `<p class="unit-hub-description">${description}</p>` : ''}</div>
           <span class="unit-hub-progress">${middleMastered} / ${middleLessons.length} 理解確認</span>
         </div>
         ${middleLessons.length ? `<div class="unit-lesson-list">${middleLessons.map(lesson => renderLessonCard(lesson, stateFor(progress, lesson.id), lessonPosition.get(lesson.id))).join('')}</div>` : '<div class="unit-hub-empty">この中分類の構造化Lessonはまだありません。</div>'}
@@ -132,7 +133,7 @@
       render(applyCoverage(curriculum, coverage), lessonBank.lessons || []);
     } catch (error) {
       console.error(error);
-      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">CURRICULUM UNIT</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p><div class="unit-hero-actions"><a class="unit-action is-primary" href="roadmap.html">13ユニットへ戻る</a></div>`;
+      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">学習ユニット</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p><div class="unit-hero-actions"><a class="unit-action is-primary" href="roadmap.html">13ユニットへ戻る</a></div>`;
       document.getElementById('unit-summary').replaceChildren();
       document.getElementById('unit-groups').innerHTML = '<div class="unit-load-error"><strong>学習ユニットを表示できませんでした。</strong><p>通信状態を確認して再読み込みするか、13ユニット一覧へ戻ってください。</p><a href="roadmap.html">13ユニットへ戻る →</a></div>';
     }
