@@ -17,13 +17,20 @@ async function openAndCapture(path, name) {
   currentRoute = path;
   await page.goto(`${base}/${path}`, { waitUntil:'networkidle' });
   await page.waitForTimeout(120);
-  const metrics = await page.evaluate(() => ({
-    clientWidth:document.documentElement.clientWidth,
-    scrollWidth:document.documentElement.scrollWidth,
-    text:(document.body?.innerText || '').trim().length
-  }));
+  const metrics = await page.evaluate(() => {
+    const skip = document.querySelector('.ap-skip-link');
+    const skipRect = skip?.getBoundingClientRect();
+    return {
+      clientWidth:document.documentElement.clientWidth,
+      scrollWidth:document.documentElement.scrollWidth,
+      text:(document.body?.innerText || '').trim().length,
+      skipBottom:skipRect?.bottom ?? null,
+      skipFocused:skip === document.activeElement
+    };
+  });
   if (metrics.scrollWidth > metrics.clientWidth + 1) failures.push(`${path}: horizontal overflow ${metrics.scrollWidth}px > ${metrics.clientWidth}px`);
   if (metrics.text < 30) failures.push(`${path}: suspiciously empty page`);
+  if (page.viewportSize()?.width <= 920 && metrics.skipBottom !== null && !metrics.skipFocused && metrics.skipBottom > 0) failures.push(`${path}: skip link is visible without keyboard focus`);
   await page.screenshot({ path:`artifacts/${name}.png`, fullPage:true });
 }
 
@@ -34,30 +41,28 @@ try {
     localStorage.setItem('ap-study-theme','light');
   });
 
-  const desktopPages = [
-    ['index.html','review-home-desktop'],
-    ['html/roadmap.html','review-roadmap-desktop'],
-    ['html/unit.html?unit=algorithm-programming','review-unit-algorithm-desktop'],
-    ['html/lesson.html?id=ALG-01','review-lesson-algorithm-desktop'],
-    ['html/glossary.html?q=OAuth','review-glossary-desktop'],
-    ['html/practice.html?unit=algorithm-programming','review-practice-desktop'],
-    ['html/cases.html?unit=algorithm-programming','review-cases-desktop'],
-    ['html/mock.html','review-mock-desktop'],
-    ['html/official-past.html','review-official-past-desktop'],
-    ['html/progress.html','review-progress-desktop'],
-    ['html/data.html','review-data-desktop'],
-    ['html/diagnostics.html','review-diagnostics-desktop']
+  const primaryPages = [
+    ['index.html','home'],
+    ['html/roadmap.html','roadmap'],
+    ['html/unit.html?unit=algorithm-programming','unit-algorithm'],
+    ['html/lesson.html?id=ALG-01','lesson-algorithm'],
+    ['html/glossary.html?q=OAuth','glossary'],
+    ['html/practice.html?unit=algorithm-programming','practice'],
+    ['html/cases.html?unit=algorithm-programming','cases'],
+    ['html/mock.html','mock'],
+    ['html/official-past.html','official-past'],
+    ['html/progress.html','progress'],
+    ['html/data.html','data'],
+    ['html/diagnostics.html','diagnostics']
   ];
 
-  for (const [path,name] of desktopPages) await openAndCapture(path,name);
+  for (const [path,name] of primaryPages) await openAndCapture(path,`review-${name}-desktop`);
 
   await page.setViewportSize({ width:390, height:844 });
-  await openAndCapture('html/roadmap.html','review-roadmap-mobile');
-  await openAndCapture('html/unit.html?unit=algorithm-programming','review-unit-algorithm-mobile');
-  await openAndCapture('html/progress.html','review-progress-mobile');
+  for (const [path,name] of primaryPages) await openAndCapture(path,`review-${name}-mobile`);
 
   if (failures.length) throw new Error(`visual review capture failed:\n${failures.join('\n')}`);
-  console.log(`[visual-review] OK: ${desktopPages.length} desktop routes + 3 mobile routes captured without console errors or horizontal overflow.`);
+  console.log(`[visual-review] OK: ${primaryPages.length} primary routes captured on desktop + mobile without console errors, horizontal overflow, or unfocused skip-link exposure.`);
 } finally {
   await browser.close();
 }
