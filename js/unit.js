@@ -23,7 +23,8 @@
     exercise:'演習',
     'worked-example':'例題',
     steps:'手順',
-    mistakes:'つまずき対策'
+    mistakes:'つまずき対策',
+    reference:'参照'
   };
 
   async function loadJson(path) {
