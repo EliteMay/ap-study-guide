@@ -10,6 +10,7 @@ const fail = message => { throw new Error(`[runtime-quality] ${message}`); };
 for (const file of [
   'json/project-meta.json','PROJECT_LEARNINGS.md','404.html',
   'js/study-state.js','js/lesson-data.js','js/shell.js','css/shell.css',
+  'html/unit.html','js/unit.js','css/unit.css',
   'html/data.html','js/data-tools.js','css/data-tools.css',
   'html/diagnostics.html','js/diagnostics-view.js','css/diagnostics.css'
 ]) if (!exists(file)) fail(`missing ${file}`);
@@ -47,6 +48,14 @@ for (const required of [
 if (visualCss.includes('AP / STUDY CONSOLE') || visualCss.includes('--ap-accent:#2563eb')) fail('rejected technical-console visual direction reintroduced');
 const homeVisualCss = `${read('css/home.css')}\n${read('css/home-launch.css')}`;
 for (const required of ['linear-gradient(135deg,#075b66','.home-launch-card.is-primary','border-radius:14px','.home-today-card','grid-template-columns:repeat(3,minmax(0,1fr))']) if (!homeVisualCss.includes(required)) fail(`r23 home visual missing ${required}`);
+
+const unitPage = read('html/unit.html');
+if (unitPage.includes('../css/home.css')) fail('Unit Hub must not depend on Home-only visual CSS');
+for (const required of ['class="unit-page"','class="unit-hero"','class="unit-content"','../css/unit.css']) if (!unitPage.includes(required)) fail(`Unit Hub page structure missing ${required}`);
+const unitVisualCss = read('css/unit.css');
+for (const required of ['.unit-lesson-card','text-decoration:none','.unit-lesson-types','.unit-overall-progress','.unit-action.is-primary','.unit-hub-progress','@media(max-width:620px)']) if (!unitVisualCss.includes(required)) fail(`Unit Hub visual system missing ${required}`);
+const unitRuntime = read('js/unit.js');
+for (const required of ['CONTENT_TYPE_LABELS','unit-lesson-card','unit-lesson-state','unit-hub-progress','unit-overall-progress']) if (!unitRuntime.includes(required)) fail(`Unit Hub runtime visual structure missing ${required}`);
 
 const state = read('js/study-state.js');
 for (const required of ['LESSON_PASS_RATIO = 0.75','REVIEW_AFTER_DAYS = 14','WRITTEN_MIN_CHARS = 12','CASE_MIN_CHARS = 20','recentScores','recognizedKeys','APDiagnostics?.storageFailure']) if (!state.includes(required)) fail(`study-state missing ${required}`);
@@ -116,4 +125,4 @@ if (diagnosticsView.includes('innerHTML')) fail('diagnostics view must not rende
 const notFound = read('404.html');
 for (const required of ['<html lang="ja">','ページが見つかりません','/ap-study-guide/','/ap-study-guide/html/roadmap.html','meta name="robots" content="noindex"']) if (!notFound.includes(required)) fail(`404 recovery missing ${required}`);
 
-console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / visual ${meta.visual.direction} / profiles ${meta.profiles.join('+')} / centralized metadata, high visual baseline, local diagnostics, public recovery, safe backup restore.`);
+console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / visual ${meta.visual.direction} / profiles ${meta.profiles.join('+')} / centralized metadata, high visual baseline, complete Unit Hub, local diagnostics, public recovery, safe backup restore.`);
