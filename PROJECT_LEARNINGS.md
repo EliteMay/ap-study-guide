@@ -86,6 +86,26 @@
 - Guide candidate: yes
 - Guide note: Anti-Pattern回避はPattern自体の禁止ではなく、Projectとの理由を確認するためのものとして扱う。
 
+### PL-F-005 機能SmokeだけでDynamic PageのVisual完成を判定しない
+
+- Date: 2026-09-03
+- Status: resolved
+- Severity: medium
+- Cost: medium
+- Symptom: Generic Unit HubはLesson LinkやGlossary導線のE2Eが成功していたが、実画面ではLessonがブラウザ標準の下線Linkとして縦に並び、`未着手中分類2`や英語Content Typeが露出した未完成UIだった。
+- Expected: Unit Hubが学習順・進捗・状態を視覚的に理解できる専用UIとして表示される。
+- Actual: Runtimeは`.unit-card`を生成していたが、r24でCard StyleがHome専用`.home-unit-compact .unit-card`へ限定され、Unit HubではStyleが適用されなかった。
+- Trigger / Reproduction: `html/unit.html?unit=algorithm-programming` を実ブラウザで開き、ユーザー提供Screenshotと比較する。
+- Root Cause: Function Smokeが「Linkが存在し遷移できる」までしか確認せず、Visual Screenshot対象もHome / Lesson中心だった。Shared Component名だけ残り、Style ownershipがHomeへ移ったことを検出できなかった。
+- Final Fix: Unit HubをHome CSSから分離し、`css/unit.css`でHero / Summary / Progress / Lesson Path / State / Responsiveを所有。Content Typeを日本語表示へ整理し、共通Skip LinkのMobile露出も修正した。
+- Affected files / systems: `html/unit.html`, `js/unit.js`, `css/unit.css`, `css/shell.css`, Visual Review workflow
+- Detection method: User Screenshot + Primary-page Screenshot Audit
+- Regression Guard: Runtime ValidatorでUnit HubがHome CSSへ依存しないことを確認し、`tests/visual-review.mjs`で主要12RouteをDesktop / Mobile両方Screenshot化。Mobileでは非Focus時Skip LinkがViewport内へ露出しないことも自動確認する。
+- Prevention: Dynamic PageはDOM/Linkの存在だけで完成判定せず、主要Routeごとに最終描画Screenshotを持つ。Shared-looking class名を別Pageで使う場合は、Style ownershipも同じScopeに存在することを確認する。
+- Related Issue / PR / Commit: PR #7 / r25
+- Guide candidate: yes
+- Guide note: Visual Quality Baselineの「Static / Function TestだけでVisual完成扱いしない」の具体例。
+
 ---
 
 ## Success
@@ -124,4 +144,5 @@
 |---|---|---|---|---|
 | PL-F-002 | failure | Coverageは分類単位と利用導線単位を分けて検証する | 70/118 → 118/118 | 他の学習Projectでも同型事故があるか確認 |
 | PL-F-004 | failure | AI Template回避でProject固有の親しみやすさまで削らない | r21 40点 → r22 30点 → r23で方向修正 | 他ProjectのVisual Reviewでも「残すべき既存価値」を先に確認 |
+| PL-F-005 | failure | Dynamic Pageは機能SmokeだけでVisual完成判定しない | Unit HubのLinkは動作したがStyleがHome Scopeへ消失 | Primary RouteのDesktop / Mobile Screenshot監査を継続 |
 | PL-S-002 | success | Legacy互換層と通常導線の分離 | 旧URL維持 + Unified Hub | 複数Projectで再利用後に共通化判断 |
