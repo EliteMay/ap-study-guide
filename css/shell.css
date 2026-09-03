@@ -1,4 +1,4 @@
-/* AP Study Notes shell — r23 friendly study dashboard */
+/* AP Study Notes shell — r25 friendly study dashboard */
 :root {
   --ap-sidebar-width: 224px;
   --ap-bg: #f4f7f8;
@@ -165,7 +165,7 @@ button, input, select, textarea { font: inherit; }
 .ap-skip-link {
   position: fixed;
   left: calc(var(--ap-sidebar-width) + 14px);
-  top: 10px;
+  top: -80px;
   z-index: 500;
   padding: 9px 13px;
   border-radius: 8px;
@@ -174,10 +174,10 @@ button, input, select, textarea { font: inherit; }
   font-size: .82rem;
   font-weight: 900;
   text-decoration: none;
-  transform: translateY(-160%);
-  transition: transform .12s ease;
+  transform: none;
+  transition: top .12s ease;
 }
-.ap-skip-link:focus { transform: translateY(0); }
+.ap-skip-link:focus { top: 10px; }
 
 /* Global visual rhythm. Keep content friendly instead of turning every page into a console. */
 h1, h2, h3 { letter-spacing: -.018em; }
@@ -338,7 +338,8 @@ html[data-theme="dark"] td { border-color: var(--ap-border) !important; }
   .toc { top: 54px; }
   .card { scroll-margin-top: 110px; }
   .ap-toast-region { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
-  .ap-skip-link { left: 12px; top: 62px; }
+  .ap-skip-link { left: 12px; }
+  .ap-skip-link:focus { top: 62px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
