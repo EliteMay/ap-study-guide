@@ -12,18 +12,18 @@
   let finderBound = false;
 
   function buildQuickActions(stats = {}) {
-    const lessonText = Number.isFinite(stats.lessonCount) ? `${stats.lessonCount}本の構造化Lesson` : '構造化Lessonから体系的に学ぶ';
+    const lessonText = Number.isFinite(stats.lessonCount) ? `${stats.lessonCount}本のレッスン` : 'レッスンで基礎から学ぶ';
     const practiceText = Number.isFinite(stats.practiceCount) ? `${stats.practiceCount}問の選択・記述問題` : '選択・記述の短問演習';
-    const caseText = Number.isFinite(stats.caseCount) ? `${stats.caseCount}Caseの長文記述` : '長文Caseの記述演習';
+    const caseText = Number.isFinite(stats.caseCount) ? `${stats.caseCount}件の長文問題` : '科目Bを意識した長文記述';
     return [
-      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
-      { title:'単語辞書', description:'旧用語資産を横断検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
+      { title:'レッスンで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
+      { title:'単語辞書', description:'分からない用語を日本語で確認', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
       { title:'短問演習', description:practiceText, href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
-      { title:'長文Case', description:caseText, href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
+      { title:'長文問題', description:caseText, href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
       { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
-      { title:'公式公開問題', description:'IPA公開問題とLessonを往復', href:'html/official-past.html', keywords:'公式 過去問 ipa 春 秋 午後 科目b' },
+      { title:'公式公開問題', description:'IPA公開問題とレッスンを往復', href:'html/official-past.html', keywords:'公式 過去問 ipa 春 秋 午後 科目b' },
       { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', keywords:'進捗 弱点 復習 成績 理解 progress' },
-      { title:'学習データ', description:'Backup / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
+      { title:'学習データ', description:'バックアップ / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
     ];
   }
 
@@ -62,18 +62,18 @@
 
   function buildPriority(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory) {
     const dueCase = cases.find(item => caseState(item,caseHistory[item.id]).state === 'due');
-    if (dueCase) return { kind:'長文Case 復習期限', title:`${dueCase.id} ${dueCase.title}`, meta:'以前理解確認したCaseが再確認時期です。', href:`html/cases.html?unit=${encodeURIComponent(dueCase.unitId)}&case=${encodeURIComponent(dueCase.id)}` };
+    if (dueCase) return { kind:'長文問題の復習期限', title:`${dueCase.id} ${dueCase.title}`, meta:'以前に理解確認した長文問題が、もう一度確認する時期です。', href:`html/cases.html?unit=${encodeURIComponent(dueCase.unitId)}&case=${encodeURIComponent(dueCase.id)}` };
     const dueQuestion = questions.find(item => practiceState(item,practiceHistory[item.id]).state === 'due');
-    if (dueQuestion) return { kind:'短問 復習期限', title:`${dueQuestion.id} ${dueQuestion.title}`, meta:'一度できた問題を時間を空けて再確認します。', href:`html/practice.html?unit=${encodeURIComponent(dueQuestion.unitId)}&question=${encodeURIComponent(dueQuestion.id)}` };
+    if (dueQuestion) return { kind:'短問の復習期限', title:`${dueQuestion.id} ${dueQuestion.title}`, meta:'一度できた問題を時間を空けて再確認します。', href:`html/practice.html?unit=${encodeURIComponent(dueQuestion.unitId)}&question=${encodeURIComponent(dueQuestion.id)}` };
     const dueLesson = lessons.find(item => lessonState(lessonProgress[item.id]).state === 'due');
-    if (dueLesson) return { kind:'Lesson 復習期限', title:`${dueLesson.id} ${dueLesson.title}`, meta:'理解確認から14日以上経過しています。', href:`html/lesson.html?id=${encodeURIComponent(dueLesson.id)}` };
+    if (dueLesson) return { kind:'レッスンの復習期限', title:`${dueLesson.id} ${dueLesson.title}`, meta:'理解確認から14日以上経過しています。', href:`html/lesson.html?id=${encodeURIComponent(dueLesson.id)}` };
     const retryCase = cases.find(item => caseHistory[item.id] && !caseState(item,caseHistory[item.id]).mastered);
-    if (retryCase) return { kind:'長文Case 要復習', title:`${retryCase.id} ${retryCase.title}`, meta:'途中または自己評価が十分でないCaseです。', href:`html/cases.html?unit=${encodeURIComponent(retryCase.unitId)}&case=${encodeURIComponent(retryCase.id)}` };
+    if (retryCase) return { kind:'長文問題を復習', title:`${retryCase.id} ${retryCase.title}`, meta:'途中または自己評価が十分でない長文問題です。', href:`html/cases.html?unit=${encodeURIComponent(retryCase.unitId)}&case=${encodeURIComponent(retryCase.id)}` };
     const retryQuestion = questions.find(item => practiceHistory[item.id] && !practiceState(item,practiceHistory[item.id]).mastered);
-    if (retryQuestion) return { kind:'短問 要復習', title:`${retryQuestion.id} ${retryQuestion.title}`, meta:'直近成績では理解済み判定になっていません。', href:`html/practice.html?unit=${encodeURIComponent(retryQuestion.unitId)}&question=${encodeURIComponent(retryQuestion.id)}` };
+    if (retryQuestion) return { kind:'短問を復習', title:`${retryQuestion.id} ${retryQuestion.title}`, meta:'直近成績では理解済み判定になっていません。', href:`html/practice.html?unit=${encodeURIComponent(retryQuestion.unitId)}&question=${encodeURIComponent(retryQuestion.id)}` };
     const nextLesson = lessons.find(item => !lessonState(lessonProgress[item.id]).mastered);
-    if (nextLesson) return { kind:'次のLesson', title:`${nextLesson.id} ${nextLesson.title}`, meta:'未理解の構造化Lessonを進めます。', href:`html/lesson.html?id=${encodeURIComponent(nextLesson.id)}` };
-    return { kind:'全教材確認済み', title:'150分模試で総合確認', meta:'登録済みLesson・短問・Caseは現在すべて理解確認済みです。', href:'html/mock.html' };
+    if (nextLesson) return { kind:'次のレッスン', title:`${nextLesson.id} ${nextLesson.title}`, meta:'まだ理解確認できていないレッスンを、解説から進めます。', href:`html/lesson.html?id=${encodeURIComponent(nextLesson.id)}` };
+    return { kind:'登録教材は確認済み', title:'150分模試で総合確認', meta:'登録済みのレッスン・短問・長文問題は現在すべて理解確認済みです。', href:'html/mock.html' };
   }
 
   function renderDashboard(lessons, questions, cases, lessonProgress, practiceHistory, caseHistory, mockHistory) {
@@ -86,7 +86,7 @@
     if ($('practice-progress-number')) $('practice-progress-number').textContent = `${practiceMastered} / ${questions.length}`;
     if ($('practice-progress-meta')) $('practice-progress-meta').textContent = practiceRetry ? `短問 要復習 ${practiceRetry}問` : '短問の要復習なし';
     if ($('case-progress-number')) $('case-progress-number').textContent = `${caseMastered} / ${cases.length}`;
-    if ($('case-progress-meta')) $('case-progress-meta').textContent = caseRetry ? `長文Case 要復習 ${caseRetry}本` : 'Caseの要復習なし';
+    if ($('case-progress-meta')) $('case-progress-meta').textContent = caseRetry ? `長文問題 要復習 ${caseRetry}本` : '長文問題の要復習なし';
     if ($('mock-progress-number')) $('mock-progress-number').textContent = `${mockHistory.length} 回`;
 
     const priority = buildPriority(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory);
@@ -94,7 +94,7 @@
     if ($('continue-title')) $('continue-title').textContent = priority.title;
     if ($('continue-meta')) $('continue-meta').textContent = priority.meta;
     if ($('continue-link')) $('continue-link').href = priority.href;
-    if ($('continue-hero')) { $('continue-hero').href = priority.href; $('continue-hero').textContent = '▶ 今日の優先項目を続ける'; }
+    if ($('continue-hero')) { $('continue-hero').href = priority.href; $('continue-hero').textContent = '今日の優先項目を続ける →'; }
     if ($('hero-lesson')) $('hero-lesson').textContent = `${lessonMastered}/${lessons.length}`;
     if ($('hero-practice')) $('hero-practice').textContent = `${practiceMastered}/${questions.length}`;
     if ($('hero-case')) $('hero-case').textContent = `${caseMastered}/${cases.length}`;
@@ -102,7 +102,7 @@
 
   function renderLoadError(error) {
     console.error('[home] init failed', error);
-    if ($('continue-kicker')) $('continue-kicker').textContent = 'LOAD ERROR';
+    if ($('continue-kicker')) $('continue-kicker').textContent = '読み込みエラー';
     if ($('continue-title')) $('continue-title').textContent = '教材データを読み込めませんでした';
     if ($('continue-meta')) $('continue-meta').textContent = '通信状態を確認してページを再読み込みしてください。主要機能のカードはそのまま利用できます。';
     for (const id of ['continue-link','continue-hero']) {
@@ -112,7 +112,7 @@
       link.textContent = '再読み込み →';
     }
     if ($('practice-progress-meta')) $('practice-progress-meta').textContent = '短問の集計に失敗';
-    if ($('case-progress-meta')) $('case-progress-meta').textContent = 'Caseの集計に失敗';
+    if ($('case-progress-meta')) $('case-progress-meta').textContent = '長文問題の集計に失敗';
     const root = $('home-unit-grid');
     if (root) {
       root.replaceChildren();
@@ -143,7 +143,7 @@
       if (!raw) { output.hidden = true; output.innerHTML=''; return; }
       const query = normalize(raw);
       const hits = finderCatalog.filter(item => item.searchable.includes(query)).slice(0,6);
-      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」を単語辞書で検索</strong><span>統合辞書から一致する用語を探す</span></a>`;
+      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>「${escapeHtml(raw)}」を単語辞書で検索</strong><span>統合辞書から一致する用語を探す</span></a>`;
       output.hidden = false;
     };
     input.addEventListener('input',render);
@@ -158,7 +158,7 @@
   }
 
   async function init() {
-    if (!window.APStudyState || !window.APLessonData?.load || !window.APPracticeData?.load || !window.APCaseData?.load) throw new Error('共通Data Loaderが不足しています。');
+    if (!window.APStudyState || !window.APLessonData?.load || !window.APPracticeData?.load || !window.APCaseData?.load) throw new Error('共通教材ローダーが不足しています。');
     const [curriculum,lessonBank,practiceBank,caseBank] = await Promise.all([
       fetchJson('json/curriculum/ap-2026-map.json'),
       window.APLessonData.load(''),
