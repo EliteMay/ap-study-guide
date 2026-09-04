@@ -1,0 +1,9 @@
+/* r26 beginner-first Unit Hub */
+.unit-lesson-description{display:block;margin-top:7px;max-width:72ch;color:var(--ap-muted,#64748b);font-size:.86rem;line-height:1.68;text-decoration:none}
+.unit-lesson-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.unit-lesson-meta>span{display:inline-flex;align-items:center;min-height:24px;padding:3px 8px;border:1px solid var(--ap-border,#d9e4e1);border-radius:999px;background:var(--ap-surface-2,#f8fbfa);color:var(--ap-muted,#64748b);font-size:.7rem;font-weight:800}
+.unit-lesson-card{align-items:flex-start}
+.unit-lesson-arrow{margin-top:4px}
+.unit-lesson-copy{padding-top:0}
+.unit-hub-description{max-width:72ch}
+@media(max-width:620px){.unit-lesson-description{font-size:.82rem}.unit-lesson-meta>span{font-size:.67rem}}
