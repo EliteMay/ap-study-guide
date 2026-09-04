@@ -13,6 +13,19 @@
     'system-development':'system',
     'project-management':'management'
   };
+  const CONTENT_TYPE_LABELS = {
+    concept:'概念',
+    text:'解説',
+    calculation:'計算',
+    diagram:'図解',
+    comparison:'比較',
+    'code-trace':'コード追跡',
+    exercise:'演習',
+    'worked-example':'例題',
+    steps:'手順',
+    mistakes:'つまずき対策',
+    reference:'参照'
+  };
 
   async function loadJson(path) {
     const response = await fetch(`../${path}`);
@@ -29,22 +42,50 @@
   function stateFor(progress, lessonId) {
     return window.APStudyState?.lessonState?.(progress[lessonId]) || { state:progress[lessonId]?.completed ? 'mastered' : 'unattempted', label:progress[lessonId]?.completed ? '理解確認済み' : '未着手', mastered:Boolean(progress[lessonId]?.completed) };
   }
+  function contentTypeLabel(type) {
+    const normalized = String(type || '').trim();
+    return CONTENT_TYPE_LABELS[normalized] || normalized.replace(/-/g, ' ');
+  }
+  function stateClass(state) {
+    if (state.mastered) return 'is-mastered';
+    if (state.state === 'due') return 'is-due';
+    return state.state === 'retry' ? 'is-retry' : 'is-unattempted';
+  }
 
   function renderHero(unit, lessons, progress) {
     const mastered = lessons.filter(lesson => stateFor(progress, lesson.id).mastered).length;
-    const next = lessons.find(lesson => !stateFor(progress, lesson.id).mastered) || lessons[0];
+    const due = lessons.filter(lesson => stateFor(progress, lesson.id).state === 'due').length;
+    const next = lessons.find(lesson => {
+      const state = stateFor(progress, lesson.id);
+      return state.state === 'due' || !state.mastered;
+    }) || lessons[0];
     document.title = `${unit.title} | AP Study Notes`;
     const glossaryDomain = GLOSSARY_DOMAINS[unit.id];
+    const middleLabel = (unit.officialMiddleCodes || []).map(code => `IPA 中分類 ${code}`).join('・');
     document.getElementById('unit-hero').innerHTML = `
-      <p class="eyebrow">CURRICULUM UNIT / ${(unit.officialMiddleCodes || []).map(code => `IPA ${code}`).join(' · ')}</p>
+      <p class="unit-breadcrumb"><a href="roadmap.html">13ユニット</a><span>/</span><span>${escapeHtml(unit.title)}</span></p>
+      <p class="eyebrow">学習ユニット${middleLabel ? ` / ${escapeHtml(middleLabel)}` : ''}</p>
       <h1>${escapeHtml(unit.title)}</h1>
-      <p class="lead">${escapeHtml(unit.auditNote || '')}</p>
-      <div class="home-actions">
-        ${next ? `<a class="home-action-btn" href="lesson.html?id=${encodeURIComponent(next.id)}">${mastered ? '次のLessonへ' : '最初のLessonから始める'}</a>` : ''}
-        <a class="home-action-btn secondary" href="practice.html?unit=${encodeURIComponent(unit.id)}">短問</a>
-        <a class="home-action-btn secondary" href="cases.html?unit=${encodeURIComponent(unit.id)}">長文Case</a>
-        ${glossaryDomain ? `<a class="home-action-btn secondary" href="glossary.html?domain=${encodeURIComponent(glossaryDomain)}">単語辞書</a>` : `<a class="home-action-btn secondary" href="glossary.html">単語辞書</a>`}
+      <p class="lead">この分野は${lessons.length}本のLessonで学びます。上から順に理解し、短問と長文Caseで知識を使えるか確認していきます。</p>
+      <div class="unit-hero-status"><span><strong>${mastered}</strong> / ${lessons.length} Lesson理解確認</span>${due ? `<span class="is-due">復習期限 ${due}</span>` : '<span>復習期限なし</span>'}</div>
+      <div class="unit-hero-actions">
+        ${next ? `<a class="unit-action is-primary" href="lesson.html?id=${encodeURIComponent(next.id)}">${due ? '復習から続ける' : mastered ? '次のLessonへ' : '最初のLessonから始める'} <span>→</span></a>` : ''}
+        <a class="unit-action" href="practice.html?unit=${encodeURIComponent(unit.id)}">短問</a>
+        <a class="unit-action" href="cases.html?unit=${encodeURIComponent(unit.id)}">長文Case</a>
+        ${glossaryDomain ? `<a class="unit-action" href="glossary.html?domain=${encodeURIComponent(glossaryDomain)}">単語辞書</a>` : '<a class="unit-action" href="glossary.html">単語辞書</a>'}
       </div>`;
+  }
+
+  function renderLessonCard(lesson, state, position) {
+    const types = (lesson.contentTypes || []).map(type => `<span>${escapeHtml(contentTypeLabel(type))}</span>`).join('');
+    return `<a class="unit-lesson-card ${stateClass(state)}" href="lesson.html?id=${encodeURIComponent(lesson.id)}">
+      <span class="unit-lesson-order" aria-hidden="true">${String(position).padStart(2,'0')}</span>
+      <span class="unit-lesson-copy">
+        <span class="unit-lesson-title-row"><strong>${escapeHtml(lesson.id)} ${escapeHtml(lesson.title)}</strong><span class="unit-lesson-state">${escapeHtml(state.label)}</span></span>
+        <span class="unit-lesson-types">${types || '<span>解説</span>'}</span>
+      </span>
+      <span class="unit-lesson-arrow" aria-hidden="true">→</span>
+    </a>`;
   }
 
   function render(curriculum, lessons) {
@@ -52,24 +93,32 @@
     if (!unit) throw new Error(`学習ユニット ${unitId || '(未指定)'} が見つかりません。`);
     const middleByCode = middleMap(curriculum);
     const unitLessons = lessons.filter(item => item.unitId === unit.id).sort((a,b) => Number(a.order) - Number(b.order));
+    const lessonPosition = new Map(unitLessons.map((lesson,index) => [lesson.id,index + 1]));
     const progress = readProgress();
     const mastered = unitLessons.filter(lesson => stateFor(progress, lesson.id).mastered).length;
     const due = unitLessons.filter(lesson => stateFor(progress, lesson.id).state === 'due').length;
+    const pct = unitLessons.length ? Math.round(mastered / unitLessons.length * 100) : 0;
 
     renderHero(unit, unitLessons, progress);
     document.getElementById('unit-summary').innerHTML = `
-      <div><strong>${unitLessons.length}</strong><span>構造化Lesson</span></div>
-      <div><strong>${mastered}</strong><span>理解確認済み</span></div>
-      <div><strong>${due}</strong><span>復習期限</span></div>
-      <div><strong>${(unit.officialMiddleCodes || []).length}</strong><span>IPA中分類</span></div>`;
+      <div class="unit-summary-metric"><strong>${unitLessons.length}</strong><span>構造化Lesson</span></div>
+      <div class="unit-summary-metric"><strong>${mastered}</strong><span>理解確認済み</span></div>
+      <div class="unit-summary-metric"><strong>${due}</strong><span>復習期限</span></div>
+      <div class="unit-summary-metric"><strong>${(unit.officialMiddleCodes || []).length}</strong><span>IPA中分類</span></div>
+      <div class="unit-overall-progress"><div><strong>ユニット進捗</strong><span>${mastered} / ${unitLessons.length} Lesson · ${pct}%</span></div><div class="unit-progress-track" aria-label="ユニット進捗 ${pct}%"><span style="width:${pct}%"></span></div></div>`;
 
     document.getElementById('unit-groups').innerHTML = (unit.officialMiddleCodes || []).map(code => {
       const middle = middleByCode.get(Number(code));
       const middleLessons = unitLessons.filter(lesson => (lesson.officialMiddleCodes || []).map(Number).includes(Number(code)));
-      return `<section class="unit-hub-group"><div class="unit-hub-heading"><div><p class="dashboard-eyebrow">IPA MIDDLE ${escapeHtml(code)}</p><h2>${escapeHtml(middle?.title || `中分類${code}`)}</h2></div><p>${(middle?.small || []).map(escapeHtml).join(' / ')}</p></div>${middleLessons.length ? `<div class="units-grid">${middleLessons.map(lesson => {
-        const state = stateFor(progress, lesson.id);
-        return `<a class="unit-card is-ready ${state.mastered ? 'is-lesson-complete' : ''}" href="lesson.html?id=${encodeURIComponent(lesson.id)}"><div class="unit-card-title">${escapeHtml(lesson.id)} ${escapeHtml(lesson.title)}</div><p class="unit-card-desc">${(lesson.contentTypes || []).map(escapeHtml).join('・')}</p><div class="unit-card-meta"><span class="unit-badge ${state.mastered ? 'ready' : ''}">${escapeHtml(state.label)}</span><span>中分類${(lesson.officialMiddleCodes || []).join('・')}</span></div></a>`;
-      }).join('')}</div>` : '<div class="unit-hub-empty">この中分類の構造化Lessonはまだありません。</div>'}</section>`;
+      const middleMastered = middleLessons.filter(lesson => stateFor(progress, lesson.id).mastered).length;
+      const description = (middle?.small || []).map(escapeHtml).join(' / ');
+      return `<section class="unit-hub-group">
+        <div class="unit-hub-heading">
+          <div><p class="unit-hub-kicker">IPA 中分類 ${escapeHtml(code)}</p><h2>${escapeHtml(middle?.title || `中分類${code}`)}</h2>${description ? `<p class="unit-hub-description">${description}</p>` : ''}</div>
+          <span class="unit-hub-progress">${middleMastered} / ${middleLessons.length} 理解確認</span>
+        </div>
+        ${middleLessons.length ? `<div class="unit-lesson-list">${middleLessons.map(lesson => renderLessonCard(lesson, stateFor(progress, lesson.id), lessonPosition.get(lesson.id))).join('')}</div>` : '<div class="unit-hub-empty">この中分類の構造化Lessonはまだありません。</div>'}
+      </section>`;
     }).join('');
   }
 
@@ -84,8 +133,9 @@
       render(applyCoverage(curriculum, coverage), lessonBank.lessons || []);
     } catch (error) {
       console.error(error);
-      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">CURRICULUM UNIT</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p>`;
-      document.getElementById('unit-groups').innerHTML = '<p><a href="roadmap.html">学習マップへ戻る</a></p>';
+      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">学習ユニット</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p><div class="unit-hero-actions"><a class="unit-action is-primary" href="roadmap.html">13ユニットへ戻る</a></div>`;
+      document.getElementById('unit-summary').replaceChildren();
+      document.getElementById('unit-groups').innerHTML = '<div class="unit-load-error"><strong>学習ユニットを表示できませんでした。</strong><p>通信状態を確認して再読み込みするか、13ユニット一覧へ戻ってください。</p><a href="roadmap.html">13ユニットへ戻る →</a></div>';
     }
   }
 

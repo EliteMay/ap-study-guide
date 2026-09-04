@@ -51,10 +51,11 @@ jobs:
         run: |
           npm install --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Browser smoke test
+      - name: Browser smoke and visual review
         run: |
           python3 -m http.server 4173 >/tmp/ap-study-http.log 2>&1 &
           node tests/e2e-smoke.mjs
+          node tests/visual-review.mjs
       - name: Upload visual review screenshots
         if: always()
         uses: actions/upload-artifact@v4
