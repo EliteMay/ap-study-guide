@@ -120,7 +120,6 @@ try {
   await noOverflow('CMP-04 320px');
   await goto('html/lesson.html?id=CMP-12');
   await page.waitForSelector('.lesson-inline-check');
-  await page.screenshot({ path:'artifacts/debug-cmp12-320.png', fullPage:true });
   await noOverflow('CMP-12 320px');
   await goto('html/unit.html?unit=computer-systems');
   await page.waitForSelector('.unit-lesson-card');
