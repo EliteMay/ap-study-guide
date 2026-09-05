@@ -11,8 +11,29 @@ async function goto(path) {
   await page.goto(`${base}/${path}`, { waitUntil:'networkidle' });
 }
 async function noOverflow(label) {
-  const width = await page.evaluate(() => ({ client:document.documentElement.clientWidth, scroll:document.documentElement.scrollWidth }));
-  if (width.scroll > width.client + 1) throw new Error(`${label}: horizontal overflow ${width.scroll} > ${width.client}`);
+  const report = await page.evaluate(() => {
+    const client = document.documentElement.clientWidth;
+    const scroll = document.documentElement.scrollWidth;
+    const offenders = [...document.querySelectorAll('body *')]
+      .map(node => {
+        const rect = node.getBoundingClientRect();
+        return {
+          tag:node.tagName.toLowerCase(),
+          className:typeof node.className === 'string' ? node.className : '',
+          text:(node.textContent || '').trim().replace(/\s+/g,' ').slice(0,90),
+          left:Math.round(rect.left),
+          right:Math.round(rect.right),
+          width:Math.round(rect.width),
+          scrollWidth:node.scrollWidth,
+          clientWidth:node.clientWidth
+        };
+      })
+      .filter(item => item.right > client + 1 || item.left < -1)
+      .sort((a,b) => (b.right - client) - (a.right - client))
+      .slice(0,10);
+    return { client, scroll, offenders };
+  });
+  if (report.scroll > report.client + 1) throw new Error(`${label}: horizontal overflow ${report.scroll} > ${report.client}; offenders=${JSON.stringify(report.offenders)}`);
 }
 
 try {
@@ -75,6 +96,7 @@ try {
   await noOverflow('CMP-04 320px');
   await goto('html/lesson.html?id=CMP-12');
   await page.waitForSelector('.lesson-inline-check');
+  await page.screenshot({ path:'artifacts/debug-cmp12-320.png', fullPage:true });
   await noOverflow('CMP-12 320px');
   await goto('html/unit.html?unit=computer-systems');
   await page.waitForSelector('.unit-lesson-card');
