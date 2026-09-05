@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "auditVersion": "2026.09.06-r29",
+    "unitId": "ui-media",
+    "unitTitle": "UI・情報メディア",
+    "syllabusVersion": "7.2",
+    "status": "pilot",
+    "officialMiddleCodes": [7, 8],
+    "source": "IPA 応用情報技術者試験（レベル3）シラバス Ver.7.2 / 2025年度公開問題"
+  },
+  "coverage": [
+    {
+      "middleCode": 7,
+      "area": "UI Architecture・UI技術・GUI・操作Feedback",
+      "evidenceLessons": ["UIM-01"]
+    },
+    {
+      "middleCode": 7,
+      "area": "UX・Usability・Accessibility・評価・人間中心/Universal Design",
+      "evidenceLessons": ["UIM-02", "UIM-04"]
+    },
+    {
+      "middleCode": 7,
+      "area": "情報設計・Navigation・Form・Error Message",
+      "evidenceLessons": ["UIM-03"]
+    },
+    {
+      "middleCode": 7,
+      "area": "画面・帳票・Code・Web設計・入力検査",
+      "evidenceLessons": ["UIM-04"]
+    },
+    {
+      "middleCode": 8,
+      "area": "静止画・色・解像度・Raster/Vector",
+      "evidenceLessons": ["MED-01"]
+    },
+    {
+      "middleCode": 8,
+      "area": "音声・Sampling・量子化・Audio圧縮",
+      "evidenceLessons": ["MED-02"]
+    },
+    {
+      "middleCode": 8,
+      "area": "動画・Frame Rate・Codec・Container・Streaming",
+      "evidenceLessons": ["MED-03"]
+    },
+    {
+      "middleCode": 8,
+      "area": "マルチメディア統合・Authoring・圧縮方式・応用",
+      "evidenceLessons": ["MED-04"]
+    }
+  ],
+  "contentDepthReview": {
+    "lessonCount": 8,
+    "existingLessonsPreserved": ["UIM-01", "UIM-02", "UIM-03", "MED-01", "MED-02", "MED-03"],
+    "newLessons": ["UIM-04", "MED-04"],
+    "allHaveObjectives": true,
+    "allHaveMistakesSection": true,
+    "allHaveThreeToFiveEndChecks": true,
+    "allHaveConcreteComparisonDiagramOrCalculation": true,
+    "note": "既存6 LessonはContent Depth Contractを満たすため本文を全面改稿せず、シラバスGapだけを2 Lessonで補完した。"
+  },
+  "practiceReview": {
+    "directCoverage": "8/8",
+    "newPracticeRefs": ["P-UIM-06", "P-UIM-07"],
+    "note": "全8 Lessonから短問へ直接到達できる。これは参照Coverageであり、科目Aの出題Variationや本番類似度の十分性とは別に監査する。"
+  },
+  "officialReview": {
+    "directMappedLessons": "4/8",
+    "mappedLessons": ["UIM-01", "UIM-02", "UIM-03", "UIM-04"],
+    "mapping": [
+      {"examId":"AP-2025-AUTUMN-B","question":8,"topic":"モバイルオーダーシステムの画面設計"}
+    ],
+    "note": "2025秋公開問8は画面設計・Usability・利用環境を扱うためUI側4 Lessonへ直接Mappingする。Media側4 Lessonへ該当しない公開午後問題を無理に割り当てない。"
+  },
+  "pendingReview": [
+    "科目Aで問われる画像・音声・動画・圧縮の計算/用語Variationを追加監査する。",
+    "マルチメディアAuthoringや周辺Formatの細部は、試験重要度に応じてReference補足を検討する。",
+    "FND-05の符号化/圧縮、NET-13のStreaming/QoS、SYS-03の画面要件との責務境界を継続確認する。"
+  ],
+  "completionBlockers": [
+    "2025公開公式問題への直接Mappingが8 Lesson中4 Lessonで、Media側は0/4。",
+    "科目A型のMedia計算・形式選択問題のVariationが十分か未確認。",
+    "PC/Mobileの最終Browser/Visual Validationを最終HEADで完了する必要がある。"
+  ]
+}
