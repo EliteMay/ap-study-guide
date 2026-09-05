@@ -2,6 +2,8 @@
   'use strict';
 
   const $ = id => document.getElementById(id);
+  const BACKUP_APP = 'AP Study Guide';
+  const ACCEPTED_BACKUP_APPS = new Set([BACKUP_APP, 'AP Study Notes']);
   let pendingBackup = null;
 
   function diagBreadcrumb(action, detail) { window.APDiagnostics?.breadcrumb?.(action, detail); }
@@ -64,7 +66,7 @@
     for (const [key,value] of existingEntries()) storage[key] = value;
     return {
       schemaVersion:expectedSchemaVersion(),
-      app:'AP Study Notes',
+      app:BACKUP_APP,
       build:window.APStudyUI?.build || 'unknown',
       exportedAt:new Date().toISOString(),
       storage
@@ -86,7 +88,7 @@
 
   function validateBackup(value) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('JSONの形式が正しくありません。');
-    if (value.app !== 'AP Study Notes') throw new Error('AP Study Notesのバックアップではありません。');
+    if (!ACCEPTED_BACKUP_APPS.has(value.app)) throw new Error('AP Study Guideのバックアップではありません。');
     if (Number(value.schemaVersion) !== expectedSchemaVersion()) throw new Error(`未対応のschemaVersionです: ${value.schemaVersion}`);
     if (!value.storage || typeof value.storage !== 'object' || Array.isArray(value.storage)) throw new Error('storageデータがありません。');
     const allowed = new Set(keys());
@@ -97,7 +99,7 @@
       recognized.push([key,validateStorageValue(key,raw)]);
     }
     if (!recognized.length) throw new Error('復元できる認識済みデータがありません。');
-    return { ...value, recognized };
+    return { ...value, recognized, legacyApp:value.app !== BACKUP_APP };
   }
 
   async function loadFile(file) {
@@ -121,6 +123,11 @@
     const build = document.createElement('span');
     build.textContent = `BUILD: ${String(backup.build || 'unknown')}`;
     preview.append(count,exported,build);
+    if (backup.legacyApp) {
+      const legacy = document.createElement('span');
+      legacy.textContent = '旧AP Study Notes形式（互換Import）';
+      preview.appendChild(legacy);
+    }
     $('data-import').disabled = false;
   }
 
@@ -166,7 +173,7 @@
       try {
         pendingBackup = await loadFile(file);
         previewBackup(pendingBackup);
-        diagBreadcrumb('backup.validate', { status:'success', keyCount:pendingBackup.recognized.length });
+        diagBreadcrumb('backup.validate', { status:'success', keyCount:pendingBackup.recognized.length, legacyApp:pendingBackup.legacyApp });
       } catch (error) {
         $('data-import-preview').textContent = `読み込み失敗: ${error.message}`;
         diagError('DATA-IMPORT-VALIDATE', error);
@@ -181,7 +188,7 @@
         if (existingEntries().length) downloadJson(makeBackup(),'ap-study-before-restore');
         restoreBackup(pendingBackup);
         renderExportSummary();
-        diagBreadcrumb('backup.restore', { status:'success', keyCount:pendingBackup.recognized.length });
+        diagBreadcrumb('backup.restore', { status:'success', keyCount:pendingBackup.recognized.length, legacyApp:pendingBackup.legacyApp });
         window.APStudyUI?.toast?.('学習データを復元しました');
       } catch (error) {
         $('data-import-preview').textContent = error.message;
@@ -192,7 +199,7 @@
     });
 
     $('data-reset').addEventListener('click', () => {
-      if (!confirm('このブラウザのAP Study Notes学習データをすべて削除します。バックアップなしでは元に戻せません。続けますか？')) return;
+      if (!confirm('このブラウザのAP Study Guide学習データをすべて削除します。バックアップなしでは元に戻せません。続けますか？')) return;
       if (!confirm('最終確認：本当に学習履歴・模試履歴・復習リスト・旧用語チェックを削除しますか？')) return;
       try {
         resetAll();
