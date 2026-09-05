@@ -59,10 +59,20 @@
   - 12/12 LessonでDirect Practiceを確認
   - 2025公開午後問題を `CMP-02 / CMP-07 / CMP-08 / CMP-09 / CMP-12` へ接続
   - Algorithmと同じUnit単位Companion Data + Lazy Overlay方式を再利用
-- Foundation / Algorithm / Computer Systemsとも末尾確認問題による現行Progress判定は維持
-- Foundation / Algorithm / Computer SystemsのIdentity Migration Contractで旧ID / URL / Storage互換を維持
+- UI・情報メディア `UIM-01`〜`UIM-04` / `MED-01`〜`MED-04` のPhase 1 Pilot
+  - 既存 `UIM-01〜03` / `MED-01〜03` の本文・ID・URL・Storageを維持
+  - IPA Ver.7.2で薄かった画面・帳票・コード・Web設計、人間中心設計を `UIM-04` で追加
+  - マルチメディア統合・圧縮方式・応用を `MED-04` で追加
+  - 中分類7〜8を8 Lessonで再監査
+  - 重要度 / 頻出度 / APでの見られ方 / 前提 / 関連 / Practice / Official Mapping / Inline Checkを追加
+  - Direct Practiceは8/8
+  - 2025秋公開午後問8を `UIM-01〜04` へ接続
+  - r29追加2問は科目A型Variation監査前のため150分模試Poolから一旦除外
+  - 学習順は `UIM-01→04 → MED-01→04`
+- 4 Pilotとも末尾確認問題による現行Progress判定は維持
+- Migration Contractで既存ID / URL / Storage互換を維持し、r29の新規2 LessonはAdditionとして明示
 
-**現在のPhase 1 Pilotは完成扱いではありません。** Foundationは公開公式問題の直接Mapping不足、Algorithm / Programmingは補助範囲Reviewと公開公式問題Mapping不足、Computer Systemsは公開公式問題Mapping・科目A型演習密度・Cross-unit責務Reviewが残るため、いずれも `pilot / in-progress` を維持します。
+**現在のPhase 1 Pilotは完成扱いではありません。** Foundationは公開公式問題の直接Mapping不足、Algorithm / Programmingは補助範囲Reviewと公開公式問題Mapping不足、Computer Systemsは公開公式問題Mapping・科目A型演習密度・Cross-unit責務Review、UI・情報メディアはMedia側の公開公式問題Mapping・科目A型Variation・Cross-unit責務Reviewが残るため、いずれも `pilot / in-progress` を維持します。
 
 ## 学習の基本導線
 
@@ -97,14 +107,14 @@
 | IPA大分類 | 9 |
 | IPA中分類 | 23 |
 | 学習ユニット | 13 |
-| 構造化Lesson | 118 |
-| 短問 | 139 |
-| Lesson→短問直接Coverage | 118 / 118 |
+| 構造化Lesson | 120 |
+| 短問 | 141 |
+| Lesson→短問直接Coverage | 120 / 120 |
 | 長文Case | 16 / 48設問 |
 | 旧用語資産 | 1,422語 |
 | 2025春・秋 公開午後問題Mapping | 22大問 |
 
-`13 Unit / 118 Lesson` は要件上固定ではありません。Lesson / Unitをmerge・split・移動する場合は、旧ID・URL・学習進捗・Practice / Case / Mock / Official mappingを確認し、Migrationなしで既存Dataを破壊しません。
+`13 Unit / 120 Lesson` は要件上固定ではありません。Lesson / Unitをmerge・split・追加・移動する場合は、旧ID・URL・学習進捗・Practice / Case / Mock / Official mappingを確認し、Migrationなしで既存Dataを破壊しません。
 
 ## Dataの正本
 
@@ -135,12 +145,14 @@ Algorithm / Programming Pilotは既存15 Lesson本文を変更せず、`json/pha
 
 Computer Systems Pilotも既存12 Lesson本文を変更せず、`json/phase1/computer-systems-r28.json` から同じRuntimeでPhase 1補助Contractを遅延Overlayします。
 
+UI・情報メディアPilotは既存6 Lessonを維持しつつ2 Lessonを追加し、8 Lesson共通のPhase 1補助Contractを `json/phase1/ui-media-r29.json` から遅延Overlayします。
+
 ### Practice
 
 - Manifest: `json/practice/practice-index.json`
 - Loader: `js/practice-data.js`
 
-全Lessonに少なくとも1つの直接Practice参照を持つ現行Contractは維持します。
+全Lessonに少なくとも1つの直接Practice参照を持つ現行Contractは維持します。r29の `P-UIM-06 / P-UIM-07` はUI・情報メディアのDirect Practiceとして使用しますが、科目A型Variation監査前のため `mockEligible:false` です。
 
 ### Case / Mock / Official
 
@@ -163,8 +175,9 @@ Home初期表示で全Terms / Practice / Official Dataを追加読込せず、�
 - Foundation Pilot: `json/migrations/lesson-phase1-r26.json`
 - Algorithm / Programming Pilot: `json/migrations/lesson-phase1-algorithm-r27.json`
 - Computer Systems Pilot: `json/migrations/lesson-phase1-computer-systems-r28.json`
+- UI・情報メディアPilot: `json/migrations/lesson-phase1-ui-media-r29.json`
 
-いずれも現時点ではIdentity Migrationです。Lesson ID・URL・Unit ID・既存学習Storage Keyを変更していません。将来merge / splitする場合は新しいMigration Contractを追加します。
+r29以前の既存LessonはIdentity Migrationで、Lesson ID・URL・Unit ID・既存学習Storage Keyを変更していません。r29の `UIM-04 / MED-04` は新規Additionとして記録します。将来merge / splitする場合は新しいMigration Contractを追加します。
 
 ## 学習状態 / 保存互換
 
@@ -192,7 +205,7 @@ Phase 2の5段階理解状態・適応型復習は、Phase 1完了前に現行�
 - Backup / Restoreで元Dataを先に破壊しない。
 - 公式問題と独自問題を混同しない。
 - 2026 CBT非公開実問題を公開問題として扱わない。
-- `23/23` や `118/118` を試験対策の完全性と表現しない。
+- `23/23` や `120/120` を試験対策の完全性と表現しない。
 - 未完成のPhase 1分野を完成扱いしない。
 
 ## Validation
@@ -212,11 +225,13 @@ Workflow: `.github/workflows/validate.yml`
 - Phase 1 Foundation Pilot Contract
 - Phase 1 Algorithm / Programming Pilot Contract
 - Phase 1 Computer Systems Pilot Contract
-- Legacy ID / URL / Storage identity migration
+- Phase 1 UI・情報メディアPilot Contract
+- Legacy ID / URL / Storage migration
 - PUBLIC-CONTENT Metadata
 - Playwright Browser Smoke
 - Algorithm Phase 1 Browser Smoke
 - Computer Systems Phase 1 Browser Smoke
+- UI・情報メディアPhase 1 Browser Smoke
 - Visual Review screenshot生成
 
 Phase 1専用Validator:
@@ -224,8 +239,10 @@ Phase 1専用Validator:
 - `tests/validate-phase1-foundation.mjs`
 - `tests/validate-phase1-algorithm.mjs`
 - `tests/validate-phase1-computer-systems.mjs`
+- `tests/validate-phase1-ui-media.mjs`
 - `tests/e2e-phase1-algorithm.mjs`
 - `tests/e2e-phase1-computer-systems.mjs`
+- `tests/e2e-phase1-ui-media.mjs`
 
 ## Documentation
 
