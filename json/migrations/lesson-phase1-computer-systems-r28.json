@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.09.06-r28",
+    "unitId": "computer-systems",
+    "status": "identity-only",
+    "storageKeysChanged": false,
+    "urlContractChanged": false,
+    "policy": "Phase 1 r28ではCMP-01〜CMP-12のID・Unit・URL・既存学習Storageを変更しない。将来merge/split/moveする場合は別Migrationを追加する。"
+  },
+  "lessonMappings": [
+    {"from":"CMP-01","to":["CMP-01"],"strategy":"identity"},
+    {"from":"CMP-02","to":["CMP-02"],"strategy":"identity"},
+    {"from":"CMP-03","to":["CMP-03"],"strategy":"identity"},
+    {"from":"CMP-04","to":["CMP-04"],"strategy":"identity"},
+    {"from":"CMP-05","to":["CMP-05"],"strategy":"identity"},
+    {"from":"CMP-06","to":["CMP-06"],"strategy":"identity"},
+    {"from":"CMP-07","to":["CMP-07"],"strategy":"identity"},
+    {"from":"CMP-08","to":["CMP-08"],"strategy":"identity"},
+    {"from":"CMP-09","to":["CMP-09"],"strategy":"identity"},
+    {"from":"CMP-10","to":["CMP-10"],"strategy":"identity"},
+    {"from":"CMP-11","to":["CMP-11"],"strategy":"identity"},
+    {"from":"CMP-12","to":["CMP-12"],"strategy":"identity"}
+  ],
+  "storage": {
+    "lessonProgressKey": "ap-study-lesson-progress-v1",
+    "practiceHistoryKey": "ap-study-practice-history-v1",
+    "caseHistoryKey": "ap-study-case-history-v1",
+    "mockHistoryKey": "ap-study-mock-history-v1"
+  },
+  "url": {
+    "lesson": "lesson.html?id=<LESSON_ID>"
+  }
+}

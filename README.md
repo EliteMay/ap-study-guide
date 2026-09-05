@@ -50,10 +50,19 @@
   - Lesson途中の小確認を2問ずつ追加
   - Phase 1補助Dataは `json/phase1/` から必要Unitだけ遅延読込
   - 旧Algorithm Auditを再照合し、解消済み範囲と補助範囲Reviewを分離
-- Foundation / Algorithmとも末尾確認問題による現行Progress判定は維持
-- `json/migrations/lesson-phase1-r26.json` / `json/migrations/lesson-phase1-algorithm-r27.json` による旧ID / URL / Storage互換Contract
+- コンピュータシステム `CMP-01`〜`CMP-12` のPhase 1 Pilot
+  - 既存12 Lessonの本文・ID・URL・Storageを維持
+  - 中分類3〜6の現行Coverageを再監査
+  - 重要度 / 頻出度 / APでの見られ方
+  - 前提 / 関連Lesson / 関連用語 / Practice / Official Mapping
+  - Lesson途中の小確認を2問ずつ追加
+  - 12/12 LessonでDirect Practiceを確認
+  - 2025公開午後問題を `CMP-02 / CMP-07 / CMP-08 / CMP-09 / CMP-12` へ接続
+  - Algorithmと同じUnit単位Companion Data + Lazy Overlay方式を再利用
+- Foundation / Algorithm / Computer Systemsとも末尾確認問題による現行Progress判定は維持
+- Foundation / Algorithm / Computer SystemsのIdentity Migration Contractで旧ID / URL / Storage互換を維持
 
-**現在のPhase 1 Pilotは完成扱いではありません。** Foundationは公開公式問題の直接Mapping不足、Algorithm / Programmingは補助範囲Reviewと公開公式問題の直接Mapping不足が残るため、どちらも `pilot / in-progress` を維持します。
+**現在のPhase 1 Pilotは完成扱いではありません。** Foundationは公開公式問題の直接Mapping不足、Algorithm / Programmingは補助範囲Reviewと公開公式問題Mapping不足、Computer Systemsは公開公式問題Mapping・科目A型演習密度・Cross-unit責務Reviewが残るため、いずれも `pilot / in-progress` を維持します。
 
 ## 学習の基本導線
 
@@ -124,6 +133,8 @@ Foundation Pilotは各Foundation Lesson JSONへPhase 1 Metadataを保持しま�
 
 Algorithm / Programming Pilotは既存15 Lesson本文を変更せず、`json/phase1/algorithm-programming-r27.json` からPhase 1補助Contractを遅延Overlayします。
 
+Computer Systems Pilotも既存12 Lesson本文を変更せず、`json/phase1/computer-systems-r28.json` から同じRuntimeでPhase 1補助Contractを遅延Overlayします。
+
 ### Practice
 
 - Manifest: `json/practice/practice-index.json`
@@ -151,6 +162,7 @@ Home初期表示で全Terms / Practice / Official Dataを追加読込せず、�
 
 - Foundation Pilot: `json/migrations/lesson-phase1-r26.json`
 - Algorithm / Programming Pilot: `json/migrations/lesson-phase1-algorithm-r27.json`
+- Computer Systems Pilot: `json/migrations/lesson-phase1-computer-systems-r28.json`
 
 いずれも現時点ではIdentity Migrationです。Lesson ID・URL・Unit ID・既存学習Storage Keyを変更していません。将来merge / splitする場合は新しいMigration Contractを追加します。
 
@@ -199,17 +211,21 @@ Workflow: `.github/workflows/validate.yml`
 - Project metadata / LEARNING Profile
 - Phase 1 Foundation Pilot Contract
 - Phase 1 Algorithm / Programming Pilot Contract
+- Phase 1 Computer Systems Pilot Contract
 - Legacy ID / URL / Storage identity migration
 - PUBLIC-CONTENT Metadata
 - Playwright Browser Smoke
 - Algorithm Phase 1 Browser Smoke
+- Computer Systems Phase 1 Browser Smoke
 - Visual Review screenshot生成
 
 Phase 1専用Validator:
 
 - `tests/validate-phase1-foundation.mjs`
 - `tests/validate-phase1-algorithm.mjs`
+- `tests/validate-phase1-computer-systems.mjs`
 - `tests/e2e-phase1-algorithm.mjs`
+- `tests/e2e-phase1-computer-systems.mjs`
 
 ## Documentation
 

@@ -52,18 +52,18 @@
     return state.state === 'retry' ? 'is-retry' : 'is-unattempted';
   }
 
-  function renderHero(unit, lessons, progress) {
+  function renderHero(unit, lessons, progress, unitCount) {
     const mastered = lessons.filter(lesson => stateFor(progress, lesson.id).mastered).length;
     const due = lessons.filter(lesson => stateFor(progress, lesson.id).state === 'due').length;
     const next = lessons.find(lesson => {
       const state = stateFor(progress, lesson.id);
       return state.state === 'due' || !state.mastered;
     }) || lessons[0];
-    document.title = `${unit.title} | AP Study Notes`;
+    document.title = `${unit.title} | AP Study Guide`;
     const glossaryDomain = GLOSSARY_DOMAINS[unit.id];
     const middleLabel = (unit.officialMiddleCodes || []).map(code => `IPA 中分類 ${code}`).join('・');
     document.getElementById('unit-hero').innerHTML = `
-      <p class="unit-breadcrumb"><a href="roadmap.html">13ユニット</a><span>/</span><span>${escapeHtml(unit.title)}</span></p>
+      <p class="unit-breadcrumb"><a href="roadmap.html">${unitCount}ユニット</a><span>/</span><span>${escapeHtml(unit.title)}</span></p>
       <p class="eyebrow">学習ユニット${middleLabel ? ` / ${escapeHtml(middleLabel)}` : ''}</p>
       <h1>${escapeHtml(unit.title)}</h1>
       <p class="lead">この分野は${lessons.length}本のLessonで学びます。上から順に理解し、短問と長文Caseで知識を使えるか確認していきます。</p>
@@ -99,7 +99,7 @@
     const due = unitLessons.filter(lesson => stateFor(progress, lesson.id).state === 'due').length;
     const pct = unitLessons.length ? Math.round(mastered / unitLessons.length * 100) : 0;
 
-    renderHero(unit, unitLessons, progress);
+    renderHero(unit, unitLessons, progress, (curriculum.studyUnits || []).length);
     document.getElementById('unit-summary').innerHTML = `
       <div class="unit-summary-metric"><strong>${unitLessons.length}</strong><span>構造化Lesson</span></div>
       <div class="unit-summary-metric"><strong>${mastered}</strong><span>理解確認済み</span></div>
@@ -133,9 +133,9 @@
       render(applyCoverage(curriculum, coverage), lessonBank.lessons || []);
     } catch (error) {
       console.error(error);
-      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">学習ユニット</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p><div class="unit-hero-actions"><a class="unit-action is-primary" href="roadmap.html">13ユニットへ戻る</a></div>`;
+      document.getElementById('unit-hero').innerHTML = `<p class="eyebrow">学習ユニット</p><h1>読み込みエラー</h1><p class="lead">${escapeHtml(error.message)}</p><div class="unit-hero-actions"><a class="unit-action is-primary" href="roadmap.html">学習分野へ戻る</a></div>`;
       document.getElementById('unit-summary').replaceChildren();
-      document.getElementById('unit-groups').innerHTML = '<div class="unit-load-error"><strong>学習ユニットを表示できませんでした。</strong><p>通信状態を確認して再読み込みするか、13ユニット一覧へ戻ってください。</p><a href="roadmap.html">13ユニットへ戻る →</a></div>';
+      document.getElementById('unit-groups').innerHTML = '<div class="unit-load-error"><strong>学習ユニットを表示できませんでした。</strong><p>通信状態を確認して再読み込みするか、学習分野へ戻ってください。</p><a href="roadmap.html">学習分野へ戻る →</a></div>';
     }
   }
 
