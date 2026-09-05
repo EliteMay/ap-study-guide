@@ -899,12 +899,13 @@ Unit / Lesson再編時は旧IDとの対応を管理する。
 - 現在のBrowser Screenshot / Responsive状態
 - 2027年度正式制度が確定した時点で年度差分を再確認
 - 公式過去問収録時は出典・改変表示を個別検証
+- 現在の`README.md` / `docs/仕様書.md` / `json/project-meta.json`には旧名称`AP Study Notes`、旧Repository表記、`LEARNING`未採用等の実装前状態が残る。実装会話で現行コードと整合させながら更新する。
 
 ## 32. Implementation Handoff
 
 - Status: Ready for implementation
 - Requirements updated: 2026-09-05
-- GitHub save verified: このファイル作成後に再Fetchして確認する
+- GitHub save verified: Yes
 - Unresolved Core Decisions: None
 - Unresolved High-cost Decisions: None
 - Implementation conversation: `ap-study-guide（実装）`
