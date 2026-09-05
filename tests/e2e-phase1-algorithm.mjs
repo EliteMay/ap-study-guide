@@ -37,7 +37,8 @@ try {
   const firstInline = page.locator('.lesson-inline-check').first();
   await firstInline.locator(`[data-inline-option="${alg01.inlineChecks[0].answerIndex}"]`).click();
   if (!await firstInline.locator('.lesson-inline-feedback:not([hidden])').isVisible()) throw new Error('ALG-01 inline feedback did not render');
-  if (!await page.locator('a[href="practice.html?unit=algorithm-programming&question=PC-ALG-01"]').isVisible()) throw new Error('ALG-01 direct practice link missing');
+  const mapPractice = page.locator('.lesson-connections a[href="practice.html?unit=algorithm-programming&question=PC-ALG-01"]');
+  if (!await mapPractice.isVisible()) throw new Error('ALG-01 learning-map direct practice link missing');
 
   await goto('html/lesson.html?id=ALG-10');
   await page.waitForSelector('.lesson-connections');
