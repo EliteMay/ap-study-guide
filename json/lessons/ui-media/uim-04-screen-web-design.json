@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "id": "UIM-04",
+    "title": "画面・帳票・コード・Web設計と人間中心設計",
+    "unitId": "ui-media",
+    "officialMiddleCodes": [7],
+    "qualityStatus": "individual-v1",
+    "estimatedMinutes": 40
+  },
+  "intro": "画面設計は見た目を整える作業だけではありません。入力・出力・識別コード・Web表示を利用者の目的と利用環境に合わせ、誤操作を減らしながら検証して改善する設計です。",
+  "objectives": [
+    "画面・帳票・コード・Web設計の役割を区別できる。",
+    "入力検査を目的に応じて選べる。",
+    "識別コードの設計方法とCheck Digitの役割を説明できる。",
+    "Responsive Webと人間中心設計の流れをケースで判断できる。"
+  ],
+  "sections": [
+    {
+      "type": "comparison",
+      "title": "1. 画面・帳票・コード・Web設計を分ける",
+      "columns": ["設計対象", "主な目的", "確認すること"],
+      "rows": [
+        ["画面設計", "入力と操作を正確に進める", "項目順、状態、Feedback、Error"],
+        ["帳票設計", "必要情報を読み取りやすく出力する", "Group、桁、改Page、合計、視線順"],
+        ["コード設計", "対象を一意または分類しやすく識別する", "桁構成、拡張余地、誤入力検知"],
+        ["Web設計", "端末・回線・Navigation差を含めて利用できるようにする", "Responsive、帯域、Accessibility、現在地"]
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "2. 入力検査は何を防ぐか",
+      "columns": ["検査", "見るもの", "例"],
+      "rows": [
+        ["必須Check", "値が存在するか", "社員番号を空欄にしない"],
+        ["形式Check", "文字種や書式", "日付をYYYY-MM-DDで受ける"],
+        ["範囲Check", "上限・下限", "数量を1〜999に制限"],
+        ["組合せCheck", "複数項目の矛盾", "開始日は終了日以前"],
+        ["Check Digit", "識別番号の転記誤り等", "番号本体から検査用桁を計算"]
+      ],
+      "note": "入力検査は正しい業務判断を保証するものではありません。形式が正しくても意味が誤っているDataはあり得ます。"
+    },
+    {
+      "type": "steps",
+      "title": "3. 読みやすい画面・帳票を組み立てる",
+      "items": [
+        {"label": "① Task順に並べる", "body": "利用者が判断・入力する順に項目を配置し、内部DB順をそのまま画面へ出さない。"},
+        {"label": "② 関連項目をGroup化", "body": "住所、支払、明細など意味のまとまりを見出しと余白で分ける。"},
+        {"label": "③ 桁と単位を明示", "body": "金額、時刻、割合などは単位・桁区切り・小数桁を用途に合わせる。"},
+        {"label": "④ Errorを近くへ返す", "body": "何が問題で、どう修正できるかを対象項目の近くに示す。"},
+        {"label": "⑤ 出力後の利用を考える", "body": "帳票では印刷、PDF、集計、Page跨ぎなど実際の利用方法まで確認する。"}
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "4. 識別コードを設計する",
+      "columns": ["方式", "特徴", "注意"],
+      "rows": [
+        ["連番", "発番が簡単で一意化しやすい", "番号自体から意味を読みにくい"],
+        ["分類Code", "桁や範囲へ分類の意味を持たせる", "分類変更でCode体系が窮屈になる"],
+        ["階層Code", "上位→下位の分類を桁へ表す", "階層変更の影響が大きい"],
+        ["Mnemonic", "名称の一部など覚えやすい表現", "重複や名称変更への対応が必要"],
+        ["Check Digit", "番号本体から検査用桁を算出", "誤り検知であり暗号化ではない"]
+      ]
+    },
+    {
+      "type": "diagram",
+      "title": "5. Web画面を端末と回線へ適応させる",
+      "diagrams": [
+        {
+          "label": "同じTaskを複数環境へ",
+          "connector": "→",
+          "nodes": [
+            {"title": "Content", "value": "優先情報を決める"},
+            {"title": "Responsive", "value": "幅に応じ再配置"},
+            {"title": "Input", "value": "Touch/Keyboard対応"},
+            {"title": "Network", "value": "重いMediaを制御"},
+            {"title": "Verify", "value": "実端末で確認"}
+          ],
+          "note": "小画面で単純に縮小するのではなく、Layout、Target Size、Navigation、Media量を利用条件に合わせます。"
+        }
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "6. 人間中心設計は反復する",
+      "items": [
+        {"label": "① 利用状況を理解", "body": "誰が、どこで、何の目的で使うかを調べる。"},
+        {"label": "② User要求を明確化", "body": "利用者が達成したいTaskと制約を言語化する。"},
+        {"label": "③ 解決案を設計", "body": "画面、Flow、Prototypeを作り、Universal DesignやAccessibilityも含める。"},
+        {"label": "④ 評価", "body": "実利用者や評価手法で問題を観測し、要求・設計へ戻る。"}
+      ],
+      "note": "最初の案を正解とせず、評価結果から前の工程へ戻ることが重要です。"
+    },
+    {
+      "type": "mistakes",
+      "title": "7. よくある誤解",
+      "items": [
+        "Check Digitは番号の転記誤り等を検出する仕組みで、本人確認や暗号化の代わりではない。",
+        "画面項目をDBのColumn順に並べても、利用者のTask順と一致するとは限らない。",
+        "Responsive Designは文字や画面全体を小さく縮めるだけではない。",
+        "人間中心設計は一度UserへInterviewして終わりではなく、設計と評価を反復する。"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "uim04-q1",
+      "prompt": "入力した開始日が終了日より後になっていないか確認する検査はどれか。",
+      "options": ["組合せCheck", "必須Checkだけ", "Check Digitだけ", "Compression"],
+      "answerIndex": 0,
+      "explanation": "複数項目の関係に矛盾がないかを見るため、組合せCheckに当たります。"
+    },
+    {
+      "id": "uim04-q2",
+      "prompt": "商品番号の末尾に番号本体から計算した1桁を付け、入力誤りを検出する仕組みは？",
+      "options": ["Check Digit", "Encryption", "Hash Table", "Routing"],
+      "answerIndex": 0,
+      "explanation": "Check Digitは番号本体から検査用の桁を計算し、転記誤りなどの検出に使います。"
+    },
+    {
+      "id": "uim04-q3",
+      "prompt": "Mobile対応として最も適切なのはどれか。",
+      "options": ["画面幅に応じLayoutや操作Targetを再構成する", "Desktop画面をそのまま50%縮小するだけ", "Hoverだけで全操作を説明する", "画像を必ず最大解像度で送る"],
+      "answerIndex": 0,
+      "explanation": "Responsive Designでは幅だけでなく、Layout、操作方式、Media量など利用条件に合わせて調整します。"
+    },
+    {
+      "id": "uim04-q4",
+      "prompt": "人間中心設計で評価後に重大な問題が見つかった。最も適切な考え方は？",
+      "options": ["要求や設計へ戻って反復する", "公開済みなら直さない", "評価結果を捨てる", "利用者を設計に合わせる"],
+      "answerIndex": 0,
+      "explanation": "人間中心設計は利用状況・要求・設計・評価を反復し、観測結果から改善します。"
+    }
+  ]
+}
