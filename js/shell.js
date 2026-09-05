@@ -166,7 +166,7 @@
     return {
       schemaVersion:DIAGNOSTICS_SCHEMA_VERSION,
       project:{
-        name:'AP Study Notes',
+        name:'AP Study Guide',
         appVersion:window.APStudyUI?.build || 'unknown',
         build:window.APStudyUI?.build || 'unknown',
         dataSchemaVersion:Number(meta?.storage?.backupSchemaVersion || 1)
@@ -241,11 +241,12 @@
   const NAV_GROUPS = [
     { label:'学習', items:[
       ['home','🏠 ホーム','index.html'],
-      ['roadmap','🧭 13ユニット','roadmap.html'],
+      ['roadmap','🧭 学習分野','roadmap.html'],
       ['progress','📈 学習進捗','progress.html']
     ]},
     { label:'調べる', items:[
-      ['glossary','🔎 単語辞書','glossary.html'],
+      ['search','🔎 横断検索','search.html'],
+      ['glossary','📖 単語辞書','glossary.html'],
       ['official-past','🎯 公式問題対応','official-past.html']
     ]},
     { label:'演習', items:[
@@ -362,7 +363,7 @@
         const response = await fetch(projectMetaPath());
         if (!response.ok) throw new Error(`project-meta.json: HTTP ${response.status}`);
         const meta = await response.json();
-        if (!meta || meta.app !== 'AP Study Notes' || !String(meta.build || '').trim()) throw new Error('project-meta.json の形式が正しくありません。');
+        if (!meta || meta.app !== 'AP Study Guide' || !String(meta.build || '').trim()) throw new Error('project-meta.json の形式が正しくありません。');
         window.APStudyUI.meta = meta;
         window.APStudyUI.build = String(meta.build);
         syncBuildLabels();
@@ -386,6 +387,7 @@
     if (page === 'practice.html') return 'practice';
     if (page === 'cases.html') return 'cases';
     if (page === 'mock.html') return 'mock';
+    if (page === 'search.html') return 'search';
     if (page === 'glossary.html') return 'glossary';
     if (page === 'official-past.html') return 'official-past';
     if (page === 'security-past.html') return 'past';
@@ -438,14 +440,14 @@
 
     rebuildNavigation(nav);
     const label = nav.querySelector('.unit-nav-label');
-    if (label) label.textContent = 'AP STUDY NOTES';
+    if (label) label.textContent = 'AP STUDY GUIDE';
 
     const footer = document.createElement('div');
     footer.className = 'ap-shell-footer';
     footer.innerHTML = `<div class="ap-shell-actions"><a class="ap-shell-btn" href="${hrefFor('practice.html')}" style="display:grid;place-items:center;text-decoration:none">短問演習</a><button class="ap-shell-btn" type="button" data-ap-theme-toggle aria-label="テーマ変更">☾</button></div><p class="ap-shell-version" data-ap-build>BUILD ?</p>`;
     nav.querySelector('.container')?.appendChild(footer);
 
-    const current = nav.querySelector('.unit-nav-link.is-current')?.textContent?.trim() || document.querySelector('h1')?.textContent?.trim() || 'AP Study Notes';
+    const current = nav.querySelector('.unit-nav-link.is-current')?.textContent?.trim() || document.querySelector('h1')?.textContent?.trim() || 'AP Study Guide';
     const mobile = document.createElement('div');
     mobile.className = 'ap-mobile-bar';
     mobile.innerHTML = `<button class="ap-mobile-menu" type="button" aria-label="メニューを開く" aria-expanded="false">☰</button><span class="ap-mobile-title">${current}</span><span class="ap-mobile-version" data-ap-build-short>…</span>`;
