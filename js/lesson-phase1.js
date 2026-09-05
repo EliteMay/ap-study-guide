@@ -120,7 +120,7 @@
       const query = typeof term === 'string' ? term : (term.query || term.label);
       return `<a href="search.html?q=${encodeURIComponent(query || label)}">${escapeHtml(label)}</a>`;
     }).join('')}</div></div>`);
-    if (practice.length) groups.push(`<div class="lesson-connection-group"><strong>直接つながる短問</strong><div class="lesson-link-list">${practice.map(ref => `<a href="practice.html?unit=${encodeURIComponent(meta.unitId || '')}&question=${encodeURIComponent(ref)}">${escapeHtml(ref)}</a>`).join('')}</div></div>`);
+    if (practice.length) groups.push(`<div class="lesson-connection-group"><strong>直接つながる短問</strong><div class="lesson-link-list">${practice.map(ref => `<a href="practice.html?question=${encodeURIComponent(ref)}&unit=${encodeURIComponent(meta.unitId || '')}">${escapeHtml(ref)}</a>`).join('')}</div></div>`);
     if (official.length) groups.push(`<div class="lesson-connection-group"><strong>関連する公開公式問題</strong><div class="lesson-link-list">${official.map(ref => `<a href="official-past.html">${escapeHtml(ref.label || `${ref.examId} 問${ref.question}`)}</a>`).join('')}</div></div>`);
 
     return `<section class="lesson-block lesson-connections"><div class="lesson-connection-heading"><div><p class="lesson-phase1-kicker">LEARNING MAP</p><h2>このLessonの位置づけ</h2></div><a href="search.html?q=${encodeURIComponent(meta.id || '')}">関連項目を検索</a></div><div class="lesson-connection-grid">${groups.join('')}</div></section>`;
