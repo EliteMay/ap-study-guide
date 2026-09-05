@@ -111,6 +111,9 @@ for (const required of ['PHASE1_INDEX_PATH','loadPhase1Overlay','applyPhase1Over
 }
 if (!phaseRuntime.includes("meta.phase1Status === 'pilot'")) fail('pilot status chip guard missing');
 
+const unitPage = read('html/unit.html');
+if (!unitPage.includes('AP Study Guide') || unitPage.includes('AP Study Notes')) fail('Algorithm Unit Hub exposes stale product name');
+
 const officialGapIds = enhancementRows.filter(row => !row.officialProblemRefs.length).map(row => row.id);
 console.log(`[phase1-algorithm] OK: ${algorithmIds.length} current Algorithm/Programming Lessons preserve identity, direct Practice coverage, lazy Phase 1 metadata and inline checks.`);
 console.log(`[phase1-algorithm] Pilot remains in-progress: ${officialGapIds.length} lessons have no explicit 2025 published-official mapping (${officialGapIds.join(', ')}); supplementary syllabus review also remains open.`);
