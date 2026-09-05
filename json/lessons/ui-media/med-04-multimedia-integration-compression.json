@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "id": "MED-04",
+    "title": "マルチメディア統合・圧縮方式・応用",
+    "unitId": "ui-media",
+    "officialMiddleCodes": [8],
+    "qualityStatus": "individual-v1",
+    "estimatedMinutes": 40
+  },
+  "intro": "マルチメディアは画像・音声・動画を別々に覚えるだけでは不十分です。複数Mediaをどうまとめ、どこで圧縮し、回線や端末の制約に合わせて届けるかまで一連の仕組みとして理解します。",
+  "objectives": [
+    "マルチメディア統合とAuthoringの役割を説明できる。",
+    "可逆圧縮と非可逆圧縮を用途から選べる。",
+    "圧縮率・Bitrate・容量の関係を計算できる。",
+    "配信・保存・編集など利用目的からMedia方式を比較できる。"
+  ],
+  "sections": [
+    {
+      "type": "diagram",
+      "title": "1. 複数Mediaを一つの体験へまとめる",
+      "diagrams": [
+        {
+          "label": "マルチメディアContentの構成",
+          "connector": "→",
+          "nodes": [
+            {"title": "素材", "value": "Text/Image/Audio/Video"},
+            {"title": "Authoring", "value": "配置・同期・Link"},
+            {"title": "Container", "value": "Mediaをまとめる"},
+            {"title": "Delivery", "value": "保存/Download/Streaming"},
+            {"title": "Playback", "value": "端末で復号・表示"}
+          ],
+          "note": "Codecは各Mediaの圧縮・復号、Containerは複数Stream等をまとめる役割として分けて考えます。"
+        }
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "2. 圧縮方式を用途で選ぶ",
+      "columns": ["方式", "特徴", "向く場面"],
+      "rows": [
+        ["可逆圧縮", "復号後に元Dataを完全復元", "Text、Program、編集元、PNG/FLAC等"],
+        ["非可逆圧縮", "知覚上影響の小さい情報等を捨てて高圧縮", "写真、音楽配信、Video等"],
+        ["RLE", "同じ値の連続を値と回数で表現", "同色が長く続く単純Data"],
+        ["Huffman", "出現頻度の高いSymbolへ短いCodeを割当", "可逆符号化の基本理解"],
+        ["予測・差分", "前後や周辺から予測し差分を小さくする", "画像・音声・動画Codecの考え方"]
+      ]
+    },
+    {
+      "type": "code-trace",
+      "title": "3. 圧縮率と容量を計算する",
+      "question": "元Data 800MBを圧縮して200MBになった。圧縮後Sizeは元の何%か。また削減率は何%か。",
+      "code": [
+        "圧縮後割合 = 200 ÷ 800 × 100",
+        "= 25%",
+        "削減率 = 100% - 25% = 75%"
+      ],
+      "traceColumns": ["項目", "値"],
+      "traceRows": [
+        ["元Data", "800MB"],
+        ["圧縮後", "200MB"],
+        ["圧縮後割合", "25%"],
+        ["削減率", "75%"]
+      ],
+      "answer": "圧縮後25%、削減率75%",
+      "explanation": "『圧縮率』という語は文脈で定義が揺れることがあるため、試験では何を分子・分母とするか式で確認します。"
+    },
+    {
+      "type": "comparison",
+      "title": "4. Media形式と役割を混同しない",
+      "columns": ["例", "主な役割", "Point"],
+      "rows": [
+        ["JPEG/PNG/SVG", "静止画表現", "写真・透明・Vector等で使い分け"],
+        ["PCM/FLAC/AAC", "音声表現・圧縮", "Lossless/LossyとBitrateを分ける"],
+        ["H.264/HEVC/AV1", "Video Codec", "映像を圧縮・復号"],
+        ["MP4/WebM", "Container", "Video/Audio等をまとめる"],
+        ["Exif", "画像のMetadata", "撮影条件等を保持する場合がある"]
+      ]
+    },
+    {
+      "type": "comparison",
+      "title": "5. 配信方式は容量だけで決めない",
+      "columns": ["観点", "見る値", "例"],
+      "rows": [
+        ["保存容量", "File Size", "端末StorageやArchive"],
+        ["回線", "Bitrate/Bandwidth", "Streamingが止まらないか"],
+        ["遅延", "Latency", "Live会議や操作系"],
+        ["品質", "解像度/Frame Rate/Audio品質", "用途に必要な品質か"],
+        ["Accessibility", "Caption/Transcript/操作制御", "映像・音声以外でも内容へ到達できるか"]
+      ]
+    },
+    {
+      "type": "steps",
+      "title": "6. マルチメディア応用を設計する",
+      "items": [
+        {"label": "① 利用目的を決める", "body": "編集、保存、配信、教育、広告、会議など何を優先するか明確にする。"},
+        {"label": "② Mediaを選ぶ", "body": "Text、図、音声、動画を役割に応じて組み合わせる。"},
+        {"label": "③ 圧縮とContainerを選ぶ", "body": "品質、互換性、容量、計算負荷を比較する。"},
+        {"label": "④ 配信条件を確認", "body": "端末性能、画面Size、回線、Latency、Data上限を確認する。"},
+        {"label": "⑤ 再生失敗時も設計", "body": "Caption、代替Text、品質切替、再試行などFallbackを用意する。"}
+      ]
+    },
+    {
+      "type": "mistakes",
+      "title": "7. よくある誤解",
+      "items": [
+        "可逆圧縮は無圧縮と同義ではない。元Dataを完全復元できてもSizeは小さくできる。",
+        "MP4の拡張子だけでは内部Video Codecを断定できない。",
+        "高い圧縮率だけを追うと画質、遅延、再生負荷、互換性を失う場合がある。",
+        "動画を置けば必ず理解しやすくなるわけではなく、Textや図の方が適する情報もある。"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "med04-q1",
+      "prompt": "復号後に元Dataを完全に再現できる圧縮はどれか。",
+      "options": ["可逆圧縮", "非可逆圧縮だけ", "必ず無圧縮", "暗号化"],
+      "answerIndex": 0,
+      "explanation": "可逆圧縮は圧縮前のDataを完全復元できます。"
+    },
+    {
+      "id": "med04-q2",
+      "prompt": "同じ値が長く連続するDataを『値と繰返し回数』で表す代表的方式は？",
+      "options": ["RLE", "RSA", "RAID", "Round Robin"],
+      "answerIndex": 0,
+      "explanation": "Run-Length Encodingは連続する同一値を値と長さで表現します。"
+    },
+    {
+      "id": "med04-q3",
+      "prompt": "800MBが200MBになったとき、圧縮後Sizeは元の何%か。",
+      "options": ["25%", "50%", "75%", "400%"],
+      "answerIndex": 0,
+      "explanation": "200÷800×100=25%です。"
+    },
+    {
+      "id": "med04-q4",
+      "prompt": "Video Streamingで回線変動へ追従するために特に有効な考え方は？",
+      "options": ["Bitrateや品質を条件に応じて切り替える", "常に最大Bitrate固定", "Captionを削除する", "CodecとContainerを同じ意味として扱う"],
+      "answerIndex": 0,
+      "explanation": "Adaptiveな品質切替は回線状況に応じて再生停止を抑えるのに役立ちます。"
+    }
+  ]
+}
