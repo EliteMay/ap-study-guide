@@ -83,7 +83,8 @@ try {
   await goto('html/search.html?q=FND-02');
   await page.waitForFunction(() => [...document.querySelectorAll('.search-result code')].some(node => node.textContent === 'FND-02'));
   if (!await page.locator('.search-result').filter({ hasText:'FND-02' }).filter({ hasText:'2進数・基数変換・補数・数値表現' }).first().isVisible()) throw new Error('cross-search failed to find Lesson by exact ID');
-  if (!await page.getByRole('option', { name:'Lesson' }).isVisible()) throw new Error('cross-search type filter missing');
+  const lessonFilterOption = page.locator('#search-type-filter option[value="lesson"]');
+  if (await lessonFilterOption.count() !== 1 || (await lessonFilterOption.textContent())?.trim() !== 'Lesson') throw new Error('cross-search type filter missing');
 
   await goto('html/search.html?q=OAuth');
   await page.waitForFunction(() => document.querySelectorAll('.search-result').length > 0 && !document.querySelector('#search-loading')?.textContent?.includes('読み込み中'));
