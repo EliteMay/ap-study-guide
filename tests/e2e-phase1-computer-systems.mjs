@@ -62,8 +62,12 @@ try {
   if (!await page.locator('.search-result').filter({ hasText:'CPU・システム性能を式で読む' }).first().isVisible()) throw new Error('cross-search cannot reach CMP-08');
 
   await goto('html/unit.html?unit=computer-systems');
+  await page.waitForFunction(() => document.querySelectorAll('.unit-lesson-card').length >= 12);
   if (!(await page.locator('#unit-hero').textContent())?.includes('コンピュータシステム')) throw new Error('Computer Systems Unit Hub failed');
-  if (await page.locator('.unit-lesson-card').count() !== 12) throw new Error('Computer Systems Unit Hub must show 12 current Lessons');
+  const unitHubLessonIds = await page.locator('.unit-lesson-card').evaluateAll(nodes => [...new Set(nodes.map(node => new URL(node.href).searchParams.get('id')).filter(Boolean))].sort());
+  const expectedUnitHubLessonIds = Array.from({ length:12 }, (_, index) => `CMP-${String(index + 1).padStart(2, '0')}`);
+  if (JSON.stringify(unitHubLessonIds) !== JSON.stringify(expectedUnitHubLessonIds)) throw new Error(`Computer Systems Unit Hub unique Lesson set mismatch: ${unitHubLessonIds.join(', ')}`);
+  if ((await page.title()) !== 'コンピュータシステム | AP Study Guide') throw new Error(`Computer Systems Unit Hub title is stale: ${await page.title()}`);
 
   await page.setViewportSize({ width:320, height:700 });
   await goto('html/lesson.html?id=CMP-04');
@@ -77,7 +81,7 @@ try {
   await noOverflow('computer-systems unit 320px');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e-phase1-computer-systems] OK: ${phaseData.lessons.length} Computer Systems Phase 1 overlays, learning map, inline checks, official/practice links, search/unit reachability and 320px layout.`);
+  console.log(`[e2e-phase1-computer-systems] OK: ${phaseData.lessons.length} Computer Systems Phase 1 overlays, unique Unit Hub Lesson set, learning map, inline checks, official/practice links, search reachability and 320px layout.`);
 } finally {
   await browser.close();
 }
