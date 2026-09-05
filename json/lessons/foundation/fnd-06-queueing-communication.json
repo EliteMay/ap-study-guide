@@ -8,7 +8,8 @@
     {"type":"text","title":"3. なぜ利用率100%近くで待ち時間が増えるか","paragraphs":["平均処理能力に余裕がなくなると、一時的な到着の偏りを吸収できません。平均では処理可能でも、瞬間的に仕事が集中するとQueueが残り続けます。","性能設計では『平均負荷でCPUが100%使えるから効率的』ではなく、ピークと揺らぎの余裕を見ます。"]},
     {"type":"code-trace","title":"4. Littleの法則","question":"平均到着率10人/分、平均滞在時間3分のSystem内に平均何人いるか。","code":["L = λW","L = 10 × 3"],"traceColumns":["量","値"],"traceRows":[["λ","10人/分"],["W","3分"],["L","30人"]],"answer":"平均30人","explanation":"単位を揃えることが最重要です。"},
     {"type":"comparison","title":"5. 通信速度と転送時間","columns":["項目","注意"],"rows":[["1 byte","8 bit"],["100 Mbps","100 megabit/s"],["転送時間","Data量(bit) ÷ 実効速度(bit/s)"],["実効速度","Header・制御・混雑などで理論値より低くなり得る"]]},
-    {"type":"code-trace","title":"6. 100MBを100Mbpsで送る理論時間","question":"単純化し、1MB=10^6 byteとして計算する。","code":["100 MB = 100×10^6 byte","= 800×10^6 bit","time = 800×10^6 / 100×10^6"],"traceColumns":["計算","結果"],"traceRows":[["Data量","800 Mbit"],["速度","100 Mbit/s"],["時間","8s"]],"answer":"8秒","explanation":"MBとMbpsをそのまま割らず、byte→bitへ揃えます。"}
+    {"type":"code-trace","title":"6. 100MBを100Mbpsで送る理論時間","question":"単純化し、1MB=10^6 byteとして計算する。","code":["100 MB = 100×10^6 byte","= 800×10^6 bit","time = 800×10^6 / 100×10^6"],"traceColumns":["計算","結果"],"traceRows":[["Data量","800 Mbit"],["速度","100 Mbit/s"],["時間","8s"]],"answer":"8秒","explanation":"MBとMbpsをそのまま割らず、byte→bitへ揃えます。"},
+    {"type":"mistakes","title":"7. よくある誤解","items":["利用率80%は『20%のRequestが失敗する』という意味ではなく、平均処理能力の80%を使っているという意味。","利用率が100%未満なら待ち時間が常に短いわけではない。到着のばらつきがあるため、1に近づくほどQueueが増えやすい。","Littleの法則ではλとWの時間単位を揃える。件/秒と分をそのまま掛けない。","MBはbyte、Mbpsはbit/sなので、そのまま数値だけを割らず8倍の単位変換を確認する。"]}
   ],
   "inlineChecks":[
     {"id":"FND-06-I1","afterSection":2,"prompt":"到着率20件/s、処理能力25件/sの利用率は？","options":["20%","25%","80%","125%"],"answerIndex":2,"explanation":"20/25=0.8なので80%です。"},
