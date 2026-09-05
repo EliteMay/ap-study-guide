@@ -20,6 +20,9 @@ const unitRows = allRows.filter(item => item.unitId === 'ui-media');
 const unitIds = unitRows.map(item => item.id).sort();
 const expectedIds = ['MED-01','MED-02','MED-03','MED-04','UIM-01','UIM-02','UIM-03','UIM-04'];
 if (JSON.stringify(unitIds) !== JSON.stringify(expectedIds)) fail(`current UI/Media Lesson set changed: ${unitIds.join(', ')}`);
+const learningOrder = [...unitRows].sort((a,b) => Number(a.order) - Number(b.order)).map(item => item.id);
+const expectedLearningOrder = ['UIM-01','UIM-02','UIM-03','UIM-04','MED-01','MED-02','MED-03','MED-04'];
+if (JSON.stringify(learningOrder) !== JSON.stringify(expectedLearningOrder)) fail(`UI/Media learning order changed: ${learningOrder.join(' -> ')}`);
 
 const expectedNew = new Map([
   ['UIM-04','json/lessons/ui-media/uim-04-screen-web-design.json'],
@@ -53,7 +56,7 @@ const practiceManifest = json('json/practice/practice-index.json');
 if (Number(practiceManifest.meta?.questionCount) !== 141) fail('r29 practice question count must be 141');
 const practiceQuestions = (practiceManifest.files || []).flatMap(ref => json(ref.file).questions || []);
 const practiceById = new Map(practiceQuestions.map(question => [question.id, question]));
-for (const [id] of [['P-UIM-06'],['P-UIM-07']]) {
+for (const id of ['P-UIM-06','P-UIM-07']) {
   const question = practiceById.get(id);
   if (!question || question.mockEligible !== false) fail(`${id}: pilot question must remain outside full mock until Subject A review`);
 }
@@ -135,5 +138,5 @@ if (!phaseRuntime.includes("meta.phase1Status === 'pilot'")) fail('pilot status 
 const officialMappedIds = enhancementRows.filter(row => row.officialProblemRefs.length).map(row => row.id).sort();
 if (JSON.stringify(officialMappedIds) !== JSON.stringify(['UIM-01','UIM-02','UIM-03','UIM-04'])) fail(`published-official mapping set changed: ${officialMappedIds.join(',')}`);
 const gapIds = enhancementRows.filter(row => !row.officialProblemRefs.length).map(row => row.id);
-console.log(`[phase1-ui-media] OK: ${unitIds.length} UI/Media Lessons, including 2 r29 additions, preserve existing identity and provide 8/8 direct Practice, middle 7-8 coverage, lazy metadata and inline checks.`);
+console.log(`[phase1-ui-media] OK: ${unitIds.length} UI/Media Lessons, including 2 r29 additions, preserve existing identity and provide 8/8 direct Practice, middle 7-8 coverage, lazy metadata, inline checks and ordered learning path.`);
 console.log(`[phase1-ui-media] Pilot remains in-progress: ${gapIds.length} Media lessons have no explicit 2025 published-official mapping (${gapIds.join(', ')}); Subject A variation and cross-unit review remain open.`);
