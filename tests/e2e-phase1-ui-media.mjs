@@ -101,6 +101,11 @@ try {
   const unitIds = await page.locator('.unit-lesson-card').evaluateAll(nodes => [...new Set(nodes.map(node => new URL(node.href).searchParams.get('id')).filter(Boolean))].sort());
   const expectedIds = ['MED-01','MED-02','MED-03','MED-04','UIM-01','UIM-02','UIM-03','UIM-04'];
   if (JSON.stringify(unitIds) !== JSON.stringify(expectedIds)) throw new Error(`UI/Media Unit Hub unique Lesson set mismatch: ${unitIds.join(', ')}`);
+  const displayIds = await page.locator('.unit-lesson-card').evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get('id')).filter(Boolean));
+  const expectedDisplayIds = ['UIM-01','UIM-02','UIM-03','UIM-04','MED-01','MED-02','MED-03','MED-04'];
+  if (JSON.stringify(displayIds) !== JSON.stringify(expectedDisplayIds)) throw new Error(`UI/Media Unit Hub learning order mismatch: ${displayIds.join(' -> ')}`);
+  const displayNumbers = await page.locator('.unit-lesson-order').allTextContents();
+  if (JSON.stringify(displayNumbers.map(value => value.trim())) !== JSON.stringify(['01','02','03','04','05','06','07','08'])) throw new Error(`UI/Media Unit Hub order badges mismatch: ${displayNumbers.join(', ')}`);
   if ((await page.title()) !== 'UI・情報メディア | AP Study Guide') throw new Error(`UI/Media Unit Hub title is stale: ${await page.title()}`);
 
   await page.setViewportSize({ width:320, height:700 });
@@ -115,7 +120,7 @@ try {
   await noOverflow('ui-media unit 320px');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e-phase1-ui-media] OK: ${phaseData.lessons.length} UI/Media Phase 1 overlays, 2 new Lessons, learning maps, official/practice links, search reachability, unique Unit Hub set and 320px layout.`);
+  console.log(`[e2e-phase1-ui-media] OK: ${phaseData.lessons.length} UI/Media Phase 1 overlays, 2 new Lessons, learning maps, official/practice links, search reachability, ordered Unit Hub and 320px layout.`);
 } finally {
   await browser.close();
 }
