@@ -1,6 +1,6 @@
 {
   "app": "AP Study Guide",
-  "build": "2026.09.06-r28",
+  "build": "2026.09.06-r29",
   "guide": {
     "repository": "EliteMay/web-project-guide",
     "version": "1.17.0",
