@@ -90,11 +90,14 @@ const searchJs = read('js/search.js');
 const home = read('index.html');
 const homeJs = read('js/home.js');
 const shell = read('js/shell.js');
+const dataTools = read('js/data-tools.js');
 if (!home.includes('html/search.html') || !homeJs.includes('html/search.html?q=')) fail('Home does not route unknown discovery into cross-search');
 for (const required of ['lesson','term','practice','unit','official','loadExtendedCatalog','TERM_MANIFESTS']) if (!searchJs.includes(required)) fail(`cross-search runtime missing ${required}`);
 if (!searchHtml.includes('cross-search-input') || !searchHtml.includes('../js/search.js')) fail('cross-search page wiring incomplete');
 if (!shell.includes("['search','🔎 横断検索','search.html']")) fail('shared navigation missing cross-search');
+for (const required of ["BACKUP_APP = 'AP Study Guide'",'ACCEPTED_BACKUP_APPS',"'AP Study Notes'",'legacyApp']) if (!dataTools.includes(required)) fail(`backup rename compatibility missing ${required}`);
+if (!dataTools.includes('AP Study Guide学習データをすべて削除')) fail('new product name missing from destructive-data confirmation');
 
 const officialGapIds = lessonIds.filter(id => !(json(lessonFiles[id]).meta.officialProblemRefs || []).length);
-console.log(`[phase1-foundation] OK: ${lessonIds.length} IDs preserved, direct Practice coverage ${lessonIds.length}/${lessonIds.length}, cross-search wired, identity migration validated.`);
+console.log(`[phase1-foundation] OK: ${lessonIds.length} IDs preserved, direct Practice coverage ${lessonIds.length}/${lessonIds.length}, cross-search wired, identity migration and legacy backup compatibility validated.`);
 console.log(`[phase1-foundation] Pilot remains in-progress: ${officialGapIds.length} lessons have no explicit published-official mapping yet (${officialGapIds.join(', ')}).`);
