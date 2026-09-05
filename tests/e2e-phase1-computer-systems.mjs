@@ -14,26 +14,50 @@ async function noOverflow(label) {
   const report = await page.evaluate(() => {
     const client = document.documentElement.clientWidth;
     const scroll = document.documentElement.scrollWidth;
+    const isContainedByScroller = node => {
+      let parent = node.parentElement;
+      while (parent && parent !== document.body) {
+        const style = getComputedStyle(parent);
+        const rect = parent.getBoundingClientRect();
+        if (['auto','scroll','hidden','clip'].includes(style.overflowX) && rect.left >= -1 && rect.right <= client + 1) return true;
+        parent = parent.parentElement;
+      }
+      return false;
+    };
+    const describe = node => {
+      const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      return {
+        tag:node.tagName.toLowerCase(),
+        className:typeof node.className === 'string' ? node.className : '',
+        text:(node.textContent || '').trim().replace(/\s+/g,' ').slice(0,90),
+        left:Math.round(rect.left),
+        right:Math.round(rect.right),
+        width:Math.round(rect.width),
+        scrollWidth:node.scrollWidth,
+        clientWidth:node.clientWidth,
+        overflowX:style.overflowX,
+        minWidth:style.minWidth,
+        maxWidth:style.maxWidth,
+        boxSizing:style.boxSizing,
+        paddingLeft:style.paddingLeft,
+        paddingRight:style.paddingRight
+      };
+    };
     const offenders = [...document.querySelectorAll('body *')]
-      .map(node => {
+      .filter(node => {
         const rect = node.getBoundingClientRect();
-        return {
-          tag:node.tagName.toLowerCase(),
-          className:typeof node.className === 'string' ? node.className : '',
-          text:(node.textContent || '').trim().replace(/\s+/g,' ').slice(0,90),
-          left:Math.round(rect.left),
-          right:Math.round(rect.right),
-          width:Math.round(rect.width),
-          scrollWidth:node.scrollWidth,
-          clientWidth:node.clientWidth
-        };
+        return (rect.right > client + 1 || rect.left < -1) && !isContainedByScroller(node);
       })
-      .filter(item => item.right > client + 1 || item.left < -1)
-      .sort((a,b) => (b.right - client) - (a.right - client))
-      .slice(0,10);
-    return { client, scroll, offenders };
+      .map(describe)
+      .sort((a,b) => Math.abs(b.right - client) - Math.abs(a.right - client))
+      .slice(0,15);
+    const probes = ['.lesson-layout','.lesson-main','.lesson-block','.structure-diagram','.structure-scroll','.lesson-connections','.lesson-inline-check']
+      .flatMap(selector => [...document.querySelectorAll(selector)].map(node => ({ selector, ...describe(node) })))
+      .filter(item => item.right > client + 1 || item.scrollWidth > item.clientWidth + 1);
+    return { client, scroll, offenders, probes };
   });
-  if (report.scroll > report.client + 1) throw new Error(`${label}: horizontal overflow ${report.scroll} > ${report.client}; offenders=${JSON.stringify(report.offenders)}`);
+  if (report.scroll > report.client + 1) throw new Error(`${label}: horizontal overflow ${report.scroll} > ${report.client}; offenders=${JSON.stringify(report.offenders)}; probes=${JSON.stringify(report.probes)}`);
 }
 
 try {
