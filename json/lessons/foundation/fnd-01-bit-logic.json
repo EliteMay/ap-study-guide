@@ -7,8 +7,22 @@
     "officialMiddleCodes": [1],
     "officialAreas": ["基礎理論", "情報に関する理論"],
     "qualityStatus": "individual-v1",
+    "phase1Status": "pilot",
+    "importance": "high",
+    "frequency": "high",
     "replacesTemplateFor": ["term-alg-060", "term-alg-061", "term-alg-062", "term-alg-063"],
-    "estimatedMinutes": 25
+    "estimatedMinutes": 25,
+    "prerequisiteLessons": [],
+    "relatedLessons": ["FND-02", "FND-03", "PROG-01"],
+    "relatedTerms": [
+      {"label":"AND","query":"AND 論理積"},
+      {"label":"OR","query":"OR 論理和"},
+      {"label":"XOR","query":"XOR 排他的論理和"},
+      {"label":"ビットシフト","query":"ビットシフト"}
+    ],
+    "relatedPracticeRefs": ["PC-FND-01"],
+    "officialProblemRefs": [],
+    "examFocus": "真理値表そのものの暗記だけでなく、2進数の各bitへ演算を適用し、Mask・Shiftの結果を追えるかが重要です。"
   },
   "intro": "AND・OR・XOR・ビットシフトはプログラミングでも使いますが、意味そのものは基礎理論として学ぶ方が整理しやすい内容です。このLessonでは真理値と2進数の桁演算を土台にし、PROG-01のビットマスクへ接続します。",
   "objectives": [
@@ -26,6 +40,10 @@
     {"type":"code-trace","title":"5. 右シフトを追う","question":"1100(10進数12)を1bit右シフトする。","code":["1100 >> 1","0110"],"traceColumns":["操作","2進数","10進数"],"traceRows":[["元","1100","12"],["1bit右","0110","6"]],"answer":"0110 = 6","explanation":"正の整数の論理的な代表例では1bit右シフトは2で割る方向です。負数や算術/論理シフトの詳細は処理系・問題条件を確認します。"},
     {"type":"comparison","title":"6. シフトで注意する条件","columns":["観点","注意"],"rows":[["固定bit幅","左へはみ出したbitが捨てられる場合がある"],["右シフト","空いた上位bitを0で埋める論理シフトと符号bitを保つ算術シフトがある"],["負数","単純な÷2イメージだけで判断しない"],["オーバーフロー","左シフトで表現範囲を超える可能性がある"]],"note":"『左シフト=必ず2倍』『右シフト=必ず半分』は条件付きの理解として使います。"},
     {"type":"mistakes","title":"7. よくある失点","items":["ORとXORを同じものだと思う。","ANDを10進数の通常の掛け算として計算する。","ビット演算で桁を右から揃えず比較する。","左シフトを条件なしに必ず2倍だと断定する。","右シフトで負数や算術シフトの扱いを無視する。"]}
+  ],
+  "inlineChecks": [
+    {"id":"FND-01-I1","afterSection":2,"prompt":"1010 XOR 1100 の結果は？","options":["0110","1000","1110","1010"],"answerIndex":0,"explanation":"同じbitは0、異なるbitは1なので 0110 です。"},
+    {"id":"FND-01-I2","afterSection":5,"prompt":"固定bit幅の左シフトで最も注意することは？","options":["上位bitが捨てられる場合がある","必ず小数になる","必ず符号が反転する","ANDと同じ結果になる"],"answerIndex":0,"explanation":"固定bit幅では表現範囲を超えた上位bitが失われ、単純な2倍にならない場合があります。"}
   ],
   "checks": [
     {"id":"FND-01-Q1","prompt":"1 XOR 1 の結果は？","options":["0","1","2","不定"],"answerIndex":0,"explanation":"XORは異なるときだけ1です。"},
