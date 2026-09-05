@@ -1,4 +1,4 @@
-name: Validate AP Study Notes
+name: Validate AP Study Guide
 
 on:
   push:
@@ -23,6 +23,8 @@ jobs:
         run: find js tests -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
       - name: Validate JSON and references
         run: node tests/validate.mjs
+      - name: Validate Phase 1 foundation pilot
+        run: node tests/validate-phase1-foundation.mjs
       - name: Validate domain audits
         run: node tests/validate-audits.mjs
       - name: Validate Security 501-term audit

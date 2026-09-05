@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<meta name="description" content="AP Study GuideのLesson、用語、短問、分野、公開公式問題を横断検索します。">
+<meta name="robots" content="noindex">
+<title>横断検索 | AP Study Guide</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/search.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY GUIDE</span><ul class="unit-nav-list"><li><a href="../index.html" class="unit-nav-link">ホーム</a></li></ul></div></nav>
+
+<header class="search-hero"><div class="container">
+<p class="eyebrow">CROSS SEARCH</p>
+<h1>Lesson・用語・問題をまとめて探す</h1>
+<p class="lead">言葉が分からない時も、関連Lessonや問題まで同じ検索欄から探せます。完全一致を優先して表示します。</p>
+<form id="cross-search-form" class="cross-search-form" role="search">
+<label for="cross-search-input">検索キーワード</label>
+<div class="cross-search-row">
+<input id="cross-search-input" name="q" type="search" placeholder="例: 2の補数 / SQL / サブネット / FND-02" autocomplete="off" autofocus>
+<button type="submit">検索</button>
+</div>
+</form>
+</div></header>
+
+<main id="main-content">
+<section class="search-section"><div class="container search-layout">
+<div class="search-toolbar">
+<div><strong id="search-summary">キーワードを入力してください</strong><span id="search-loading" aria-live="polite"></span></div>
+<label>種類
+<select id="search-type-filter">
+<option value="all">すべて</option>
+<option value="lesson">Lesson</option>
+<option value="term">用語</option>
+<option value="practice">短問</option>
+<option value="unit">分野</option>
+<option value="official">公式問題</option>
+</select>
+</label>
+</div>
+<div id="search-status" class="search-status" aria-live="polite">Lessonと分野はすぐ検索できます。用語・短問・公式問題は検索時に追加読込します。</div>
+<div id="search-results" class="search-results"></div>
+</div></section>
+</main>
+
+<footer class="site-footer"><div class="container"><p>AP Study Guide</p><p class="small">横断検索 / <span data-ap-build>BUILD ?</span></p></div></footer>
+<script src="../js/lesson-data.js" defer></script>
+<script src="../js/practice-data.js" defer></script>
+<script src="../js/shell.js" defer></script>
+<script src="../js/search.js" defer></script>
+</body>
+</html>

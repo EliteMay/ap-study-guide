@@ -6,8 +6,8 @@
   const CASE_KEY = 'ap-study-case-history-v1';
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const normalize = value => String(value || '').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ');
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const normalize = value => String(value || '').normalize('NFKC').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ').trim();
   let finderCatalog = [];
   let finderBound = false;
 
@@ -16,8 +16,9 @@
     const practiceText = Number.isFinite(stats.practiceCount) ? `${stats.practiceCount}問の選択・記述問題` : '選択・記述の短問演習';
     const caseText = Number.isFinite(stats.caseCount) ? `${stats.caseCount}Caseの長文記述` : '長文Caseの記述演習';
     return [
-      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ 13ユニット カリキュラム' },
-      { title:'単語辞書', description:'旧用語資産を横断検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
+      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ ユニット カリキュラム' },
+      { title:'まとめて検索', description:'Lesson・用語・短問・分野・公式問題を横断検索', href:'html/search.html', keywords:'検索 横断 search lesson 用語 問題 公式 分野' },
+      { title:'単語辞書', description:'用語だけを統合辞書から検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
       { title:'短問演習', description:practiceText, href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
       { title:'長文Case', description:caseText, href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
       { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
@@ -119,7 +120,7 @@
       const box = document.createElement('div');
       box.className = 'dashboard-card';
       const text = document.createElement('p');
-      text.textContent = '13ユニットを読み込めませんでした。';
+      text.textContent = '学習ユニットを読み込めませんでした。';
       const retry = document.createElement('a');
       retry.href = 'index.html';
       retry.textContent = 'ページを再読み込み';
@@ -143,7 +144,7 @@
       if (!raw) { output.hidden = true; output.innerHTML=''; return; }
       const query = normalize(raw);
       const hits = finderCatalog.filter(item => item.searchable.includes(query)).slice(0,6);
-      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/glossary.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」を単語辞書で検索</strong><span>統合辞書から一致する用語を探す</span></a>`;
+      output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/search.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」をすべてから検索</strong><span>Lesson・用語・短問・分野・公式問題を横断検索</span></a>`;
       output.hidden = false;
     };
     input.addEventListener('input',render);
@@ -152,7 +153,7 @@
       event.preventDefault();
       const first = output.querySelector('a');
       if (first) location.href = first.href;
-      else location.href = `html/glossary.html?q=${encodeURIComponent(input.value.trim())}`;
+      else location.href = `html/search.html?q=${encodeURIComponent(input.value.trim())}`;
     });
     document.addEventListener('click',event => { if (!event.target.closest('.home-finder')) output.hidden=true; });
   }

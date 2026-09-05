@@ -1,5 +1,5 @@
 {
-  "meta":{"schemaVersion":1,"id":"FND-04","title":"確率・期待値・統計の読み方","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":40},
+  "meta":{"schemaVersion":1,"id":"FND-04","title":"確率・期待値・統計の読み方","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","phase1Status":"pilot","importance":"medium","frequency":"medium","estimatedMinutes":40,"prerequisiteLessons":["FND-03"],"relatedLessons":["FND-06","BUS-06"],"relatedTerms":[{"label":"条件付き確率","query":"条件付き確率"},{"label":"期待値","query":"期待値"},{"label":"分散・標準偏差","query":"分散 標準偏差"},{"label":"相関係数","query":"相関係数"}],"relatedPracticeRefs":["P-FND-03"],"officialProblemRefs":[],"examFocus":"確率計算では『足す・掛ける・条件で絞る』の判断、統計では平均だけでなく散らばりや相関の意味を説明できることが重要です。"},
   "intro":"確率統計は公式暗記ではなく、『全体のうち何通りか』『独立か条件付きか』『平均だけで十分か』を見抜くことが中心です。APで必要な期待値、分散、標準偏差、相関までつなげます。",
   "objectives":["加法・乗法の確率を状況から使い分けられる。","条件付き確率と独立事象を区別できる。","期待値を長期平均として計算できる。","分散・標準偏差・相関係数の意味を説明できる。"],
   "sections":[
@@ -9,6 +9,10 @@
     {"type":"comparison","title":"4. 平均・分散・標準偏差","columns":["指標","何を見る","注意"],"rows":[["平均","中心位置","外れ値の影響を受ける"],["中央値","順序中央","外れ値に比較的強い"],["分散","平均との差の二乗平均","単位が元データの二乗"],["標準偏差","分散の平方根","元データと同じ単位"],["範囲","最大-最小","2点だけで決まる"]]},
     {"type":"text","title":"5. 相関と因果は別","paragraphs":["相関係数は-1〜1の範囲で線形な関係の強さと向きを表します。1に近いと正の相関、-1に近いと負の相関、0付近では線形相関が弱いことを示します。","相関が高くても、一方が他方の原因とは限りません。共通の第三要因が両方へ影響している場合もあります。"]},
     {"type":"mistakes","title":"6. よくある誤解","items":["独立と排他は別。排他的な2事象は同時発生しないため、両方に正の確率があるなら通常独立ではない。","標準偏差が大きいほど値が平均から散らばっている。","相関係数0は『完全に無関係』とは限らず、非線形関係が残る場合がある。","期待値は最頻値ではない。"]}
+  ],
+  "inlineChecks":[
+    {"id":"FND-04-I1","afterSection":2,"prompt":"Alertが出た24件中16件が障害なら、P(障害|Alert)は？","options":["16%","20%","約66.7%","80%"],"answerIndex":2,"explanation":"条件後の母集団24件に絞り、16/24を計算します。"},
+    {"id":"FND-04-I2","afterSection":4,"prompt":"標準偏差が大きいデータの説明として適切なのは？","options":["平均からの散らばりが大きい","平均が必ず大きい","中央値が0になる","必ず正規分布になる"],"answerIndex":0,"explanation":"標準偏差は平均からの散らばりの大きさを見る指標です。"}
   ],
   "checks":[
     {"id":"fnd04-q1","prompt":"独立な事象Aの確率0.5、Bの確率0.4。両方起きる確率は？","options":["0.1","0.2","0.45","0.9"],"answerIndex":1,"explanation":"独立なので0.5×0.4=0.2です。"},

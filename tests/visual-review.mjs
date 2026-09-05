@@ -46,6 +46,9 @@ try {
     ['html/roadmap.html','roadmap'],
     ['html/unit.html?unit=algorithm-programming','unit-algorithm'],
     ['html/lesson.html?id=ALG-01','lesson-algorithm'],
+    ['html/lesson.html?id=FND-02','lesson-foundation-phase1'],
+    ['html/search.html?q=FND-02','search-foundation'],
+    ['html/search.html?q=OAuth','search-term'],
     ['html/glossary.html?q=OAuth','glossary'],
     ['html/practice.html?unit=algorithm-programming','practice'],
     ['html/cases.html?unit=algorithm-programming','cases'],
@@ -62,7 +65,7 @@ try {
   for (const [path,name] of primaryPages) await openAndCapture(path,`review-${name}-mobile`);
 
   if (failures.length) throw new Error(`visual review capture failed:\n${failures.join('\n')}`);
-  console.log(`[visual-review] OK: ${primaryPages.length} primary routes captured on desktop + mobile without console errors, horizontal overflow, or unfocused skip-link exposure.`);
+  console.log(`[visual-review] OK: ${primaryPages.length} primary routes captured on desktop + mobile, including Phase 1 search and Foundation Lesson, without console errors, horizontal overflow, or unfocused skip-link exposure.`);
 } finally {
   await browser.close();
 }

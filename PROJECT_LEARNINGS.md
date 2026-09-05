@@ -1,6 +1,6 @@
 # PROJECT LEARNINGS
 
-このファイルは、AP Study Notesで発生した再発防止価値の高い失敗と、今後も再利用したい成功パターンを長期的に残す正本です。
+このファイルは、AP Study Guideで発生した再発防止価値の高い失敗と、今後も再利用したい成功パターンを長期的に残す正本です。
 
 `docs/作業報告書.md` は「今回何を変更したか」、このファイルは「このProjectから何を学んだか」を記録します。
 
@@ -40,8 +40,8 @@
 - Final Fix: 不足48 Lessonを機械抽出し、1 Lesson = 1問のCoverage Bankを追加して118/118にした。
 - Affected files / systems: Practice Manifest / Lesson Practice / Mock Pool
 - Detection method: ValidatorでLesson集合差分を算出。
-- Regression Guard: `validate-practice.mjs`で118/118を必須化し、Playwrightで`ALG-01 → PC-ALG-01`を実遷移確認。
-- Prevention: 「Dataが存在する」と「利用導線から到達できる」を別Contractとして検証する。
+- Regression Guard: `validate-practice.mjs`で現行Lesson集合の100%直接Coverageを必須化し、Playwrightで直接遷移を確認。
+- Prevention: 「Dataが存在する」と「利用導線から到達できる」を別Contractとして検証する。固定件数ではなく現行Index集合を正本にする。
 - Related Issue / PR / Commit: r20
 - Guide candidate: yes
 - Guide note: Coverage / Oracle設計のProject Evidenceとして再利用可能。
@@ -53,11 +53,11 @@
 - Severity: medium
 - Cost: medium
 - Symptom: Data変更後に旧Browser Smokeが「未対応Lessonが存在すること」を前提として失敗した。
-- Expected: 最終仕様の118/118 CoverageをBrowser Smokeも検証する。
+- Expected: 最終仕様のLesson CoverageをBrowser Smokeも検証する。
 - Actual: Static Validatorは新仕様へ追従したが、E2Eの古い前提が残った。
-- Trigger / Reproduction: 118/118化後のPlaywright実行。
+- Trigger / Reproduction: Lesson Coverage変更後のPlaywright実行。
 - Root Cause: 実装・Static Contract・Browser Oracleを同時に更新していなかった。
-- Final Fix: E2Eを「全Lesson直接Coverage + 実遷移」へ更新し、最終HEADで再検証した。
+- Final Fix: E2Eを「現行Lesson集合の全件直接Coverage + 実遷移」へ更新し、最終HEADで再検証した。
 - Affected files / systems: `tests/e2e-smoke.mjs`
 - Detection method: GitHub Actions Browser Smoke
 - Regression Guard: Final-state CI / Pages確認を完成条件へ明記。
@@ -100,11 +100,31 @@
 - Final Fix: Unit HubをHome CSSから分離し、`css/unit.css`でHero / Summary / Progress / Lesson Path / State / Responsiveを所有。Content Typeを日本語表示へ整理し、共通Skip LinkのMobile露出も修正した。
 - Affected files / systems: `html/unit.html`, `js/unit.js`, `css/unit.css`, `css/shell.css`, Visual Review workflow
 - Detection method: User Screenshot + Primary-page Screenshot Audit
-- Regression Guard: Runtime ValidatorでUnit HubがHome CSSへ依存しないことを確認し、`tests/visual-review.mjs`で主要12RouteをDesktop / Mobile両方Screenshot化。Mobileでは非Focus時Skip LinkがViewport内へ露出しないことも自動確認する。
+- Regression Guard: Runtime ValidatorでUnit HubがHome CSSへ依存しないことを確認し、`tests/visual-review.mjs`で主要RouteをDesktop / Mobile両方Screenshot化。Mobileでは非Focus時Skip LinkがViewport内へ露出しないことも自動確認する。
 - Prevention: Dynamic PageはDOM/Linkの存在だけで完成判定せず、主要Routeごとに最終描画Screenshotを持つ。Shared-looking class名を別Pageで使う場合は、Style ownershipも同じScopeに存在することを確認する。
 - Related Issue / PR / Commit: PR #7 / r25
 - Guide candidate: yes
 - Guide note: Visual Quality Baselineの「Static / Function TestだけでVisual完成扱いしない」の具体例。
+
+### PL-F-006 要件変更時にTest Oracleの旧仕様固定を残さない
+
+- Date: 2026-09-05
+- Status: resolved
+- Severity: high
+- Cost: medium
+- Symptom: `REQUIREMENTS.md` ではProduct名・Guide 1.16.0・LEARNING Profile・13 Unit / 118 Lesson非固定が確定していたのに、Runtime ValidatorとE2Eは `AP Study Notes` / Guide 1.11.0 / 13 Unit / 8 Actionを正解として固定していた。
+- Expected: Source of Truthの変更と同じChange Setで、実装・Metadata・Migration・Static Validator・Browser Oracleが同じContractを見る。
+- Actual: 要件だけ更新され、古いValidatorが旧状態を「正解」として強制する状態が残っていた。
+- Trigger / Reproduction: Phase 1着手時に`REQUIREMENTS.md`と`json/project-meta.json`、`tests/validate-runtime-quality.mjs`、`tests/e2e-smoke.mjs`を突き合わせる。
+- Root Cause: Validatorを安全網として扱う一方、Validator自身が重複Source of Truthになっている箇所を更新対象として明示していなかった。
+- Final Fix: Project metadataを要件へ合わせ、Phase 1専用Validatorを追加。E2EのUnit数はCurriculum Dataから取得し、Product名 / Guide / Profile / Search / Migration / Legacy Backup互換を同じChange Setで検証するよう更新した。
+- Affected files / systems: `json/project-meta.json`, `tests/validate-runtime-quality.mjs`, `tests/validate-phase1-foundation.mjs`, `tests/e2e-smoke.mjs`, `.github/workflows/validate.yml`
+- Detection method: Requirements-vs-Oracle audit before implementation
+- Regression Guard: Unit / Lesson件数を固定値で新規Assertしない。仕様変更時はStatic / Browser / Visual Oracleを同時確認する。
+- Prevention: 「要件→実装」だけでなく「要件→実装→Migration→Validator→E2E→Visual Review」を1つの変更単位として扱う。
+- Related Issue / PR / Commit: r26 Phase 1 Foundation Pilot
+- Guide candidate: yes
+- Guide note: Oracle自身のstaleness検出をRequirements変更Checklistへ含める候補。
 
 ---
 
@@ -117,7 +137,7 @@
 - Adopted Pattern: Buildは`json/project-meta.json`、教材件数は各Manifest / Indexを正本とし、Runtime表示はDataから算出する。
 - Why it worked: 教材追加と表示更新を別作業にせず、ValidatorでもMagic Countの再混入を検出できる。
 - Trade-off: 初期表示にLoading Stateが必要になる。
-- Reuse when: JSON / Manifestを持つDATA Profileのサイト。
+- Reuse when: JSON / Manifestを持つDATA / LEARNING Profileのサイト。
 - Avoid when: 完全固定の1Page説明サイトでRuntime Dataが存在しない場合。
 - Related files / tests: `json/project-meta.json`, `js/home.js`, `tests/validate-runtime-quality.mjs`
 - Guide candidate: yes
@@ -136,13 +156,28 @@
 - Guide candidate: yes
 - Guide note: Compatibility Layerの成功例。
 
+### PL-S-003 Product名変更と学習Data移行を分離する
+
+- Date: 2026-09-05
+- Goal / Problem: `AP Study Notes` から `AP Study Guide` へ名称を更新しつつ、既存学習履歴と旧Backupを壊さない。
+- Adopted Pattern: UI / Metadata / 新規BackupのApp名だけを新名称へ更新し、localStorage Keyは維持。Importは新旧両方のBackup App名を受理する。
+- Why it worked: 表示名称の変更をData Schema変更へ拡大せず、既存利用者の保存Dataと旧Backupをそのまま利用できる。
+- Trade-off: Import側には旧名称Aliasを互換Contractとして残す必要がある。
+- Reuse when: Product renameだけで保存構造の意味が変わらないとき。
+- Avoid when: Data Schema自体を変更し、旧形式の変換が必要な場合。その場合は明示的Migrationを用意する。
+- Related files / tests: `js/data-tools.js`, `json/migrations/lesson-phase1-r26.json`, `tests/e2e-smoke.mjs`
+- Guide candidate: yes
+- Guide note: RenameとSchema Migrationを不要に結合しない成功例。
+
 ---
 
 ## Guide Feedback Queue
 
 | ID | Type | Summary | Evidence | Next action |
 |---|---|---|---|---|
-| PL-F-002 | failure | Coverageは分類単位と利用導線単位を分けて検証する | 70/118 → 118/118 | 他の学習Projectでも同型事故があるか確認 |
+| PL-F-002 | failure | Coverageは分類単位と利用導線単位を分けて検証する | 70/118 → 現行Lesson全件へ直接Practice | 他の学習Projectでも同型事故があるか確認 |
 | PL-F-004 | failure | AI Template回避でProject固有の親しみやすさまで削らない | r21 40点 → r22 30点 → r23で方向修正 | 他ProjectのVisual Reviewでも「残すべき既存価値」を先に確認 |
 | PL-F-005 | failure | Dynamic Pageは機能SmokeだけでVisual完成判定しない | Unit HubのLinkは動作したがStyleがHome Scopeへ消失 | Primary RouteのDesktop / Mobile Screenshot監査を継続 |
+| PL-F-006 | failure | Requirements変更時はTest Oracleのstale fixed valueも同時更新する | Product / Guide / Unit固定値が旧仕様を強制 | GuideのRequirements変更Checklist候補として検討 |
 | PL-S-002 | success | Legacy互換層と通常導線の分離 | 旧URL維持 + Unified Hub | 複数Projectで再利用後に共通化判断 |
+| PL-S-003 | success | Product RenameとStorage Migrationを不要に結合しない | 新名称 + 旧Backup互換 + Storage Key維持 | Rename案件のData互換Pattern候補 |

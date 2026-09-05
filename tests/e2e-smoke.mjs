@@ -21,15 +21,22 @@ async function assertNoHorizontalOverflow(label) {
 try {
   const projectMeta = await (await fetch(`${base}/json/project-meta.json`)).json();
   if (!projectMeta?.build) throw new Error('project-meta build missing');
-  if (projectMeta?.guide?.version !== '1.11.0') throw new Error('latest guide version not adopted');
-  if (projectMeta?.visual?.direction !== 'friendly-study-dashboard') throw new Error('r23 visual direction metadata missing');
+  if (projectMeta?.app !== 'AP Study Guide') throw new Error('current product name not adopted');
+  if (projectMeta?.guide?.version !== '1.16.0') throw new Error('latest guide version not adopted');
+  if (!(projectMeta?.profiles || []).includes('LEARNING')) throw new Error('LEARNING project profile missing');
+  if (projectMeta?.phase?.active !== 1 || projectMeta?.phase?.status !== 'in-progress') throw new Error('Phase 1 state metadata missing');
+  if (projectMeta?.visual?.direction !== 'friendly-study-dashboard') throw new Error('friendly visual direction metadata missing');
+
+  const curriculum = await (await fetch(`${base}/json/curriculum/ap-2026-map.json`)).json();
+  const expectedUnitCount = (curriculum.studyUnits || []).length;
 
   await goto('index.html');
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('ap-study-theme','light'); });
   await page.reload({ waitUntil:'networkidle' });
   if (!await page.getByRole('heading', { name:'何をするか選ぶだけ。' }).isVisible()) throw new Error('action-first homepage heading missing');
-  if (await page.locator('#home-unit-grid .unit-card').count() !== 13) throw new Error('homepage must render 13 unit cards');
-  if (await page.locator('.home-launch-card').count() !== 8) throw new Error('homepage must expose 8 main actions');
+  if (await page.locator('#home-unit-grid .unit-card').count() !== expectedUnitCount) throw new Error(`homepage unit count must follow curriculum data (${expectedUnitCount})`);
+  if (await page.locator('.home-launch-card').count() !== 9) throw new Error('homepage must expose 9 current main actions including cross-search');
+  if (!await page.getByRole('link', { name:/まとめて検索/ }).isVisible()) throw new Error('cross-search launcher missing from Home');
   await page.waitForFunction(expected => document.querySelector('[data-ap-build]')?.textContent?.includes(expected), projectMeta.build);
   if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
 
@@ -47,15 +54,18 @@ try {
       sidebarWidth:sidebar.width
     };
   });
-  if (visualContract.heroTextAlign !== 'center' || !visualContract.heroBackgroundImage.includes('linear-gradient')) throw new Error('r23 friendly hero visual contract not applied');
-  if (visualContract.launchGrid !== 'grid') throw new Error('r23 quick start grid missing');
-  if (visualContract.cardRadius !== '14px' || visualContract.cardShadow === 'none') throw new Error('r23 quick actions must remain clearly grouped and clickable');
+  if (visualContract.heroTextAlign !== 'center' || !visualContract.heroBackgroundImage.includes('linear-gradient')) throw new Error('friendly hero visual contract not applied');
+  if (visualContract.launchGrid !== 'grid') throw new Error('quick start grid missing');
+  if (visualContract.cardRadius !== '14px' || visualContract.cardShadow === 'none') throw new Error('quick actions must remain clearly grouped and clickable');
   if (visualContract.sidebarWidth !== '224px') throw new Error(`friendly sidebar width mismatch: ${visualContract.sidebarWidth}`);
   await page.screenshot({ path:'artifacts/home-desktop.png', fullPage:true });
 
   await page.locator('#home-quick-search').fill('OAuth');
   if (!await page.locator('#home-quick-results').isVisible()) throw new Error('homepage quick finder did not open');
-  if (!(await page.locator('#home-quick-results').textContent())?.includes('単語辞書')) throw new Error('homepage quick finder does not route unknown term to glossary');
+  const finderText = await page.locator('#home-quick-results').textContent();
+  if (!finderText?.includes('すべてから検索')) throw new Error('homepage quick finder does not route unknown content into cross-search');
+  const finderFallback = page.locator('#home-quick-results a[href*="html/search.html?q=OAuth"]');
+  if (!await finderFallback.isVisible()) throw new Error('homepage cross-search fallback href missing');
 
   const diagnostics = await page.evaluate(async expectedBuild => {
     window.APDiagnostics?.error?.('E2E-SYNTHETIC', new Error('synthetic runtime error'), 'e2e');
@@ -64,11 +74,26 @@ try {
     await window.APStudyUI?.ready;
     return window.APDiagnostics?.snapshot?.('e2e-smoke');
   }, projectMeta.build);
-  if (!diagnostics || diagnostics.project.build !== projectMeta.build) throw new Error('diagnostics build metadata mismatch');
+  if (!diagnostics || diagnostics.project.build !== projectMeta.build || diagnostics.project.name !== 'AP Study Guide') throw new Error('diagnostics project metadata mismatch');
   if (!diagnostics.errors.some(item => item.code === 'E2E-SYNTHETIC')) throw new Error('diagnostics did not persist runtime error');
   if (!diagnostics.networkFailures.some(item => item.path === '/diagnostic-e2e' && item.status === 599)) throw new Error('diagnostics did not persist sanitized network failure');
   if (JSON.stringify(diagnostics).includes('must-not-log')) throw new Error('diagnostics leaked URL query data');
   if ((diagnostics.breadcrumbs || []).length > 100) throw new Error('diagnostics breadcrumb ring buffer exceeded limit');
+
+  await goto('html/search.html?q=FND-02');
+  await page.waitForFunction(() => [...document.querySelectorAll('.search-result code')].some(node => node.textContent === 'FND-02'));
+  if (!await page.locator('.search-result').filter({ hasText:'FND-02' }).filter({ hasText:'2進数・基数変換・補数・数値表現' }).first().isVisible()) throw new Error('cross-search failed to find Lesson by exact ID');
+  if (!await page.getByRole('option', { name:'Lesson' }).isVisible()) throw new Error('cross-search type filter missing');
+
+  await goto('html/search.html?q=OAuth');
+  await page.waitForFunction(() => document.querySelectorAll('.search-result').length > 0 && !document.querySelector('#search-loading')?.textContent?.includes('読み込み中'));
+  const searchText = (await page.locator('#search-results').textContent())?.toLowerCase() || '';
+  if (!searchText.includes('oauth')) throw new Error('cross-search failed to find OAuth');
+  if (!await page.locator('.search-type.type-term').first().isVisible()) throw new Error('cross-search term result type missing');
+
+  await goto('html/search.html?q=PC-FND-01');
+  await page.waitForFunction(() => [...document.querySelectorAll('.search-result code')].some(node => node.textContent === 'PC-FND-01'));
+  if (!await page.locator('.search-type.type-practice').first().isVisible()) throw new Error('cross-search practice result type missing');
 
   await goto('html/glossary.html?q=OAuth');
   await page.waitForFunction(() => document.querySelectorAll('.glossary-card').length > 0);
@@ -94,13 +119,14 @@ try {
   const practiceQuestions = practicePayloads.flatMap(payload => payload.questions || []);
   const directLessonIds = new Set(practiceQuestions.flatMap(question => question.lessonRefs || []));
   const uncoveredLessons = allLessons.filter(lesson => !directLessonIds.has(lesson.id));
-  if (uncoveredLessons.length) throw new Error(`all lessons must have direct practice coverage: ${uncoveredLessons.map(item => item.id).join(', ')}`);
+  if (uncoveredLessons.length) throw new Error(`all current lessons must have direct practice coverage: ${uncoveredLessons.map(item => item.id).join(', ')}`);
+
   await goto('html/lesson.html?id=ALG-01');
   const directPractice = page.locator('a[href="practice.html?unit=algorithm-programming&question=PC-ALG-01"]');
   await directPractice.waitFor({ state:'visible' });
   if (await page.locator('[data-practice-fallback="true"]').count()) throw new Error('covered lesson unexpectedly rendered practice fallback');
   const lessonBlockStyle = await page.locator('.lesson-block').first().evaluate(node => ({ radius:getComputedStyle(node).borderRadius, shadow:getComputedStyle(node).boxShadow }));
-  if (lessonBlockStyle.radius !== '12px' || lessonBlockStyle.shadow === 'none') throw new Error('r23 friendly lesson surface contract missing');
+  if (lessonBlockStyle.radius !== '12px' || lessonBlockStyle.shadow === 'none') throw new Error('friendly lesson surface contract missing');
   await page.screenshot({ path:'artifacts/lesson-desktop.png', fullPage:true });
   await directPractice.click();
   await page.waitForSelector('#practice-question');
@@ -108,10 +134,19 @@ try {
 
   await goto('html/lesson.html?id=FND-02');
   await page.waitForSelector('.check-question');
-  const lesson = await (await fetch(`${base}/json/lessons/foundation/fnd-02-number-representation.json`)).json();
+  await page.waitForSelector('.lesson-connections');
+  if (await page.locator('.lesson-inline-check').count() !== 2) throw new Error('Foundation Phase 1 inline checks missing');
+  const metaRowText = await page.locator('.lesson-meta-row').textContent();
+  if (!metaRowText?.includes('重要度') || !metaRowText?.includes('頻出度') || !metaRowText?.includes('Phase 1 再編中')) throw new Error('Foundation Phase 1 metadata chips missing');
+  if (!(await page.locator('.lesson-connections').textContent())?.includes('このLessonの位置づけ')) throw new Error('Foundation learning map missing');
+  const foundationLesson = await (await fetch(`${base}/json/lessons/foundation/fnd-02-number-representation.json`)).json();
+  const firstInline = page.locator('.lesson-inline-check').first();
+  await firstInline.locator(`[data-inline-option="${foundationLesson.inlineChecks[0].answerIndex}"]`).click();
+  if (!await firstInline.locator('.lesson-inline-feedback:not([hidden])').isVisible()) throw new Error('inline check feedback did not render');
+
   const cards = page.locator('.check-question');
-  for (let i = 0; i < lesson.checks.length; i += 1) {
-    const correct = Number(lesson.checks[i].answerIndex);
+  for (let i = 0; i < foundationLesson.checks.length; i += 1) {
+    const correct = Number(foundationLesson.checks[i].answerIndex);
     const wrong = correct === 0 ? 1 : 0;
     await cards.nth(i).locator(`[data-option="${wrong}"]`).click();
   }
@@ -145,6 +180,13 @@ try {
   if ((await nav.getAttribute('inert')) !== null) throw new Error('open mobile nav must not be inert');
   await page.keyboard.press('Escape');
   if ((await nav.getAttribute('inert')) === null) throw new Error('Escape must close and inert mobile nav');
+
+  await goto('html/search.html?q=FND-02');
+  await page.waitForFunction(() => document.querySelectorAll('.search-result').length > 0);
+  await assertNoHorizontalOverflow('search 320px');
+  await goto('html/lesson.html?id=FND-02');
+  await page.waitForSelector('.lesson-inline-check');
+  await assertNoHorizontalOverflow('foundation lesson 320px');
   await goto('html/glossary.html?q=OAuth');
   await page.waitForFunction(() => document.querySelectorAll('.glossary-card').length > 0);
   await assertNoHorizontalOverflow('glossary 320px');
@@ -171,24 +213,25 @@ try {
   if (!importDiagnostic.errors.some(item => item.code === 'DATA-IMPORT-VALIDATE')) throw new Error('bad import was not captured by diagnostics');
 
   const validBuildText = '<img src=x onerror=window.__backupXss=1>';
-  const validBackup = {
+  const legacyBackup = {
     schemaVersion:1,
     app:'AP Study Notes',
     build:validBuildText,
     exportedAt:new Date().toISOString(),
     storage:{ 'ap-study-lesson-progress-v1':JSON.stringify({ 'IMPORT-TEST':{ latestAnswered:1,total:1,latestCorrect:1,updatedAt:Date.now() } }) }
   };
-  await page.locator('#data-import-file').setInputFiles({ name:'valid-backup.json', mimeType:'application/json', buffer:Buffer.from(JSON.stringify(validBackup)) });
+  await page.locator('#data-import-file').setInputFiles({ name:'legacy-valid-backup.json', mimeType:'application/json', buffer:Buffer.from(JSON.stringify(legacyBackup)) });
   await page.waitForFunction(() => !document.querySelector('#data-import')?.disabled);
+  if (!(await page.locator('#data-import-preview').textContent())?.includes('旧AP Study Notes形式')) throw new Error('legacy backup compatibility was not surfaced');
   if (await page.locator('#data-import-preview img').count()) throw new Error('backup metadata rendered as HTML');
   if (await page.evaluate(() => Boolean(window.__backupXss))) throw new Error('backup preview executed imported HTML');
   page.once('dialog', dialog => dialog.accept());
   await page.locator('#data-import').click();
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']);
   const imported = await page.evaluate(() => JSON.parse(localStorage.getItem('ap-study-lesson-progress-v1') || '{}')['IMPORT-TEST']?.latestCorrect);
-  if (imported !== 1) throw new Error('validated backup restore failed');
+  if (imported !== 1) throw new Error('validated legacy backup restore failed');
   const restoreDiagnostic = await page.evaluate(async () => window.APDiagnostics.snapshot('after-restore'));
-  if (!restoreDiagnostic.breadcrumbs.some(item => item.action === 'backup.restore' && item.detail?.status === 'success')) throw new Error('successful restore was not captured by diagnostics');
+  if (!restoreDiagnostic.breadcrumbs.some(item => item.action === 'backup.restore' && item.detail?.status === 'success' && item.detail?.legacyApp === true)) throw new Error('successful legacy restore was not captured by diagnostics');
 
   await goto('html/diagnostics.html');
   await page.waitForFunction(expected => document.querySelector('#diagnostics-build')?.textContent === expected, projectMeta.build);
@@ -201,7 +244,7 @@ try {
   if ((await page.getByRole('link', { name:'ホームへ戻る' }).getAttribute('href')) !== '/ap-study-guide/') throw new Error('404 home recovery path mismatch');
 
   if (errors.length) throw new Error(`browser console errors:\n${errors.join('\n')}`);
-  console.log(`[e2e] OK: ${projectMeta.build}, r23 friendly visual contract/screenshots, action home, local diagnostics, 404 recovery, unified glossary, 118/118 direct lesson practice, unit hub, lesson threshold, written gates, 320px overflow, mobile drawer, validated backup restore`);
+  console.log(`[e2e] OK: ${projectMeta.build}, ${expectedUnitCount} runtime units, cross-search, Foundation Phase 1 pilot learning map/inline checks, all-current-Lesson direct Practice coverage, friendly visual contract, diagnostics, mobile overflow, legacy backup compatibility, safe restore`);
 } finally {
   await browser.close();
 }

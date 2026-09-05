@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "id": "lesson-phase1-r26",
+    "sourceBuild": "2026.09.03-r25",
+    "targetBuild": "2026.09.05-r26",
+    "scope": "foundation-theory-pilot",
+    "status": "identity-only",
+    "storageKeysChanged": false,
+    "urlContractChanged": false,
+    "note": "Phase 1 pilotでは基礎理論7 LessonのID・Unit ID・lesson.html?id=<ID> URL・既存学習進捗Keyを変更しない。将来merge/splitする場合はこのContractを置換せず新しいMigrationを追加する。"
+  },
+  "lessonMappings": [
+    {"from":"FND-01","to":["FND-01"],"strategy":"identity"},
+    {"from":"FND-02","to":["FND-02"],"strategy":"identity"},
+    {"from":"FND-03","to":["FND-03"],"strategy":"identity"},
+    {"from":"FND-04","to":["FND-04"],"strategy":"identity"},
+    {"from":"FND-05","to":["FND-05"],"strategy":"identity"},
+    {"from":"FND-06","to":["FND-06"],"strategy":"identity"},
+    {"from":"FND-07","to":["FND-07"],"strategy":"identity"}
+  ],
+  "storage": {
+    "lessonProgressKey": "ap-study-lesson-progress-v1",
+    "practiceHistoryKey": "ap-study-practice-history-v1",
+    "caseHistoryKey": "ap-study-case-history-v1",
+    "mockHistoryKey": "ap-study-mock-history-v1"
+  }
+}
