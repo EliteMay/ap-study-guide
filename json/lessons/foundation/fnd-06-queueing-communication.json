@@ -1,5 +1,5 @@
 {
-  "meta":{"schemaVersion":1,"id":"FND-06","title":"待ち行列・通信量・スループットの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "meta":{"schemaVersion":1,"id":"FND-06","title":"待ち行列・通信量・スループットの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","phase1Status":"pilot","importance":"high","frequency":"medium","estimatedMinutes":35,"prerequisiteLessons":[],"relatedLessons":["FND-04","CMP-08","NET-09"],"relatedTerms":[{"label":"待ち行列","query":"待ち行列"},{"label":"利用率","query":"利用率"},{"label":"Littleの法則","query":"Littleの法則"},{"label":"スループット","query":"スループット"}],"relatedPracticeRefs":["P-FND-02"],"officialProblemRefs":[],"examFocus":"到着率・処理率・利用率の関係と、bit/byteの単位変換を含む性能計算を式の意味から追えることが重要です。"},
   "intro":"待ち行列は『到着する速さ』と『処理する速さ』の差を見るモデルです。通信量・利用率・Littleの法則をつなげ、SystemやNetworkの性能問題へ接続します。",
   "objectives":["到着率λとサービス率μから利用率を計算できる。","利用率が1へ近づくと待ち時間が急増する理由を説明できる。","Littleの法則 L=λW を使える。","bit/s・byte/s・転送時間を単位を揃えて計算できる。"],
   "sections":[
@@ -8,7 +8,12 @@
     {"type":"text","title":"3. なぜ利用率100%近くで待ち時間が増えるか","paragraphs":["平均処理能力に余裕がなくなると、一時的な到着の偏りを吸収できません。平均では処理可能でも、瞬間的に仕事が集中するとQueueが残り続けます。","性能設計では『平均負荷でCPUが100%使えるから効率的』ではなく、ピークと揺らぎの余裕を見ます。"]},
     {"type":"code-trace","title":"4. Littleの法則","question":"平均到着率10人/分、平均滞在時間3分のSystem内に平均何人いるか。","code":["L = λW","L = 10 × 3"],"traceColumns":["量","値"],"traceRows":[["λ","10人/分"],["W","3分"],["L","30人"]],"answer":"平均30人","explanation":"単位を揃えることが最重要です。"},
     {"type":"comparison","title":"5. 通信速度と転送時間","columns":["項目","注意"],"rows":[["1 byte","8 bit"],["100 Mbps","100 megabit/s"],["転送時間","Data量(bit) ÷ 実効速度(bit/s)"],["実効速度","Header・制御・混雑などで理論値より低くなり得る"]]},
-    {"type":"code-trace","title":"6. 100MBを100Mbpsで送る理論時間","question":"単純化し、1MB=10^6 byteとして計算する。","code":["100 MB = 100×10^6 byte","= 800×10^6 bit","time = 800×10^6 / 100×10^6"],"traceColumns":["計算","結果"],"traceRows":[["Data量","800 Mbit"],["速度","100 Mbit/s"],["時間","8s"]],"answer":"8秒","explanation":"MBとMbpsをそのまま割らず、byte→bitへ揃えます。"}
+    {"type":"code-trace","title":"6. 100MBを100Mbpsで送る理論時間","question":"単純化し、1MB=10^6 byteとして計算する。","code":["100 MB = 100×10^6 byte","= 800×10^6 bit","time = 800×10^6 / 100×10^6"],"traceColumns":["計算","結果"],"traceRows":[["Data量","800 Mbit"],["速度","100 Mbit/s"],["時間","8s"]],"answer":"8秒","explanation":"MBとMbpsをそのまま割らず、byte→bitへ揃えます。"},
+    {"type":"mistakes","title":"7. よくある誤解","items":["利用率80%は『20%のRequestが失敗する』という意味ではなく、平均処理能力の80%を使っているという意味。","利用率が100%未満なら待ち時間が常に短いわけではない。到着のばらつきがあるため、1に近づくほどQueueが増えやすい。","Littleの法則ではλとWの時間単位を揃える。件/秒と分をそのまま掛けない。","MBはbyte、Mbpsはbit/sなので、そのまま数値だけを割らず8倍の単位変換を確認する。"]}
+  ],
+  "inlineChecks":[
+    {"id":"FND-06-I1","afterSection":2,"prompt":"到着率20件/s、処理能力25件/sの利用率は？","options":["20%","25%","80%","125%"],"answerIndex":2,"explanation":"20/25=0.8なので80%です。"},
+    {"id":"FND-06-I2","afterSection":5,"prompt":"25MBを100Mbpsで送る理論時間は？ 1MB=10^6byte","options":["0.25秒","2秒","8秒","25秒"],"answerIndex":1,"explanation":"25MB=200Mbit、200/100=2秒です。"}
   ],
   "checks":[
     {"id":"fnd06-q1","prompt":"λ=30、μ=40の利用率は？","options":["25%","50%","75%","133%"],"answerIndex":2,"explanation":"30/40=0.75です。"},

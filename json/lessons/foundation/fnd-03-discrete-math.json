@@ -1,5 +1,5 @@
 {
-  "meta":{"schemaVersion":1,"id":"FND-03","title":"集合・命題・論理・組合せの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "meta":{"schemaVersion":1,"id":"FND-03","title":"集合・命題・論理・組合せの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","phase1Status":"pilot","importance":"medium","frequency":"medium","estimatedMinutes":35,"prerequisiteLessons":[],"relatedLessons":["FND-01","FND-04","DB-04"],"relatedTerms":[{"label":"集合","query":"集合"},{"label":"De Morganの法則","query":"De Morgan"},{"label":"必要条件・十分条件","query":"必要条件 十分条件"},{"label":"組合せ","query":"組合せ"}],"relatedPracticeRefs":["PC-FND-03"],"officialProblemRefs":[],"examFocus":"条件式・集合演算・場合の数は、基礎計算だけでなくDatabase条件やSecurityの論理判断を読む土台になります。"},
   "intro":"離散数学は用語をばらばらに覚えるより、『条件を集合として扱う』『真偽を論理式にする』『場合の数を重複なく数える』の3つを軸にすると整理できます。",
   "objectives":["和集合・共通部分・補集合を条件から選べる。","AND/OR/NOTと必要条件・十分条件を区別できる。","De Morganの法則を集合と論理の両方で使える。","順列・組合せを問題文から選択できる。"],
   "sections":[
@@ -9,6 +9,10 @@
     {"type":"code-trace","title":"4. 真偽表で確認する","question":"A=true, B=falseのとき NOT(A AND B) と (NOT A) OR (NOT B) を評価する。","code":["A AND B = true AND false = false","NOT(false) = true","NOT A = false","NOT B = true","false OR true = true"],"traceColumns":["式","結果"],"traceRows":[["NOT(A AND B)","true"],["(NOT A) OR (NOT B)","true"]],"answer":"両者は同じtrueになる。","explanation":"全組合せで同じ結果になるため論理的に同値です。"},
     {"type":"comparison","title":"5. 順列と組合せ","columns":["問題","式","判断"],"rows":[["5人から会長と副会長","5P2=5×4=20","役割が違い順序が意味を持つ"],["5人から2人を選ぶ","5C2=10","選ばれた組だけが重要"],["5人を一列に並べる","5!=120","全員の順序"],["重複を許し3桁を作る","選択肢数^桁数","各桁を独立に選ぶ"]]},
     {"type":"mistakes","title":"6. よくある誤解","items":["ORは日常語の『どちらか一方だけ』とは限らず、通常の論理和は両方trueもtrue。","A→BがtrueでもB→Aがtrueとは限らない。","選ぶだけならC、役割や並び順があるならPを検討する。","集合の補集合は『全体集合の中でAではない部分』であり、全体集合を意識する。"]}
+  ],
+  "inlineChecks":[
+    {"id":"FND-03-I1","afterSection":2,"prompt":"『AならばB』で、BはAに対して何条件？","options":["必要条件","十分条件","無条件","排他条件"],"answerIndex":0,"explanation":"Aが成立するにはBが必要なので、BはAの必要条件です。"},
+    {"id":"FND-03-I2","afterSection":4,"prompt":"NOT(A OR B) と同値なのは？","options":["NOT A AND NOT B","NOT A OR NOT B","A AND B","A XOR B"],"answerIndex":0,"explanation":"De Morganの法則でORはANDへ反転し、各項を否定します。"}
   ],
   "checks":[
     {"id":"fnd03-q1","prompt":"『AならばB』でAはBに対して何条件？","options":["必要条件","十分条件","必要十分条件と必ず言える","無関係"],"answerIndex":1,"explanation":"Aが成立すればBまで保証されるため十分条件です。"},

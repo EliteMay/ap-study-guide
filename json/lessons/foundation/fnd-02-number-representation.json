@@ -1,5 +1,5 @@
 {
-  "meta":{"schemaVersion":1,"id":"FND-02","title":"2進数・基数変換・補数・数値表現","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":35},
+  "meta":{"schemaVersion":1,"id":"FND-02","title":"2進数・基数変換・補数・数値表現","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","phase1Status":"pilot","importance":"high","frequency":"high","estimatedMinutes":35,"prerequisiteLessons":[],"relatedLessons":["FND-01","FND-05","CMP-03"],"relatedTerms":[{"label":"2進数","query":"2進数"},{"label":"2の補数","query":"2の補数"},{"label":"浮動小数点","query":"浮動小数点"},{"label":"オーバーフロー","query":"オーバーフロー"}],"relatedPracticeRefs":["P-FND-01"],"officialProblemRefs":[],"examFocus":"基数変換、補数、浮動小数点と誤差は計算・用語の両方で問われます。式だけでなく有限bitで表す制約まで理解します。"},
   "intro":"基数変換を暗記作業にせず、桁の重みと『コンピュータが有限bitで数を持つ』という制約から理解します。負数、固定小数点、浮動小数点、誤差までつなげます。",
   "objectives":["2進・8進・16進を桁の重みから変換できる。","2の補数で負数を表現し加減算を追える。","固定小数点と浮動小数点の違いを説明できる。","丸め誤差・桁落ち・情報落ちの原因を説明できる。"],
   "sections":[
@@ -9,6 +9,10 @@
     {"type":"diagram","title":"4. 浮動小数点の考え方","diagrams":[{"label":"値を分解する","connector":"×","nodes":[{"title":"符号","value":"+ / -"},{"title":"仮数","value":"有効数字"},{"title":"基数^指数","value":"桁位置"}],"note":"IEEE 754では符号・指数部・仮数部にbitを分けます。有限bitなので、0.1のように2進数で有限桁にならない値は近似になります。"}]},
     {"type":"comparison","title":"5. 数値誤差を区別する","columns":["誤差","何が起きる","例"],"rows":[["丸め誤差","有限桁に丸める","0.1を2進浮動小数点で近似"],["桁落ち","近い大きさの数の減算で有効桁が消える","1.234567-1.234566"],["情報落ち","非常に大きい数へ小さい数を加えて小さい側が消える","10^20 + 1"],["オーバーフロー","表現可能範囲を超える","8bit signedで127+1"]]},
     {"type":"mistakes","title":"6. よくある誤解","items":["16進数Aは10、Fは15。文字だから別の値体系ではない。","2の補数では負数同士も通常のbinary加算で処理でき、桁あふれを捨てる場合がある。","浮動小数点は『小数なら完全に正確』ではない。","表示が0.3でも内部値が厳密な0.3とは限らない。"]}
+  ],
+  "inlineChecks":[
+    {"id":"FND-02-I1","afterSection":2,"prompt":"16進数 2F を10進数にすると？","options":["31","47","52","215"],"answerIndex":1,"explanation":"2×16 + 15 = 47です。"},
+    {"id":"FND-02-I2","afterSection":4,"prompt":"0.1を2進浮動小数点で扱うと誤差が起こり得る主な理由は？","options":["有限bitで近似するため","CPUが10進数を禁止するため","必ず整数へ丸めるため","16進数しか保存できないため"],"answerIndex":0,"explanation":"2進数で有限桁にならない値を有限bitへ収めるため近似が必要です。"}
   ],
   "checks":[
     {"id":"fnd02-q1","prompt":"101101₂を10進数へ直すと？","options":["41","43","45","47"],"answerIndex":2,"explanation":"32+8+4+1=45です。"},

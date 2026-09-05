@@ -51,11 +51,12 @@ for (const required of ['GLOSSARY_DOMAINS','glossary.html?domain=','>単語辞�
 for (const old of ['>旧用語辞書<','LEGACY_GLOSSARIES']) if (unit.includes(old)) fail(`unit hub still promotes legacy glossary: ${old}`);
 
 const home = read('index.html');
-for (const required of ['home-quick-search','やりたいことから選ぶ','html/glossary.html','単語を調べる','css/home-launch.css']) if (!home.includes(required)) fail(`homepage missing ${required}`);
+for (const required of ['home-quick-search','やりたいことから選ぶ','html/glossary.html','用語だけを調べる','html/search.html','css/home-launch.css']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 const homeJs = read('js/home.js');
-for (const required of ['buildQuickActions','home-quick-search','glossary.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
+for (const required of ['buildQuickActions','home-quick-search',"href:'html/glossary.html'",'html/search.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
 
 const shell = read('js/shell.js');
-if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('navigation missing glossary');
+if (!shell.includes("['glossary'") || !shell.includes("'glossary.html']")) fail('navigation missing glossary');
+if (!shell.includes("['search'") || !shell.includes("'search.html']")) fail('navigation missing cross-search');
 
-console.log(`[glossary] OK: ${total} legacy terms unified, ${60}-result pagination, lazy rich details, narrow-layout guards, no static count duplication.`);
+console.log(`[glossary] OK: ${total} legacy terms unified, ${60}-result pagination, lazy rich details, Home glossary entry + cross-search fallback, semantic shared-navigation coverage, narrow-layout guards, no static count duplication.`);

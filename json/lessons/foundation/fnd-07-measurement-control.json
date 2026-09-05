@@ -1,5 +1,5 @@
 {
-  "meta":{"schemaVersion":1,"id":"FND-07","title":"計測・制御・フィードバックの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","estimatedMinutes":30},
+  "meta":{"schemaVersion":1,"id":"FND-07","title":"計測・制御・フィードバックの基礎","unitId":"foundation-theory","officialMiddleCodes":[1],"qualityStatus":"individual-v1","phase1Status":"pilot","importance":"medium","frequency":"medium","estimatedMinutes":30,"prerequisiteLessons":[],"relatedLessons":["CMP-12","SYS-03"],"relatedTerms":[{"label":"フィードバック制御","query":"フィードバック制御"},{"label":"PID制御","query":"PID"},{"label":"Sampling","query":"サンプリング"},{"label":"A/D変換","query":"A/D変換"}],"relatedPracticeRefs":["P-FND-05"],"officialProblemRefs":[{"examId":"AP-2025-SPRING-B","question":7,"label":"令和7年度 春期 午後 問7"},{"examId":"AP-2025-AUTUMN-B","question":7,"label":"令和7年度 秋期 午後 問7"}],"examFocus":"組込み・制御系の長文問題で、Sensor→制御→対象→Feedbackの流れやSampling周期・周波数の関係を読めることが重要です。"},
   "intro":"計測制御はSensor名の暗記ではなく、目標値と実測値の差をどう使うかで整理します。Open Loop/Closed Loop、Feedback、Sampling、A/D・D/AをSystemとしてつなげます。",
   "objectives":["Open LoopとClosed Loopを比較できる。","Feedback Controlの基本Flowを説明できる。","Sampling周期とSampling周波数を変換できる。","A/D・D/A変換の役割を説明できる。"],
   "sections":[
@@ -9,6 +9,10 @@
     {"type":"code-trace","title":"4. Sampling周波数","question":"Sampling周期が0.5msのときSampling周波数を求める。","code":["0.5 ms = 0.0005 s","f = 1 / T","f = 1 / 0.0005"],"traceColumns":["項目","値"],"traceRows":[["周期T","0.0005s"],["周波数f","2000Hz"]],"answer":"2kHz","explanation":"周期と周波数は逆数関係です。"},
     {"type":"comparison","title":"5. AnalogとDigitalの橋渡し","columns":["変換","方向","例"],"rows":[["A/D","Analog→Digital","Sensor電圧を数値へ"],["D/A","Digital→Analog","数値からAnalog出力へ"],["量子化","連続振幅を段階化","bit数が多いほど細かい段階"],["Sampling","時間軸を離散化","一定周期で値を取得"]]},
     {"type":"mistakes","title":"6. よくある誤解","items":["Feedbackは出力をそのまま入力へ戻すことではなく、目標との差を制御へ利用する考え方。","Sampling周波数を上げると時間分解能は高くなるがData量も増える。","A/Dのbit数とSampling周波数は別の軸。bit数は振幅方向、Samplingは時間方向。","Closed Loopだから必ず安定とは限らず、制御Parameterが不適切だと振動・発散する場合もある。"]}
+  ],
+  "inlineChecks":[
+    {"id":"FND-07-I1","afterSection":2,"prompt":"温度Sensorの実測値を目標温度との差へ戻してHeater出力を調整する方式は？","options":["Closed Loop","Open Loop","Batch処理","RAID"],"answerIndex":0,"explanation":"実測値をFeedbackして偏差を使うためClosed Loopです。"},
+    {"id":"FND-07-I2","afterSection":4,"prompt":"Sampling周期1msのSampling周波数は？","options":["100Hz","500Hz","1kHz","10kHz"],"answerIndex":2,"explanation":"1ms=0.001sなので、1/0.001=1000Hz=1kHzです。"}
   ],
   "checks":[
     {"id":"fnd07-q1","prompt":"室温Sensorを読み目標温度との差でHeater出力を調整する方式は？","options":["Open Loop","Closed Loop","Batch処理","Pollingだけ"],"answerIndex":1,"explanation":"実測をFeedbackしているのでClosed Loopです。"},

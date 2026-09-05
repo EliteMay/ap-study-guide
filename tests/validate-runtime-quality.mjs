@@ -12,16 +12,18 @@ for (const file of [
   'js/study-state.js','js/lesson-data.js','js/shell.js','css/shell.css',
   'html/unit.html','js/unit.js','css/unit.css',
   'html/data.html','js/data-tools.js','css/data-tools.css',
-  'html/diagnostics.html','js/diagnostics-view.js','css/diagnostics.css'
+  'html/diagnostics.html','js/diagnostics-view.js','css/diagnostics.css',
+  'html/search.html','js/search.js','css/search.css'
 ]) if (!exists(file)) fail(`missing ${file}`);
 
 const meta = json('json/project-meta.json');
-if (meta.app !== 'AP Study Notes' || !/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail('project-meta app/build invalid');
-if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.11.0' || meta.guide?.adoptedAt !== '2026-09-01') fail('web-project-guide adoption metadata mismatch');
-for (const profile of ['STATIC','DATA','TOOL','PUBLIC-CONTENT']) if (!(meta.profiles || []).includes(profile)) fail(`project profile missing ${profile}`);
+if (meta.app !== 'AP Study Guide' || !/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail('project-meta app/build invalid');
+if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.16.0' || meta.guide?.adoptedAt !== '2026-09-05') fail('web-project-guide adoption metadata mismatch');
+for (const profile of ['STATIC','DATA','LEARNING','TOOL','PUBLIC-CONTENT']) if (!(meta.profiles || []).includes(profile)) fail(`project profile missing ${profile}`);
 if (meta.deployment?.target !== 'GitHub Pages' || Number(meta.storage?.backupSchemaVersion) !== 1) fail('deployment/storage metadata mismatch');
 if (Number(meta.diagnostics?.schemaVersion) !== 1 || meta.diagnostics?.storageKey !== 'ap-study-diagnostics-v1' || meta.diagnostics?.localOnly !== true || Number(meta.diagnostics?.maxBreadcrumbs) !== 100) fail('diagnostics metadata mismatch');
 if (meta.visual?.ambition !== 'high' || meta.visual?.direction !== 'friendly-study-dashboard' || !String(meta.visual?.baseline || '').includes('17-visual-quality-baseline')) fail('visual direction metadata mismatch');
+if (Number(meta.phase?.active) !== 1 || meta.phase?.status !== 'in-progress' || meta.phase?.sourceOfTruth !== 'REQUIREMENTS.md') fail('Phase state metadata mismatch');
 
 const learnings = read('PROJECT_LEARNINGS.md');
 for (const required of ['# PROJECT LEARNINGS','## Failure','## Success','PL-F-001','PL-S-001','Regression Guard','Guide Feedback Queue']) if (!learnings.includes(required)) fail(`PROJECT_LEARNINGS missing ${required}`);
@@ -33,7 +35,8 @@ for (const required of [
   'ap-study-diagnostics-v1','APDiagnostics','DIAGNOSTICS_LIMITS','breadcrumbs:100',
   "addEventListener('error'","addEventListener('unhandledrejection'",'networkFailure','storageFailure','snapshotDiagnostics','safePath'
 ]) if (!shell.includes(required)) fail(`shell metadata/navigation/diagnostics missing ${required}`);
-if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('glossary missing from navigation');
+if (!shell.includes("['search','🔎 横断検索','search.html']")) fail('cross-search missing from navigation');
+if (!shell.includes("['glossary','📖 単語辞書','glossary.html']")) fail('glossary missing from navigation');
 if (!shell.includes("['data','💾 学習データ','data.html']")) fail('data backup page missing from navigation');
 if (!shell.includes("['diagnostics','🩺 診断情報','diagnostics.html']")) fail('diagnostics missing from navigation');
 if (!shell.includes("toggleAttribute('inert'")) fail('mobile drawer does not become inert when closed');
@@ -88,12 +91,17 @@ for (const unit of curriculum.studyUnits || []) {
 
 const index = read('index.html');
 for (const legacy of ['html/algorithm.html','html/computer.html','html/database.html','html/network.html','html/security.html','html/system.html','html/management.html']) if (index.includes(`href="${legacy}"`)) fail(`homepage links directly to legacy hub ${legacy}`);
-if (!index.includes('home-quick-search') || !index.includes('html/glossary.html')) fail('action-first home/glossary entry missing');
+if (!index.includes('home-quick-search') || !index.includes('html/search.html') || !index.includes('html/glossary.html')) fail('action-first home/search/glossary entry missing');
 if (!index.includes('<html lang="ja">') || !index.includes('<meta name="description"') || !index.includes('<link rel="canonical" href="https://elitemay.github.io/ap-study-guide/">')) fail('public-content metadata missing from home');
 if (index.includes('js/home-practice.js') || index.includes('js/home-cases.js') || index.includes('js/home-mock.js')) fail('homepage still loads duplicate progress renderers');
 for (const stale of ['0/118','0/91','0/16','0 / 118','0 / 91','0 / 16','BUILD r17']) if (index.includes(stale)) fail(`homepage contains stale magic value ${stale}`);
 const homeJs = read('js/home.js');
-for (const required of ['buildQuickActions','renderLoadError','finderBound','lessonCount:lessons.length','practiceCount:questions.length','caseCount:cases.length']) if (!homeJs.includes(required)) fail(`home runtime missing ${required}`);
+for (const required of ['buildQuickActions','renderLoadError','finderBound','lessonCount:lessons.length','practiceCount:questions.length','caseCount:cases.length','html/search.html?q=']) if (!homeJs.includes(required)) fail(`home runtime missing ${required}`);
+
+const searchPage = read('html/search.html');
+const searchRuntime = read('js/search.js');
+for (const required of ['cross-search-input','search-type-filter','../js/search.js']) if (!searchPage.includes(required)) fail(`cross-search page missing ${required}`);
+for (const required of ['TERM_MANIFESTS','loadExtendedCatalog','loadTerms','loadPractice','loadOfficial','scoreItem']) if (!searchRuntime.includes(required)) fail(`cross-search runtime missing ${required}`);
 
 const changingCopy = {
   'html/practice.html':['91問'],
@@ -125,4 +133,4 @@ if (diagnosticsView.includes('innerHTML')) fail('diagnostics view must not rende
 const notFound = read('404.html');
 for (const required of ['<html lang="ja">','ページが見つかりません','/ap-study-guide/','/ap-study-guide/html/roadmap.html','meta name="robots" content="noindex"']) if (!notFound.includes(required)) fail(`404 recovery missing ${required}`);
 
-console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / visual ${meta.visual.direction} / profiles ${meta.profiles.join('+')} / centralized metadata, high visual baseline, complete Unit Hub, local diagnostics, public recovery, safe backup restore.`);
+console.log(`[runtime-quality] OK: ${meta.build} / guide ${meta.guide.version} / visual ${meta.visual.direction} / profiles ${meta.profiles.join('+')} / centralized metadata, high visual baseline, Unit Hub, cross-search, local diagnostics, public recovery, safe backup restore.`);
