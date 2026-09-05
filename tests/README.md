@@ -63,6 +63,31 @@ Phase 1 Algorithm / Programming Pilot専用。
 
 補助範囲Reviewや公開公式問題Mapping不足が残る間はUnit Complete扱いにしない。
 
+### `validate-phase1-computer-systems.mjs`
+
+Phase 1 Computer Systems Pilot専用。
+
+対象: `CMP-01`〜`CMP-12`
+
+検証:
+
+- 現行Computer Systems Lesson集合とPhase 1 Overlayの1対1 Coverage
+- 中分類3〜6の現行Coverage
+- 旧Lesson ID / Unit / File Path維持
+- 重要度 / 頻出度 / APでの見られ方
+- 前提 / 関連Lessonの実在
+- 関連用語
+- Direct Practiceの実在と双方向Mapping
+- 公開公式問題Refの実在とLesson Mapping
+- 本文Depth / よくある誤解 / 図解・比較・Trace / 末尾3〜5問
+- 2つのInline Checkと本文Section内の配置
+- `json/migrations/lesson-phase1-computer-systems-r28.json` のIdentity Migration
+- `json/curriculum/audits/computer-systems-phase1-r28.json` のPilot / Pending Review
+- `json/phase1/index.json` からのLazy Overlay Runtime
+- 現在の公開公式問題Mapping対象が `CMP-02 / CMP-07 / CMP-08 / CMP-09 / CMP-12` であること
+
+公開公式問題Mapping不足、科目A型演習密度、Cross-unit責務Reviewが残る間はUnit Complete扱いにしない。
+
 ### `validate-audits.mjs`
 
 System / Management / Database / Networkの監査ID・移行先を検証。
@@ -189,6 +214,22 @@ Algorithm / Programming Phase 1のBrowser専用Regression。
 - 320pxで`ALG-10` / `PROG-03`に横Overflowなし
 - Browser Console / Page Errorなし
 
+### `tests/e2e-phase1-computer-systems.mjs`
+
+Computer Systems Phase 1のBrowser専用Regression。
+
+- `CMP-03` の重要度 / 頻出度 / Pilot Chip
+- Learning Map / `FND-01` / Direct Practice
+- Overlay Inline Checkの実操作
+- `CMP-07` の2025春・秋 問4 Mapping
+- `CMP-12` のMetadata / `FND-07` / Practice / 2025春・秋 問7 Mapping
+- Cross Searchから`CMP-08`へ到達
+- Computer Systems Unit HubのUnique Lesson集合が`CMP-01`〜`CMP-12`
+- 1 Lessonが複数IPA中分類Groupへ表示されてもUnique Lesson数と混同しない
+- Unit Hub titleが`AP Study Guide`
+- 320pxで`CMP-04` / `CMP-12` / Unit Hubに横Overflowなし
+- Browser Console / Page Errorなし
+
 ## Visual Review
 
 `tests/visual-review.mjs`
@@ -198,7 +239,11 @@ Desktop 1280pxとMobile 390pxで主要RouteをScreenshot化する。
 Phase 1で重要な対象:
 
 - `html/lesson.html?id=FND-02`
+- `html/unit.html?unit=algorithm-programming`
 - `html/lesson.html?id=ALG-01`
+- `html/unit.html?unit=computer-systems`
+- `html/lesson.html?id=CMP-03`
+- `html/lesson.html?id=CMP-12`
 - `html/search.html?q=FND-02`
 - `html/search.html?q=OAuth`
 
@@ -232,14 +277,16 @@ Schema自体を変更する場合は別Migrationを用意する。
 2. Basic JSON / References
 3. Phase 1 Foundation Pilot
 4. Phase 1 Algorithm / Programming Pilot
-5. Domain Audits
-6. Curriculum / Practice / Case / Mock / Official / Progress
-7. Runtime Quality / Glossary
-8. Playwright Chromium Install
-9. Product Browser Smoke
-10. Algorithm Phase 1 Browser Smoke
-11. Visual Review
-12. Screenshot Artifact Upload
+5. Phase 1 Computer Systems Pilot
+6. Domain Audits
+7. Curriculum / Practice / Case / Mock / Official / Progress
+8. Runtime Quality / Glossary
+9. Playwright Chromium Install
+10. Product Browser Smoke
+11. Algorithm Phase 1 Browser Smoke
+12. Computer Systems Phase 1 Browser Smoke
+13. Visual Review
+14. Screenshot Artifact Upload
 
 ## CIで完全には保証しないもの
 
