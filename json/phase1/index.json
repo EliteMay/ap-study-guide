@@ -8,6 +8,11 @@
       "unitId": "algorithm-programming",
       "status": "pilot",
       "file": "json/phase1/algorithm-programming-r27.json"
+    },
+    {
+      "unitId": "computer-systems",
+      "status": "pilot",
+      "file": "json/phase1/computer-systems-r28.json"
     }
   ]
 }
