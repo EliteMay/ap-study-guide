@@ -16,9 +16,9 @@ const baseLessons = base.lessons || [];
 const expansionLessons = expansion.lessons || [];
 const lessons = [...baseLessons,...expansionLessons];
 if (baseLessons.length !== 87) fail(`base lesson count ${baseLessons.length} != 87`);
-if (expansionLessons.length !== 31) fail(`expansion lesson count ${expansionLessons.length} != 31`);
-if (lessons.length !== 118) fail(`combined lesson count ${lessons.length} != 118`);
-if (Number(coverage.meta?.structuredLessons) !== 118) fail('coverage structuredLessons must be 118');
+if (expansionLessons.length !== 33) fail(`expansion lesson count ${expansionLessons.length} != 33`);
+if (lessons.length !== 120) fail(`combined lesson count ${lessons.length} != 120`);
+if (Number(coverage.meta?.structuredLessons) !== 120) fail('coverage structuredLessons must be 120');
 
 const ids = lessons.map(item => item.id);
 const orders = lessons.map(item => Number(item.order));

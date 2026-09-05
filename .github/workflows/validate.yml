@@ -29,6 +29,8 @@ jobs:
         run: node tests/validate-phase1-algorithm.mjs
       - name: Validate Phase 1 computer systems pilot
         run: node tests/validate-phase1-computer-systems.mjs
+      - name: Validate Phase 1 UI and media pilot
+        run: node tests/validate-phase1-ui-media.mjs
       - name: Validate domain audits
         run: node tests/validate-audits.mjs
       - name: Validate Security 501-term audit
@@ -63,6 +65,7 @@ jobs:
           node tests/e2e-smoke.mjs
           node tests/e2e-phase1-algorithm.mjs
           node tests/e2e-phase1-computer-systems.mjs
+          node tests/e2e-phase1-ui-media.mjs
           node tests/visual-review.mjs
       - name: Upload visual review screenshots
         if: always()

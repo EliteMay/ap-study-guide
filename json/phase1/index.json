@@ -13,6 +13,11 @@
       "unitId": "computer-systems",
       "status": "pilot",
       "file": "json/phase1/computer-systems-r28.json"
+    },
+    {
+      "unitId": "ui-media",
+      "status": "pilot",
+      "file": "json/phase1/ui-media-r29.json"
     }
   ]
 }

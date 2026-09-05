@@ -1,10 +1,10 @@
 {
-  "meta":{"schemaVersion":1,"updated":"2026-08-30","structuredLessons":118,"policy":"ap-2026-map.jsonは公式分類の正本、当Fileは教材進捗・Hub導線のOverlayとして扱う。全13Unitの学習入口はunit.htmlへ統一し、旧6分野Pageは互換用語辞書としてのみ維持する。"},
+  "meta":{"schemaVersion":1,"updated":"2026-09-06","structuredLessons":120,"policy":"ap-2026-map.jsonは公式分類の正本、当Fileは教材進捗・Hub導線のOverlayとして扱う。全13Unitの学習入口はunit.htmlへ統一し、旧6分野Pageは互換用語辞書としてのみ維持する。"},
   "overrides":{
     "foundation-theory":{"coverage":"partial","hubHref":"unit.html?unit=foundation-theory","auditNote":"FND-01〜07で論理演算、数値表現、離散数学、確率統計、情報量、待ち行列、計測制御を教材化。今後は過去問対応と演習量を増やす。"},
     "algorithm-programming":{"coverage":"partial","hubHref":"unit.html?unit=algorithm-programming","auditNote":"旧65語を65/65移行しALG-01〜11、PROG-01〜04で構造化。最近の過去問・本番型擬似言語演習を追加する。"},
     "computer-systems":{"coverage":"partial","hubHref":"unit.html?unit=computer-systems","auditNote":"CMP-01〜12で中分類3〜6のCPU、Memory、I/O、OS、System構成、性能、信頼性、Storage、Middleware、Hardware、Virtualization、Cloudを教材化。"},
-    "ui-media":{"coverage":"partial","hubHref":"unit.html?unit=ui-media","auditNote":"UIM-01〜03、MED-01〜03でUI/UX/Accessibility/情報設計、画像、音声、動画、圧縮を新規教材化。"},
+    "ui-media":{"coverage":"partial","hubHref":"unit.html?unit=ui-media","auditNote":"UIM-01〜04、MED-01〜04でUI/UX/Accessibility/情報設計、画面・帳票・コード・Web設計、人間中心設計、画像、音声、動画、マルチメディア統合・圧縮応用を教材化。公開公式問題Mappingと科目A型演習Variationは継続監査する。"},
     "database":{"coverage":"partial","hubHref":"unit.html?unit=database","auditNote":"旧229語を229/229で監査・DB-01〜14へ一意割当。SQL/正規化/Transaction/性能/分散/分析を教材化。"},
     "network":{"coverage":"partial","hubHref":"unit.html?unit=network","auditNote":"旧480語を480/480で監査しNET-01〜14へ再教材化。Security由来通信基礎もNetworkへ再配置済み。"},
     "security":{"coverage":"partial","hubHref":"unit.html?unit=security","auditNote":"旧501語を501/501監査。SEC-01〜12へ統合し132語を公式分野へ再配置。攻撃→成立条件→観測→影響→対策で教材化。"},

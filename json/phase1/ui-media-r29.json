@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.09.06-r29",
+    "unitId": "ui-media",
+    "unitTitle": "UI・情報メディア",
+    "officialMiddleCodes": [7, 8],
+    "phase1Status": "pilot",
+    "source": "IPA 応用情報技術者試験シラバス Ver.7.2 / 2025年度公開問題",
+    "policy": "既存UIM-01〜03・MED-01〜03の本文・ID・URL・学習Storageを維持し、シラバス監査で不足していた画面/帳票/コード/Web設計とマルチメディア統合/圧縮応用をUIM-04・MED-04として追加する。Phase 1共通ContractはUnit Companion Dataとして遅延読込し、公開公式問題Mappingと科目A型演習Variationが残るためUnit完成扱いにしない。"
+  },
+  "lessons": [
+    {
+      "id": "UIM-01",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "利用者が操作を理解し、結果を確認し、誤操作から回復できるUIかを、Visibility・Consistency・Feedback・Error Prevention/Recoveryの観点で判断します。",
+      "prerequisiteLessons": [],
+      "relatedLessons": ["UIM-02", "UIM-03", "UIM-04"],
+      "relatedTerms": ["User Interface", "Feedback", "Consistency", "Affordance", "Error Prevention", "Recovery"],
+      "relatedPracticeRefs": ["P-UIM-03"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-AUTUMN-B","question":8,"label":"2025秋 午後 問8（モバイルオーダーシステムの画面設計）"}
+      ],
+      "inlineChecks": [
+        {"id":"UIM-01-I1","afterSection":1,"prompt":"保存Buttonを押しても処理中か成功か分からない。最も直接不足している原則は？","options":["Feedback","Compression","Normalization","Routing"],"answerIndex":0,"explanation":"操作を受け付けたことや現在状態を利用者へ返すFeedbackが不足しています。"},
+        {"id":"UIM-01-I2","afterSection":4,"prompt":"大量削除で確認Dialogに加えてUndoを用意する主な意味は？","options":["操作後のRecoveryを可能にする", "CPUを高速化する", "入力項目を増やす", "暗号化する"],"answerIndex":0,"explanation":"事前のError Preventionだけでは誤操作を完全に防げないため、事後に戻れるRecoveryも重要です。"}
+      ]
+    },
+    {
+      "id": "UIM-02",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "使えるか・効率よく達成できるか・負担が少ないかを評価し、AccessibilityやUser Testなど具体的改善手段を選ぶ問題につながります。",
+      "prerequisiteLessons": ["UIM-01"],
+      "relatedLessons": ["UIM-03", "UIM-04", "SYS-03"],
+      "relatedTerms": ["Usability", "Accessibility", "User Test", "Heuristic Evaluation", "Persona", "Prototype"],
+      "relatedPracticeRefs": ["P-UIM-01"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-AUTUMN-B","question":8,"label":"2025秋 午後 問8（モバイルオーダーシステムの画面設計）"}
+      ],
+      "inlineChecks": [
+        {"id":"UIM-02-I1","afterSection":2,"prompt":"Errorを赤色だけで示す問題へ最も直接的な改善は？","options":["TextやIconでも意味を示す", "赤をさらに薄くする", "Hoverだけで理由を出す", "Fontを小さくする"],"answerIndex":0,"explanation":"色だけに依存せず、TextやIconなど複数の手掛かりで意味を伝えるとAccessibilityが上がります。"},
+        {"id":"UIM-02-I2","afterSection":4,"prompt":"実利用者がTaskを行う様子からつまずきを発見する方法は？","options":["User Test", "RAID Test", "Packet Routing", "Hashing"],"answerIndex":0,"explanation":"User Testは実際の利用者によるTask遂行を観察し、設計上の問題を発見します。"}
+      ]
+    },
+    {
+      "id": "UIM-03",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "大量情報をHierarchy・Search・Filter等で整理し、Navigation・Form・Error Messageを利用者のTaskに合わせる設計判断が中心です。",
+      "prerequisiteLessons": ["UIM-01"],
+      "relatedLessons": ["UIM-02", "UIM-04"],
+      "relatedTerms": ["Information Architecture", "Navigation", "Filter", "Form", "Error Message", "Progressive Disclosure"],
+      "relatedPracticeRefs": ["PC-UIM-03"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-AUTUMN-B","question":8,"label":"2025秋 午後 問8（モバイルオーダーシステムの画面設計）"}
+      ],
+      "inlineChecks": [
+        {"id":"UIM-03-I1","afterSection":2,"prompt":"大量の候補から価格帯やCategoryで集合を狭める操作は？","options":["Filter", "Sortだけ", "Cache", "DMA"],"answerIndex":0,"explanation":"Filterは条件を使って候補集合そのものを絞り込みます。"},
+        {"id":"UIM-03-I2","afterSection":4,"prompt":"良いError Messageに最も必要なものは？","options":["何が問題でどう直せるか", "内部Exception全文", "Error Codeだけ", "赤色だけ"],"answerIndex":0,"explanation":"利用者が次の行動を選べるよう、問題箇所と修正方法を具体的に示します。"}
+      ]
+    },
+    {
+      "id": "UIM-04",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "画面・帳票・識別Code・Webを利用環境に合わせて設計し、入力検査・Responsive・人間中心設計を組み合わせて判断することが重要です。",
+      "prerequisiteLessons": ["UIM-01", "UIM-03"],
+      "relatedLessons": ["UIM-02", "SYS-03", "NET-09"],
+      "relatedTerms": ["Screen Design", "Input Validation", "Check Digit", "Responsive Design", "Human-Centred Design", "Universal Design"],
+      "relatedPracticeRefs": ["P-UIM-06"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-AUTUMN-B","question":8,"label":"2025秋 午後 問8（モバイルオーダーシステムの画面設計）"}
+      ],
+      "inlineChecks": [
+        {"id":"UIM-04-I1","afterSection":2,"prompt":"開始日と終了日の前後関係に矛盾がないか確認する検査は？","options":["組合せCheck", "必須Checkだけ", "Check Digit", "Compression"],"answerIndex":0,"explanation":"複数項目の値同士の関係を見るため組合せCheckです。"},
+        {"id":"UIM-04-I2","afterSection":6,"prompt":"人間中心設計で評価後に重大な問題を発見した場合の基本は？","options":["要求や設計へ戻り反復する", "評価を無視する", "Userを設計へ合わせる", "二度と変更しない"],"answerIndex":0,"explanation":"利用状況・要求・設計・評価を反復し、観測結果から改善します。"}
+      ]
+    },
+    {
+      "id": "MED-01",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "Raster/Vector、解像度、色深度、RGB/CMYK、画像形式を区別し、非圧縮画像Data量を計算できることが中心です。",
+      "prerequisiteLessons": ["FND-05"],
+      "relatedLessons": ["MED-02", "MED-03", "MED-04"],
+      "relatedTerms": ["Raster", "Vector", "Pixel", "Color Depth", "RGB", "CMYK", "JPEG", "PNG", "SVG"],
+      "relatedPracticeRefs": ["P-UIM-04"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {"id":"MED-01-I1","afterSection":1,"prompt":"Logoを大きく拡大しても輪郭を保ちやすい表現は？","options":["Vector", "低解像度Raster", "PCM", "CSV"],"answerIndex":0,"explanation":"Vectorは線や曲線等の図形情報から再描画するため拡大縮小に強いです。"},
+        {"id":"MED-01-I2","afterSection":3,"prompt":"1000×1000 pixel、24bit colorの非圧縮画像は約何MBか。1MB=10^6byte。","options":["3MB", "1MB", "8MB", "24MB"],"answerIndex":0,"explanation":"1,000,000pixel×24bit÷8=3,000,000byteなので約3MBです。"}
+      ]
+    },
+    {
+      "id": "MED-02",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "Sampling周波数・量子化bit数・Channel数からPCM容量を求め、Nyquist・Aliasing・Lossless/Lossy Audioを区別します。",
+      "prerequisiteLessons": ["FND-05"],
+      "relatedLessons": ["MED-01", "MED-03", "MED-04"],
+      "relatedTerms": ["Sampling", "Quantization", "PCM", "Nyquist", "Aliasing", "FLAC", "AAC"],
+      "relatedPracticeRefs": ["P-UIM-02"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {"id":"MED-02-I1","afterSection":2,"prompt":"Sampling周波数が主に表すものは？","options":["1秒に波形を測る回数", "1Sampleの暗号鍵長", "Disk冗長度", "画面のPixel数"],"answerIndex":0,"explanation":"Sampling周波数は時間方向に1秒あたり何回標本化するかを示します。"},
+        {"id":"MED-02-I2","afterSection":4,"prompt":"Sampling不足で高い周波数が別の低い周波数として現れる現象は？","options":["Aliasing", "Deadlock", "Cache Hit", "Failover"],"answerIndex":0,"explanation":"Sampling周波数不足による折返し現象をAliasingと呼びます。"}
+      ]
+    },
+    {
+      "id": "MED-03",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "解像度・Frame Rate・Bitrateを分け、Video CodecとContainer、Frame間圧縮、Streaming時の帯域・遅延を判断します。",
+      "prerequisiteLessons": ["MED-01", "MED-02"],
+      "relatedLessons": ["MED-04", "NET-13"],
+      "relatedTerms": ["Frame Rate", "Bitrate", "Codec", "Container", "I Frame", "P Frame", "B Frame", "Adaptive Bitrate"],
+      "relatedPracticeRefs": ["P-UIM-05"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {"id":"MED-03-I1","afterSection":2,"prompt":"8Mbit/sのVideoを300秒保存した概算Sizeは？ 1MB=10^6byte。","options":["300MB", "30MB", "120MB", "2400MB"],"answerIndex":0,"explanation":"8Mbit/s×300s=2400Mbit、8で割ると300MBです。"},
+        {"id":"MED-03-I2","afterSection":3,"prompt":"H.264とMP4の関係として最も適切なのは？","options":["H.264はCodec、MP4はContainer", "両方とも同じCodec", "両方ともFile System", "H.264はContainer、MP4はCPU命令"],"answerIndex":0,"explanation":"H.264は映像圧縮Codecで、MP4はVideo/Audio等をまとめるContainerです。"}
+      ]
+    },
+    {
+      "id": "MED-04",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "複数Mediaの統合、可逆/非可逆・RLE/Huffman等の圧縮、圧縮率・帯域・遅延を利用目的に合わせて選ぶことが中心です。",
+      "prerequisiteLessons": ["FND-05", "MED-01"],
+      "relatedLessons": ["MED-02", "MED-03", "NET-13"],
+      "relatedTerms": ["Multimedia", "Authoring", "Lossless", "Lossy", "RLE", "Huffman Coding", "Container", "Streaming"],
+      "relatedPracticeRefs": ["P-UIM-07"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {"id":"MED-04-I1","afterSection":2,"prompt":"同じ値が長く続くDataを値と回数で表す圧縮方式は？","options":["RLE", "RSA", "RAID", "Round Robin"],"answerIndex":0,"explanation":"Run-Length Encodingは連続する同一値を値と長さで表します。"},
+        {"id":"MED-04-I2","afterSection":5,"prompt":"Streamingで回線状況が変わる場合の設計として適切なのは？","options":["条件に応じてBitrateや品質を切り替える", "常に最大Bitrateだけ使う", "CodecとContainerを同じものとして扱う", "代替TextやCaptionを削除する"],"answerIndex":0,"explanation":"Adaptiveな品質切替は利用可能帯域へ追従し、Bufferingを抑えるのに役立ちます。"}
+      ]
+    }
+  ]
+}

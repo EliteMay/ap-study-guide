@@ -1,18 +1,18 @@
 {
   "meta": {
     "schemaVersion": 1,
-    "version": "2026.08.30-v3",
+    "version": "2026.09.06-r29",
     "title": "AP総合演習 Modular Manifest",
-    "questionCount": 139,
+    "questionCount": 141,
     "unitFileCount": 13,
     "expansionFileCount": 2,
-    "policy": "13学習ユニット別の基本65問、既存追加26問、Lesson直接Coverage 48問を統合する。118 Lessonすべてを短問から直接参照し、旧37問単一Bankは移行前SnapshotとしてRuntimeから外す。"
+    "policy": "13学習ユニット別の基本67問、既存追加26問、Lesson直接Coverage 48問を統合する。120 Lessonすべてを短問から直接参照し、旧37問単一Bankは移行前SnapshotとしてRuntimeから外す。"
   },
   "files": [
     {"unitId":"foundation-theory","file":"json/practice/units/foundation-theory.json","count":5},
     {"unitId":"algorithm-programming","file":"json/practice/units/algorithm-programming.json","count":5},
     {"unitId":"computer-systems","file":"json/practice/units/computer-systems.json","count":5},
-    {"unitId":"ui-media","file":"json/practice/units/ui-media.json","count":5},
+    {"unitId":"ui-media","file":"json/practice/units/ui-media.json","count":7},
     {"unitId":"database","file":"json/practice/units/database.json","count":5},
     {"unitId":"network","file":"json/practice/units/network.json","count":5},
     {"unitId":"security","file":"json/practice/units/security.json","count":5},

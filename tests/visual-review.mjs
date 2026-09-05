@@ -49,6 +49,9 @@ try {
     ['html/unit.html?unit=computer-systems','unit-computer-systems'],
     ['html/lesson.html?id=CMP-03','lesson-computer-systems-cpu'],
     ['html/lesson.html?id=CMP-12','lesson-computer-systems-hardware'],
+    ['html/unit.html?unit=ui-media','unit-ui-media'],
+    ['html/lesson.html?id=UIM-04','lesson-ui-media-screen'],
+    ['html/lesson.html?id=MED-04','lesson-ui-media-multimedia'],
     ['html/lesson.html?id=FND-02','lesson-foundation-phase1'],
     ['html/search.html?q=FND-02','search-foundation'],
     ['html/search.html?q=OAuth','search-term'],
@@ -68,7 +71,7 @@ try {
   for (const [path,name] of primaryPages) await openAndCapture(path,`review-${name}-mobile`);
 
   if (failures.length) throw new Error(`visual review capture failed:\n${failures.join('\n')}`);
-  console.log(`[visual-review] OK: ${primaryPages.length} primary routes captured on desktop + mobile, including Phase 1 Foundation, Algorithm and Computer Systems routes, without console errors, horizontal overflow, or unfocused skip-link exposure.`);
+  console.log(`[visual-review] OK: ${primaryPages.length} primary routes captured on desktop + mobile, including Phase 1 Foundation, Algorithm, Computer Systems and UI/Media routes, without console errors, horizontal overflow, or unfocused skip-link exposure.`);
 } finally {
   await browser.close();
 }

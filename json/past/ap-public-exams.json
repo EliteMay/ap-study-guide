@@ -60,7 +60,7 @@
         {"number":5,"selection":"selectable","domain":"ネットワーク","topic":"クラウドサービス移行時のネットワーク設計","primaryUnitId":"network","lessonRefs":["NET-06","NET-11","NET-14"]},
         {"number":6,"selection":"selectable","domain":"データベース","topic":"受講管理システム改修のデータ設計とSQL","primaryUnitId":"database","lessonRefs":["DB-02","DB-03","DB-04","DB-05"]},
         {"number":7,"selection":"selectable","domain":"組込みシステム開発","topic":"猫の自動給餌・健康管理システムの制御設計","primaryUnitId":"computer-systems","lessonRefs":["FND-07","CMP-12","SYS-03"]},
-        {"number":8,"selection":"selectable","domain":"情報システム開発","topic":"モバイルオーダーシステムの画面設計","primaryUnitId":"system-development","lessonRefs":["UIM-01","UIM-03","SYS-03"]},
+        {"number":8,"selection":"selectable","domain":"情報システム開発","topic":"モバイルオーダーシステムの画面設計","primaryUnitId":"system-development","lessonRefs":["UIM-01","UIM-02","UIM-03","UIM-04","SYS-03"]},
         {"number":9,"selection":"selectable","domain":"プロジェクトマネジメント","topic":"開発モデルが混在するプロジェクトの管理","primaryUnitId":"project-management","lessonRefs":["PM-01","PM-05","PM-06","DEV-01"]},
         {"number":10,"selection":"selectable","domain":"サービスマネジメント","topic":"社内手続を扱うサービスデスクの設計・運用","primaryUnitId":"service-audit","lessonRefs":["SVC-01","SVC-02"]},
         {"number":11,"selection":"selectable","domain":"システム監査","topic":"アクセス管理状況の点検に関する監査","primaryUnitId":"service-audit","lessonRefs":["AUD-01","AUD-02","SEC-04","SEC-09"]}
