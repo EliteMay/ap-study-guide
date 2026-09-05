@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.09.06-r28",
+    "unitId": "computer-systems",
+    "unitTitle": "コンピュータシステム",
+    "syllabusVersion": "7.2",
+    "officialMiddleCodes": [3, 4, 5, 6],
+    "status": "pilot",
+    "source": "REQUIREMENTS.md / json/curriculum/ap-2026-map.json / current CMP-01..12 / json/past/ap-public-exams.json"
+  },
+  "coverage": [
+    {
+      "middleCode": 3,
+      "title": "コンピュータ構成要素",
+      "evidenceLessons": ["CMP-03", "CMP-04", "CMP-05", "CMP-08", "CMP-10", "CMP-12"],
+      "status": "covered-by-current-lessons"
+    },
+    {
+      "middleCode": 4,
+      "title": "システム構成要素",
+      "evidenceLessons": ["CMP-02", "CMP-07", "CMP-08", "CMP-09"],
+      "status": "covered-by-current-lessons"
+    },
+    {
+      "middleCode": 5,
+      "title": "ソフトウェア",
+      "evidenceLessons": ["CMP-01", "CMP-04", "CMP-06", "CMP-10", "CMP-11"],
+      "status": "covered-by-current-lessons"
+    },
+    {
+      "middleCode": 6,
+      "title": "ハードウェア",
+      "evidenceLessons": ["CMP-05", "CMP-10", "CMP-12"],
+      "status": "covered-by-current-lessons"
+    }
+  ],
+  "contentDepthReview": {
+    "lessonCount": 12,
+    "allHaveObjectives": true,
+    "allHaveMistakesSection": true,
+    "allHaveAtLeastThreeEndChecks": true,
+    "allHaveDiagramComparisonOrTrace": true,
+    "note": "現行CMP-01〜12は用語定義だけではなく、比較・処理フロー・計算・図解・誤解・末尾確認を持つため、r28では本文全面改稿よりPhase 1横断Contract追加を優先する。"
+  },
+  "practiceReview": {
+    "directCoverage": "12/12",
+    "mappedRefs": {
+      "CMP-01": ["PC-CMP-01"],
+      "CMP-02": ["PC-CMP-02"],
+      "CMP-03": ["PC-CMP-03"],
+      "CMP-04": ["P-CMP-02"],
+      "CMP-05": ["PX-CMP-02"],
+      "CMP-06": ["P-CMP-04"],
+      "CMP-07": ["P-CMP-03"],
+      "CMP-08": ["P-CMP-01"],
+      "CMP-09": ["P-CMP-03"],
+      "CMP-10": ["PX-CMP-01"],
+      "CMP-11": ["PC-CMP-11"],
+      "CMP-12": ["P-CMP-05"]
+    }
+  },
+  "publishedOfficialReview": {
+    "source": "json/past/ap-public-exams.json",
+    "directlyMappedLessons": ["CMP-02", "CMP-07", "CMP-08", "CMP-09", "CMP-12"],
+    "unmappedLessons": ["CMP-01", "CMP-03", "CMP-04", "CMP-05", "CMP-06", "CMP-10", "CMP-11"],
+    "note": "2026 CBT実問題はRepository要件上非公開。収録済み2025公開午後問題に直接関連が確認できるLessonだけを接続し、対応がないLessonへ公式問題を捏造しない。"
+  },
+  "pendingReview": [
+    {
+      "id": "CMP-P1-R01",
+      "topic": "2025公開午後問題で直接Mappingできない7 Lessonの公式導線",
+      "reason": "収録済み公開問題だけでは全Lessonに直接対応しないため、Unit全体を公式問題対応完了とは扱わない。"
+    },
+    {
+      "id": "CMP-P1-R02",
+      "topic": "科目A型のComputer Systems演習密度",
+      "reason": "Direct Practice 12/12は導線Coverageであり、出題パターン・計算Variation・教育品質の十分性とは別。"
+    },
+    {
+      "id": "CMP-P1-R03",
+      "topic": "Cloud / Network / Security / EmbeddedとのCross-unit責務",
+      "reason": "CMP-02/CMP-12はNET-14・SEC-12・FND-07・SYS-03等と隣接するため、重複説明ではなく前提/関連導線として責務分離を継続確認する。"
+    }
+  ],
+  "completionBlockers": [
+    "公開公式問題への直接Mappingが12 Lesson中5 Lessonに限られる。",
+    "科目A型演習の出題パターン・計算VariationをUnit完成判定前に追加監査する。",
+    "Cross-unit責務の重複がないことを次の全体監査でも確認する。"
+  ]
+}
