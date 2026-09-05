@@ -1,0 +1,375 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.09.06-r28",
+    "unitId": "computer-systems",
+    "unitTitle": "コンピュータシステム",
+    "officialMiddleCodes": [3, 4, 5, 6],
+    "phase1Status": "pilot",
+    "source": "IPA 応用情報技術者試験シラバス Ver.7.2 / 2025年度公開問題",
+    "policy": "既存CMP-01〜CMP-12の本文・ID・URL・学習Storageを維持し、Phase 1共通Contract（重要度・頻出度・学習マップ・途中確認・公式問題導線）を補助データとして追加する。2025公開公式問題への直接Mappingと科目A型演習密度の監査が残るためUnit完成扱いにしない。"
+  },
+  "lessons": [
+    {
+      "id": "CMP-01",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "仮想マシンとContainerの隔離単位・OS Kernelの扱い・起動Overheadを比較し、どの方式を選ぶかを説明できることが中心です。",
+      "prerequisiteLessons": ["CMP-06"],
+      "relatedLessons": ["CMP-02", "CMP-07", "CMP-11"],
+      "relatedTerms": ["コンテナ", "仮想マシン", "Hypervisor", "コンテナイメージ", "OS Kernel"],
+      "relatedPracticeRefs": ["PC-CMP-01"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-01-I1",
+          "afterSection": 1,
+          "prompt": "一般的なContainerが仮想Machineより軽量に起動しやすい主な理由はどれか。",
+          "options": ["Host OSのKernelを共有するため", "必ず物理Serverを専有するため", "Memoryを使わないため", "Network機能がないため"],
+          "answerIndex": 0,
+          "explanation": "Containerは通常Host OSのKernelを共有し、Guest OS全体を個別起動しないためOverheadを小さくしやすいです。"
+        },
+        {
+          "id": "CMP-01-I2",
+          "afterSection": 3,
+          "prompt": "Container Imageと実行中Containerの関係として最も適切なのはどれか。",
+          "options": ["Imageは実行環境のTemplate、Containerはその実行Instance", "完全に同じもの", "ContainerがImageを物理Diskへ変換する", "ImageはNetwork機器である"],
+          "answerIndex": 0,
+          "explanation": "Imageは再現可能な実行環境の元で、そこから1つ以上のContainer Instanceを起動できます。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-02",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "IaaS/PaaS/SaaSやServerlessでProviderと利用者の管理範囲がどう変わるかを、責任分界と構成選択の文脈で問われます。",
+      "prerequisiteLessons": ["CMP-01"],
+      "relatedLessons": ["CMP-07", "SEC-12", "NET-14"],
+      "relatedTerms": ["IaaS", "PaaS", "SaaS", "Serverless", "責任共有モデル", "Object Storage"],
+      "relatedPracticeRefs": ["PC-CMP-02"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-SPRING-B","question":4,"label":"2025春 午後 問4（クラウドBEMSの非機能要件とシステム構成）"},
+        {"examId":"AP-2025-AUTUMN-B","question":4,"label":"2025秋 午後 問4（エッジコンピューティングを用いたシステム構成）"}
+      ],
+      "inlineChecks": [
+        {
+          "id": "CMP-02-I1",
+          "afterSection": 1,
+          "prompt": "一般的なIaaSで利用者側の責任になりやすいものはどれか。",
+          "options": ["Guest OSのPatch管理", "Data Center建物の物理警備", "物理Disk交換", "Hypervisor Hardware保守"],
+          "answerIndex": 0,
+          "explanation": "IaaSでは物理基盤やVirtualization層をProviderへ任せ、Guest OSより上を利用者が管理する典型構成です。"
+        },
+        {
+          "id": "CMP-02-I2",
+          "afterSection": 4,
+          "prompt": "SaaSを使えば利用者のSecurity責任がゼロになる、という説明は正しいか。",
+          "options": ["正しくない。Account・権限・Data共有設定などは残る", "正しい。全責任がProviderへ移る", "SaaSではDataを扱えない", "SaaSはOffline専用である"],
+          "answerIndex": 0,
+          "explanation": "Providerへ任せる範囲が増えても、Identity・権限・Data利用設定など利用者側に残る責任があります。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-03",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "命令Cycle、Register、Pipeline Hazard、RISC/CISCを個別暗記ではなくCPU内の処理順として追えることが重要です。",
+      "prerequisiteLessons": ["FND-01"],
+      "relatedLessons": ["CMP-04", "CMP-05", "CMP-08"],
+      "relatedTerms": ["Program Counter", "Instruction Register", "ALU", "Pipeline", "Data Hazard", "RISC", "CISC"],
+      "relatedPracticeRefs": ["PC-CMP-03"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-03-I1",
+          "afterSection": 2,
+          "prompt": "次に実行する命令のAddressを主に保持するRegisterはどれか。",
+          "options": ["Program Counter", "Instruction Register", "ALU", "DMA Controller"],
+          "answerIndex": 0,
+          "explanation": "Program Counterは次にFetchする命令位置を指します。Instruction Registerは現在処理中の命令を保持します。"
+        },
+        {
+          "id": "CMP-03-I2",
+          "afterSection": 4,
+          "prompt": "前命令の計算結果を次命令がすぐ必要とし、待ちが発生した。主に何Hazardか。",
+          "options": ["Data Hazard", "Control Hazard", "Structural Hazard", "Page Fault"],
+          "answerIndex": 0,
+          "explanation": "命令間のData依存による待ちはData Hazardです。ForwardingやStall等で対処します。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-04",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "Cache Hit率から実効Access時間を計算し、仮想記憶ではPage・Frame・Page Fault・TLBの役割を処理の流れで判断します。",
+      "prerequisiteLessons": ["CMP-03"],
+      "relatedLessons": ["CMP-06", "CMP-08", "CMP-10"],
+      "relatedTerms": ["Cache", "Hit Ratio", "局所性", "Virtual Memory", "Page Fault", "TLB", "LRU"],
+      "relatedPracticeRefs": ["P-CMP-02"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-04-I1",
+          "afterSection": 2,
+          "prompt": "Cacheが有効になりやすい根拠となるProgram/Dataの性質はどれか。",
+          "options": ["局所性", "暗号化", "冗長化", "正規化"],
+          "answerIndex": 0,
+          "explanation": "最近使ったDataや近いAddressを再利用しやすい時間的・空間的局所性をCacheは利用します。"
+        },
+        {
+          "id": "CMP-04-I2",
+          "afterSection": 4,
+          "prompt": "必要なVirtual PageがMain Memory上に存在しないときに起きるのはどれか。",
+          "options": ["Page Fault", "Cache Hit", "Failover", "Deadlock"],
+          "answerIndex": 0,
+          "explanation": "Page Faultが発生すると、必要PageをStorage等からMain Memoryへ読み込む処理が必要になります。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-05",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "Busの役割、Polling/Interrupt/DMAのCPU関与の違い、大容量I/O転送時にDMAを使う理由を問われます。",
+      "prerequisiteLessons": ["CMP-03"],
+      "relatedLessons": ["CMP-10", "CMP-12"],
+      "relatedTerms": ["Data Bus", "Address Bus", "Control Bus", "Polling", "Interrupt", "DMA"],
+      "relatedPracticeRefs": ["PX-CMP-02"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-05-I1",
+          "afterSection": 2,
+          "prompt": "CPUがDeviceの完了状態を繰り返し確認する方式はどれか。",
+          "options": ["Polling", "Interrupt", "DMA", "Paging"],
+          "answerIndex": 0,
+          "explanation": "PollingはCPU側から状態確認を繰り返します。InterruptではDevice側からEventを通知します。"
+        },
+        {
+          "id": "CMP-05-I2",
+          "afterSection": 4,
+          "prompt": "DMAの主な利点はどれか。",
+          "options": ["MemoryとDevice間のBlock転送でCPUの逐次介入を減らせる", "CPU Clockを自動的に2倍にする", "Disk故障を防ぐ", "Virtual Memoryを不要にする"],
+          "answerIndex": 0,
+          "explanation": "DMA ControllerがBlock転送を担当することで、CPUがData要素ごとに転送処理を行う負荷を減らせます。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-06",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "Process状態遷移、Scheduling、Context Switch、排他制御を実行順で追い、ReadyとWaitingを混同しないことが重要です。",
+      "prerequisiteLessons": ["CMP-03", "CMP-04"],
+      "relatedLessons": ["CMP-01", "CMP-11"],
+      "relatedTerms": ["Process", "Thread", "Ready", "Running", "Waiting", "Round Robin", "Mutex", "Semaphore", "Deadlock"],
+      "relatedPracticeRefs": ["P-CMP-04"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-06-I1",
+          "afterSection": 2,
+          "prompt": "実行中ProcessがDisk I/O完了を待つことになった。通常どの状態へ移るか。",
+          "options": ["Waiting", "Ready", "必ずTerminated", "New"],
+          "answerIndex": 0,
+          "explanation": "I/OなどEvent待ちではRunningからWaitingへ移り、完了後は通常Readyへ戻ります。"
+        },
+        {
+          "id": "CMP-06-I2",
+          "afterSection": 5,
+          "prompt": "複数Taskが互いに相手のLock解放を待ち続けて進めない状態はどれか。",
+          "options": ["Deadlock", "Context Switch", "Cache Miss", "Failback"],
+          "answerIndex": 0,
+          "explanation": "Resourceの循環待ち等で互いに進めなくなる状態をDeadlockと呼びます。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-07",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "3層構成、Scale up/out、Load Balancer、Active-Standby/Active-Activeを、性能・可用性・State管理の観点で選ぶ問題につながります。",
+      "prerequisiteLessons": ["CMP-02"],
+      "relatedLessons": ["CMP-08", "CMP-09"],
+      "relatedTerms": ["3層Architecture", "Scale Up", "Scale Out", "Load Balancer", "Active-Standby", "Active-Active", "Shared Nothing"],
+      "relatedPracticeRefs": ["P-CMP-03"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-SPRING-B","question":4,"label":"2025春 午後 問4（クラウドBEMSの非機能要件とシステム構成）"},
+        {"examId":"AP-2025-AUTUMN-B","question":4,"label":"2025秋 午後 問4（エッジコンピューティングを用いたシステム構成）"}
+      ],
+      "inlineChecks": [
+        {
+          "id": "CMP-07-I1",
+          "afterSection": 2,
+          "prompt": "1台のServerをより高性能なMachineへ置き換えて処理能力を上げる方式はどれか。",
+          "options": ["Scale Up", "Scale Out", "Failover", "Sharding"],
+          "answerIndex": 0,
+          "explanation": "1台を強化するVertical ScalingがScale Upです。台数を増やすのはScale Outです。"
+        },
+        {
+          "id": "CMP-07-I2",
+          "afterSection": 4,
+          "prompt": "Active-Standby構成で障害時に待機系へ処理を切り替える操作はどれか。",
+          "options": ["Failover", "Paging", "Polling", "Normalization"],
+          "answerIndex": 0,
+          "explanation": "障害検知後にStandby系へServiceを切り替えることをFailoverと呼びます。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-08",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "命令数・CPI・Clock周波数からCPU時間を求め、Response TimeとThroughputを区別する計算・性能評価問題が中心です。",
+      "prerequisiteLessons": ["CMP-03", "CMP-04"],
+      "relatedLessons": ["CMP-07", "CMP-09"],
+      "relatedTerms": ["CPI", "Clock Frequency", "CPU Time", "MIPS", "Response Time", "Throughput"],
+      "relatedPracticeRefs": ["P-CMP-01"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-SPRING-B","question":10,"label":"2025春 午後 問10（容量・能力管理とSLAを踏まえた運用判断）"}
+      ],
+      "inlineChecks": [
+        {
+          "id": "CMP-08-I1",
+          "afterSection": 2,
+          "prompt": "CPU実行時間を表す基本式として適切なのはどれか。",
+          "options": ["命令数 × CPI ÷ Clock周波数", "Clock周波数 ÷ 命令数", "MTBF × MTTR", "Hit率 ÷ Page数"],
+          "answerIndex": 0,
+          "explanation": "総Cycle数=命令数×CPI、1秒当たりCycle数がClock周波数なので、時間=命令数×CPI÷周波数です。"
+        },
+        {
+          "id": "CMP-08-I2",
+          "afterSection": 5,
+          "prompt": "1秒当たりに処理できるRequest件数を見る指標はどれか。",
+          "options": ["Throughput", "Response Time", "CPI", "MTTR"],
+          "answerIndex": 0,
+          "explanation": "Throughputは単位時間当たりの処理量です。1件が完了するまでの時間はResponse Timeです。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-09",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "MTBF/MTTRからAvailabilityを計算し、直列・並列構成や単一障害点を含めて冗長化の効果を判断します。",
+      "prerequisiteLessons": ["CMP-07"],
+      "relatedLessons": ["CMP-08", "CMP-10"],
+      "relatedTerms": ["MTBF", "MTTR", "Availability", "Reliability", "Failover", "Fault Tolerance", "Single Point of Failure"],
+      "relatedPracticeRefs": ["P-CMP-03"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-SPRING-B","question":4,"label":"2025春 午後 問4（クラウドBEMSの非機能要件とシステム構成）"}
+      ],
+      "inlineChecks": [
+        {
+          "id": "CMP-09-I1",
+          "afterSection": 2,
+          "prompt": "MTBF=990時間、MTTR=10時間のときAvailabilityは何%か。",
+          "options": ["90%", "95%", "99%", "99.9%"],
+          "answerIndex": 2,
+          "explanation": "Availability=990/(990+10)=0.99なので99%です。"
+        },
+        {
+          "id": "CMP-09-I2",
+          "afterSection": 4,
+          "prompt": "Serverを2台にしても共通Switchが1台だけなら、可用性上そのSwitchは何になり得るか。",
+          "options": ["Single Point of Failure", "Cache Line", "Page Table", "Critical Path"],
+          "answerIndex": 0,
+          "explanation": "Serverだけ冗長化しても共通依存部分が1つなら、そこが単一障害点になり全体停止につながります。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-10",
+      "importance": "high",
+      "frequency": "high",
+      "examFocus": "RAID 0/1/5/6の冗長性・利用可能容量を計算し、File System/JournalingとBackupの役割を区別します。",
+      "prerequisiteLessons": ["CMP-05"],
+      "relatedLessons": ["CMP-04", "CMP-09"],
+      "relatedTerms": ["RAID 0", "RAID 1", "RAID 5", "RAID 6", "Parity", "File System", "Journaling"],
+      "relatedPracticeRefs": ["PX-CMP-01"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-10-I1",
+          "afterSection": 2,
+          "prompt": "同容量Diskを5台使うRAID 5の基本的な利用可能容量は何台分か。",
+          "options": ["3台分", "4台分", "5台分", "10台分"],
+          "answerIndex": 1,
+          "explanation": "RAID 5は1台分相当をParityに使うため、基本容量は(N-1)台分です。"
+        },
+        {
+          "id": "CMP-10-I2",
+          "afterSection": 5,
+          "prompt": "RAIDを導入していても別Backupが必要な主な理由はどれか。",
+          "options": ["誤削除やRansomware等の論理的Data損失はRAIDだけでは防げない", "RAIDはNetwork専用だから", "RAIDはCPU Registerだから", "Backupは性能計算にしか使わないから"],
+          "answerIndex": 0,
+          "explanation": "RAIDは主にDisk故障への耐性であり、誤削除・暗号化・装置全体障害などへの復旧手段は別途必要です。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-11",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "OS・Middleware・Applicationの責務、Web/Application Server、Compiler/Interpreter、OSS Licenseや保守責任を区別します。",
+      "prerequisiteLessons": ["CMP-06"],
+      "relatedLessons": ["CMP-01", "PROG-03", "PROG-04"],
+      "relatedTerms": ["Middleware", "Web Server", "Application Server", "Compiler", "Interpreter", "Runtime", "OSS", "License"],
+      "relatedPracticeRefs": ["PC-CMP-11"],
+      "officialProblemRefs": [],
+      "inlineChecks": [
+        {
+          "id": "CMP-11-I1",
+          "afterSection": 2,
+          "prompt": "複数Applicationへ共通機能を提供し、OSとApplicationの間で働くSoftwareは一般に何と呼ぶか。",
+          "options": ["Middleware", "RAID", "Sensor", "Load Balancerだけ"],
+          "answerIndex": 0,
+          "explanation": "MiddlewareはMessaging、Transaction、DB接続などApplication共通機能を提供します。"
+        },
+        {
+          "id": "CMP-11-I2",
+          "afterSection": 5,
+          "prompt": "OSSを利用するときに確認すべき内容として最も適切なのはどれか。",
+          "options": ["License条件とUpdate/Support体制", "画面の壁紙だけ", "CPU Fanの色だけ", "URLの長さだけ"],
+          "answerIndex": 0,
+          "explanation": "OSSでも利用・改変・再配布条件があり、脆弱性修正や保守主体も確認する必要があります。"
+        }
+      ]
+    },
+    {
+      "id": "CMP-12",
+      "importance": "medium",
+      "frequency": "medium",
+      "examFocus": "Sensor→A/D→Computer→D/A/PWM→Actuatorの情報流れ、代表I/O Device、GPUやUPSの用途を組込み・Hardware問題で判断します。",
+      "prerequisiteLessons": ["FND-07", "CMP-05"],
+      "relatedLessons": ["CMP-10", "SYS-03"],
+      "relatedTerms": ["Sensor", "Actuator", "A/D変換", "D/A変換", "PWM", "GPU", "UPS"],
+      "relatedPracticeRefs": ["P-CMP-05"],
+      "officialProblemRefs": [
+        {"examId":"AP-2025-SPRING-B","question":7,"label":"2025春 午後 問7（電動キックボードの状態遷移・タスク・通信）"},
+        {"examId":"AP-2025-AUTUMN-B","question":7,"label":"2025秋 午後 問7（猫の自動給餌・健康管理システムの制御設計）"}
+      ],
+      "inlineChecks": [
+        {
+          "id": "CMP-12-I1",
+          "afterSection": 1,
+          "prompt": "Analog Sensorの電圧をComputerが数値として処理する前に必要になりやすい変換はどれか。",
+          "options": ["A/D変換", "D/A変換", "RAID", "DNS"],
+          "answerIndex": 0,
+          "explanation": "Analog SignalをDigital値へ変換するA/D変換を行ってからComputer処理へ渡します。"
+        },
+        {
+          "id": "CMP-12-I2",
+          "afterSection": 4,
+          "prompt": "GPUがCPUより特に得意としやすい処理はどれか。",
+          "options": ["大量の独立した並列演算", "あらゆる分岐処理を必ず高速化", "DNS名前解決だけ", "File System管理だけ"],
+          "answerIndex": 0,
+          "explanation": "GPUは多数の演算Unitで並列化しやすい処理を大量に実行する用途に向きます。"
+        }
+      ]
+    }
+  ]
+}
