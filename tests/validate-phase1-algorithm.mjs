@@ -9,7 +9,7 @@ const fail = message => { throw new Error(`[phase1-algorithm] ${message}`); };
 const meta = json('json/project-meta.json');
 if (meta.app !== 'AP Study Guide') fail('project name mismatch');
 if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.17.0') fail('Guide 1.17.0 adoption metadata missing');
-if (meta.build !== '2026.09.06-r27') fail(`unexpected build ${meta.build}`);
+if (meta.build !== '2026.09.06-r28') fail(`unexpected build ${meta.build}`);
 if (Number(meta.phase?.active) !== 1 || meta.phase?.status !== 'in-progress') fail('Phase 1 must remain in-progress');
 
 const baseIndex = json('json/lessons/lesson-index.json');
