@@ -56,6 +56,7 @@ const homeJs = read('js/home.js');
 for (const required of ['buildQuickActions','home-quick-search',"href:'html/glossary.html'",'html/search.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
 
 const shell = read('js/shell.js');
-if (!shell.includes("['glossary','🔎 単語辞書','glossary.html']")) fail('navigation missing glossary');
+if (!shell.includes("['glossary'") || !shell.includes("'glossary.html']")) fail('navigation missing glossary');
+if (!shell.includes("['search'") || !shell.includes("'search.html']")) fail('navigation missing cross-search');
 
-console.log(`[glossary] OK: ${total} legacy terms unified, ${60}-result pagination, lazy rich details, Home glossary entry + cross-search fallback, narrow-layout guards, no static count duplication.`);
+console.log(`[glossary] OK: ${total} legacy terms unified, ${60}-result pagination, lazy rich details, Home glossary entry + cross-search fallback, semantic shared-navigation coverage, narrow-layout guards, no static count duplication.`);
