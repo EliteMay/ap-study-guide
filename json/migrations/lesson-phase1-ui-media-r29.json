@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "version": "2026.09.06-r29",
+    "unitId": "ui-media",
+    "status": "identity-plus-additions",
+    "storageKeysChanged": false,
+    "urlContractChanged": false,
+    "policy": "Phase 1 r29では既存UIM-01〜03・MED-01〜03のID・Unit・URL・学習Storageを変更しない。UIM-04・MED-04は新規追加であり既存進捗の移行元を持たない。"
+  },
+  "lessonMappings": [
+    {"from":"UIM-01","to":["UIM-01"],"strategy":"identity"},
+    {"from":"UIM-02","to":["UIM-02"],"strategy":"identity"},
+    {"from":"UIM-03","to":["UIM-03"],"strategy":"identity"},
+    {"from":"MED-01","to":["MED-01"],"strategy":"identity"},
+    {"from":"MED-02","to":["MED-02"],"strategy":"identity"},
+    {"from":"MED-03","to":["MED-03"],"strategy":"identity"}
+  ],
+  "newLessons": [
+    {"id":"UIM-04","unitId":"ui-media","strategy":"addition","reason":"IPA中分類7の画面・帳票・コード・Web設計と人間中心設計のGapを補完"},
+    {"id":"MED-04","unitId":"ui-media","strategy":"addition","reason":"IPA中分類8のマルチメディア統合・圧縮方式・応用のGapを補完"}
+  ],
+  "storage": {
+    "lessonProgressKey": "ap-study-lesson-progress-v1",
+    "practiceHistoryKey": "ap-study-practice-history-v1",
+    "caseHistoryKey": "ap-study-case-history-v1",
+    "mockHistoryKey": "ap-study-mock-history-v1"
+  },
+  "url": {
+    "lesson": "lesson.html?id=<LESSON_ID>"
+  }
+}
