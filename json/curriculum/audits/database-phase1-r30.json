@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "auditVersion": "2026.09.06-r30",
+    "unitId": "database",
+    "unitTitle": "データベース",
+    "syllabusVersion": "7.2",
+    "status": "pilot",
+    "officialMiddleCodes": [9],
+    "source": "IPA 応用情報技術者試験（レベル3）シラバス Ver.7.2 / 2025年度公開問題"
+  },
+  "coverage": [
+    {"middleCode":9,"area":"データベース方式・DBMS・3層スキーマ・関係モデル・索引/性能","evidenceLessons":["DB-01","DB-11"]},
+    {"middleCode":9,"area":"データベース設計・E-R図・キー・参照整合性・正規化","evidenceLessons":["DB-02","DB-03"]},
+    {"middleCode":9,"area":"データ操作・DDL/DML/DCL・SELECT・JOIN・集計・副問合せ","evidenceLessons":["DB-04","DB-05","DB-06","DB-07","DB-08"]},
+    {"middleCode":9,"area":"トランザクション処理・ACID・ロック・分離レベル・障害回復","evidenceLessons":["DB-09","DB-10"]},
+    {"middleCode":9,"area":"データベース応用・View/Stored処理・分散DB/NoSQL・DWH/OLAP","evidenceLessons":["DB-11","DB-12","DB-13","DB-14"]}
+  ],
+  "legacyAuditResolution": {
+    "source": "json/curriculum/audits/database-audit.json",
+    "resolvedLearningGoals": [
+      {"goal":"関係代数の選択・射影・結合をSQLと対応付ける。","evidenceLessons":["DB-01","DB-06"]},
+      {"goal":"SQLの論理評価順 FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY を実例で追う。","evidenceLessons":["DB-05","DB-07"]},
+      {"goal":"正規化を関数従属性と更新・挿入・削除異常から実際に分解する。","evidenceLessons":["DB-03"]},
+      {"goal":"ロック競合と分離レベルを2トランザクションの時系列で判断する。","evidenceLessons":["DB-09"]},
+      {"goal":"UNDO/REDO、チェックポイント、バックアップから障害回復手順を選ぶ。","evidenceLessons":["DB-10"]},
+      {"goal":"索引を選択率・複合キー・範囲検索・更新コストで判断する。","evidenceLessons":["DB-11"]},
+      {"goal":"分散トランザクションの2相コミットを補完する。","evidenceLessons":["DB-13"]},
+      {"goal":"OLAPのslice/dice/drill-down/roll-upをスタースキーマとつなげる。","evidenceLessons":["DB-14"]}
+    ],
+    "note": "2026-08-29の旧Auditで不足扱いだった8学習目標は、現在のDB-01〜14本文へすべて反映済み。旧Auditは当時の監査Evidenceとして保持し、r30 Auditで現行状態を上書きせず再評価する。"
+  },
+  "contentDepthReview": {
+    "lessonCount": 14,
+    "existingLessonsPreserved": ["DB-01","DB-02","DB-03","DB-04","DB-05","DB-06","DB-07","DB-08","DB-09","DB-10","DB-11","DB-12","DB-13","DB-14"],
+    "newLessons": [],
+    "allHaveObjectives": true,
+    "allHaveMistakesSection": true,
+    "allHaveThreeToFiveEndChecks": true,
+    "allHaveConcreteComparisonDiagramOrSqlTrace": true,
+    "note": "14 Lessonは既にContent Depth Contractを満たすため本文を全面改稿せず、Phase 1横断ContractをCompanion Dataで追加する。"
+  },
+  "practiceReview": {
+    "directCoverage": "14/14",
+    "primaryPracticeRefs": ["PC-DB-01","PC-DB-02","P-DB-01","PC-DB-04","P-DB-02","P-DB-05","PC-DB-07","P-DB-02","P-DB-04","PC-DB-10","P-DB-03","PC-DB-12","PC-DB-13","PC-DB-14"],
+    "note": "全14 Lessonから既存短問へ直接到達できる。参照Coverageと、科目Aで必要なSQL穴埋め・結果表・正規化・トランザクションVariationの十分性は別に監査する。"
+  },
+  "officialReview": {
+    "directMappedLessons": "5/14",
+    "mappedLessons": ["DB-02","DB-03","DB-04","DB-05","DB-06"],
+    "mapping": [
+      {"examId":"AP-2025-SPRING-B","question":6,"topic":"販売管理システムのデータ設計と処理"},
+      {"examId":"AP-2025-AUTUMN-B","question":6,"topic":"受講管理システム改修のデータ設計とSQL"}
+    ],
+    "note": "2025春・秋の公開問6を、Repositoryに既に明示されているLesson対応だけへ接続する。トランザクション・性能・分散・分析系へ無関係な公開問題を割り当てない。"
+  },
+  "pendingReview": [
+    "科目A型のSQL結果表、NULL、JOIN、GROUP BY、副問合せ、正規化の短問Variationを追加監査する。",
+    "トランザクション・障害回復・索引性能の計算/時系列問題が十分か追加監査する。",
+    "DB-12の安全なSQL実行とSecurity、DB-13の分散DBとNetwork、DB-14のData利活用/Strategyとの責務境界を継続確認する。"
+  ],
+  "completionBlockers": [
+    "2025公開公式問題への直接Mappingが14 Lesson中5 Lesson。",
+    "科目A型SQL/設計/Transaction/性能問題のVariationが十分か未確認。",
+    "PC/Mobileの最終Browser/Visual Validationを最終HEADで完了する必要がある。"
+  ]
+}
