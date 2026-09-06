@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "migrationId": "lesson-phase1-database-r30",
+    "date": "2026-09-06",
+    "status": "identity",
+    "unitId": "database",
+    "storageKeysChanged": false,
+    "urlContractChanged": false,
+    "policy": "DB-01〜DB-14はPhase 1化でID・Unit・URL・既存保存Dataを変更しない。Companion Metadata追加のみのIdentity Migrationとして明示する。"
+  },
+  "lessonMappings": [
+    {"from":"DB-01","to":["DB-01"],"strategy":"identity"},
+    {"from":"DB-02","to":["DB-02"],"strategy":"identity"},
+    {"from":"DB-03","to":["DB-03"],"strategy":"identity"},
+    {"from":"DB-04","to":["DB-04"],"strategy":"identity"},
+    {"from":"DB-05","to":["DB-05"],"strategy":"identity"},
+    {"from":"DB-06","to":["DB-06"],"strategy":"identity"},
+    {"from":"DB-07","to":["DB-07"],"strategy":"identity"},
+    {"from":"DB-08","to":["DB-08"],"strategy":"identity"},
+    {"from":"DB-09","to":["DB-09"],"strategy":"identity"},
+    {"from":"DB-10","to":["DB-10"],"strategy":"identity"},
+    {"from":"DB-11","to":["DB-11"],"strategy":"identity"},
+    {"from":"DB-12","to":["DB-12"],"strategy":"identity"},
+    {"from":"DB-13","to":["DB-13"],"strategy":"identity"},
+    {"from":"DB-14","to":["DB-14"],"strategy":"identity"}
+  ],
+  "storage": {
+    "lessonProgressKey": "ap-study-lesson-progress-v1",
+    "practiceHistoryKey": "ap-study-practice-history-v1",
+    "caseHistoryKey": "ap-study-case-history-v1",
+    "mockHistoryKey": "ap-study-mock-history-v1"
+  }
+}
