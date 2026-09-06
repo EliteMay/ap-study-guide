@@ -4,8 +4,8 @@
 
 - Repository: `EliteMay/ap-study-guide`
 - Public: `https://elitemay.github.io/ap-study-guide/`
-- 要件のSource of Truth: `REQUIREMENTS.md`
-- 制作Guide: `EliteMay/web-project-guide`
+- 正式要件: `REQUIREMENTS.md`
+- 制作Guide: `EliteMay/web-project-guide` 1.17.1
 - Build / Project Profile正本: `json/project-meta.json`
 - Project Memory: `PROJECT_LEARNINGS.md`
 - 基準: IPA「応用情報技術者試験 シラバス Ver.7.2」
@@ -16,69 +16,47 @@
 
 `STATIC + DATA + LEARNING + TOOL + PUBLIC-CONTENT`
 
-このRepositoryでは、教材の分かりやすさ・学習導線・教材Dataの参照整合・保存互換・GitHub Pages相対Path・公開情報の扱いを重点確認します。
+教材の分かりやすさ、学習導線、Data参照整合、保存互換、GitHub Pages相対Path、公開情報の扱いを重点確認します。
 
 ## 現在の開発Phase
 
-`REQUIREMENTS.md` の順番を正本とし、現在は **Phase 1（進行中）** です。
+`REQUIREMENTS.md` を正本とし、現在は **Phase 1（進行中）** です。
 
 1. **Phase 1** — 教材品質、Lesson / Unit再編、学習導線、関連問題、図解、横断検索、必要なUI改善
 2. **Phase 2** — 5段階理解状態、適応型復習、弱点分析、診断テスト
 3. **Phase 3** — 効果の高いLessonへのインタラクティブ教材・実践Tool
 
-### Phase 1で現在入っているもの
+### Phase 1 Pilot
 
-- Lesson / Practice / Case / Mock / Official / Glossaryの既存Runtime
-- Homeから学習・演習・管理へ進むLauncher
-- `html/search.html` の横断検索
-  - Lesson
-  - 用語
-  - 短問
-  - 学習分野
-  - 公開公式問題
-- SearchはLesson / Unitを先に読み、用語・短問・公式問題は検索時に遅延読込
-- 基礎理論 `FND-01`〜`FND-07` のPhase 1 Pilot
-  - 重要度 / 頻出度
-  - APでの見られ方
-  - 前提 / 関連Lesson
-  - 関連用語 / 関連短問 / 公開公式問題Mapping
-  - 学習途中の小確認
-- アルゴリズム・プログラミング `ALG-01`〜`ALG-11` / `PROG-01`〜`PROG-04` のPhase 1 Pilot
-  - 既存本文・ID・URL・Storageを維持
-  - 重要度 / 頻出度 / APでの見られ方
-  - 前提 / 関連Lesson / 関連用語 / Practice / Official Mapping
-  - Lesson途中の小確認を2問ずつ追加
-  - Phase 1補助Dataは `json/phase1/` から必要Unitだけ遅延読込
-  - 旧Algorithm Auditを再照合し、解消済み範囲と補助範囲Reviewを分離
-- コンピュータシステム `CMP-01`〜`CMP-12` のPhase 1 Pilot
-  - 既存12 Lessonの本文・ID・URL・Storageを維持
-  - 中分類3〜6の現行Coverageを再監査
-  - 重要度 / 頻出度 / APでの見られ方
-  - 前提 / 関連Lesson / 関連用語 / Practice / Official Mapping
-  - Lesson途中の小確認を2問ずつ追加
-  - 12/12 LessonでDirect Practiceを確認
-  - 2025公開午後問題を `CMP-02 / CMP-07 / CMP-08 / CMP-09 / CMP-12` へ接続
-  - Algorithmと同じUnit単位Companion Data + Lazy Overlay方式を再利用
-- UI・情報メディア `UIM-01`〜`UIM-04` / `MED-01`〜`MED-04` のPhase 1 Pilot
-  - 既存 `UIM-01〜03` / `MED-01〜03` の本文・ID・URL・Storageを維持
-  - IPA Ver.7.2で薄かった画面・帳票・コード・Web設計、人間中心設計を `UIM-04` で追加
-  - マルチメディア統合・圧縮方式・応用を `MED-04` で追加
-  - 中分類7〜8を8 Lessonで再監査
-  - 重要度 / 頻出度 / APでの見られ方 / 前提 / 関連 / Practice / Official Mapping / Inline Checkを追加
-  - Direct Practiceは8/8
-  - 2025秋公開午後問8を `UIM-01〜04` へ接続
-  - r29追加2問は科目A型Variation監査前のため150分模試Poolから一旦除外
-  - 学習順は `UIM-01→04 → MED-01→04`
-- 4 Pilotとも末尾確認問題による現行Progress判定は維持
-- Migration Contractで既存ID / URL / Storage互換を維持し、r29の新規2 LessonはAdditionとして明示
+現在Phase 1 Contractへ引き上げ済みの分野:
 
-**現在のPhase 1 Pilotは完成扱いではありません。** Foundationは公開公式問題の直接Mapping不足、Algorithm / Programmingは補助範囲Reviewと公開公式問題Mapping不足、Computer Systemsは公開公式問題Mapping・科目A型演習密度・Cross-unit責務Review、UI・情報メディアはMedia側の公開公式問題Mapping・科目A型Variation・Cross-unit責務Reviewが残るため、いずれも `pilot / in-progress` を維持します。
+| Unit | Lesson | 主な状態 |
+|---|---:|---|
+| 基礎理論 | FND-01〜07 | 重要度 / 頻出度 / Learning Map / Inline Check |
+| アルゴリズム・プログラミング | ALG-01〜11 / PROG-01〜04 | Companion Data + Lazy Overlay |
+| コンピュータシステム | CMP-01〜12 | 中分類3〜6再監査 / 12/12 Direct Practice |
+| UI・情報メディア | UIM-01〜04 / MED-01〜04 | 中分類7〜8再監査 / 8/8 Direct Practice |
+| データベース | DB-01〜14 | 中分類9再監査 / 14/14 Direct Practice |
+
+Database r30では既存 `DB-01〜DB-14` の本文・ID・URL・Storageを維持し、`json/phase1/database-r30.json` からPhase 1補助Contractを遅延Overlayします。旧 `database-audit.json` で不足扱いだった関係代数、SQL論理評価順、正規化、分離レベル、UNDO/REDO、索引、2相コミット、OLAP操作の8学習目標は、現在のDB Lesson本文へ反映済みであることを `database-phase1-r30.json` で再監査しています。
+
+2025公開午後問6への直接Mappingは次の5 Lessonです。
+
+- DB-02
+- DB-03
+- DB-04
+- DB-05
+- DB-06
+
+存在しないMappingは作りません。
+
+**各Pilotは完成扱いではありません。** Foundation / Algorithm / Computer Systems / UI・情報メディア / Databaseはいずれも公開公式問題Mapping、科目A型演習Variation、補助範囲またはCross-unit責務ReviewなどのBlockerが残るため `pilot / in-progress` を維持します。Phase 1全体も未完了です。
 
 ## 学習の基本導線
 
 **Home → Lessonで理解 → 途中確認 → 末尾確認 → 関連短問 → Case / Mock → 公開公式問題 → 弱点復習**
 
-分からない項目は横断検索からLesson・用語・問題へ戻れます。
+分からない内容は `html/search.html` の横断検索からLesson・用語・短問・Unit・公開公式問題へ戻れます。
 
 ## 主なページ
 
@@ -100,7 +78,7 @@
 
 ## 現在の教材Snapshot
 
-件数のRuntime正本は各Manifest / Indexです。次の数字は**固定仕様ではなく現在状態のSnapshot**です。
+件数のRuntime正本は各Manifest / Indexです。次は固定仕様ではなく現在状態のSnapshotです。
 
 | 項目 | 現在状態 |
 |---|---:|
@@ -131,28 +109,29 @@
 - Backup Schema Version
 - Diagnostics Contract
 
-### Lesson
+### Lesson / Phase 1
 
-- `json/lessons/lesson-index.json`
-- `json/lessons/lesson-index-expansion.json`
+- Base Index: `json/lessons/lesson-index.json`
+- Expansion Index: `json/lessons/lesson-index-expansion.json`
 - Loader: `js/lesson-data.js`
-- Phase 1補助Manifest: `json/phase1/index.json`
-- Phase 1補助Runtime: `js/lesson-phase1.js`
+- Phase 1 Manifest: `json/phase1/index.json`
+- Phase 1 Runtime: `js/lesson-phase1.js`
 
-Foundation Pilotは各Foundation Lesson JSONへPhase 1 Metadataを保持します。
+Companion Data:
 
-Algorithm / Programming Pilotは既存15 Lesson本文を変更せず、`json/phase1/algorithm-programming-r27.json` からPhase 1補助Contractを遅延Overlayします。
+- Algorithm / Programming: `json/phase1/algorithm-programming-r27.json`
+- Computer Systems: `json/phase1/computer-systems-r28.json`
+- UI・情報メディア: `json/phase1/ui-media-r29.json`
+- Database: `json/phase1/database-r30.json`
 
-Computer Systems Pilotも既存12 Lesson本文を変更せず、`json/phase1/computer-systems-r28.json` から同じRuntimeでPhase 1補助Contractを遅延Overlayします。
-
-UI・情報メディアPilotは既存6 Lessonを維持しつつ2 Lessonを追加し、8 Lesson共通のPhase 1補助Contractを `json/phase1/ui-media-r29.json` から遅延Overlayします。
+Foundationは各Lesson JSONへPhase 1 Metadataを保持します。それ以外の既存本文が成熟しているPilotでは、同じMetadataを本文へ大量複製せず必要Unitだけ遅延Overlayします。
 
 ### Practice
 
 - Manifest: `json/practice/practice-index.json`
 - Loader: `js/practice-data.js`
 
-全Lessonに少なくとも1つの直接Practice参照を持つ現行Contractは維持します。r29の `P-UIM-06 / P-UIM-07` はUI・情報メディアのDirect Practiceとして使用しますが、科目A型Variation監査前のため `mockEligible:false` です。
+全120 Lessonに少なくとも1つの直接Practiceがあります。Database r30では新規問題を増やさず、既存Practiceで14/14 Direct Coverageを維持しています。
 
 ### Case / Mock / Official
 
@@ -162,26 +141,19 @@ UI・情報メディアPilotは既存6 Lessonを維持しつつ2 Lessonを追加
 
 2026年度CBTの非公開実問題を公開問題として扱いません。
 
-### Search
-
-- Page: `html/search.html`
-- Runtime: `js/search.js`
-- Style: `css/search.css`
-
-Home初期表示で全Terms / Practice / Official Dataを追加読込せず、検索時にだけ拡張Catalogを読みます。
-
 ### Migration
 
-- Foundation Pilot: `json/migrations/lesson-phase1-r26.json`
-- Algorithm / Programming Pilot: `json/migrations/lesson-phase1-algorithm-r27.json`
-- Computer Systems Pilot: `json/migrations/lesson-phase1-computer-systems-r28.json`
-- UI・情報メディアPilot: `json/migrations/lesson-phase1-ui-media-r29.json`
+- Foundation: `json/migrations/lesson-phase1-r26.json`
+- Algorithm / Programming: `json/migrations/lesson-phase1-algorithm-r27.json`
+- Computer Systems: `json/migrations/lesson-phase1-computer-systems-r28.json`
+- UI・情報メディア: `json/migrations/lesson-phase1-ui-media-r29.json`
+- Database: `json/migrations/lesson-phase1-database-r30.json`
 
-r29以前の既存LessonはIdentity Migrationで、Lesson ID・URL・Unit ID・既存学習Storage Keyを変更していません。r29の `UIM-04 / MED-04` は新規Additionとして記録します。将来merge / splitする場合は新しいMigration Contractを追加します。
+Database `DB-01〜14` はすべてIdentity Migrationです。Lesson ID、Unit ID、`lesson.html?id=<ID>`、既存学習Storage Keyを変更していません。
 
 ## 学習状態 / 保存互換
 
-判定の現行正本は `js/study-state.js` です。
+現行判定の正本は `js/study-state.js` です。
 
 - Lesson: 全確認問題回答 + 75%以上で理解確認
 - 理解確認後: 現行Runtimeでは14日後に再確認対象
@@ -190,6 +162,8 @@ r29以前の既存LessonはIdentity Migrationで、Lesson ID・URL・Unit ID・�
 - 長文Case: 回答後に自己採点
 - 個人学習履歴: Browser `localStorage`
 - Backup / Restore: `html/data.html`
+
+Guide 1.17.1のReset/Delete lifecycle Ruleは確認済みですが、r30ではStorage削除処理自体を変更していません。
 
 Phase 2の5段階理解状態・適応型復習は、Phase 1完了前に現行保存Contractを破壊して先行実装しません。
 
@@ -205,7 +179,7 @@ Phase 2の5段階理解状態・適応型復習は、Phase 1完了前に現行�
 - Backup / Restoreで元Dataを先に破壊しない。
 - 公式問題と独自問題を混同しない。
 - 2026 CBT非公開実問題を公開問題として扱わない。
-- `23/23` や `120/120` を試験対策の完全性と表現しない。
+- Snapshot件数を試験対策の完全性と表現しない。
 - 未完成のPhase 1分野を完成扱いしない。
 
 ## Validation
@@ -214,35 +188,27 @@ Workflow: `.github/workflows/validate.yml`
 
 主な確認:
 
-- JavaScript構文
+- JavaScript Syntax
 - JSON / Manifest / ID / Reference
 - Curriculum / Audit
 - Lesson→Practice直接Coverage
-- Case / Mock / Official mapping
+- Case / Mock / Official Mapping
 - Runtime architecture
 - Search wiring
-- Project metadata / LEARNING Profile
-- Phase 1 Foundation Pilot Contract
-- Phase 1 Algorithm / Programming Pilot Contract
-- Phase 1 Computer Systems Pilot Contract
-- Phase 1 UI・情報メディアPilot Contract
-- Legacy ID / URL / Storage migration
-- PUBLIC-CONTENT Metadata
-- Playwright Browser Smoke
-- Algorithm Phase 1 Browser Smoke
-- Computer Systems Phase 1 Browser Smoke
-- UI・情報メディアPhase 1 Browser Smoke
-- Visual Review screenshot生成
+- Project Metadata / LEARNING Profile / Guide 1.17.1
+- Foundation / Algorithm / Computer Systems / UI・情報メディア / Database Phase 1 Contract
+- Migration / Backup compatibility
+- Playwright Product Smoke
+- Unit別Phase 1 Browser Smoke
+- Desktop / Mobile Visual Review
 
-Phase 1専用Validator:
+Database専用:
 
-- `tests/validate-phase1-foundation.mjs`
-- `tests/validate-phase1-algorithm.mjs`
-- `tests/validate-phase1-computer-systems.mjs`
-- `tests/validate-phase1-ui-media.mjs`
-- `tests/e2e-phase1-algorithm.mjs`
-- `tests/e2e-phase1-computer-systems.mjs`
-- `tests/e2e-phase1-ui-media.mjs`
+- `tests/validate-phase1-database.mjs`
+- `tests/e2e-phase1-database.mjs`
+- `json/curriculum/audits/database-phase1-r30.json`
+
+Static Testでは14 LessonのIdentity、学習順、中分類9、14/14 Practice、5/14 Official、2 Inline Checks、旧Audit8項目の解消、Migration、Pilot Blockerを確認します。Browser TestではDB-03 / DB-05 / DB-09 / DB-14、Cross Search、Unit Hub順序・番号、320px Overflowを確認します。
 
 ## Documentation
 
@@ -257,4 +223,4 @@ Phase 1専用Validator:
 
 「コードを書いた」「Commitした」「Static CIが通った」だけでは完成扱いにしません。
 
-分野単位で、教材・問題・検索・Migration・PC / Smartphone表示・Validationを揃えてから新版へ切り替えます。Phase全体の完成条件は `REQUIREMENTS.md` と最新版 `web-project-guide` を正本とします。
+分野単位で教材・問題・検索・Migration・PC / Smartphone表示・Validationを揃え、最終CommitでCI / Visual / GitHub Pagesを確認します。Phase全体の完成条件は `REQUIREMENTS.md` と最新版 `web-project-guide` をSource of Truthとします。
