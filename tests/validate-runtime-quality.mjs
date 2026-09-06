@@ -19,7 +19,7 @@ for (const file of [
 
 const meta = json('json/project-meta.json');
 if (meta.app !== 'AP Study Guide' || !/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail('project-meta app/build invalid');
-if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.17.0' || meta.guide?.adoptedAt !== '2026-09-06') fail('web-project-guide adoption metadata mismatch');
+if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.17.1' || meta.guide?.adoptedAt !== '2026-09-06') fail('web-project-guide adoption metadata mismatch');
 for (const profile of ['STATIC','DATA','LEARNING','TOOL','PUBLIC-CONTENT']) if (!(meta.profiles || []).includes(profile)) fail(`project profile missing ${profile}`);
 if (meta.deployment?.target !== 'GitHub Pages' || Number(meta.storage?.backupSchemaVersion) !== 1) fail('deployment/storage metadata mismatch');
 if (Number(meta.diagnostics?.schemaVersion) !== 1 || meta.diagnostics?.storageKey !== 'ap-study-diagnostics-v1' || meta.diagnostics?.localOnly !== true || Number(meta.diagnostics?.maxBreadcrumbs) !== 100) fail('diagnostics metadata mismatch');
