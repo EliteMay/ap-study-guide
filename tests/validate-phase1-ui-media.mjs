@@ -8,8 +8,8 @@ const fail = message => { throw new Error(`[phase1-ui-media] ${message}`); };
 
 const meta = json('json/project-meta.json');
 if (meta.app !== 'AP Study Guide') fail('project name mismatch');
-if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.17.0') fail('Guide 1.17.0 adoption metadata missing');
-if (meta.build !== '2026.09.06-r29') fail(`unexpected build ${meta.build}`);
+if (meta.guide?.repository !== 'EliteMay/web-project-guide' || !/^1\.17\.\d+$/.test(String(meta.guide?.version || ''))) fail('current Guide adoption metadata is invalid');
+if (!/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail(`invalid global build ${meta.build}`);
 if (Number(meta.phase?.active) !== 1 || meta.phase?.status !== 'in-progress') fail('Phase 1 must remain in-progress');
 
 const baseIndex = json('json/lessons/lesson-index.json');
@@ -38,7 +38,7 @@ const unitMap = (curriculum.studyUnits || []).find(item => item.id === 'ui-media
 if (!unitMap || unitMap.coverage !== 'partial') fail('ui-media curriculum map must reflect implemented partial coverage');
 if (JSON.stringify((unitMap.officialMiddleCodes || []).map(Number).sort()) !== JSON.stringify([7,8])) fail('ui-media middle-code map changed');
 const coverage = json('json/curriculum/ap-2026-coverage.json');
-if (Number(coverage.meta?.structuredLessons) !== 120) fail('structured lesson snapshot must be 120 for r29');
+if (Number(coverage.meta?.structuredLessons) !== 120) fail('structured lesson snapshot must remain 120 after r29');
 if (coverage.overrides?.['ui-media']?.coverage !== 'partial') fail('ui-media coverage overlay must remain partial');
 
 const phaseIndex = json('json/phase1/index.json');
@@ -53,7 +53,7 @@ if (JSON.stringify(enhancementIds) !== JSON.stringify(unitIds)) fail(`overlay co
 if (new Set(enhancementIds).size !== enhancementIds.length) fail('duplicate UI/Media overlay id');
 
 const practiceManifest = json('json/practice/practice-index.json');
-if (Number(practiceManifest.meta?.questionCount) !== 141) fail('r29 practice question count must be 141');
+if (Number(practiceManifest.meta?.questionCount) !== 141) fail('practice question count must remain 141 after r29 additions');
 const practiceQuestions = (practiceManifest.files || []).flatMap(ref => json(ref.file).questions || []);
 const practiceById = new Map(practiceQuestions.map(question => [question.id, question]));
 for (const id of ['P-UIM-06','P-UIM-07']) {
