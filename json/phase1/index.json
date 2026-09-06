@@ -18,6 +18,11 @@
       "unitId": "ui-media",
       "status": "pilot",
       "file": "json/phase1/ui-media-r29.json"
+    },
+    {
+      "unitId": "database",
+      "status": "pilot",
+      "file": "json/phase1/database-r30.json"
     }
   ]
 }

@@ -8,7 +8,7 @@ const fail = message => { throw new Error(`[phase1-computer-systems] ${message}`
 
 const meta = json('json/project-meta.json');
 if (meta.app !== 'AP Study Guide') fail('project name mismatch');
-if (meta.guide?.repository !== 'EliteMay/web-project-guide' || meta.guide?.version !== '1.17.0') fail('Guide 1.17.0 adoption metadata missing');
+if (meta.guide?.repository !== 'EliteMay/web-project-guide' || !/^1\.17\.\d+$/.test(String(meta.guide?.version || ''))) fail('current Guide adoption metadata is invalid');
 if (!/^\d{4}\.\d{2}\.\d{2}-r\d+$/.test(String(meta.build || ''))) fail(`invalid global build ${meta.build}`);
 if (Number(meta.phase?.active) !== 1 || meta.phase?.status !== 'in-progress') fail('Phase 1 must remain in-progress');
 

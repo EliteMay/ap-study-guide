@@ -1,9 +1,9 @@
 {
   "app": "AP Study Guide",
-  "build": "2026.09.06-r29",
+  "build": "2026.09.06-r30",
   "guide": {
     "repository": "EliteMay/web-project-guide",
-    "version": "1.17.0",
+    "version": "1.17.1",
     "adoptedAt": "2026-09-06"
   },
   "profiles": [
