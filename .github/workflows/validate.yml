@@ -67,6 +67,7 @@ jobs:
         run: |
           python3 -m http.server 4173 >/tmp/ap-study-http.log 2>&1 &
           node tests/e2e-smoke.mjs
+          node tests/e2e-home-loop.mjs
           node tests/e2e-phase1-algorithm.mjs
           node tests/e2e-phase1-computer-systems.mjs
           node tests/e2e-phase1-ui-media.mjs
