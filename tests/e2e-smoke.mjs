@@ -35,8 +35,9 @@ try {
   await page.reload({ waitUntil:'networkidle' });
   if (!await page.getByRole('heading', { name:'何をするか選ぶだけ。' }).isVisible()) throw new Error('action-first homepage heading missing');
   if (await page.locator('#home-unit-grid .unit-card').count() !== expectedUnitCount) throw new Error(`homepage unit count must follow curriculum data (${expectedUnitCount})`);
-  if (await page.locator('.home-launch-card').count() !== 9) throw new Error('homepage must expose 9 current main actions including cross-search');
+  if (await page.locator('.home-launch-card').count() !== 10) throw new Error('homepage must expose 10 current main actions including cross-search and reading strategy');
   if (!await page.getByRole('link', { name:/まとめて検索/ }).isVisible()) throw new Error('cross-search launcher missing from Home');
+  if (!await page.getByRole('link', { name:/問題文の読み方/ }).isVisible()) throw new Error('reading-strategy launcher missing from Home');
   await page.waitForFunction(expected => document.querySelector('[data-ap-build]')?.textContent?.includes(expected), projectMeta.build);
   if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
 
