@@ -6,7 +6,7 @@
   const CASE_KEY = 'ap-study-case-history-v1';
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const normalize = value => String(value || '').normalize('NFKC').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ').trim();
   let finderCatalog = [];
   let finderBound = false;
@@ -16,15 +16,15 @@
     const practiceText = Number.isFinite(stats.practiceCount) ? `${stats.practiceCount}問の選択・記述問題` : '選択・記述の短問演習';
     const caseText = Number.isFinite(stats.caseCount) ? `${stats.caseCount}Caseの長文記述` : '長文Caseの記述演習';
     return [
-      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', keywords:'lesson レッスン 教材 勉強 学ぶ ユニット カリキュラム' },
-      { title:'まとめて検索', description:'Lesson・用語・短問・分野・公式問題を横断検索', href:'html/search.html', keywords:'検索 横断 search lesson 用語 問題 公式 分野' },
-      { title:'単語辞書', description:'用語だけを統合辞書から検索', href:'html/glossary.html', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
-      { title:'短問演習', description:practiceText, href:'html/practice.html', keywords:'短問 問題 練習 演習 選択 記述 practice' },
-      { title:'長文Case', description:caseText, href:'html/cases.html', keywords:'長文 case ケース 科目b 記述' },
-      { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', keywords:'模試 本番 科目a 科目b 150分 mock' },
-      { title:'公式公開問題', description:'IPA公開問題とLessonを往復', href:'html/official-past.html', keywords:'公式 過去問 ipa 春 秋 午後 科目b' },
-      { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', keywords:'進捗 弱点 復習 成績 理解 progress' },
-      { title:'学習データ', description:'Backup / 復元', href:'html/data.html', keywords:'backup バックアップ 復元 データ 保存 import export' }
+      { title:'Lessonで学ぶ', description:lessonText, href:'html/roadmap.html', aliases:'lesson レッスン 学ぶ', keywords:'lesson レッスン 教材 勉強 学ぶ ユニット カリキュラム' },
+      { title:'まとめて検索', description:'Lesson・用語・短問・分野・公式問題を横断検索', href:'html/search.html', aliases:'検索 横断検索 まとめて検索', keywords:'検索 横断 search lesson 用語 問題 公式 分野' },
+      { title:'単語辞書', description:'用語だけを統合辞書から検索', href:'html/glossary.html', aliases:'用語 辞書 単語', keywords:'単語 用語 辞書 検索 意味 調べる glossary' },
+      { title:'短問演習', description:practiceText, href:'html/practice.html', aliases:'短問 演習 練習問題', keywords:'短問 問題 練習 演習 選択 記述 practice' },
+      { title:'長文Case', description:caseText, href:'html/cases.html', aliases:'長文 case 科目b', keywords:'長文 case ケース 科目b 記述' },
+      { title:'150分模試', description:'科目A / 科目Bの時間配分練習', href:'html/mock.html', aliases:'模試 本番', keywords:'模試 本番 科目a 科目b 150分 mock' },
+      { title:'公式公開問題', description:'IPA公開問題とLessonを往復', href:'html/official-past.html', aliases:'公式 過去問 公式問題', keywords:'公式 過去問 ipa 春 秋 午後 科目b' },
+      { title:'学習進捗', description:'弱点・復習期限・理解状態', href:'html/progress.html', aliases:'進捗 弱点 復習', keywords:'進捗 弱点 復習 成績 理解 progress' },
+      { title:'学習データ', description:'Backup / 復元', href:'html/data.html', aliases:'バックアップ 復元 学習データ', keywords:'backup バックアップ 復元 データ 保存 import export' }
     ];
   }
 
@@ -134,28 +134,62 @@
     const input = $('home-quick-search');
     const output = $('home-quick-results');
     if (!input || !output) return;
-    const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
-    finderCatalog = [...buildQuickActions(stats),...unitActions].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+    const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, aliases:unit.title, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
+    finderCatalog = [...buildQuickActions(stats),...unitActions].map((item,index) => ({
+      ...item,
+      index,
+      titleNormalized:normalize(item.title),
+      aliasesNormalized:normalize(item.aliases),
+      keywordsNormalized:normalize(item.keywords),
+      descriptionNormalized:normalize(item.description)
+    }));
     if (finderBound) return;
     finderBound = true;
 
+    const setFinderOpen = open => {
+      output.hidden = !open;
+      input.setAttribute('aria-expanded', String(open));
+    };
+    const rankItem = (item, query) => {
+      if (item.titleNormalized === query) return 500;
+      if (item.titleNormalized.startsWith(query)) return 400;
+      if (item.titleNormalized.includes(query)) return 300;
+      if (item.aliasesNormalized.split(' ').includes(query)) return 275;
+      if (item.aliasesNormalized.includes(query)) return 240;
+      if (item.keywordsNormalized.split(' ').includes(query)) return 200;
+      if (item.keywordsNormalized.includes(query)) return 150;
+      if (item.descriptionNormalized.includes(query)) return 100;
+      return 0;
+    };
     const render = () => {
       const raw = input.value.trim();
-      if (!raw) { output.hidden = true; output.innerHTML=''; return; }
+      if (!raw) { output.innerHTML=''; setFinderOpen(false); return; }
       const query = normalize(raw);
-      const hits = finderCatalog.filter(item => item.searchable.includes(query)).slice(0,6);
+      const hits = finderCatalog
+        .map(item => ({ item, score:rankItem(item,query) }))
+        .filter(entry => entry.score > 0)
+        .sort((a,b) => b.score - a.score || a.item.index - b.item.index)
+        .slice(0,6)
+        .map(entry => entry.item);
       output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/search.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」をすべてから検索</strong><span>Lesson・用語・短問・分野・公式問題を横断検索</span></a>`;
-      output.hidden = false;
+      setFinderOpen(true);
     };
     input.addEventListener('input',render);
     input.addEventListener('keydown',event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setFinderOpen(false);
+        return;
+      }
       if (event.key !== 'Enter' || !input.value.trim()) return;
       event.preventDefault();
       const first = output.querySelector('a');
       if (first) location.href = first.href;
       else location.href = `html/search.html?q=${encodeURIComponent(input.value.trim())}`;
     });
-    document.addEventListener('click',event => { if (!event.target.closest('.home-finder')) output.hidden=true; });
+    document.addEventListener('click',event => {
+      if (!event.target.closest('.home-finder')) setFinderOpen(false);
+    });
   }
 
   async function init() {
