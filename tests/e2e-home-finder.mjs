@@ -27,6 +27,7 @@ try {
   if ((await firstHrefFor('短問')) !== 'html/practice.html') throw new Error('短問 intent must rank short practice first');
   if ((await firstHrefFor('用語')) !== 'html/glossary.html') throw new Error('用語 intent must rank glossary first');
   if ((await firstHrefFor('公式')) !== 'html/official-past.html') throw new Error('公式 intent must rank official questions first');
+  if ((await firstHrefFor('FND-02')) !== 'html/lesson.html?id=FND-02') throw new Error('Lesson ID must route directly to the matching Lesson');
 
   await input.fill('OAuth');
   const fallback = page.locator('#home-quick-results a[href*="html/search.html?q=OAuth"]');
@@ -40,7 +41,7 @@ try {
   await input.press('Enter');
   await page.waitForURL(/\/html\/practice\.html(?:$|\?)/);
 
-  console.log('[e2e-home-finder] OK: intent ranking, fallback, keyboard close, and ARIA state');
+  console.log('[e2e-home-finder] OK: intent ranking, direct Lesson routing, fallback, keyboard close, and ARIA state');
 } finally {
   await browser.close();
 }
