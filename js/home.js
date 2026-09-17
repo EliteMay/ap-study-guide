@@ -139,20 +139,25 @@
       description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`,
       href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`,
       keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}`,
-      priority:2
+      type:'unit'
     }));
     const lessonActions = lessons.map(lesson => ({
       title:`${lesson.id} ${lesson.title}`,
       description:'Lessonへ直接移動',
       href:`html/lesson.html?id=${encodeURIComponent(lesson.id)}`,
       keywords:`${lesson.id} ${lesson.title} ${lesson.unitId || ''}`,
-      priority:3
+      type:'lesson'
     }));
     finderCatalog = [
-      ...buildQuickActions(stats).map(item => ({...item, priority:1})),
+      ...buildQuickActions(stats).map(item => ({...item, type:'action'})),
       ...unitActions,
       ...lessonActions
-    ].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+    ].map(item => ({
+      ...item,
+      normalizedTitle:normalize(item.title),
+      normalizedKeywords:normalize(item.keywords),
+      searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)
+    }));
     if (finderBound) return;
     finderBound = true;
 
@@ -165,10 +170,25 @@
     const render = () => {
       const raw = input.value.trim();
       if (!raw) { close(); return; }
-      const queryTokens = normalize(raw).split(' ').filter(Boolean);
+      const query = normalize(raw);
+      const queryTokens = query.split(' ').filter(Boolean);
       const hits = finderCatalog
-        .filter(item => queryTokens.every(token => item.searchable.includes(token)))
-        .sort((a,b) => b.priority - a.priority || a.title.localeCompare(b.title,'ja'))
+        .map(item => {
+          if (!queryTokens.every(token => item.searchable.includes(token))) return null;
+          const titleHasAll = queryTokens.every(token => item.normalizedTitle.includes(token));
+          const keywordHasAll = queryTokens.every(token => item.normalizedKeywords.includes(token));
+          let score = 0;
+          if (item.normalizedTitle === query) score += 500;
+          else if (item.normalizedTitle.startsWith(query)) score += 350;
+          else if (titleHasAll) score += 250;
+          if (keywordHasAll) score += 100;
+          if (item.type === 'lesson') score += 30;
+          else if (item.type === 'unit') score += 20;
+          else score += 10;
+          return {...item, score};
+        })
+        .filter(Boolean)
+        .sort((a,b) => b.score - a.score || a.title.localeCompare(b.title,'ja'))
         .slice(0,6);
       output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/search.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」をすべてから検索</strong><span>Lesson・用語・短問・分野・公式問題を横断検索</span></a>`;
       output.hidden = false;
