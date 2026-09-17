@@ -6,7 +6,7 @@
   const CASE_KEY = 'ap-study-case-history-v1';
   const MOCK_KEY = 'ap-study-mock-history-v1';
   const $ = id => document.getElementById(id);
-  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const normalize = value => String(value || '').normalize('NFKC').toLocaleLowerCase('ja-JP').replace(/\s+/g,' ').trim();
   let finderCatalog = [];
   let finderBound = false;
@@ -127,35 +127,112 @@
       box.append(text,retry);
       root.appendChild(box);
     }
-    setupFinder({ studyUnits:[] }, {});
+    setupFinder({ studyUnits:[] }, [], {});
   }
 
-  function setupFinder(curriculum, stats = {}) {
+  function setupFinder(curriculum, lessons = [], stats = {}) {
     const input = $('home-quick-search');
     const output = $('home-quick-results');
     if (!input || !output) return;
-    const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
-    finderCatalog = [...buildQuickActions(stats),...unitActions].map(item => ({...item,searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)}));
+    const unitActions = (curriculum.studyUnits || []).map(unit => ({
+      title:unit.title,
+      description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`,
+      href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`,
+      keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}`,
+      type:'unit'
+    }));
+    const lessonActions = lessons.map(lesson => ({
+      title:`${lesson.id} ${lesson.title}`,
+      description:'Lessonへ直接移動',
+      href:`html/lesson.html?id=${encodeURIComponent(lesson.id)}`,
+      keywords:`${lesson.id} ${lesson.title} ${lesson.unitId || ''}`,
+      type:'lesson'
+    }));
+    finderCatalog = [
+      ...buildQuickActions(stats).map(item => ({...item, type:'action'})),
+      ...unitActions,
+      ...lessonActions
+    ].map(item => ({
+      ...item,
+      normalizedTitle:normalize(item.title),
+      normalizedKeywords:normalize(item.keywords),
+      searchable:normalize(`${item.title} ${item.description} ${item.keywords}`)
+    }));
     if (finderBound) return;
     finderBound = true;
 
+    const close = () => {
+      output.hidden = true;
+      output.innerHTML = '';
+      input.setAttribute('aria-expanded','false');
+    };
+
     const render = () => {
       const raw = input.value.trim();
-      if (!raw) { output.hidden = true; output.innerHTML=''; return; }
+      if (!raw) { close(); return; }
       const query = normalize(raw);
-      const hits = finderCatalog.filter(item => item.searchable.includes(query)).slice(0,6);
+      const queryTokens = query.split(' ').filter(Boolean);
+      const hits = finderCatalog
+        .map(item => {
+          if (!queryTokens.every(token => item.searchable.includes(token))) return null;
+          const titleHasAll = queryTokens.every(token => item.normalizedTitle.includes(token));
+          const keywordHasAll = queryTokens.every(token => item.normalizedKeywords.includes(token));
+          let score = 0;
+          if (item.normalizedTitle === query) score += 500;
+          else if (item.normalizedTitle.startsWith(query)) score += 350;
+          else if (titleHasAll) score += 250;
+          if (keywordHasAll) score += 100;
+          if (item.type === 'lesson') score += 30;
+          else if (item.type === 'unit') score += 20;
+          else score += 10;
+          return {...item, score};
+        })
+        .filter(Boolean)
+        .sort((a,b) => b.score - a.score || a.title.localeCompare(b.title,'ja'))
+        .slice(0,6);
       output.innerHTML = hits.map(item => `<a href="${item.href}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.description)}</span></a>`).join('') + `<a class="home-quick-glossary" href="html/search.html?q=${encodeURIComponent(raw)}"><strong>🔎 「${escapeHtml(raw)}」をすべてから検索</strong><span>Lesson・用語・短問・分野・公式問題を横断検索</span></a>`;
       output.hidden = false;
+      input.setAttribute('aria-expanded','true');
     };
+
     input.addEventListener('input',render);
     input.addEventListener('keydown',event => {
+      if (event.key === 'Escape') {
+        close();
+        return;
+      }
+      if (event.key === 'ArrowDown' && !output.hidden) {
+        const first = output.querySelector('a');
+        if (first) {
+          event.preventDefault();
+          first.focus();
+        }
+        return;
+      }
       if (event.key !== 'Enter' || !input.value.trim()) return;
       event.preventDefault();
       const first = output.querySelector('a');
       if (first) location.href = first.href;
       else location.href = `html/search.html?q=${encodeURIComponent(input.value.trim())}`;
     });
-    document.addEventListener('click',event => { if (!event.target.closest('.home-finder')) output.hidden=true; });
+    output.addEventListener('keydown',event => {
+      if (!['ArrowDown','ArrowUp','Escape'].includes(event.key)) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close();
+        input.focus();
+        return;
+      }
+      const links = [...output.querySelectorAll('a')];
+      const index = links.indexOf(document.activeElement);
+      if (index < 0) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'ArrowDown'
+        ? Math.min(index + 1, links.length - 1)
+        : Math.max(index - 1, 0);
+      links[nextIndex]?.focus();
+    });
+    document.addEventListener('click',event => { if (!event.target.closest('.home-finder')) close(); });
   }
 
   async function init() {
@@ -175,7 +252,7 @@
     const mockHistory = readArray(MOCK_KEY);
     renderDashboard(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory,mockHistory);
     renderUnits(curriculum,lessons,lessonProgress);
-    setupFinder(curriculum,{ lessonCount:lessons.length, practiceCount:questions.length, caseCount:cases.length });
+    setupFinder(curriculum,lessons,{ lessonCount:lessons.length, practiceCount:questions.length, caseCount:cases.length });
   }
 
   window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(renderLoadError); });
