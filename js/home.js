@@ -127,15 +127,16 @@
       box.append(text,retry);
       root.appendChild(box);
     }
-    setupFinder({ studyUnits:[] }, {});
+    setupFinder({ studyUnits:[] }, {}, []);
   }
 
-  function setupFinder(curriculum, stats = {}) {
+  function setupFinder(curriculum, stats = {}, lessons = []) {
     const input = $('home-quick-search');
     const output = $('home-quick-results');
     if (!input || !output) return;
     const unitActions = (curriculum.studyUnits || []).map(unit => ({ title:unit.title, description:`学習ユニット / IPA中分類 ${(unit.officialMiddleCodes || []).join('・')}`, href:`html/unit.html?unit=${encodeURIComponent(unit.id)}`, aliases:unit.title, keywords:`${unit.id} ${unit.title} ${(unit.officialMiddleCodes || []).join(' ')}` }));
-    finderCatalog = [...buildQuickActions(stats),...unitActions].map((item,index) => ({
+    const lessonActions = lessons.map(lesson => ({ title:lesson.title, description:`${lesson.id} / Lesson`, href:`html/lesson.html?id=${encodeURIComponent(lesson.id)}`, aliases:lesson.id, keywords:`${lesson.id} ${lesson.title} ${lesson.unitId || ''}` }));
+    finderCatalog = [...buildQuickActions(stats),...unitActions,...lessonActions].map((item,index) => ({
       ...item,
       index,
       titleNormalized:normalize(item.title),
@@ -209,7 +210,7 @@
     const mockHistory = readArray(MOCK_KEY);
     renderDashboard(lessons,questions,cases,lessonProgress,practiceHistory,caseHistory,mockHistory);
     renderUnits(curriculum,lessons,lessonProgress);
-    setupFinder(curriculum,{ lessonCount:lessons.length, practiceCount:questions.length, caseCount:cases.length });
+    setupFinder(curriculum,{ lessonCount:lessons.length, practiceCount:questions.length, caseCount:cases.length },lessons);
   }
 
   window.addEventListener('storage', event => { if ([LESSON_KEY,PRACTICE_KEY,CASE_KEY,MOCK_KEY].includes(event.key)) init().catch(renderLoadError); });
