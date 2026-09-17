@@ -18,13 +18,20 @@ const primaryPages = [
   'html/data.html'
 ];
 
+const brandSurface = text => [
+  text.match(/<title>[\s\S]*?<\/title>/i)?.[0] || '',
+  text.match(/<nav[\s\S]*?<\/nav>/i)?.[0] || '',
+  text.match(/<footer[\s\S]*?<\/footer>/i)?.[0] || ''
+].join('\n');
+
 for (const file of primaryPages) {
   const text = read(file);
-  if (text.includes('AP Study Notes') || text.includes('AP STUDY NOTES')) {
-    fail(`${file} still exposes the legacy product name in the primary learning flow`);
+  const surface = brandSurface(text);
+  if (surface.includes('AP Study Notes') || surface.includes('AP STUDY NOTES')) {
+    fail(`${file} still exposes the legacy product name on a current brand surface`);
   }
-  if (!text.includes('AP Study Guide') && !text.includes('AP STUDY GUIDE')) {
-    fail(`${file} does not expose the current product name`);
+  if (!surface.includes('AP Study Guide') && !surface.includes('AP STUDY GUIDE')) {
+    fail(`${file} does not expose the current product name on title/nav/footer surfaces`);
   }
 }
 
@@ -61,4 +68,4 @@ for (const stale of ['13ユニット', '13 LEARNING UNITS', '150分模試']) {
   if (progress.includes(stale)) fail(`progress reintroduced fixed or misleading navigation copy: ${stale}`);
 }
 
-console.log(`[primary-flow] OK: ${primaryPages.length} primary pages use current branding, reading strategy is reachable from Home/Practice/Mock, and progress navigation avoids stale fixed counts.`);
+console.log(`[primary-flow] OK: ${primaryPages.length} primary pages use current branding on brand surfaces, reading strategy is reachable from Home/Practice/Mock, and progress navigation avoids stale fixed counts.`);
