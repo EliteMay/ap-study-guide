@@ -16,7 +16,12 @@ try {
   await results.waitFor({ state:'visible' });
   const directLesson = results.locator('a[href="html/lesson.html?id=FND-02"]');
   if (!await directLesson.isVisible()) throw new Error('home finder must expose a direct Lesson result for an exact Lesson ID');
+  if ((await results.locator('a').first().getAttribute('href')) !== 'html/lesson.html?id=FND-02') throw new Error('exact Lesson ID must rank the direct Lesson result first');
   if ((await search.getAttribute('aria-expanded')) !== 'true') throw new Error('home finder must expose expanded state to assistive technology');
+
+  await search.fill('Lesson');
+  await results.waitFor({ state:'visible' });
+  if ((await results.locator('a').first().getAttribute('href')) !== 'html/roadmap.html') throw new Error('generic Lesson query should rank the Lesson entry action before individual lessons');
 
   await search.fill('データ ベース');
   await results.waitFor({ state:'visible' });
