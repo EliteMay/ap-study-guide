@@ -51,7 +51,7 @@ for (const required of ['GLOSSARY_DOMAINS','glossary.html?domain=','>単語辞�
 for (const old of ['>旧用語辞書<','LEGACY_GLOSSARIES']) if (unit.includes(old)) fail(`unit hub still promotes legacy glossary: ${old}`);
 
 const home = read('index.html');
-for (const required of ['home-quick-search','やりたいことから選ぶ','html/glossary.html','用語だけを調べる','html/search.html','css/home-launch.css']) if (!home.includes(required)) fail(`homepage missing ${required}`);
+for (const required of ['home-quick-search','やりたいことから選ぶ','html/glossary.html','用語辞書','html/search.html','css/home-launch.css']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 const homeJs = read('js/home.js');
 for (const required of ['buildQuickActions','home-quick-search',"href:'html/glossary.html'",'html/search.html?q=','unit.html?unit=']) if (!homeJs.includes(required)) fail(`home.js missing ${required}`);
 
