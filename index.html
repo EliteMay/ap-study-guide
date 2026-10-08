@@ -4,21 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f766e">
-<meta name="description" content="応用情報技術者試験（AP）をLesson、短問、長文Case、模試、公式公開問題、横断検索、進捗管理まで1つにつなげて学ぶ学習サイトです。">
+<meta name="description" content="応用情報技術者試験（AP）の残り時間から重要分野を選び、用語同士のつながりを理解して過去問で確認する学習サイトです。">
 <link rel="canonical" href="https://elitemay.github.io/ap-study-guide/">
 <title>AP Study Guide | 応用情報技術者試験 学習サイト</title>
 <link href="css/style.css" rel="stylesheet">
 <link href="css/home.css" rel="stylesheet">
 <link href="css/home-launch.css" rel="stylesheet">
 <link href="css/shell.css" rel="stylesheet">
+<style>
+.home-exam-first{padding:24px 0 0}.home-exam-first-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;border-radius:17px;border:1px solid #58c0aa;background:linear-gradient(110deg,#0e4747,#0f766e);color:#fff;box-shadow:0 8px 24px rgba(15,118,110,.11)}.home-exam-first-card span{font-size:.75rem;font-weight:900;letter-spacing:.08em;color:#99f6e4}.home-exam-first-card h2{color:white;font-size:1.4rem;margin:5px 0}.home-exam-first-card p{font-size:.84rem;line-height:1.7;color:#dcfce7;margin:0;max-width:650px}.home-exam-first-card a{padding:13px 17px;border-radius:11px;background:#fff;color:#115e59;text-decoration:none;font-size:.85rem;font-weight:900;white-space:nowrap}.home-advanced{margin-top:14px;border:1px solid var(--ap-border,#d9e4e1);border-radius:13px;background:var(--ap-surface,#fff)}.home-advanced>summary{cursor:pointer;padding:15px 19px;font-size:.88rem;font-weight:850;color:var(--ap-text,#17212b)}.home-advanced-grid{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 16px}.home-advanced-grid a{padding:9px 12px;background:var(--ap-surface-2,#f1f5f9);border-radius:9px;color:var(--ap-text,#17212b);font-size:.82rem;text-decoration:none}.home-exam-first-card a:focus-visible,.home-advanced a:focus-visible{outline:3px solid #2dd4bf;outline-offset:3px}@media(max-width:700px){.home-exam-first-card{flex-direction:column;align-items:stretch}.home-exam-first-card a{text-align:center;white-space:normal}}
+</style>
 </head>
 <body>
 <nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY GUIDE</span><ul class="unit-nav-list"><li><a href="index.html" class="unit-nav-link is-current">🏠 ホーム</a></li></ul></div></nav>
 
 <header class="home-hero home-launch-hero"><div class="container">
 <p class="eyebrow">AP STUDY GUIDE / HOME</p>
-<h1>何をするか選ぶだけ。</h1>
-<p class="lead">次のLessonへ進む、問題を解く、分からない内容を調べる。毎日の学習をここから始めます。</p>
+<h1>知識をつなげて、合格に近づく。</h1>
+<p class="lead">試験までの日数から今日の学習を決める。仕組みを短く理解して、過去問で確かめよう。</p>
 <div class="home-finder" role="search">
 <label for="home-quick-search">機能・分野・教材を検索</label>
 <input id="home-quick-search" type="search" placeholder="例: セキュリティ / OAuth / FND-02 / データベース" autocomplete="off" aria-controls="home-quick-results" aria-expanded="false">
@@ -27,6 +30,7 @@
 </div></header>
 
 <main id="main-content">
+<section class="home-exam-first" aria-label="直前対策の入口"><div class="container"><div class="home-exam-first-card"><div><span>2026年度 直前対策</span><h2>まず、今日やることを決めよう。</h2><p>基礎から全科目を読み直さず、重要なつながりを押さえて過去問に進む。科目A・科目Bの受験日も設定できる。</p></div><a href="html/cram.html">残り日数から勉強を始める →</a></div></div></section>
 <section class="home-dashboard"><div class="container home-dashboard-grid">
 <article class="home-focus-card" id="continue-card">
 <div>
@@ -51,19 +55,22 @@
 </div></section>
 
 <section class="home-launch-section"><div class="container">
-<div class="dashboard-heading"><div><p class="dashboard-eyebrow">STUDY MENU</p><h2>やりたいことから選ぶ</h2></div><p>上段は学習・検索・演習、下段は確認・管理です。</p></div>
+<div class="dashboard-heading"><div><p class="dashboard-eyebrow">STUDY MENU</p><h2>やりたいことから選ぶ</h2></div><p>今日の勉強に使う機能を優先表示。その他は必要なときだけ開けます。</p></div>
 <div class="home-launch-grid">
-<a class="home-launch-card is-primary" href="html/roadmap.html"><span class="home-launch-icon">L</span><div><strong>Lessonで学ぶ</strong><small>学習分野を順番に理解する</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/search.html"><span class="home-launch-icon">検</span><div><strong>まとめて検索</strong><small>Lesson・用語・短問・分野・公式問題</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/practice.html"><span class="home-launch-icon">問</span><div><strong>短問を解く</strong><small><span id="practice-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/cases.html#case-reading-guide-title"><span class="home-launch-icon">読</span><div><strong>問題文の読み方</strong><small>線を引く基準・条件・変更・経路を見抜く</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/cases.html"><span class="home-launch-icon">B</span><div><strong>長文Caseを解く</strong><small><span id="case-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/mock.html"><span class="home-launch-icon">模</span><div><strong>本番形式で模試をする</strong><small>科目A / 科目Bの時間配分を練習</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/glossary.html"><span class="home-launch-icon">辞</span><div><strong>用語だけを調べる</strong><small>統合用語辞書から探す</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/official-past.html"><span class="home-launch-icon">公</span><div><strong>公式問題へ進む</strong><small>IPA公開問題とLessonを往復</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/progress.html"><span class="home-launch-icon">進</span><div><strong>進捗・弱点を見る</strong><small>復習期限と現在の理解状態を確認</small></div><span>→</span></a>
-<a class="home-launch-card" href="html/data.html"><span class="home-launch-icon">保</span><div><strong>学習データを管理</strong><small>Backup / 復元 / 学習履歴の保護</small></div><span>→</span></a>
+<a class="home-launch-card is-primary" href="html/cram.html"><span class="home-launch-icon">速</span><div><strong>合格までの速習</strong><small>残り日数・仕組み・確認問題</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/practice.html"><span class="home-launch-icon">問</span><div><strong>問題を解く</strong><small><span id="practice-progress-number">0 / …</span> 理解済み</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/official-past.html"><span class="home-launch-icon">公</span><div><strong>公開過去問</strong><small>IPAの実問題と関連Lesson</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/search.html"><span class="home-launch-icon">検</span><div><strong>分からないところを検索</strong><small>Lesson・単語・問題を横断</small></div><span>→</span></a>
+<a class="home-launch-card" href="html/progress.html"><span class="home-launch-icon">進</span><div><strong>弱点と進捗を確認</strong><small>間違い・復習の確認</small></div><span>→</span></a>
 </div>
+<details class="home-advanced"><summary>その他の教材・機能を開く</summary><div class="home-advanced-grid">
+<a href="html/roadmap.html">全Lesson一覧</a>
+<a href="html/glossary.html">用語辞書</a>
+<a href="html/cases.html#case-reading-guide-title">問題文の読み方</a>
+<a href="html/cases.html">長文Case</a>
+<a href="html/mock.html">本番形式の模試</a>
+<a href="html/data.html">バックアップ・復元</a>
+</div></details>
 </div></section>
 
 <section class="units-section"><div class="container">
