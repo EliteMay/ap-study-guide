@@ -36,10 +36,10 @@ for (const required of [
   'ap-study-diagnostics-v1','APDiagnostics','DIAGNOSTICS_LIMITS','breadcrumbs:100',
   "addEventListener('error'","addEventListener('unhandledrejection'",'networkFailure','storageFailure','snapshotDiagnostics','safePath'
 ]) if (!shell.includes(required)) fail(`shell metadata/navigation/diagnostics missing ${required}`);
-if (!shell.includes("['search','🔎 横断検索','search.html']")) fail('cross-search missing from navigation');
-if (!shell.includes("['glossary','📖 単語辞書','glossary.html']")) fail('glossary missing from navigation');
-if (!shell.includes("['data','💾 学習データ','data.html']")) fail('data backup page missing from navigation');
-if (!shell.includes("['diagnostics','🩺 診断情報','diagnostics.html']")) fail('diagnostics missing from navigation');
+if (!shell.includes("['search','横断検索','search.html']")) fail('cross-search missing from navigation');
+if (!shell.includes("['glossary','単語辞書','glossary.html']")) fail('glossary missing from navigation');
+if (!shell.includes("['data','学習データの保存・復元','data.html']")) fail('data backup page missing from navigation');
+if (!shell.includes("['diagnostics','診断情報','diagnostics.html']")) fail('diagnostics missing from navigation');
 if (!shell.includes("toggleAttribute('inert'")) fail('mobile drawer does not become inert when closed');
 if (!shell.includes('ap-skip-link')) fail('skip link is not created');
 if (/location\.(search|hash)/.test(shell) && shell.includes('breadcrumbs')) fail('diagnostics should not log query/fragment directly');
