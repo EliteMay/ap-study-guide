@@ -239,26 +239,25 @@
   installDiagnostics();
 
   const NAV_GROUPS = [
-    { label:'学習', items:[
-      ['home','🏠 ホーム','index.html'],
-      ['roadmap','🧭 学習分野','roadmap.html'],
-      ['progress','📈 学習進捗','progress.html']
+    { label:'まず取り組む', items:[
+      ['home','ホーム','index.html'],
+      ['cram','合格までの速習','cram.html'],
+      ['practice','短問演習','practice.html'],
+      ['official-past','IPA公開過去問','official-past.html'],
+      ['progress','学習進捗・弱点','progress.html']
     ]},
-    { label:'調べる', items:[
-      ['search','🔎 横断検索','search.html'],
-      ['glossary','📖 単語辞書','glossary.html'],
-      ['official-past','🎯 公式問題対応','official-past.html']
+    { label:'必要なときに使う', items:[
+      ['search','横断検索','search.html'],
+      ['roadmap','分野別Lesson','roadmap.html'],
+      ['cases','科目B 長文Case','cases.html'],
+      ['mock','模試','mock.html'],
+      ['glossary','単語辞書','glossary.html']
     ]},
-    { label:'演習', items:[
-      ['practice','🧪 短問演習','practice.html'],
-      ['cases','📚 長文Case','cases.html'],
-      ['mock','⏱️ 150分模試','mock.html']
-    ]},
-    { label:'管理・互換', items:[
-      ['past','📘 Security過去問','security-past.html'],
-      ['data','💾 学習データ','data.html'],
-      ['diagnostics','🩺 診断情報','diagnostics.html'],
-      ['test','📝 旧用語テスト','test.html']
+    { label:'データ・旧機能', items:[
+      ['data','学習データの保存・復元','data.html'],
+      ['past','Security過去問（旧版）','security-past.html'],
+      ['diagnostics','診断情報','diagnostics.html'],
+      ['test','旧用語テスト','test.html']
     ]}
   ];
 
