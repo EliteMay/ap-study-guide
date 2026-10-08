@@ -38,7 +38,8 @@ try {
   if (await page.locator('.home-launch-card').count() !== 5) throw new Error('homepage must expose five focused exam actions');
   if (!await page.getByRole('link',{name:/残り日数から勉強を始める/}).isVisible()) throw new Error('exam-first launcher missing');
   if (!await page.getByRole('link', { name:/分からないところを検索/ }).isVisible()) throw new Error('cross-search launcher missing from Home');
-  if (!await page.getByRole('link', { name:/問題文の読み方/ }).isVisible()) throw new Error('reading-strategy launcher missing from Home');
+  await page.locator('.home-advanced summary').click();
+  if (!await page.getByRole('link', { name:/問題文の読み方/ }).isVisible()) throw new Error('reading-strategy link must remain accessible in optional tools');
   await page.waitForFunction(expected => document.querySelector('[data-ap-build]')?.textContent?.includes(expected), projectMeta.build);
   if ((await page.locator('#hero-lesson').textContent())?.includes('…')) throw new Error('homepage lesson count stayed in loading state');
 
