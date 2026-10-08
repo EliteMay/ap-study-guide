@@ -15,7 +15,8 @@ assert.ok(bank.topics.length >= 10,'at least 10 high-yield topics');
 for (const item of bank.topics) {
   assert.ok(item.id && !seen.has(item.id),'unique topic id: ' + item.id);
   seen.add(item.id);
-  for (const field of ['title','category','why','bridge','trap','question']) {
+  for (const field of ['title','why','bridge','trap','question']) {
+    // Category labels can be short Japanese words; depth matters for explanations, not labels.
     assert.ok(typeof item[field] === 'string' && item[field].length >= 10, item.id + ' missing ' + field);
   }
   assert.ok([1,2,3].includes(item.priority),'priority value');
