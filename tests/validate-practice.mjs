@@ -106,7 +106,7 @@ const lessonPractice = readText('js/lesson-practice.js');
 for (const required of ['APPracticeData.load','APLessonData.load','dataset.practiceFallback','関連ユニットの短問へ進む','cases.html?unit=']) if (!lessonPractice.includes(required)) fail(`lesson practice fallback missing ${required}`);
 
 const shell = readText('js/shell.js');
-if (!shell.includes("['practice','🧪 短問演習','practice.html']")) fail('navigation missing short practice');
+if (!shell.includes("['practice','短問演習','practice.html']")) fail('navigation missing short practice');
 const home = readText('index.html');
 for (const required of ['practice-progress-number','html/practice.html','home-quick-search','js/practice-data.js','js/study-state.js']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 if (home.includes('js/home-practice.js')) fail('homepage still loads duplicate practice renderer');

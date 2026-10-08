@@ -44,6 +44,6 @@ for (const required of ['ap-public-exams.json','officialQuestionPdfUrl','lesson.
 const lessonHtml = readText('html/lesson.html');
 if (!lessonHtml.includes('../js/lesson-official-past.js')) fail('lesson page missing official reverse links');
 const shell = readText('js/shell.js');
-if (!shell.includes("['official-past','🎯 公式問題対応','official-past.html']")) fail('navigation missing official map');
+if (!shell.includes("['official-past','IPA公開過去問','official-past.html']")) fail('navigation missing official map');
 
 console.log(`[official-past] OK: ${count} public 2025 afternoon questions mapped to ${mappedLessons.size}/118 lessons; 2026 CBT remains correctly non-public.`);

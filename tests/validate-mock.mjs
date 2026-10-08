@@ -61,11 +61,11 @@ const js = readText('js/mock.js');
 for (const required of ['ap-study-mock-history-v1','mock-timer','flags','answers','selectedCaseIds','grades','autoSubmitted','submitA','submitB','renderBGrading']) if (!js.includes(required)) fail(`mock.js missing ${required}`);
 
 const shell = readText('js/shell.js');
-if (!shell.includes("['mock','⏱️ 150分模試','mock.html']")) fail('navigation missing mock');
+if (!shell.includes("['mock','模試','mock.html']")) fail('navigation missing mock');
 const progress = readText('js/progress.js');
 if (!progress.includes('ap-study-mock-history-v1') || !progress.includes('FULL MOCK')) fail('progress not connected to mock history');
 const home = readText('index.html');
-for (const required of ['html/mock.html','本番形式で模試をする','mock-progress-number']) if (!home.includes(required)) fail(`homepage missing ${required}`);
+for (const required of ['html/mock.html','本番形式の模試','mock-progress-number']) if (!home.includes(required)) fail(`homepage missing ${required}`);
 if (home.includes('js/home-mock.js')) fail('homepage should not load separate mock renderer');
 const homeJs = readText('js/home.js');
 if (!homeJs.includes('ap-study-mock-history-v1') || !homeJs.includes('mock-progress-number')) fail('home.js does not aggregate mock history');

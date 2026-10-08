@@ -3,6 +3,21 @@
 
   const $ = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  // 学習用の着眼点はAP Study Guide独自の内容です。IPAの設問別模範解答ではありません。
+  const SOLVE_GUIDES = {
+    '情報セキュリティ':['攻撃の入口 → 権限・設定の弱点 → 被害の拡大 → 対策の順で因果関係を整理する。','認証・認可・ネットワーク制御・監視の役割を混ぜず、設問が求める対策の位置を確かめる。'],
+    '経営戦略':['誰のどの課題を解決するのか、競争優位と数字の根拠を分けて読む。','戦略の目標と具体的な施策、測定するKPIを対応させる。'],
+    'プログラミング':['変数と配列の意味を先に定義し、小さな入力で1ステップずつ状態を表にする。','ループの終了条件や再帰・探索の不変条件を確認する。'],
+    'システムアーキテクチャ':['利用者・サーバー・ネットワーク間の処理とデータの流れを図にする。','性能、可用性、保守性など要求ごとの理由を明確にする。'],
+    'ネットワーク':['端末・スイッチ・ルーター・DNSなどを並べ、どこまで通信できるか順番に追う。','IPアドレス・経路・名前解決・ポート・フィルタを混同しない。'],
+    'データベース':['テーブル間の主キー・外部キーの対応を先に確認する。','更新異常、正規化、JOIN、トランザクションのどれが課題か区別する。'],
+    '組込みシステム開発':['入力センサ → 条件判断 → 状態変更 → 出力アクチュエータの流れを整理する。','時間条件・例外・状態遷移の境界を見落とさない。'],
+    '情報システム開発':['利用者操作 → 要件 → 設計・テストへの反映をたどる。','正常系だけでなく誤入力・通信失敗・復旧などの異常系も確認する。'],
+    'プロジェクトマネジメント':['作業依存・期間・リスクのうち、何が納期や費用を変えるか特定する。','プロジェクトの変更前と変更後の差から理由を導く。'],
+    'サービスマネジメント':['利用者への影響と、復旧・原因除去・再発防止の目的を切り分ける。','SLA、対応手順、担当者、運用実績の関係を確認する。'],
+    'システム監査':['監査目的 → リスク → 統制 → 必要な証拠の順で考える。','監査人による独立した評価と運用担当者による実際の対応を分ける。']
+  };
+
   let data = null;
   let curriculum = null;
 
@@ -24,7 +39,7 @@
 
   function questionCard(item) {
     const required = item.selection === 'required';
-    return `<article class="official-question-card"><div class="official-question-head"><span class="official-qno">問${item.number}</span><span class="official-domain">${escapeHtml(item.domain)}</span><span class="official-selection ${required ? 'required' : ''}">${required ? '必須' : '選択'}</span></div><h3>${escapeHtml(item.topic)}</h3><p class="official-unit-label">主学習ユニット：${escapeHtml(unitLabel(item.primaryUnitId))}</p><div class="official-lessons">${(item.lessonRefs || []).map(id => `<a href="lesson.html?id=${encodeURIComponent(id)}">${escapeHtml(id)}</a>`).join('')}</div></article>`;
+    return `<article class="official-question-card"><div class="official-question-head"><span class="official-qno">問${item.number}</span><span class="official-domain">${escapeHtml(item.domain)}</span><span class="official-selection ${required ? 'required' : ''}">${required ? '必須' : '選択'}</span></div><h3>${escapeHtml(item.topic)}</h3><p class="official-unit-label">主学習ユニット：${escapeHtml(unitLabel(item.primaryUnitId))}</p><div class="official-lessons">${(item.lessonRefs || []).map(id => `<a href="lesson.html?id=${encodeURIComponent(id)}">${escapeHtml(id)}</a>`).join('')}</div><details class="official-guide"><summary>解説の着眼点（独自）</summary><p>この題材では、まず次の関係を理解してから公式問題を解きます。</p><ul>${(SOLVE_GUIDES[item.domain] || ['問題文の条件と選択肢・設問の関係を整理する。']).map(point => `<li>${escapeHtml(point)}</li>`).join('')}</ul><p class="official-guide-note">これは設問ごとの模範解答ではありません。正答はIPA公式の解答例を確認してください。</p><a href="${escapeHtml(item.exam.officialPageUrl)}" target="_blank" rel="noopener noreferrer">IPA公式の解答例を確認 ↗</a></details></article>`;
   }
 
   function renderExams(filtered) {
