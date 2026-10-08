@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f766e">
+<meta name="description" content="応用情報技術者試験の残り日数から学習順を調整。仕組みと単語のつながり、理解確認、IPA公開過去問まで一気に学ぶ。">
+<title>合格までの速習 | AP Study Guide</title>
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/shell.css" rel="stylesheet">
+<link href="../css/cram.css" rel="stylesheet">
+</head>
+<body>
+<nav class="unit-nav"><div class="container"><span class="unit-nav-label">AP STUDY GUIDE</span><ul class="unit-nav-list"><li><a class="unit-nav-link" href="../index.html">ホーム</a></li><li><a class="unit-nav-link is-current" href="cram.html" aria-current="page">合格までの速習</a></li></ul></div></nav>
+<header class="cram-hero">
+<div class="container">
+<p class="cram-kicker">EXAM FIRST · UNDERSTAND THE CONNECTIONS</p>
+<h1>残り時間から、<br>必要な仕組みだけ学ぼう。</h1>
+<p>単語を1つずつ暗記するのではなく、試験で問われる「なぜ・どう動く・何とつながる」を理解してから問題で確認。基礎の深掘りは必要なときだけ。</p>
+<div class="cram-hero-pills"><span>科目A優先</span><span>オリジナル解説付き確認問題</span><span>公式過去問へ直結</span></div>
+</div></header>
+<main id="main-content"><div class="container cram-main">
+<section class="cram-panel cram-plan" aria-labelledby="cram-plan-heading">
+<div class="cram-section-heading"><div><p class="cram-eyebrow">01 / TODAY</p><h2 id="cram-plan-heading">今日の勉強を決める</h2></div><span id="cram-phase" class="cram-tag">判定中</span></div>
+<div class="cram-settings">
+<label>科目Aの受験予定日 <input id="cram-date-a" type="date" value="2026-10-28"></label>
+<label>科目Bの受験予定日 <input id="cram-date-b" type="date" value="2026-11-24"></label>
+<label>今日の勉強時間 <select id="cram-minutes"><option value="30">30分</option><option value="60" selected>60分</option><option value="90">90分</option><option value="120">120分</option></select></label>
+</div>
+<p id="cram-date-warning" class="cram-warning" role="status"></p>
+<div class="cram-deadline"><div><span>科目Aまで</span><strong id="cram-days-a">…</strong></div><div><span>科目Bまで</span><strong id="cram-days-b">…</strong></div><p id="cram-policy">日数を計算中…</p></div>
+<div id="cram-today" class="cram-today" aria-live="polite"></div>
+</section>
+<section class="cram-panel" aria-labelledby="cram-map-heading">
+<div class="cram-section-heading"><div><p class="cram-eyebrow">02 / UNDERSTAND</p><h2 id="cram-map-heading">単語ではなく、仕組みのつながり</h2></div><span class="cram-section-note">頻出の重要部分を優先</span></div>
+<p class="cram-sub">下から選んでもOK。知っているところは飛ばして、分からない関係だけ読む。</p>
+<div class="cram-filter" role="group" aria-label="分野で絞る"><button type="button" class="is-active" data-topic-filter="all" aria-pressed="true">すべて</button><button type="button" data-topic-filter="セキュリティ" aria-pressed="false">セキュリティ</button><button type="button" data-topic-filter="ネットワーク" aria-pressed="false">ネットワーク</button><button type="button" data-topic-filter="データベース" aria-pressed="false">データベース</button><button type="button" data-topic-filter="コンピュータ" aria-pressed="false">コンピュータ</button><button type="button" data-topic-filter="アルゴリズム" aria-pressed="false">アルゴリズム</button><button type="button" data-topic-filter="マネジメント" aria-pressed="false">管理</button><button type="button" data-topic-filter="ストラテジ" aria-pressed="false">経営</button></div>
+<div class="cram-layout"><div class="cram-topic-list" id="cram-topic-list" aria-label="学習テーマ"><p>読み込み中…</p></div><article class="cram-lesson" id="cram-lesson" aria-live="polite"><p>教材を読み込み中…</p></article></div>
+</section>
+<section class="cram-panel" aria-labelledby="cram-exam-heading">
+<div class="cram-section-heading"><div><p class="cram-eyebrow">03 / REAL EXAMS</p><h2 id="cram-exam-heading">公開過去問で試す</h2></div></div>
+<p class="cram-sub">まず公式問題を解く → 公式解答を確認 → 分からない仕組みを上の速習や関連Lessonで調べる。**解説は本サイトの独自解説**で、IPA公式の解説ではありません。</p>
+<div class="cram-past-grid">
+<div class="cram-past-card"><span>科目A（旧午前）</span><h3>2025年度 秋期・春期</h3><p>最初の実力測定には最新公開年度をおすすめ。解説を見ずに80問を解き、誤答を「知識不足 / つながり不足 / ケアレスミス」に分類。</p><a href="https://www.ipa.go.jp/shiken/mondai-kaiotu/2025r07.html" target="_blank" rel="noopener noreferrer">IPA公式の問題・解答例を見る ↗</a></div>
+<div class="cram-past-card"><span>科目A（旧午前）</span><h3>2024年度・2023年度</h3><p>2025年を一度解いた後の別年度演習。古い問題では制度や技術の差を確認する。</p><a href="https://www.ipa.go.jp/shiken/mondai-kaiotu/index.html" target="_blank" rel="noopener noreferrer">年度別の公式問題一覧 ↗</a></div>
+<div class="cram-past-card"><span>科目B（旧午後）</span><h3>2025年 春期・秋期の22大問</h3><p>既存サイトが11分野×2期の題材と関連Lessonを対応付け。公式PDFで実問題と解答例を確認する。</p><a href="official-past.html">公式問題とLessonの対応表へ →</a></div>
+</div>
+<div class="cram-bottom-links"><a href="practice.html">独自問題をもっと解く →</a><a href="mock.html">模試を受ける →</a><a href="progress.html">学習状況を見る →</a><a href="data.html">バックアップ →</a></div>
+<p class="cram-source-note">出典：IPA 令和7年度 応用情報技術者試験（午前・午後）問題冊子・解答例、2026年度受験案内。ここに掲載する確認問題はAP Study Guideが作成したオリジナルで、IPAの実問題を再現したものではありません。</p>
+</section>
+</div></main>
+<footer class="site-footer"><div class="container"><p>AP Study Guide</p><p class="small">試験の最新情報はIPA公式で確認してください。2026年度の科目A・Bの公開CBT実問題は収録していません。</p></div></footer>
+<script src="../js/shell.js" defer></script>
+<script src="../js/cram.js" defer></script>
+</body></html>
